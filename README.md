@@ -1,4 +1,4 @@
-#Course-Hub
+# Course-Hub
 > Website for Searching and Comparing Online Courses from multiple educations portals.
 
 ## Getting started
