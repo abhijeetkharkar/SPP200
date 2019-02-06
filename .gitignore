@@ -1,6 +1,11 @@
 .idea/
 
 .DS_Store
+awslambda/udemy/keys.json
+awslambda/udemy/node_modules
+awslambda/udemy/.serverless
+.vscode
+.idea 
 
 # Logs
 logs
