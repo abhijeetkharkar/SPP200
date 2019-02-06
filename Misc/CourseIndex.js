@@ -1,59 +1,75 @@
-{  
-   "settings":{  
-      "number_of_shards":3,
-      "number_of_replicas":2
-   },
-   "mappings":{  
-      "course":{  
-         "properties":{  
-            "CourseId":{  
-               "type":"keyword"
+{
+  "settings": {
+    "number_of_shards": 3,
+    "number_of_replicas": 2
+  },
+  "mappings": {
+    "course": {
+      "properties": {
+        "CourseId": {
+          "type": "keyword"
+        },
+        "CourseProvider": {
+          "type": "text"
+        },
+        "Title": {
+          "type": "text",
+          "analyzer": "standard"
+        },
+        "Category": {
+          "type": "text",
+          "analyzer": "standard"
+        },
+        "CourseDuration": {
+          "type": "integer"
+        },
+        "Paid": {
+          "type": "boolean"
+        },
+        "Price": {
+          "type": "double"
+        },
+        "PriceCurrency": {
+          "type": "text"
+        },
+        "Instructors": {
+          "properties": {
+            "InstructorId": {
+              "type": "keyword"
             },
-            "CourseProvider":{  
-               "type":"text"
+            "InstructorName": {
+              "type": "text"
             },
-            "Title":{  
-               "type":"text",
-               "analyzer":"standard"
-            },
-            "Category":{  
-               "type":"text",
-               "analyzer":"standard"
-            },
-            "CourseDuration":{ 
-               "type": "date",
-               "format":"hour_minute"
-            },
-            "Paid":{  
-               "type":"boolean"
-            },
-            "Price":{  
-               "type":"double"
-            },
-            "PriceCurrency":{  
-               "type":"text"
-            },
-            "Authors":{  
-               "type":"text"
-            },
-            "URL":{  
-               "type":"keyword"
-            },
-            "CourseImage":{  
-               "type":"text"
-            },
-            "StartDate":{  
-               "type":"date",
-               "format":"yyyy-MM-dd"
-            },
-            "EndDate":{  
-               "type":"date",
-               "format":"yyyy-MM-dd"
-            },
-            "SelfPaced":{  
-               "type":"boolean"
+            "ProfilePic": {
+              "type": "text"
             }
-         }
+          }
+        },
+        "URL": {
+          "type": "keyword"
+        },
+        "Rating": {
+          "type": "integer"
+        },
+        "Description": {
+          "type": "text",
+          "analyzer": "standard"
+        },
+        "CourseImage": {
+          "type": "text"
+        },
+        "StartDate": {
+          "type": "date",
+          "format": "yyyy-MM-dd"
+        },
+        "EndDate": {
+          "type": "date",
+          "format": "yyyy-MM-dd"
+        },
+        "SelfPaced": {
+          "type": "boolean"
+        }
       }
-   }
+    }
+  }
 }

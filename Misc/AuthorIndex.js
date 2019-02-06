@@ -36,8 +36,14 @@
           "analyzer": "standard"
         },
         "CoursesCreated": {
-          "type": "text",
-          "analyzer": "standard"
+          "properties": {
+            "CourseId": {
+              "type": "keyword"
+            },
+            "WebsiteId": {
+              "type": "keyword"
+            }
+          }
         },
         "Address": {
           "properties": {
@@ -55,6 +61,9 @@
             }
           }
         },
+        "Bio": {
+          "type": "text"
+        },
         "Email": {
           "type": "keyword"
         },
@@ -63,6 +72,9 @@
         },
         "PhotoURL": {
           "type": "text"
+        },
+        "Company": {
+          "type": "keyword"
         },
         "NoofCoursesCreated": {
           "type": "integer"

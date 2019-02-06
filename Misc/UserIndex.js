@@ -4,7 +4,7 @@
     "number_of_replicas": 2
   },
   "mappings": {
-    "users": {
+    "user": {
       "properties": {
         "UserId": {
           "type": "text"
@@ -19,6 +19,9 @@
             }
           }
         },
+        "Bio": {
+          "type": "text"
+        },
         "DOB": {
           "type": "date",
           "format": "yyyy-MM-dd"
@@ -32,8 +35,14 @@
           "format": "yyyy-MM-dd"
         },
         "CoursesTaken": {
-          "type": "text",
-          "analyzer": "standard"
+          "properties": {
+            "CourseId": {
+              "type": "keyword"
+            },
+            "WebsiteId": {
+              "type": "keyword"
+            }
+          }
         },
         "Address": {
           "properties": {
