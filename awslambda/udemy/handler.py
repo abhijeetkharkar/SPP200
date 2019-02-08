@@ -14,6 +14,7 @@ def add_data_elastic_search(serialized_response):
     # print("Serialized object is ", serialized_response)
     # print("JSON Serialized object is ", json.dumps(serialized_response))
     try:
+        print("JSON data is ", str(json.dumps(serialized_response)))
         response = requests.post(url, data=str(json.dumps(serialized_response)), headers = headers)
     except Exception as e:
         print ("\n Response is ",response.status_code)
@@ -120,8 +121,8 @@ def lambda_handler(event, context):
     with open('keys.json') as data_file:
         udemy_keys = json.load(data_file)
 
-    page_number = 3 # Pagination Parameters
-    page_size = 10   # Pagination Parameters
+    page_number = 1 # Pagination Parameters
+    page_size = 1   # Pagination Parameters
 
     while True:
         page_number += 1    
@@ -171,6 +172,8 @@ def lambda_handler(event, context):
 
         if json_response['next'] == None:
             break
+        #TODO: Remove this break statement once done.
+        break
     
     print("Course Catalog Update Complete")
 
