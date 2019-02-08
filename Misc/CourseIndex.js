@@ -6,16 +6,6 @@
   "mappings": {
     "course": {
       "properties": {
-        "CourseId": {
-          "type": "keyword"
-        },
-        "CourseProvider": {
-          "type": "text"
-        },
-        "Title": {
-          "type": "text",
-          "analyzer": "standard"
-        },
         "Category": {
           "type": "text",
           "analyzer": "standard"
@@ -23,14 +13,29 @@
         "CourseDuration": {
           "type": "integer"
         },
-        "Paid": {
-          "type": "boolean"
+        "CourseId": {
+          "type": "keyword"
         },
-        "Price": {
-          "type": "double"
-        },
-        "PriceCurrency": {
+        "CourseImage": {
           "type": "text"
+        },
+        "CourseProvider": {
+          "type": "text"
+        },
+        "Description": {
+          "type": "text",
+          "analyzer": "standard"
+        },
+        "Difficulty": {
+          "type": "text"
+        },
+        "EndDate": {
+          "type": "date",
+          "format": "yyyy-MM-dd"
+        },
+        "last_updated": {
+          "type": "date",
+          "format": "yyyy-MM-dd"
         },
         "Instructors": {
           "properties": {
@@ -45,29 +50,31 @@
             }
           }
         },
-        "URL": {
-          "type": "keyword"
+        "Paid": {
+          "type": "boolean"
+        },
+        "Price": {
+          "type": "double"
+        },
+        "PriceCurrency": {
+          "type": "text"
         },
         "Rating": {
-          "type": "integer"
+          "type": "float"
         },
-        "Description": {
-          "type": "text",
-          "analyzer": "standard"
-        },
-        "CourseImage": {
-          "type": "text"
+        "SelfPaced": {
+          "type": "boolean"
         },
         "StartDate": {
           "type": "date",
           "format": "yyyy-MM-dd"
         },
-        "EndDate": {
-          "type": "date",
-          "format": "yyyy-MM-dd"
+        "Title": {
+          "type": "text",
+          "analyzer": "standard"
         },
-        "SelfPaced": {
-          "type": "boolean"
+        "URL": {
+          "type": "keyword"
         }
       }
     }

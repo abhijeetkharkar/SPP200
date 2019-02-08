@@ -6,6 +6,55 @@
   "mappings": {
     "authors": {
       "properties": {
+        "Address": {
+          "properties": {
+            "City": {
+              "type": "keyword"
+            },
+            "State": {
+              "type": "keyword"
+            },
+            "Street": {
+              "type": "text"
+            },
+            "ZipCode": {
+              "type": "keyword"
+            }
+          }
+        },
+        "Bio": {
+          "type": "text"
+        },
+        "Browser": {
+          "type": "text"
+        },
+        "BrowserVersion": {
+          "type": "text"
+        },
+        "Company": {
+          "type": "keyword"
+        },
+        "CoursesCreated": {
+          "properties": {
+            "CourseId": {
+              "type": "keyword"
+            },
+            "WebsiteId": {
+              "type": "keyword"
+            }
+          }
+        },
+        "CoursesTaught": {
+          "type": "text",
+          "analyzer": "standard"
+        },
+        "DOB": {
+          "type": "date",
+          "format": "yyyy-MM-dd"
+        },
+        "Email": {
+          "type": "keyword"
+        },
         "InstructorId": {
           "type": "text"
         },
@@ -19,10 +68,6 @@
             }
           }
         },
-        "DOB": {
-          "type": "date",
-          "format": "yyyy-MM-dd"
-        },
         "JoiningDate": {
           "type": "date",
           "format": "yyyy-MM-dd"
@@ -31,52 +76,13 @@
           "type": "date",
           "format": "yyyy-MM-dd"
         },
-        "CoursesTaught": {
-          "type": "text",
-          "analyzer": "standard"
-        },
-        "CoursesCreated": {
-          "properties": {
-            "CourseId": {
-              "type": "keyword"
-            },
-            "WebsiteId": {
-              "type": "keyword"
-            }
-          }
-        },
-        "Address": {
-          "properties": {
-            "Street": {
-              "type": "text"
-            },
-            "City": {
-              "type": "keyword"
-            },
-            "State": {
-              "type": "keyword"
-            },
-            "ZipCode": {
-              "type": "keyword"
-            }
-          }
-        },
-        "Bio": {
-          "type": "text"
-        },
-        "Email": {
-          "type": "keyword"
-        },
-        "PhoneNo": {
-          "type": "text"
-        },
-        "PhotoURL": {
-          "type": "text"
-        },
-        "Company": {
-          "type": "keyword"
+        "LastLoginIP": {
+          "type": "ip"
         },
         "NoofCoursesCreated": {
+          "type": "integer"
+        },
+        "NoofCoursesTaught": {
           "type": "integer"
         },
         "NoofPostsCommented": {
@@ -85,20 +91,14 @@
         "NoofPostsCreated": {
           "type": "integer"
         },
-        "NoofCoursesTaught": {
-          "type": "integer"
-        },
-        "Browser": {
+        "PhoneNo": {
           "type": "text"
         },
-        "BrowserVersion": {
+        "PhotoURL": {
           "type": "text"
         },
         "Platform": {
           "type": "text"
-        },
-        "LastLoginIP": {
-          "type": "ip"
         }
       }
     }
