@@ -110,7 +110,7 @@ def parse_json(json_data):
         
         course_object['EndDate'] = None
     except KeyError:
-        return {error : "something wrong with JSON object."}
+        return {'error' : "something wrong with JSON object."}
     
     return course_object
     

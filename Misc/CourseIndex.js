@@ -11,7 +11,14 @@
           "analyzer": "standard"
         },
         "CourseDuration": {
-          "type": "integer"
+           "properties": {
+            "Value": {
+              "type": "integer"
+            },
+            "Unit": {
+              "type": "keyword"
+            }
+          }
         },
         "CourseId": {
           "type": "keyword"
