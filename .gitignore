@@ -4,6 +4,11 @@
 awslambda/udemy/keys.json
 awslambda/udemy/node_modules
 awslambda/udemy/.serverless
+awslambda/udemy/all-data-1.json
+awslambda/udemy/beginner-data-1.json
+awslambda/udemy/expert-data-1.json
+awslambda/udemy/intermediate-data-1.json
+awslambda/udemy/page_content.html
 .vscode
 .idea 
 
