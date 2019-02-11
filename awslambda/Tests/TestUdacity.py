@@ -16,7 +16,7 @@ class Testudacity(TestCase):
         self.mock_open.return_value.__next__ = lambda self: self.readline()
 
     def test_url_file_not_found(self):
-        self.assertRaises(FileNotFoundError,fetch_records_udacity,"info1.txt")
+        self.assertRaises(IOError,fetch_records_udacity,"info1.txt")
 
     def test_invalid_url(self):
         with patch('builtins.open',self.mock_open):

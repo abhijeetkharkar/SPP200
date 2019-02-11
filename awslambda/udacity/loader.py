@@ -107,7 +107,7 @@ def fetch_records_udacity(fname):
         url=content[0]
     except Exception as e:
         print("Error is ", e)
-        raise FileNotFoundError
+        raise IOError
 
     headers = {
                 "Accept": "application/json, text/plain, */*",
