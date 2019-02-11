@@ -12,6 +12,8 @@ functions:
   udemyapi:
     handler: handler.lambda_handler
     timeout: 900
+    events:
+    - schedule: 1440
 
 plugins:
   - serverless-python-requirements
