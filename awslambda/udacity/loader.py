@@ -7,6 +7,7 @@ import base64
 import hashlib
 
 
+
 def add_data_elastic_search(serialized_response):
     url = "https://search-coursehub-mmrw23yio2a4ylx2cgmx34eiyy.us-east-2.es.amazonaws.com/courses/course"
     headers = {
@@ -100,9 +101,9 @@ def parse_json(json_data):
     return course_object
 
 
-def fetch_records_udacity(fname):
+def fetch_records_udacity(filename):
     try:
-        with open(fname) as f:
+        with open(filename) as f:
             content = f.readlines()
         url=content[0]
     except Exception as e:
@@ -116,13 +117,12 @@ def fetch_records_udacity(fname):
     try:
         response = requests.get(url, headers=headers)
     except Exception as e:
-        print ("Response is ",response.status_code)
         print ("Error is ", e)
+        raise Exception
         
     json_response = json.loads(response.content)
     courseCatalog= json_response['courses']
 
-        # Parsing JSON data into defined data set and pushing it into Elastic Search Server
     if response.status_code == 200 and len(courseCatalog) > 0:
         for course in courseCatalog:
             serialized_response = parse_json(course)
@@ -145,4 +145,4 @@ def fetch_records_udacity(fname):
 
 
 if __name__ == "__main__":
-    fetch_records_udacity('info.txt')
+    fetch_records_udacity("info.txt")
