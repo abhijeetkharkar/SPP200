@@ -9,6 +9,7 @@ import sys
 import time
 from time import sleep
 
+
 def add_data_elastic_search(serialized_response):
     url = "https://search-coursehub-mmrw23yio2a4ylx2cgmx34eiyy.us-east-2.es.amazonaws.com/courses/course"
     headers = {
@@ -60,8 +61,10 @@ def parse_json(json_data):
     if 'url' not in json_data.keys():
         return False
 
-    extra_data = crawler.crawl("https://www.udemy.com" + json_data['url'])
-    if extra_data['price'] == None:
+    url_to_crawl = "https://www.udemy.com" + json_data['url']
+    extra_data = crawler.crawl(url_to_crawl)
+    if extra_data['duration'] == None:
+        print("Crawler returned None for this URl : ",url_to_crawl, extra_data)
         return False
 
     # print("Price : ",extra_data['price']," Duration : ", \
@@ -83,7 +86,7 @@ def parse_json(json_data):
         course_object['Category'] = extra_data["category"] \
             if extra_data["category"] != None \
             else None
-        course_object['CourseDuration'] = extra_data["duration"] \
+        course_object['CourseDuration'] = { 'Unit' : 'hours', 'Value' : extra_data["duration"] } \
             if extra_data["duration"] != None \
             else None    
         course_object['Paid'] = json_data['is_paid']        
@@ -112,18 +115,17 @@ def parse_json(json_data):
         return False
     
     return course_object
-    
 
-def lambda_handler(event, context):
+
+def lambda_handler(file_name):
     
-    # Loading keys from keys.json file
     try:
-        with open('keys.json') as data_file:
+        with open(file_name) as data_file:
             udemy_keys = json.load(data_file)
     except Exception as e:
-        print("Exception in opening keys.json file ")
+        print("Exception in opening keys.json file : ", file_name)
         print("Exception : ", e)
-        return
+        raise IOError
 
     page_number = udemy_keys['page_number'] # Pagination Parameters
     page_size = udemy_keys['page_size']   # Pagination Parameters
@@ -138,11 +140,14 @@ def lambda_handler(event, context):
     courses_not_added = 0
     course_already_present = 0
 
+
     for level in difficulty:
+        count = 1
         course_level = level
         while True:
             page_number += 1
             url = udemy_keys['url']+str(page_number)+"&page_size="+str(page_size)+"&instructional_level="+course_level
+            # print("URL is ", url)
             client_secret = udemy_keys["udemy"]["clientid"] + ":" + udemy_keys["udemy"]["clientsecret"]
             authorization_token = "Basic " + base64.b64encode(client_secret.encode('utf-8')).decode('UTF-8')
             headers = {
@@ -157,60 +162,59 @@ def lambda_handler(event, context):
             except Exception as e:
                 print ("Exception while loading data from the API")
                 print("Exception : ", e)
-                continue
+                raise Exception
             
+            print("Outside 4", response.status_code, response.content)
             # Parsing JSON data into defined data set and pushing it into Elastic Search Server
             if response.status_code == 200 and len(json_response['results']) > 0:
                 courses = json_response['results']
                 for course in courses:
                     count += 1
-                    serialized_response = parse_json(course)
-
-                    if serialized_response == False:
-                        courses_not_added += 1
-                        print("System Waiting")
-                        for x in range (1800, -1, -1):
-                            print("Time Remaining : " + str(x) + " sec")
-                            sys.stdout.write("\033[F")
-                            time.sleep(1.0)
-                        continue
-                       
-                    print("Course ID is : ", serialized_response['CourseId'])
                     
-                    # Update Data in Elastic Search Server
+                    
+                    # Search Course in Elastic Search Server
                     search_query = search_elastic_server("udemy-"+str(course['id']))
 
                     # course_dict['courses'].append(serialized_response)
                     
                     if search_query == False:
+                        serialized_response = parse_json(course)
+                        if serialized_response == False:
+                            courses_not_added += 1
+                            print("System Waiting due to failure")
+                            for x in range (1800, -1, -1):
+                                print("Time Remaining : " + str(x) + " sec")
+                                sys.stdout.write("\033[F")
+                                time.sleep(1.0)
+                            continue
+                        
+                        print("Course ID is : ", serialized_response['CourseId'], level, count)
+
                         add_data_response = add_data_elastic_search(serialized_response)
                         if add_data_response:
+                            print("Course Successfully added ")
                             courses_added += 1
                         else:
                             courses_not_added += 1
+                        
                         # Sleep before the next request
-                        print("System Waiting")
+                        print("System Waiting local")
                         for x in range (10, -1, -1):
                             print("Time Remaining : " + str(x) + " sec")
                             sys.stdout.write("\033[F")
                             time.sleep(1.0)
                     else:
                         course_already_present += 1
-                        print("Course already present in Elastic Search Server : ", serialized_response['CourseId'])
+                        print("Course already present in Elastic Search Server : ", course['id'])
 
             else:
                 print("Unsuccessful Response Code : ", response.status_code)
                 continue
 
             print("Total course added are ", courses_added)
-            if json_response['next'] == None or count >= 500:
+
+            if json_response['next'] == None or count >= udemy_keys['number_of_courses']:
                 break
-        
-        print("\nSystem Waiting")
-        for x in range (1800, -1, -1):
-            print("Time Remaining : " + str(x) + " sec")
-            sys.stdout.write("\033[F")
-            time.sleep(1.0)
 
     # with open(course_level+'-data.json', 'w') as outfile:
     #     json.dump(course_dict, outfile)
@@ -221,6 +225,8 @@ def lambda_handler(event, context):
     print("Total Courses Not Added : ", courses_not_added)
     print("Total Courses Already Present in the Database : ", course_already_present)
 
+    return True
+
 
 if __name__ == "__main__":
-    lambda_handler('', '')
+    lambda_handler('keys.json')

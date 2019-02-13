@@ -35,7 +35,7 @@ def crawl(url):
         
     last_updated = None if last_updated == [] else \
         "{}-{}-{}".format(
-                            datetime.strptime(last_updated[0].strip()[13:], "%m/%Y").year, 
+                            datetime.strptime(last_updated[0].strip()[13:], "%m/%Y").year,
                             datetime.strptime(last_updated[0].strip()[13:], "%m/%Y").month, 
                             datetime.strptime(last_updated[0].strip()[13:], "%m/%Y").day
                         )
@@ -49,6 +49,7 @@ def crawl(url):
     }
 
 # time1 = time.time()
-# print (crawl("https://www.udemy.com/complete-python-bootcamp/"))
+# # print (crawl("https://www.udemy.com/aws-certified-cloud-practitioner/"))
+# crawl("https://www.udemy.com/complete-python-bootcamp/")
 # time2 = time.time()
 # print("Time taken is ", time2-time1)
