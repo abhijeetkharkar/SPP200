@@ -6,18 +6,15 @@ import base64
 #import crawler
 import hashlib
 
-
+esurl=""
 
 def add_data_elastic_search(serialized_response):
-    url = "https://search-coursehub-mmrw23yio2a4ylx2cgmx34eiyy.us-east-2.es.amazonaws.com/courses/course"
     headers = {
                 "Content-Type": "application/json"
               }
-    # print("Serialized object is ", serialized_response)
-    # print("JSON Serialized object is ", json.dumps(serialized_response))
     try:
         print("JSON data is ", str(json.dumps(serialized_response)))
-        response = requests.post(url, data=str(json.dumps(serialized_response)), headers = headers)
+        response = requests.post(esurl, data=str(json.dumps(serialized_response)), headers = headers)
     except Exception as e:
         print ("\n Response is ",response.status_code)
         print ("\n Error is ", e)
@@ -105,7 +102,9 @@ def fetch_records_udacity(filename):
     try:
         with open(filename) as f:
             content = f.readlines()
-        url=content[0]
+        url=content[0].rstrip()
+        global esurl
+        esurl=content[1]
     except Exception as e:
         print("Error is ", e)
         raise IOError
@@ -140,9 +139,6 @@ def fetch_records_udacity(filename):
         return {
                 'status': json.dumps('API returned empty response.')
             }
-    
-    print("Course Catalog Fetched SuccessFully")
-
 
 if __name__ == "__main__":
     fetch_records_udacity("info.txt")
