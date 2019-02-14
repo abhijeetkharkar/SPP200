@@ -1,4 +1,5 @@
 import json
+import time
 import requests
 
 headers = {'Content-type': 'application/json'}
@@ -27,3 +28,20 @@ def search_data_elastic_search(url, key_value):
 
     response = response.json()
     return True if response["hits"]["total"] >= 1 else False
+
+
+def fetch_data(URL, retry_limit, waiting_time):
+    retry = 1
+    while True:
+        try:
+            response = requests.get(URL)
+            courses = response.json()['courses']
+            return courses
+        except Exception as e:
+            if retry == retry_limit:
+                print('Coulnot fetch data... Exiting')
+                return False
+            retry += 1
+            print('Could not fetch data... Retrying in %s seconds' % waiting_time)
+            time.sleep(waiting_time)
+
