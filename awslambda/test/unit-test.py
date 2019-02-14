@@ -25,6 +25,14 @@ class TestLambdas(unittest.TestCase):
             self.assertEqual(output, False)
 
 
+    def test_add_data_elastic_search_exception(self):
+        with requests_mock.Mocker() as mocker:
+            content  = {}
+            mocker.register_uri('POST', requests_mock.ANY, json=content, status_code=400)
+            output = add_data_elastic_search('', {'CourseId' : 1})
+            self.assertEqual(output, False)
+
+
     def test_search_data_elastic_search_positive_response(self):
         with requests_mock.Mocker() as mocker:
             content  = { 'hits' : { 'total' : 1 } }
@@ -38,6 +46,13 @@ class TestLambdas(unittest.TestCase):
             content  = { 'hits' : { 'total' : 0 } }
             mocker.register_uri('POST', requests_mock.ANY, json=content, status_code=201)
             output = search_data_elastic_search(SEARCH_URL, {})
+            self.assertEqual(output, False)
+
+    def test_search_data_elastic_search_exception(self):
+        with requests_mock.Mocker() as mocker:
+            content  = { 'hits' : { 'total' : 0 } }
+            mocker.register_uri('POST', requests_mock.ANY, json=content, status_code=201)
+            output = search_data_elastic_search('', {})
             self.assertEqual(output, False)
 
 
