@@ -1,8 +1,9 @@
 import time
-import nltk
-import requests
 from datetime import datetime
-from awslambda.utils import search_data_elastic_search, add_data_elastic_search, fetch_data
+
+import nltk
+
+from awslambda import utils
 
 
 def generate_key(url):
@@ -11,13 +12,12 @@ def generate_key(url):
     return str(c)
 
 
-
 def main():
     URL = 'https://iversity.org/api/v1/courses'
     SEARCH_URL = 'https://search-coursehub-mmrw23yio2a4ylx2cgmx34eiyy.us-east-2.es.amazonaws.com/courses/_search'
     POST_URL = 'https://search-coursehub-mmrw23yio2a4ylx2cgmx34eiyy.us-east-2.es.amazonaws.com/courses/course'
 
-    courses = fetch_data(URL, 5, 30)
+    courses = utils.fetch_data(URL, 5, 30)
     if courses != False:
         count = 1
         start = time.time()
@@ -27,7 +27,7 @@ def main():
             if 'Eng' in course['language']:
                 key = PROVIDER + '-' + str(course['id'])
 
-                if search_data_elastic_search(SEARCH_URL, { "CourseId" : key }):
+                if utils.search_data_elastic_search(SEARCH_URL, { "CourseId" : key }):
                     print('[$] Already Processed', count, '/', total)
                     count += 1
                     continue
@@ -43,7 +43,7 @@ def main():
                                 "EndDate": datetime.strptime(course["end_date"].split('T')[0], '%Y-%m-%d').isoformat().split('T')[0] if "end_date" in course and course["end_date"] is not None else None,
                                 "SelfPaced": None})
 
-                add_data_elastic_search(POST_URL, data)
+                utils.add_data_elastic_search(POST_URL, data)
             else:
                 print('[X] Course text not in english', count, '/', total)
             count += 1

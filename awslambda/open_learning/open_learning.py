@@ -1,7 +1,9 @@
-import nltk
 import time
 from datetime import datetime
-from awslambda.utils import search_data_elastic_search, add_data_elastic_search, fetch_data
+
+import nltk
+
+from awslambda import utils
 
 
 def is_english(name):
@@ -22,7 +24,7 @@ def main():
     SEARCH_URL = 'https://search-coursehub-mmrw23yio2a4ylx2cgmx34eiyy.us-east-2.es.amazonaws.com/courses/_search'
     POST_URL = 'https://search-coursehub-mmrw23yio2a4ylx2cgmx34eiyy.us-east-2.es.amazonaws.com/courses/course'
 
-    courses = fetch_data(URL, 5, 30)
+    courses = utils.fetch_data(URL, 5, 30)
     if courses != False:
         count = 1
         start = time.time()
@@ -32,7 +34,7 @@ def main():
             if is_english(course['name']):
 
                 key = PROVIDER + '-' + generate_key(course['courseUrl'])
-                if search_data_elastic_search(SEARCH_URL, { "CourseId" : key }):
+                if utils.search_data_elastic_search(SEARCH_URL, { "CourseId" : key }):
                     print('[$] Already Processed', count, '/', total)
                     count += 1
                     continue
@@ -48,7 +50,7 @@ def main():
                                 "EndDate": datetime.strptime(course["endDate"], '%d %b %Y').isoformat().split('T')[0] if "endDate" in course and course["endDate"] is not None else None,
                                 "SelfPaced": course["selfPaced"]}
 
-                add_data_elastic_search(POST_URL, data)
+                utils.add_data_elastic_search(POST_URL, data)
             else:
                 print('[X] Course text not in english', count, '/', total)
             count += 1
