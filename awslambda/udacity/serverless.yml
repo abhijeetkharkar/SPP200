@@ -1,6 +1,6 @@
 # serverless.yml
 
-service: udemy-data
+service: udacity-data
 
 provider:
   name: aws
@@ -9,8 +9,8 @@ provider:
   region: us-east-2
 
 functions:
-  udemyapi:
-    handler: handler.lambda_handler
+  udacityapi:
+    handler: handler.fetch_records_udacity
 
 plugins:
   - serverless-python-requirements

@@ -17,7 +17,7 @@ class Testudacity(TestCase):
             fetch_records_udacity("info1.txt")
 
     def test_invalid_url(self):
-        with patch('__builtin__.open',self.mock_open):
+        with patch('builtins.open',self.mock_open):
             with self.assertRaises(Exception):
                 fetch_records_udacity("../udacity/info.txt")
 
@@ -58,6 +58,49 @@ class Testudacity(TestCase):
                 with patch("awslambda.udacity.loader.add_data_elastic_search",MagicMock({"CourseId": "testid123"})) as m:
                     fetch_records_udacity("../udacity/info.txt")
                     m.called
+
+    def test_record_added_in_ES_insertion(self):
+        with requests_mock.Mocker() as m:
+            content  = {}
+            m.register_uri('POST', requests_mock.ANY, json=content, status_code=201)
+            with patch("json.loads", return_value=({"result":"created"})):
+                output=add_data_elastic_search({"CourseId":"test123"})
+                self.assertEqual(output, True)
+
+    def test_record_Not_added_in_ES_insertion(self):
+        with requests_mock.Mocker() as m:
+            content  = {}
+            m.register_uri('POST', requests_mock.ANY, json=content, status_code=200)
+            with patch("json.loads", return_value=({"result":"created"})):
+                output=add_data_elastic_search({"CourseId":"test123"})
+                self.assertEqual(output, False)
+
+    def test_successful_search_in_ES(self):
+        with requests_mock.Mocker() as m:
+            content  = {}
+            m.register_uri('POST', requests_mock.ANY, json=content, status_code=200)
+            with patch("json.loads", return_value=({"hits":{"total":1}})):
+                output=search_elastic_server('test123')
+                self.assertEqual(output, True)
+
+    def test_unsuccessful_search_in_ES(self):
+        with requests_mock.Mocker() as m:
+            content  = {}
+            m.register_uri('POST', requests_mock.ANY, json=content, status_code=200)
+            with patch("json.loads", return_value=({"hits":{"total":0}})):
+                output=search_elastic_server('test123')
+                self.assertEqual(output, False)
+
+    def test_key_error_parse_json(self):
+        response=parse_json({})
+        self.assertEqual(response['error'],'something wrong with JSON object.')
+
+    def test_successful_parsing_of_json(self):
+        dummyJson={"instructors": [],"key": "testapp","image": "","title": "Intro to Deep Learning",
+                   "homepage": "https://www.udacity.com/course/intro-to-deep-learning--ud101app?utm_medium=referral&utm_campaign=api",
+                   "short_summary": "","level": "","expected_duration_unit": "","summary": "Learn how to learn.","expected_duration": 0}
+        response = parse_json(dummyJson)
+        self.assertEqual(response['CourseProvider'], 'udacity')
 
 if __name__ == '__main__':
     suite=TestCase.loadTestsFromTestCase(Testudacity)

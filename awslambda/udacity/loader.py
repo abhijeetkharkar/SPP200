@@ -6,7 +6,7 @@ import base64
 #import crawler
 import hashlib
 
-esurl=""
+esurl='http://spp200.edu'
 
 def add_data_elastic_search(serialized_response):
     headers = {
@@ -14,7 +14,7 @@ def add_data_elastic_search(serialized_response):
               }
     try:
         print("JSON data is ", str(json.dumps(serialized_response)))
-        response = requests.post(esurl, data=str(json.dumps(serialized_response)), headers = headers)
+        response = requests.post(esurl+'course/', data=str(json.dumps(serialized_response)), headers = headers)
     except Exception as e:
         print ("\n Response is ",response.status_code)
         print ("\n Error is ", e)
@@ -32,11 +32,11 @@ def add_data_elastic_search(serialized_response):
 
 
 def search_elastic_server(course_id):
-    # print("\n Course ID received is ", course_id)
     headers = {
                 "Content-Type": "application/json"
               }
-    url = "https://search-coursehub-mmrw23yio2a4ylx2cgmx34eiyy.us-east-2.es.amazonaws.com/courses/_search"
+
+    url = esurl+'/_search'
     try:
         response = requests.post(url, json={
                                                 "query" : {
@@ -128,7 +128,7 @@ def fetch_records_udacity(filename):
             print("Course ID is : ", serialized_response['CourseId'])
             search_query = search_elastic_server(str(serialized_response['CourseId']))
             if search_query == False:
-                add_data_response = add_data_elastic_search(serialized_response)
+                add_data_elastic_search(serialized_response)
                 print("add_data_response course SuccessFully!!")
             else:
                 print("Course already present in Elastic Search Server : ", serialized_response['CourseId'])
