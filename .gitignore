@@ -9,8 +9,15 @@ awslambda/udemy/beginner-data-1.json
 awslambda/udemy/expert-data-1.json
 awslambda/udemy/intermediate-data-1.json
 awslambda/udemy/page_content.html
+awslambda/udemy/htmlcov
+proxy.py
+
 .vscode
 .idea 
+.coverage
+__pycache__/
+handler.pyc
+test.json
 
 # Logs
 logs
