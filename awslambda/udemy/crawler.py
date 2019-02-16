@@ -4,6 +4,7 @@ import requests
 from datetime import datetime
 import time
 
+
 def crawl(url):
     try:
         # Fake Header
@@ -50,6 +51,6 @@ def crawl(url):
 
 # time1 = time.time()
 # # print (crawl("https://www.udemy.com/aws-certified-cloud-practitioner/"))
-# crawl("https://www.udemy.com/complete-python-bootcamp/")
+# print (crawl("https://www.udemy.com/complete-python-bootcamp/"))
 # time2 = time.time()
 # print("Time taken is ", time2-time1)

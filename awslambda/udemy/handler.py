@@ -9,14 +9,12 @@ import sys
 import time
 from time import sleep
 
-
-def add_data_elastic_search(serialized_response):
-    url = "https://search-coursehub-mmrw23yio2a4ylx2cgmx34eiyy.us-east-2.es.amazonaws.com/courses/course"
+def add_data_elastic_search(serialized_response, elastic_search_add_data_url):
     headers = {
                 "Content-Type": "application/json"
               }
     try:
-        response = requests.post(url, data=str(json.dumps(serialized_response)), headers = headers)
+        response = requests.post(elastic_search_add_data_url, data=str(json.dumps(serialized_response)), headers = headers)
     except Exception as e:
         print ("\n Response is ",response.status_code)
         print ("\n Error is ", e)
@@ -26,22 +24,18 @@ def add_data_elastic_search(serialized_response):
     add_response = json.loads(response.content)
     
     if response.status_code == 201 and add_response["result"] == "created":
-        # print("Course ID added : ", serialized_response['CourseId'])
         return True
     else:
         print("\t Course not added, Response Code : ", response.status_code)
-        # print("Course ID not added : ", serialized_response['CourseId'])
         return False
 
 
-def search_elastic_server(course_id):
-    # print("\n Course ID received is ", course_id)
+def search_elastic_server(course_id, elastic_search_search_data_url):
     headers = {
                 "Content-Type": "application/json"
               }
-    url = "https://search-coursehub-mmrw23yio2a4ylx2cgmx34eiyy.us-east-2.es.amazonaws.com/courses/_search"
     try:
-        response = requests.post(url, json={
+        response = requests.post(elastic_search_search_data_url, json={
                                                 "query" : {
                                                             "term" : { "CourseId" : course_id }
                                                         }
@@ -62,15 +56,11 @@ def parse_json(json_data):
         return False
 
     url_to_crawl = "https://www.udemy.com" + json_data['url']
+    
     extra_data = crawler.crawl(url_to_crawl)
     if extra_data['duration'] == None:
         print("Crawler returned None for this URl : ",url_to_crawl, extra_data)
         return False
-
-    # print("Price : ",extra_data['price']," Duration : ", \
-    #                 extra_data['duration']," Last_Update : ", \
-    #                 extra_data['last_update']," Category : ", \
-    #                 extra_data['category']," Description : ")
     
     try:
         instructers = []
@@ -129,6 +119,8 @@ def lambda_handler(file_name):
 
     page_number = udemy_keys['page_number'] # Pagination Parameters
     page_size = udemy_keys['page_size']   # Pagination Parameters
+    elastic_search_add_data_url = udemy_keys['elastic_search_add_data_url']
+    elastic_search_search_data_url = udemy_keys['elastic_search_search_data_url']
     global course_level
     difficulty = ["beginner", "intermediate", "expert", "all"] 
     course_dict = {
@@ -163,8 +155,7 @@ def lambda_handler(file_name):
                 print ("Exception while loading data from the API")
                 print("Exception : ", e)
                 raise Exception
-            
-            print("Outside 4", response.status_code, response.content)
+             
             # Parsing JSON data into defined data set and pushing it into Elastic Search Server
             if response.status_code == 200 and len(json_response['results']) > 0:
                 courses = json_response['results']
@@ -173,7 +164,7 @@ def lambda_handler(file_name):
                     
                     
                     # Search Course in Elastic Search Server
-                    search_query = search_elastic_server("udemy-"+str(course['id']))
+                    search_query = search_elastic_server("udemy-"+str(course['id']), elastic_search_search_data_url)
 
                     # course_dict['courses'].append(serialized_response)
                     
@@ -190,7 +181,7 @@ def lambda_handler(file_name):
                         
                         print("Course ID is : ", serialized_response['CourseId'], level, count)
 
-                        add_data_response = add_data_elastic_search(serialized_response)
+                        add_data_response = add_data_elastic_search(serialized_response, elastic_search_add_data_url)
                         if add_data_response:
                             print("Course Successfully added ")
                             courses_added += 1
