@@ -11,16 +11,9 @@ var doRecursiveRequest = (url, token, courses) =>
 		if (response.status === 200) {
 			return response.json();
 		} else {
-			// console.log("Inside Else");
 			throw Error(response.status + ": " + response.statusText);
 		}
 	}).then(catalogData => {
-		// var temp = catalogData.results.filter(course => course.key !== null && typeof course.course_runs !== 'undefined' && course.course_runs.length > 0).map(course => course.key);
-		// if (url === "https://prod-edx-discovery.edx.org/api/v1/catalogs/420/courses/?limit=20&offset=1380") {
-		//   console.log("Next: ", catalogData.next, " :: Type: ", typeof catalogData.next);
-		//   // console.log("Response: ", JSON.stringify(catalogData));
-		// }
-		console.log("NEXT::::: ", catalogData.next);
 		if (catalogData.next !== null) {
 			var temp = catalogData.results.
 				filter(course => course.key !== null && course.key !== '' && typeof course.course_runs !== 'undefined').
@@ -35,7 +28,6 @@ var doRecursiveRequest = (url, token, courses) =>
 					"PriceCurrency": typeof course.course_runs[0].seats === 'undefined' ? null : course.course_runs[0].seats[0].currency,
 					"Instructors": (typeof course.course_runs[0].staff === 'undefined' || course.course_runs[0].staff.length === 0) ? [] : course.course_runs[0].staff.map(staff => ({ InstructorId: staff.uuid, InstructorName: staff.given_name + " " + staff.family_name, ProfilePic: staff.profile_image_url })),
 					"URL": typeof course.course_runs[0].marketing_url === 'undefined' ? null : course.course_runs[0].marketing_url,
-					// "Rating": course.learner_testimonials,
 					"Rating": 0.0,
 					"Description": typeof course.course_runs[0].full_description === 'undefined' ? null : course.course_runs[0].full_description,
 					"CourseImage": (typeof course.course_runs[0].image === 'undefined' || typeof course.course_runs[0].image.src === 'undefined') ? null : course.course_runs[0].image.src,
@@ -46,10 +38,6 @@ var doRecursiveRequest = (url, token, courses) =>
 				}));
 			courses = courses.concat(temp);
 			console.log("Length: ", courses.length, " :: Next: ", catalogData.next);
-			// if (catalogData.next !== null) {
-			// if (url === "https://prod-edx-discovery.edx.org/api/v1/catalogs/420/courses/?limit=20&offset=1380") {
-			//   console.log("Next: ", catalogData.next, " :: Type: ", typeof catalogData.next);
-			// }
 			return doRecursiveRequest(catalogData.next, token, courses);
 		} else {
 			console.log("Final Length: ", courses.length);
@@ -61,19 +49,14 @@ var doRecursiveRequest = (url, token, courses) =>
 
 var doRecursiveInsert = (courses, index, insertCount) =>
 	fetch(process.env.AWS_ELASTIC_SEARCH_URL + "_search/", { method: 'POST', body: JSON.stringify({ "query": { "term": { "CourseId": courses[index].CourseId } } }), headers: { 'Content-Type': 'application/json' } }).then(response => {
-		// console.log("LENGTH::::::::::::::::", courses.length);
-		// console.log("#######CALLED#######");
 		return response.json();
 	}).then(elasticData => {
-		// console.log("Elastic Data: ", elasticData);
 		if (elasticData.hits.total === 0) {
-			// console.log("JSON Request: ", JSON.stringify(courses[index]));
 			return fetch(process.env.AWS_ELASTIC_SEARCH_URL + "course/", { method: 'POST', body: JSON.stringify(courses[index]), headers: { 'Content-Type': 'application/json' } });
 		} else {
 			return { status: 200, body: JSON.stringify({ message: 'dummy' }) }
 		}
 	}).then(insertStatusResponse => {
-		// console.log("LUND Response: ", insertStatusResponse.body);
 		if (insertStatusResponse.status === 200 || insertStatusResponse.status === 201) {
 			// console.log("\rIndex: ", index);
 			index++;

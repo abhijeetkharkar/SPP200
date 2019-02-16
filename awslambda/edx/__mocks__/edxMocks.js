@@ -234,14 +234,9 @@ const elasticResponse2 = { status: 222, body: { recordsProcessed: 2, recordsInse
 
 const finalResponse = { status: 200, body: JSON.stringify({ statusText: 'Success', message: '2 records processed | 2 records inserted' }) };
 
-// var doRecursiveRequest = jest.fn((url, token, courses) => courseList);
-// var doRecursiveInsert = jest.fn((courses, index, insertCount) => elasticResponse);
-
 module.exports.catalog = catalog;
 module.exports.catalogNull = catalogNull;
 module.exports.courseList = courseList;
 module.exports.elasticResponse = elasticResponse;
 module.exports.elasticResponse2 = elasticResponse2;
 module.exports.finalResponse = finalResponse;
-// module.exports.doRecursiveRequest = doRecursiveRequest;
-// module.exports.doRecursiveInsert = doRecursiveInsert;
