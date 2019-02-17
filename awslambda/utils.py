@@ -1,8 +1,23 @@
 import json
 import time
+import nltk
 import requests
 
 headers = {'Content-type': 'application/json'}
+
+
+def is_english(name, words_set):
+    for word in nltk.wordpunct_tokenize(name):
+        if word.lower() not in words_set:
+            return False
+    return True
+
+
+def generate_key(url):
+    c = ''.join([str(ord(c)) for c in url if c.isalpha()])
+    c = int(c) % (2 ** 32 - 1)
+    return str(c)
+
 
 def add_data_elastic_search(url, data):
     try:
@@ -44,4 +59,3 @@ def fetch_data(URL, retry_limit, waiting_time):
             retry += 1
             print('Could not fetch data... Retrying in %s seconds' % waiting_time)
             time.sleep(waiting_time)
-
