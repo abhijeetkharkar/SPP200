@@ -42,7 +42,7 @@ class Testudemy(unittest.TestCase):
     @mock.patch('awslambda.udemy.handler.search_elastic_server', return_value = True)
     @mock.patch('awslambda.udemy.handler.add_data_elastic_search', return_value = True)
     def test_lambda_handler(self, search, add_data):
-        with patch('awslambda.udemy.handler.open', self.mock_open):
+        with patch('builtins.open', self.mock_open):
             with requests_mock.Mocker() as m:
                 content  = { 'results' : [ {'id' : 1234 }, {'id' : 1257 } ], 'next' : None }
                 m.register_uri('GET', requests_mock.ANY, json=content, status_code=200)
@@ -59,7 +59,7 @@ class Testudemy(unittest.TestCase):
         "description" : None
     })
     def test_lambda_handler_with_response(self, search, add_data, crawl):
-        with patch('awslambda.udemy.handler.open', self.mock_open):
+        with patch('builtins.open', self.mock_open):
             with requests_mock.Mocker() as m:
                 mock_result_in_json = {
                                         "id": 567828,
