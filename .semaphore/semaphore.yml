@@ -32,7 +32,7 @@ blocks:
       - name: NodeTest
         commands:
           - echo $PWD
-          - ls -ltr
+          - echo "$(ls)"
           - npm install
           - npm --prefix ./awslambda/edx/ run build
           - npm test
