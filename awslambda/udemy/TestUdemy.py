@@ -1,8 +1,8 @@
 # from unittest import TestCase
 import unittest
 from mock import patch, MagicMock, mock_open, mock, Mock
-from awslambda.udemy.handler import *
-from awslambda.udemy.crawler import *
+from handler import *
+from crawler import *
 import requests_mock
 import json
 
@@ -39,8 +39,8 @@ class Testudemy(unittest.TestCase):
             with self.assertRaises(Exception):
                 lambda_handler('keys.json')
 
-    @mock.patch('awslambda.udemy.handler.search_elastic_server', return_value = True)
-    @mock.patch('awslambda.udemy.handler.add_data_elastic_search', return_value = True)
+    @mock.patch('handler.search_elastic_server', return_value = True)
+    @mock.patch('handler.add_data_elastic_search', return_value = True)
     def test_lambda_handler(self, search, add_data):
         with patch('builtins.open', self.mock_open):
             with requests_mock.Mocker() as m:
@@ -49,9 +49,9 @@ class Testudemy(unittest.TestCase):
                 result = lambda_handler('keys.json')
                 self.assertEqual(result, True)
 
-    @mock.patch('awslambda.udemy.handler.search_elastic_server', return_value = False)
-    @mock.patch('awslambda.udemy.handler.add_data_elastic_search', return_value = True)
-    @mock.patch('awslambda.udemy.crawler.crawl', return_value = {
+    @mock.patch('handler.search_elastic_server', return_value = False)
+    @mock.patch('handler.add_data_elastic_search', return_value = True)
+    @mock.patch('handler.crawl', return_value = {
         "price" : 10,
         "duration" : 10,
         "last_update" : None,
