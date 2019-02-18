@@ -2,7 +2,7 @@
 import unittest
 from mock import patch, MagicMock, mock_open, mock, Mock
 from awslambda.udemy.handler import *
-import crawler
+from awslambda.udemy.crawler import *
 import requests_mock
 import json
 
@@ -51,7 +51,7 @@ class Testudemy(unittest.TestCase):
 
     @mock.patch('awslambda.udemy.handler.search_elastic_server', return_value = False)
     @mock.patch('awslambda.udemy.handler.add_data_elastic_search', return_value = True)
-    @mock.patch('crawler.crawl', return_value = {
+    @mock.patch('awslambda.udemy.crawler.crawl', return_value = {
         "price" : 10,
         "duration" : 10,
         "last_update" : None,
@@ -129,7 +129,7 @@ class Testudemy(unittest.TestCase):
         with requests_mock.Mocker() as m:
             response = '<meta name="description" content="Learn Python like a Professional! Start from the basics and go all the way to creating your own applications and games!"><meta property="udemy_com:category" content="Development"><span class="price-text__current" data-purpose="discount-price-text">\n<span class="sr-only">Current price:</span> $11.99\n</span> <span class="curriculum-header-length"> 24:10:28 </span> <div class="" data-purpose="last-update-date"> Last updated 1/2019 </div>'
             m.register_uri('GET', requests_mock.ANY, text=response, status_code=201)
-            output = crawler.crawl("https://dummy-url.com")
+            output = crawl("https://dummy-url.com")
             expected_response = {'price': 11.99, 'duration': '24', 'last_update': '2019-1-1', 'category': ['Development'], 'description': 'Learn Python like a Professional! Start from the basics and go all the way to creating your own applications and games!'}
             self.assertEqual(output, expected_response)
 
@@ -137,7 +137,7 @@ class Testudemy(unittest.TestCase):
         with requests_mock.Mocker() as m:
             response = ''
             m.register_uri('GET', requests_mock.ANY, text=response, status_code=201)
-            output = crawler.crawl("https://dummy-url.com")
+            output = crawl("https://dummy-url.com")
             expected_response = {'price': None, 'duration': None, 'last_update': None, 'category': None, 'description': None}
             self.assertEqual(output, expected_response)
 
