@@ -35,7 +35,7 @@ class Testudemy(unittest.TestCase):
             lambda_handler('file_name')
 
     def test_invalid_url(self):
-        with patch('awslambda.udemy.handler.open', self.mock_open):
+        with patch('builtins.open', self.mock_open):
             with self.assertRaises(Exception):
                 lambda_handler('keys.json')
 
