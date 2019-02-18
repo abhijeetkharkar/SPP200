@@ -1,7 +1,7 @@
 # from unittest import TestCase
 import unittest
 from mock import patch, MagicMock, mock_open, mock, Mock
-import handler
+from handler import *
 import crawler
 import requests_mock
 import json
@@ -32,12 +32,12 @@ class Testudemy(unittest.TestCase):
     def test_keys_file_not_present(self):
         file_name = "wrong_name.json"
         with self.assertRaises(IOError):
-            handler.lambda_handler('file_name')
+            lambda_handler('file_name')
 
     def test_invalid_url(self):
         with patch('handler.open', self.mock_open):
             with self.assertRaises(Exception):
-                handler.lambda_handler('keys.json')
+                lambda_handler('keys.json')
 
     @mock.patch('handler.search_elastic_server', return_value = True)
     @mock.patch('handler.add_data_elastic_search', return_value = True)
@@ -46,7 +46,7 @@ class Testudemy(unittest.TestCase):
             with requests_mock.Mocker() as m:
                 content  = { 'results' : [ {'id' : 1234 }, {'id' : 1257 } ], 'next' : None }
                 m.register_uri('GET', requests_mock.ANY, json=content, status_code=200)
-                result = handler.lambda_handler('keys.json')
+                result = lambda_handler('keys.json')
                 self.assertEqual(result, True)
 
     @mock.patch('handler.search_elastic_server', return_value = False)
@@ -93,7 +93,7 @@ class Testudemy(unittest.TestCase):
                                         }
                 content  = { 'results' : [ mock_result_in_json ], 'next' : None }
                 m.register_uri('GET', requests_mock.ANY, json=content, status_code=200)
-                result = handler.lambda_handler('keys.json')
+                result = lambda_handler('keys.json')
                 self.assertEqual(result, True)
 
 
@@ -101,28 +101,28 @@ class Testudemy(unittest.TestCase):
         with requests_mock.Mocker() as m:
             content  = { 'result' : 'created'}
             m.register_uri('POST', requests_mock.ANY, json=content, status_code=201)
-            output = handler.add_data_elastic_search({'sample_object' : True}, "https://www.add-data-url.com")
+            output = add_data_elastic_search({'sample_object' : True}, "https://www.add-data-url.com")
             self.assertEqual(output, True)
     
     def test_add_data_elastic_search_negative_response(self):
         with requests_mock.Mocker() as m:
             content  = {}
             m.register_uri('POST', requests_mock.ANY, json=content, status_code=400)
-            output = handler.add_data_elastic_search({'sample_object' : True}, "https://www.add-data-url.com")
+            output = add_data_elastic_search({'sample_object' : True}, "https://www.add-data-url.com")
             self.assertEqual(output, False)
     
     def test_search_data_elastic_search_positive_response(self):
         with requests_mock.Mocker() as m:
             content  = { 'hits' : { 'total' : 1 } }
             m.register_uri('POST', requests_mock.ANY, json=content, status_code=201)
-            output = handler.search_elastic_server(1234, "https://www.search-data-url.com")
+            output = search_elastic_server(1234, "https://www.search-data-url.com")
             self.assertEqual(output, True)
 
     def test_search_data_elastic_search_negative_response(self):
         with requests_mock.Mocker() as m:
             content  = { 'hits' : { 'total' : 0 } }
             m.register_uri('POST', requests_mock.ANY, json=content, status_code=201)
-            output = handler.search_elastic_server(1234, "https://www.search-data-url.com")
+            output = search_elastic_server(1234, "https://www.search-data-url.com")
             self.assertEqual(output, False)
 
     def test_crawler_positive(self):
