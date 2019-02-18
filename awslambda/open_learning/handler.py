@@ -42,7 +42,7 @@ def lambda_handler(event, context):
                     data = {"CourseId": key, "CourseProvider": PROVIDER,
                             "Title": course["name"] if 'name' in course else None,
                             "Category": course["category"] if 'category' in course else None,
-                            "CourseDuration": int(course["duration"].split(' ')[0]) if 'duration' in course else None,
+                            "CourseDuration": {'Unit': 'hour', 'Value': int(course["duration"].split(' ')[0])}  if 'duration' in course else None,
                             "Paid": True if 'type' in course and course["type"] == "paid" else False,
                             "Price": int(str(course["price"]).split(" ")[0]) if 'price' in course else None,
                             "PriceCurrency": "USD", "Instructors": instructors,
