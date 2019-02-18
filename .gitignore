@@ -25,3 +25,13 @@ node_modules/
 .DS_Store
 .idea/
 __pycache__/
+
+.serverless/
+
+# FuseBox cache
+.fusebox/
+
+# DynamoDB Local files
+.dynamodb
+.DS_Store
+venv2/
