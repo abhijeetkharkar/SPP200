@@ -31,11 +31,11 @@ blocks:
       - name: Pytest
         commands:
           - checkout
-          - echo "python -m unittest discover -p 'Test*.py'"
+          - python -m unittest discover -p 'Test*.py'
       - name: NodeTest
         commands:
           - checkout
-          - echo "npm test"
+          - npm test
   - name: "Integration tests"
     task:
       jobs:
