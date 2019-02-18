@@ -140,5 +140,6 @@ def fetch_records_udacity(filename):
                 'status': json.dumps('API returned empty response.')
             }
 
+
 if __name__ == "__main__":
     fetch_records_udacity("info.txt")
