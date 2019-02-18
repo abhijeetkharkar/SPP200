@@ -1,9 +1,7 @@
 import time
-from os import sys, path
 from datetime import datetime
-
-sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
-import utils
+# sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
+from awslambda import utils
 
 
 def lambda_handler(event, context):
