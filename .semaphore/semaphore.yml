@@ -31,8 +31,8 @@ blocks:
           - python -m unittest discover -p 'Test*.py'
       - name: NodeTest
         commands:
-          - cd awslambda/edx/
-          - npm test
+          - npm install --prefix /awslambda/edx
+          - npm --prefix /awslambda/edx test
   - name: "Integration tests"
     task:
       jobs:
