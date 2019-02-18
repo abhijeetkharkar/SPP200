@@ -22,7 +22,7 @@ blocks:
     task:
       prologue:
         commands:
-        - sem-version python 3.6
+          - sem-version python 3.6
   - name: "Smoke tests"
     task:
       jobs:
