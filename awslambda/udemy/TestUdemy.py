@@ -1,7 +1,7 @@
 # from unittest import TestCase
 import unittest
 from mock import patch, MagicMock, mock_open, mock, Mock
-from handler import *
+from awslambda.udemy.handler import *
 import crawler
 import requests_mock
 import json
@@ -35,22 +35,22 @@ class Testudemy(unittest.TestCase):
             lambda_handler('file_name')
 
     def test_invalid_url(self):
-        with patch('handler.open', self.mock_open):
+        with patch('awslambda.udemy.handler.open', self.mock_open):
             with self.assertRaises(Exception):
                 lambda_handler('keys.json')
 
-    @mock.patch('handler.search_elastic_server', return_value = True)
-    @mock.patch('handler.add_data_elastic_search', return_value = True)
+    @mock.patch('awslambda.udemy.handler.search_elastic_server', return_value = True)
+    @mock.patch('awslambda.udemy.handler.add_data_elastic_search', return_value = True)
     def test_lambda_handler(self, search, add_data):
-        with patch('handler.open', self.mock_open):
+        with patch('awslambda.udemy.handler.open', self.mock_open):
             with requests_mock.Mocker() as m:
                 content  = { 'results' : [ {'id' : 1234 }, {'id' : 1257 } ], 'next' : None }
                 m.register_uri('GET', requests_mock.ANY, json=content, status_code=200)
                 result = lambda_handler('keys.json')
                 self.assertEqual(result, True)
 
-    @mock.patch('handler.search_elastic_server', return_value = False)
-    @mock.patch('handler.add_data_elastic_search', return_value = True)
+    @mock.patch('awslambda.udemy.handler.search_elastic_server', return_value = False)
+    @mock.patch('awslambda.udemy.handler.add_data_elastic_search', return_value = True)
     @mock.patch('crawler.crawl', return_value = {
         "price" : 10,
         "duration" : 10,
