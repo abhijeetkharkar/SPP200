@@ -18,11 +18,6 @@ blocks:
           - echo $APP_ENV
           - echo "Docker build..."
           - echo "done"
-  - name: installRequirements
-    task:
-      prologue:
-        commands:
-          - sem-version python 3.6
   - name: "Smoke tests"
     task:
       jobs:
@@ -32,6 +27,9 @@ blocks:
           - echo "make smoke"
   - name: "Unit tests"
     task:
+      prologue:
+        commands:
+          - sem-version python 3.6
       jobs:
       - name: Pytest
         commands:
