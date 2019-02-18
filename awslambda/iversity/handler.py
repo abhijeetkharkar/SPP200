@@ -5,6 +5,7 @@ from datetime import datetime
 sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
 import utils
 
+
 def lambda_handler(event, context):
     PROVIDER = 'Iversity'
     URL = 'https://iversity.org/api/v1/courses'
@@ -62,6 +63,3 @@ def lambda_handler(event, context):
         print("Total Courses Added:", add_count)
         print('Total time taken:', round(time.time() - start, 2), 'sec\n')
         return True
-
-if __name__ == "__main__":
-    lambda_handler('', '')

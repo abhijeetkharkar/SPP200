@@ -1,9 +1,13 @@
 import unittest
 import requests_mock
 from mock import patch
+from os import path, sys
 from awslambda.iversity.handler import lambda_handler as iversity_lambda_handler
 from awslambda.open_learning.handler import lambda_handler as open_learning_lambda_handler
-from awslambda.utils import add_data_elastic_search, search_data_elastic_search, fetch_data
+
+sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
+
+from utils import add_data_elastic_search, search_data_elastic_search, fetch_data
 
 
 class TestLambdas(unittest.TestCase):
@@ -79,40 +83,42 @@ class TestLambdas(unittest.TestCase):
 
     course_content = [{"id": 1, "title": 'A', "discipline": 'ABC', "duration": '1', 'url': 'xyz',
                 "verifications": [{'price': '1'}], 'description': 'disc', "image": 'abc', "language": 'Eng'}]
-    @patch('awslambda.utils.fetch_data', return_value=course_content)
-    @patch('awslambda.utils.add_data_elastic_search', return_value=True)
-    @patch('awslambda.utils.search_data_elastic_search', return_value=False)
+
+    @patch('utils.fetch_data', return_value=course_content)
+    @patch('utils.add_data_elastic_search', return_value=True)
+    @patch('utils.search_data_elastic_search', return_value=False)
     def test_iversity_lambda_valid_course_data(self, search_data_elastic_search, add_data_elastic_search, fetch_data):
         iversity_lambda_handler(self.data_url, self.search_url)
 
-    @patch('awslambda.utils.fetch_data', return_value=[{'language': 'French'}])
-    @patch('awslambda.utils.search_data_elastic_search', return_value=False)
+    @patch('utils.fetch_data', return_value=[{'language': 'French'}])
+    @patch('utils.search_data_elastic_search', return_value=False)
     def test_iversity_lambda_non_english_course_data(self, search_data_elastic_search, fetch_data):
         iversity_lambda_handler(self.data_url, self.search_url)
 
-    @patch('awslambda.utils.search_data_elastic_search', return_value=True)
-    def test_iversity_lambda_course_already_processed(self, search_data_elastic_search):
+    @patch('utils.fetch_data', return_value=[{}])
+    @patch('utils.search_data_elastic_search', return_value=True)
+    def test_iversity_lambda_course_already_processed(self, search_data_elastic_search, fetch_data):
         iversity_lambda_handler(self.data_url, self.search_url)
 
 
     course_content = [{"CourseId": 1, "name": 'A', "category": 'ABC', "duration": '1', 'courseUrl': 'xyz',
                        'summary': 'disc', "image": 'abc', "type": '', "price": '0', 'selfPaced': None}]
 
-    @patch('awslambda.utils.is_english', return_value=True)
-    @patch('awslambda.utils.fetch_data', return_value=course_content)
-    @patch('awslambda.utils.add_data_elastic_search', return_value=True)
-    @patch('awslambda.utils.search_data_elastic_search', return_value=False)
+    @patch('utils.is_english', return_value=True)
+    @patch('utils.fetch_data', return_value=course_content)
+    @patch('utils.add_data_elastic_search', return_value=True)
+    @patch('utils.search_data_elastic_search', return_value=False)
     def test_open_learning_lambda_valid_course_data(self, search_data_elastic_search, add_data_elastic_search, fetch_data, is_english):
         open_learning_lambda_handler(self.data_url, self.search_url)
 
-    @patch('awslambda.utils.is_english', return_value=False)
-    @patch('awslambda.utils.fetch_data', return_value=[{'name': 'A'}])
+    @patch('utils.is_english', return_value=False)
+    @patch('utils.fetch_data', return_value=[{'name': 'A'}])
     def test_open_learning_lambda_non_english_course_data(self, fetch_data, is_english):
         open_learning_lambda_handler(self.data_url, self.search_url)
 
-    @patch('awslambda.utils.is_english', return_value=True)
-    @patch('awslambda.utils.fetch_data', return_value=[{'name': 'A', 'courseUrl': 'B'}])
-    @patch('awslambda.utils.search_data_elastic_search', return_value=True)
+    @patch('utils.is_english', return_value=True)
+    @patch('utils.fetch_data', return_value=[{'name': 'A', 'courseUrl': 'B'}])
+    @patch('utils.search_data_elastic_search', return_value=True)
     def test_open_learning_lambda_course_already_processed(self, search_data_elastic_search, fetch_data, is_english):
         open_learning_lambda_handler(self.data_url, self.search_url)
 
