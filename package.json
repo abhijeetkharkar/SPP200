@@ -1,0 +1,11 @@
+{
+	"scripts": {
+		"test": "jest -u --coverage"
+	},
+	"jest": {
+		"roots": [ "<rootDir>/awslambda/edx/" ],
+		"setupFiles": [
+			"<rootDir>/awslambda/edx/config/setupJest.js"
+		]
+	}
+}
