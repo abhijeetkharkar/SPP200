@@ -18,14 +18,15 @@ blocks:
           - echo $APP_ENV
           - echo "Docker build..."
           - echo "done"
-      - name: installRequirements
-        commands:
-          - pip install -r requirements.txt
+  - name: installRequirements
+      task:
+        prologue:
+          commands:
+          - sem-version python 3.6
+      commands:
+      - pip install -r requirements.txt
   - name: "Smoke tests"
     task:
-      prologue:
-        commands:
-        - sem-version python 3.6
       jobs:
       - name: Smoke
         commands:
