@@ -32,7 +32,7 @@ blocks:
       - name: NodeTest
         commands:
           - npm install
-          - npm --prefix awslambda/edx/ run build
+          - npm --prefix ./awslambda/edx/ run build
           - npm test -u --coverage
   - name: "Integration tests"
     task:
