@@ -1,0 +1,68 @@
+.heroes-data {
+  margin-left: 5% !important;
+  margin-right: auto !important;
+}
+
+.heroDiv {
+  margin-bottom: 2%;
+  margin-left: 3%;
+  margin-right: 3%;
+  background-color: rgb(208, 233, 255);
+  padding-left: 0px !important;
+  padding-right: 0px !important;
+}
+
+.heroName {  
+  background: rgb(172, 215, 252);  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to bottom, rgb(76, 171, 253), rgb(172, 215, 252), rgb(76, 171, 253));  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to bottom, rgb(76, 171, 253), rgb(172, 215, 252), rgb(76, 171, 253)); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.heroName p {
+  -webkit-margin-before: 0px;
+  -webkit-margin-after: 0px;
+}
+
+.heroStatsTable {
+  margin-top: 0.2%;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 0 !important;
+}
+
+.heroStatsTable td.stats{
+  padding: 1% 1% !important;
+  background-color: rgb(182, 221, 255);
+}
+
+.heroStatsTable td.value{
+  padding: 1% 1% !important;
+  background-color: rgb(107, 184, 252);
+}
+
+.heroStatsTable td.stats:hover {    
+  background-color: rgb(142, 202, 255);
+}
+
+.heroStatsTable td.value:hover {    
+  background-color: rgb(48, 147, 235);
+}
+
+.stats {
+  text-align: left;
+  /*background-color: black;*/  
+  text-shadow: 1px 1px rgb(95, 95, 95);
+  color: darkblue;
+}
+
+.value {
+  text-align: center;
+  /*background-color: #353535;*/  
+  text-shadow: 1px 1px rgb(134, 121, 2);
+  color: rgba(7, 7, 7, 0.829);
+}
+
+.colspanned { 
+  text-shadow: 1px 1px rgb(0, 94, 110);
+  color: rgba(0, 255, 255, 0.952);
+}
