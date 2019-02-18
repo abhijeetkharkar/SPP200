@@ -18,13 +18,6 @@ blocks:
           - echo $APP_ENV
           - echo "Docker build..."
           - echo "done"
-  - name: "Smoke tests"
-    task:
-      jobs:
-      - name: Smoke
-        commands:
-          - checkout
-          - echo "make smoke"
   - name: "Unit tests"
     task:
       prologue:
@@ -36,10 +29,6 @@ blocks:
           - checkout
           - pip install -r requirements.txt
           - python -m unittest discover -p 'Test*.py'
-      - name: NodeTest
-        commands:
-          - checkout
-          - npm test
   - name: "Integration tests"
     task:
       jobs:
