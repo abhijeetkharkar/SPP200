@@ -18,24 +18,17 @@ blocks:
           - echo $APP_ENV
           - echo "Docker build..."
           - echo "done"
-  - name: "Smoke tests"
-    task:
-      jobs:
-      - name: Smoke
-        commands:
-          - checkout
-          - echo "make smoke"
   - name: "Unit tests"
     task:
+      prologue:
+        commands:
+          - sem-version python 3.7
       jobs:
       - name: Pytest
         commands:
           - checkout
+          - pip install -r requirements.txt
           - python -m unittest discover -p 'Test*.py'
-      - name: NodeTest
-        commands:
-          - checkout
-          - npm test
   - name: "Integration tests"
     task:
       jobs:
