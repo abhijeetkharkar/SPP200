@@ -1,4 +1,3 @@
-import json
 import time
 import nltk
 from os import sys, path

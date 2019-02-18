@@ -1,4 +1,3 @@
-import json
 import time
 from os import sys, path
 from datetime import datetime
