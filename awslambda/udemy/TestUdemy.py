@@ -7,7 +7,6 @@ import requests_mock
 import json
 
 class Testudemy(unittest.TestCase):
-    
     def setUp(self):
         self.file_content = (
             '{\n'
