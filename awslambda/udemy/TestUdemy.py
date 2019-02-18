@@ -59,7 +59,7 @@ class Testudemy(unittest.TestCase):
         "description" : None
     })
     def test_lambda_handler_with_response(self, search, add_data, crawl):
-        with patch('handler.open', self.mock_open):
+        with patch('awslambda.udemy.handler.open', self.mock_open):
             with requests_mock.Mocker() as m:
                 mock_result_in_json = {
                                         "id": 567828,
@@ -137,7 +137,7 @@ class Testudemy(unittest.TestCase):
         with requests_mock.Mocker() as m:
             response = ''
             m.register_uri('GET', requests_mock.ANY, text=response, status_code=201)
-            output = crawler.crawl("https://dummy-url.com")
+            output = crawl("https://dummy-url.com")
             expected_response = {'price': None, 'duration': None, 'last_update': None, 'category': None, 'description': None}
             self.assertEqual(output, expected_response)
 
