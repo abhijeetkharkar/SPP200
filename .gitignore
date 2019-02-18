@@ -98,3 +98,7 @@ Vagrantfile
 .dynamodb
 .DS_Store
 venv2/
+
+__init__.pyc
+TestUdacity.pyc
+TestUdemy.pyc
