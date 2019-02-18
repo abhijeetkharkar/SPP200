@@ -23,6 +23,7 @@ def lambda_handler(event, context):
     courses = utils.fetch_data(URL, 5, 30)
     if courses != False:
         count = 1
+        add_count = 0
         start = time.time()
         total = len(courses)
 
@@ -56,12 +57,16 @@ def lambda_handler(event, context):
                             "SelfPaced": course["selfPaced"] if 'selfPaced' in course else None}
 
                     utils.add_data_elastic_search(POST_URL, data)
+                    add_count += 1
                 except Exception as e:
                     print('[%] Error occured ==>', 'Course Name', course['name'], ':', e)
             else:
                 print('[X] Course text not in english', count, '/', total)
             count += 1
 
+        print("\nCourse Catalog Update Complete")
+        print("Total Courses Fetch:", total)
+        print("Total Courses Added:", add_count)
         print('Total time taken:', round(time.time() - start, 2), 'sec\n')
 
 
