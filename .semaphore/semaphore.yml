@@ -19,10 +19,10 @@ blocks:
           - echo "Docker build..."
           - echo "done"
   - name: installRequirements
-      task:
-        prologue:
-          commands:
-          - sem-version python 3.6
+    task:
+      prologue:
+        commands:
+        - sem-version python 3.6
       commands:
       - pip install -r requirements.txt
   - name: "Smoke tests"
