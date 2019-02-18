@@ -35,3 +35,4 @@ __pycache__/
 .dynamodb
 .DS_Store
 venv2/
+node_modules/
