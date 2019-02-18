@@ -1,8 +1,5 @@
 version: v1.0
 name: First pipeline example
-
-Usage:
-  change-python-version 3.6
 agent:
   machine:
     type: e1-standard-2
@@ -26,6 +23,9 @@ blocks:
           - pip install -r requirements.txt
   - name: "Smoke tests"
     task:
+      prologue:
+        commands:
+        - sem-version python 3.6
       jobs:
       - name: Smoke
         commands:
