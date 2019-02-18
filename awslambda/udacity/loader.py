@@ -5,6 +5,7 @@ import requests
 import base64
 #import crawler
 import hashlib
+import os
 
 esurl='http://spp200.edu'
 
@@ -99,6 +100,7 @@ def parse_json(json_data):
 
 
 def fetch_records_udacity(filename):
+    filename=(os.path.dirname(__file__))+'/'+filename
     try:
         with open(filename) as f:
             content = f.readlines()
