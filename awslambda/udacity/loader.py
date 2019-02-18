@@ -22,8 +22,7 @@ def add_data_elastic_search(serialized_response):
         return response.status_code
 
     add_response = json.loads(response.content)
-    # print("\n Add Response data is ", add_response)
-    
+
     if response.status_code == 201 and add_response["result"] == "created":
         print("Course ID added : ", serialized_response['CourseId'])
         return True
@@ -50,7 +49,6 @@ def search_elastic_server(course_id):
         return response.status_code
     
     search_response = json.loads(response.content)
-    # print("Search Response data is ", search_response)
     if search_response["hits"]["total"] >= 1:
         return True
     else:
