@@ -1,0 +1,23 @@
+# serverless.yml
+
+service: udemy-data
+
+provider:
+  name: aws
+  runtime: python2.7
+  stage: dev
+  region: us-east-2
+
+functions:
+  udemyapi:
+    handler: handler.lambda_handler
+    timeout: 900
+    events:
+    - schedule: 1440
+
+plugins:
+  - serverless-python-requirements
+
+custom:
+  pythonRequirements:
+    dockerizePip: non-linux
