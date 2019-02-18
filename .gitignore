@@ -1,5 +1,22 @@
 .idea/
+.DS_Store
+awslambda/udemy/keys.json
+awslambda/udemy/node_modules
+awslambda/udemy/.serverless
+awslambda/udemy/all-data-1.json
+awslambda/udemy/beginner-data-1.json
+awslambda/udemy/expert-data-1.json
+awslambda/udemy/intermediate-data-1.json
+awslambda/udemy/page_content.html
+awslambda/udemy/htmlcov
+proxy.py
 
+.vscode
+.idea 
+.coverage
+__pycache__/
+handler.pyc
+test.json
 
 # Logs
 logs
@@ -108,6 +125,34 @@ __pycache__/
 .fusebox/
 
 # DynamoDB Local files
+.dynamodb/
+
+.vagrant*
+bin
+docker/docker
+.*.swp
+a.out
+*.orig
+build_src
+.flymake*
+.idea
+.DS_Store
+docs/_build
+docs/_static
+docs/_templates
+.gopath/
+.dotcloud
+*.test
+bundles/
+.hg/
+.git/
+vendor/pkg/
+pyenv
+Vagrantfile
 .dynamodb
 .DS_Store
 venv2/
+
+__init__.pyc
+TestUdacity.pyc
+TestUdemy.pyc
