@@ -74,11 +74,30 @@ package-lock.json
 # vuepress build output
 .vuepress/dist
 
+# Distribution / packaging
+.Python
+env/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+*.egg-info/
+.installed.cfg
+*.egg
+
 # Serverless directories
-.serverless/
-
-# FuseBox cache
-.fusebox/
-
-# DynamoDB Local files
-.dynamodb/
+.serverless
+venv2/
+.coverage
+package-lock.json
+node_modules/
+.DS_Store
+.idea/
+__pycache__/
