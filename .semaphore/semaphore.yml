@@ -1,5 +1,8 @@
 version: v1.0
 name: First pipeline example
+
+Usage:
+  change-python-version 3.6
 agent:
   machine:
     type: e1-standard-2
@@ -18,6 +21,9 @@ blocks:
           - echo $APP_ENV
           - echo "Docker build..."
           - echo "done"
+      - name: installRequirements
+        commands:
+          - pip install -r requirements.txt
   - name: "Smoke tests"
     task:
       jobs:
