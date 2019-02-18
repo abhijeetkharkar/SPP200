@@ -28,18 +28,14 @@ blocks:
   - name: "Unit tests"
     task:
       jobs:
-      - name: RSpec
+      - name: Pytest
         commands:
           - checkout
-          - echo "make rspec"
-      - name: Lint code
+          - echo "python -m unittest discover -p 'Test*.py'"
+      - name: NodeTest
         commands:
           - checkout
-          - echo "make lint"
-      - name: Check security
-        commands:
-          - checkout
-          - echo "make security"
+          - echo "npm test"
   - name: "Integration tests"
     task:
       jobs:
