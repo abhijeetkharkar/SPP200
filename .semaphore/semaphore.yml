@@ -23,8 +23,6 @@ blocks:
       prologue:
         commands:
         - sem-version python 3.6
-      commands:
-      - pip install -r requirements.txt
   - name: "Smoke tests"
     task:
       jobs:
@@ -38,6 +36,7 @@ blocks:
       - name: Pytest
         commands:
           - checkout
+          - pip install -r requirements.txt
           - python -m unittest discover -p 'Test*.py'
       - name: NodeTest
         commands:
