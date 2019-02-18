@@ -3,7 +3,7 @@
 import json
 import requests
 import base64
-import crawler
+from awslambda.udemy.crawler import *
 import hashlib
 import sys
 import time
@@ -57,7 +57,7 @@ def parse_json(json_data):
 
     url_to_crawl = "https://www.udemy.com" + json_data['url']
     
-    extra_data = crawler.crawl(url_to_crawl)
+    extra_data = crawl(url_to_crawl)
     if extra_data['duration'] == None:
         print("Crawler returned None for this URl : ",url_to_crawl, extra_data)
         return False

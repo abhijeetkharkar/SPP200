@@ -137,7 +137,7 @@ class Testudemy(unittest.TestCase):
         with requests_mock.Mocker() as m:
             response = ''
             m.register_uri('GET', requests_mock.ANY, text=response, status_code=201)
-            output = crawl("https://dummy-url.com")
+            output = crawler.crawl("https://dummy-url.com")
             expected_response = {'price': None, 'duration': None, 'last_update': None, 'category': None, 'description': None}
             self.assertEqual(output, expected_response)
 
