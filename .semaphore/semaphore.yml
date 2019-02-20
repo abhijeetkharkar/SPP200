@@ -16,8 +16,8 @@ blocks:
           - checkout
           - ls -1
           - echo $APP_ENV
-          - echo "Docker build..."
-          - echo "done"
+          - cd /backend/course-hub-api/
+          - docker build -t nabeelahmadkh/course-hub-backend-api .
   - name: "Unit tests"
     task:
       prologue:
