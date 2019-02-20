@@ -14,7 +14,7 @@ class Testudacity(TestCase):
 
     def test_url_file_not_found(self):
         with self.assertRaises(IOError):
-            fetch_records_udacity("info1.txt")
+            fetch_records_udacity("info.txt")
 
     def test_invalid_url(self):
         with patch('builtins.open',self.mock_open):
