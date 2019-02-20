@@ -1,0 +1,23 @@
+
+service: iversity-data
+
+provider:
+  name: aws
+  runtime: python3.7
+  stage: dev
+  region: us-east-2
+
+
+functions:
+  iversityapi:
+    handler: handler.lambda_handler
+    timeout: 900
+    events:
+    - schedule: 1440
+
+plugins:
+  - serverless-python-requirements
+
+custom:
+  pythonRequirements:
+    dockerizePip: non-linux
