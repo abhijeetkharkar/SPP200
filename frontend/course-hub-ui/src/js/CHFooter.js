@@ -8,29 +8,29 @@ class CHNavigator extends Component {
 	render() {
 
 		return (
-			<footer class="footer-distributed">
+			<footer className="footer-distributed">
 
-				<div class="footer-right">
+				<div className="footer-right">
 
-					<a href="#"><FontAwesomeIcon icon={['fab', 'facebook-f']} color='rgb(207, 204, 19)'/></a>
-					<a href="#"><FontAwesomeIcon icon={['fab', 'twitter']} color='rgb(207, 204, 19)'/></a>
-					<a href="#"><FontAwesomeIcon icon={['fab', 'linkedin']} color='rgb(207, 204, 19)'/></a>
-					<a href="#"><FontAwesomeIcon icon={['fab', 'github']} color='rgb(207, 204, 19)'/></a>
+					<a href="#"><FontAwesomeIcon icon={['fab', 'facebook-f']} color='rgb(207, 204, 19)' /></a>
+					<a href="#"><FontAwesomeIcon icon={['fab', 'twitter']} color='rgb(207, 204, 19)' /></a>
+					<a href="#"><FontAwesomeIcon icon={['fab', 'linkedin']} color='rgb(207, 204, 19)' /></a>
+					<a href="#"><FontAwesomeIcon icon={['fab', 'github']} color='rgb(207, 204, 19)' /></a>
 
 				</div>
 
-				<div class="footer-left">
+				<div className="footer-left">
 
-					<p class="footer-links">
+					<p className="footer-links">
 						<a href="#">Home</a>
-						·
-					<a href="#">Blog</a>
-						·
-					<a href="#">About</a>
-						·
-					<a href="#">FAQ</a>
-						·
-					<a href="#">Contact</a>
+							·
+						<a href="#">Blog</a>
+							·
+						<a href="#">About</a>
+							·
+						<a href="#">FAQ</a>
+							·
+						<a href="#">Contact</a>
 					</p>
 
 					<p>Course-Hub &copy; 2019</p>
