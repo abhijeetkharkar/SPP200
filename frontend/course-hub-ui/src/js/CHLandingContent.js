@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../css/bootstrap.min.css';
 import '../css/common-components.css';
-import { MDBCol, MDBFormInline, MDBBtn, MDBIcon } from "mdbreact";
+import { MDBCol, MDBBtn } from "mdbreact";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 class CHLandingContent extends Component {
@@ -17,6 +17,7 @@ class CHLandingContent extends Component {
                         </span>
                     </div>
                     <input className="form-control my-0 py-1" type="text" placeholder="Search courses" aria-label="Search" />
+                    <MDBBtn size="lg">Search</MDBBtn>
                 </div>
             </MDBCol>
         );
