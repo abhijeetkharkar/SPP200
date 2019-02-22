@@ -88,7 +88,7 @@ class LoginPage extends Component {
               </Form.Row>
               <Form.Row>
                 <Form.Group className="float-right text-right" as={Col} controlId="formGridSignUp">
-                  New User? <Button variant="link">Register</Button>
+                  New User? <Button variant="link" onClick={(e) => this.props.updateContent("signupScreen",null, null, null)}>Register</Button>
                 </Form.Group>
               </Form.Row>
             </Form>

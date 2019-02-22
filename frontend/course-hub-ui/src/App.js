@@ -4,6 +4,7 @@ import './css/bootstrap.min.css';
 import CHNavigator from './js/CHNavigator'
 import CHLandingContent from './js/CHLandingContent';
 import LoginPage from './js/CHLogin';
+import SignupPage from './js/CHSignup';
 import CHFilters from './js/CHFilters';
 import CHRightLane from './js/CHRightLane';
 import CHFooter from './js/CHFooter';
@@ -45,7 +46,7 @@ class App extends Component {
         }
 
         { choice === "loginScreen" && <LoginPage updateContent = {this.handleClick}/> }
-        { choice === "signupScreen" && <LoginPage updateContent = {this.handleClick}/> }
+        { choice === "signupScreen" && <SignupPage updateContent = {this.handleClick}/> }
       </div>
     );
   }

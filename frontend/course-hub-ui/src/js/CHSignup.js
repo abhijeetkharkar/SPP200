@@ -3,9 +3,9 @@ import { MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBInput, MDBBtn, M
 import { Modal, Button, Form, Col, Row, Badge } from 'react-bootstrap';
 import { GoogleLoginButton } from "react-social-login-buttons";
 
-class LoginPage extends Component {
+class SignupPage extends Component {
   constructor(props, context) {
-    console.log("CHLogin Constructor")
+    console.log("CHSignup Constructor")
     super(props, context);
 
     this.state = {
@@ -23,7 +23,7 @@ class LoginPage extends Component {
   }
 
   handleSubmit(event) {
-    console.log("CHLogin HandleSubmit")
+    console.log("CHSignup HandleSubmit")
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
       event.preventDefault();
@@ -37,7 +37,7 @@ class LoginPage extends Component {
   }
 
   render() {
-    console.log("Inside CHLogin Render")
+    console.log("Inside CHSignup Render")
     const { validated } = this.state;
     return (
         <Modal
@@ -48,7 +48,7 @@ class LoginPage extends Component {
         >
           <Modal.Header>
             <Modal.Title size="lg" id="login-in-title">
-              Login
+              SignUp
             </Modal.Title>            
             <Button variant="danger" onClick={(e) => this.props.updateContent("home",null, null, null)}>
               X
@@ -88,17 +88,7 @@ class LoginPage extends Component {
               </Form.Row>
               <Form.Row>
                 <Form.Group className="float-left" as={Col} controlId="formGridSignUp">
-                  <Button size="lg" variant="success" type="Sign-Up">Login</Button>
-                </Form.Group>
-              </Form.Row>
-              <Form.Row className="text-center">
-                <Form.Group className="float-center" as={Col} controlId="formGridGoogleSignUp">
-                  <h1><Badge pill variant="info">OR</Badge></h1>
-                </Form.Group>
-              </Form.Row>
-              <Form.Row>
-                <Form.Group className="float-center" as={Col} controlId="formGridGoogleSignIn">
-                  <GoogleLoginButton align="center" onClick={() => alert("Hello")} />
+                  <Button size="lg" variant="success" type="Sign-Up">Sign-Up</Button>
                 </Form.Group>
               </Form.Row>
             </Form>
@@ -108,4 +98,4 @@ class LoginPage extends Component {
   }
 }
 
-export default LoginPage;
+export default SignupPage;
