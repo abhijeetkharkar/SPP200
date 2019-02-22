@@ -1,0 +1,14 @@
+service: edx-lambda
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  region: us-east-2
+
+functions:
+  edxDaily:
+    handler: handler.edxDaily
+    timeout: 600
+    events:
+    - schedule: cron(0 0 * * ? *)
+#    - schedule: rate(1440 minutes)

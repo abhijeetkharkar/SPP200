@@ -1,0 +1,225 @@
+/*HEADER*/
+#homeHeader {
+    position: relative;
+    width: 100%;
+    height: 100px;
+    background-color: #292c2f;
+}
+
+/* #website-name-container {
+    left: 1%;
+    width: 60%;
+    position: absolute;
+    height: 100%;
+} */
+
+.website-name {    
+    color: rgb(207, 204, 19);
+    text-shadow: 1px 1px rgb(146, 144, 4);
+    font-size: 60px;
+}
+
+.website-name:hover {
+    text-shadow: rgb(146, 144, 4) 0px 0px 0.2em, rgb(146, 144, 4) 0px 0px 0.2em, rgb(146, 144, 4) 0px 0px 0.2em;
+}
+
+#website-navigators-container {
+    right: 1%;
+    top: 35%;
+    width: 29%;
+    position: absolute;
+    background-color: #292c2f;
+}
+
+.my-nav-tabs {
+    /*width: 10%;*/
+    background-color: rgb(241, 239, 108);
+    color: black;
+    border: 1px solid transparent;
+    border-color: rgb(124, 123, 30);
+    border-radius: 4px;
+    margin: auto 1%;
+    font-size: 15px;
+    float: right;
+}
+
+.my-nav-tabs:hover {    
+    background-color: rgb(142, 202, 255);
+}
+
+/*Left Lane*/
+.left-lane {
+    float: left;
+    text-align: left !important;
+    padding: 1%;
+    background-color: rgb(208, 233, 255);
+    color: darkblue;
+    border: 1px solid transparent;
+    border-color: rgb(208, 233, 255);
+    border-radius: 4px;
+    margin: 1% 0.3%;
+    width: 15%;
+}
+
+.my-left-lane-title {
+    text-align: center !important;
+}
+
+.my-input-alignment {
+    text-align: left !important;
+    margin-right: 2% !important;
+}
+
+.my-label-alignment {    
+    margin-right: 4% !important;
+}
+
+.my-button-alignment {    
+   margin: auto !important;
+   background-color: rgb(142, 202, 255) !important;
+   border-color: rgb(142, 202, 255) !important;
+   color: darkblue;
+}
+
+/*Right-Lane*/
+.right-lane {
+    float: right;
+    text-align: left !important;
+    padding: 1%;
+    background-color: rgb(208, 233, 255);
+    color: darkblue;
+    border: 1px solid transparent;
+    border-color: rgb(208, 233, 255);
+    border-radius: 4px;
+    margin: 1% 0.3%;
+    width: 20%;
+}
+
+.my-right-lane-title {
+    text-align: center !important;
+}
+
+.my-table {
+    font-size: 12px;
+}
+
+.my-table td {
+    padding: 1% 1% !important;
+    border-right: 1px solid rgb(103, 103, 211) !important;
+    border-bottom: 1px solid rgb(103, 103, 211) !important;
+    background: rgb(208, 233, 255);  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to bottom, rgb(160, 211, 255), rgb(208, 233, 255), rgb(160, 211, 255));  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to bottom, rgb(160, 211, 255), rgb(208, 233, 255), rgb(160, 211, 255)); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.my-table th {
+    padding: 1% 1% !important;
+    border-right: 1px solid rgb(103, 103, 211) !important;
+    border-bottom: 1px solid rgb(103, 103, 211) !important;    
+    border-top: 1px solid rgb(103, 103, 211) !important;
+    background: rgb(172, 215, 252);  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to bottom, rgb(76, 171, 253), rgb(172, 215, 252), rgb(76, 171, 253));  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to bottom, rgb(76, 171, 253), rgb(172, 215, 252), rgb(76, 171, 253)); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.my-table td.td-left, .my-table th.th-left {
+    border-left: 1px solid rgb(103, 103, 211) !important;
+}
+
+.my-table td:hover {
+    background: rgb(160, 211, 255);  /* fallback for old browsers */
+    background: -webkit-linear-gradient(to bottom, rgb(208, 233, 255), rgb(160, 211, 255), rgb(208, 233, 255));  /* Chrome 10-25, Safari 5.1-6 */
+    background: linear-gradient(to bottom, rgb(208, 233, 255), rgb(160, 211, 255), rgb(208, 233, 255)); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+}
+
+.my-table th:hover {    
+    background-color: rgb(144, 175, 202);
+}
+
+.my-table td.team-logo {
+    background-repeat: no-repeat !important;
+    background-size: contain !important;
+}
+
+.footer-distributed{
+	background-color: #292c2f;
+	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
+	box-sizing: border-box;
+	width: 100%;
+	text-align: left;
+	font: normal 16px sans-serif;
+
+    padding: 20px 50px;
+    position: fixed;
+   left:0px;
+   bottom:0px;
+}
+
+.footer-distributed .footer-left p{
+	color:  rgb(146, 144, 4);
+	font-size: 14px;
+	margin: 0;
+}
+
+/* Footer links */
+
+.footer-distributed p.footer-links{
+	font-size:18px;
+	font-weight: bold;
+	color: rgb(207, 204, 19);
+	margin: 0 0 10px;
+	padding: 0;
+}
+
+.footer-distributed p.footer-links a{
+	display:inline-block;
+	line-height: 1.8;
+	text-decoration: none;
+	color:  inherit;
+}
+
+.footer-distributed .footer-right{
+	float: right;
+	margin-top: 6px;
+	max-width: 180px;
+}
+
+.footer-distributed .footer-right a{
+	display: inline-block;
+	width: 35px;
+	height: 35px;
+	background-color:  #33383b;
+	border-radius: 2px;
+
+	font-size: 20px;
+	color: #ffffff;
+	text-align: center;
+	line-height: 35px;
+
+	margin-left: 3px;
+}
+
+/* If you don't want the footer to be responsive, remove these media queries */
+
+@media (max-width: 600px) {
+
+	.footer-distributed .footer-left,
+	.footer-distributed .footer-right{
+		text-align: center;
+	}
+
+	.footer-distributed .footer-right{
+		float: none;
+		margin: 0 auto 20px;
+	}
+
+	.footer-distributed .footer-left p.footer-links{
+		line-height: 1.8;
+	}
+}
+
+
+/* Landing Page */
+.form-control {
+    font-size: 2.5rem;
+}

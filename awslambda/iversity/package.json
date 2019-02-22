@@ -1,0 +1,15 @@
+{
+  "name": "iversity",
+  "version": "1.0.0",
+  "description": "AWS Lambda code for iversity course provider",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/UIOWA5830SP19/SPP200/backend/course-hub-api"
+  },
+  "author": "Ali",
+  "license": "ISC"
+}

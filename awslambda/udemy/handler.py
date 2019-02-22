@@ -3,71 +3,65 @@
 import json
 import requests
 import base64
-import crawler
+from awslambda.udemy.crawler import *
 import hashlib
+import sys
+import time
+from time import sleep
 
-def add_data_elastic_search(serialized_response):
-    url = "https://search-coursehub-mmrw23yio2a4ylx2cgmx34eiyy.us-east-2.es.amazonaws.com/courses/course"
+def add_data_elastic_search(serialized_response, elastic_search_add_data_url):
     headers = {
                 "Content-Type": "application/json"
               }
-    # print("Serialized object is ", serialized_response)
-    # print("JSON Serialized object is ", json.dumps(serialized_response))
     try:
-        print("JSON data is ", str(json.dumps(serialized_response)))
-        response = requests.post(url, data=str(json.dumps(serialized_response)), headers = headers)
+        response = requests.post(elastic_search_add_data_url, data=str(json.dumps(serialized_response)), headers = headers)
     except Exception as e:
         print ("\n Response is ",response.status_code)
         print ("\n Error is ", e)
-        return response.status_code
+        print("\t Course not added, POST request Error")
+        return False
 
     add_response = json.loads(response.content)
-    # print("\n Add Response data is ", add_response)
     
     if response.status_code == 201 and add_response["result"] == "created":
-        print("Course ID added : ", serialized_response['CourseId'])
         return True
     else:
-        print("Course ID not added : ", serialized_response['CourseId'])
+        print("\t Course not added, Response Code : ", response.status_code)
         return False
 
 
-def search_elastic_server(course_id):
-    # print("\n Course ID received is ", course_id)
+def search_elastic_server(course_id, elastic_search_search_data_url):
     headers = {
                 "Content-Type": "application/json"
               }
-    url = "https://search-coursehub-mmrw23yio2a4ylx2cgmx34eiyy.us-east-2.es.amazonaws.com/courses/_search"
     try:
-        response = requests.post(url, json={
+        response = requests.post(elastic_search_search_data_url, json={
                                                 "query" : {
                                                             "term" : { "CourseId" : course_id }
                                                         }
                                             }, headers = headers)
     except Exception as e:
-        print ("Response is ",response.status_code)
         print ("Error is ", e)
-        return response.status_code
+        return False
     
     search_response = json.loads(response.content)
-    # print("Search Response data is ", search_response)
-    if search_response["hits"]["total"] >= 1:
-        return True
-    else:
-        return False
+    return True if search_response["hits"]["total"] >= 1 else False
+
 
 def parse_json(json_data):
     course_object = {}
-    if 'url' in json_data.keys():
-        extra_data = crawler.crawl("https://www.udemy.com" + json_data['url'])
-    else:
-        extra_data = {
-                        "price" : None,
-                        "duration" : None,
-                        "last_update" : None,
-                        "category" : None
-                    }
-    # print("Extra data received is ", extra_data)
+    global course_level
+
+    if 'url' not in json_data.keys():
+        return False
+
+    url_to_crawl = "https://www.udemy.com" + json_data['url']
+    
+    extra_data = crawl(url_to_crawl)
+    if extra_data['duration'] == None:
+        print("Crawler returned None for this URl : ",url_to_crawl, extra_data)
+        return False
+    
     try:
         instructers = []
         for val in json_data['visible_instructors']:
@@ -79,103 +73,151 @@ def parse_json(json_data):
         course_object['CourseId'] = "udemy-" + str(json_data['id'])
         course_object['Title'] = json_data['title']
         course_object['CourseProvider'] = "Udemy"
-        
-        if extra_data["category"] != None:
-            course_object['Category'] = extra_data["category"]
-        else:
-            course_object['Category'] = []
-        
-        if extra_data["duration"] != None:
-            course_object['CourseDuration'] = extra_data["duration"]
-        else:
-            course_object['CourseDuration'] = None
-        
-        course_object['Paid'] = json_data['is_paid']
-        
-        if extra_data["price"] != None:
-            course_object['Price'] = float(extra_data["price"])
-        else:
-            course_object['Price'] = json_data['price_detail']['amount']
-        
+        course_object['Category'] = extra_data["category"] \
+            if extra_data["category"] != None \
+            else None
+        course_object['CourseDuration'] = { 'Unit' : 'hours', 'Value' : extra_data["duration"] } \
+            if extra_data["duration"] != None \
+            else None    
+        course_object['Paid'] = json_data['is_paid']        
+        course_object['Price'] = float(extra_data["price"]) \
+            if extra_data["price"] != None \
+            else json_data['price_detail']['amount']        
         course_object['PriceCurrency'] = json_data['price_detail']['currency']
-        course_object['Instructors'] = instructers
+        course_object['Instructors'] = instructers if instructers != [] \
+            else None
         course_object['URL'] = "www.udemy.com" + json_data['url']
         course_object['CourseImage'] = json_data['image_480x270']
         course_object['SelfPaced'] = True
-        
-        if extra_data["last_update"] != None:
-            course_object['StartDate'] = extra_data["last_update"]
-        else:
-            course_object['StartDate'] = None
-        
+        course_object['last_updated'] = extra_data["last_update"] \
+            if extra_data["last_update"] != None \
+            else None        
+        course_object['StartDate'] = None
         course_object['EndDate'] = None
+        course_object['Difficulty'] = course_level \
+            if course_level != "all" \
+            else ["beginnner", "intermediate", "expert"]
+        course_object['Description'] = extra_data["description"] \
+            if extra_data != None \
+            else None
     except KeyError:
-        return {'error' : "something wrong with JSON object."}
+        print("\t Something wrong with parsing JSON object - parse_json(json_data)")
+        return False
     
     return course_object
+
+
+def lambda_handler(file_name):
     
+    try:
+        with open(file_name) as data_file:
+            udemy_keys = json.load(data_file)
+    except Exception as e:
+        print("Exception in opening keys.json file : ", file_name)
+        print("Exception : ", e)
+        raise IOError
 
-def lambda_handler(event, context):
-    
-    # Loading keys from keys.json file
-    with open('keys.json') as data_file:
-        udemy_keys = json.load(data_file)
-
-    page_number = 1 # Pagination Parameters
-    page_size = 1   # Pagination Parameters
-
-    while True:
-        page_number += 1    
-        url = "https://www.udemy.com/api-2.0/courses/?page="+str(page_number)+"&page_size="+str(page_size)
-        client_secret = udemy_keys["udemy"]["clientid"] + ":" + udemy_keys["udemy"]["clientsecret"]
-        authorization_token = "Basic " + base64.b64encode(client_secret.encode('utf-8')).decode('UTF-8')
-        headers = {
-                    "Accept": "application/json, text/plain, */*",
-                    "Authorization": authorization_token,
-                    "Content-Type": "application/json;charset=utf-8"
-                }
-        
-        # print("client id is ", str(udemy_keys["udemy"]["clientid"]))
-        # print("client secret is ", udemy_keys["udemy"]["clientsecret"])
-        # print("authorization token is ", authorization_token)
-
-        try:
-            response = requests.get(url, headers=headers)
-        # except response.raise_for_status():
-        except Exception as e:
-            print ("Response is ",response.status_code)
-            print ("Error is ", e)
-        
-        json_response = json.loads(response.content)
-        # print("Response is ", json_response['results'])
-        
-        # Parsing JSON data into defined data set and pushing it into Elastic Search Server
-        if response.status_code == 200 and len(json_response['results']) > 0:
-            courses = json_response['results']
-            for course in courses:
-                serialized_response = parse_json(course)
-                # print("\n JSON Object is ", serialized_response)
-                print("Course ID is : ", serialized_response['CourseId'])
-                # Update Data in Elastic Search Server
-                search_query = search_elastic_server("udemy-"+str(course['id']))
-                # print ("\n Search Query returned : ", search_query)
-                if search_query == False:
-                    add_data_response = add_data_elastic_search(serialized_response)
-                    # print("\n Data Added : ", add_data_response)
-                else:
-                    print("Course already present in Elastic Search Server : ", serialized_response['CourseId'])
-        else:
-            print("unsuccessful, json parsing error")
-            return {
-                    'status': json.dumps('API returned empty response.')
+    page_number = udemy_keys['page_number'] # Pagination Parameters
+    page_size = udemy_keys['page_size']   # Pagination Parameters
+    elastic_search_add_data_url = udemy_keys['elastic_search_add_data_url']
+    elastic_search_search_data_url = udemy_keys['elastic_search_search_data_url']
+    global course_level
+    difficulty = ["beginner", "intermediate", "expert", "all"] 
+    course_dict = {
+                    'courses' : []
                 }
 
-        if json_response['next'] == None:
-            break
-        #TODO: Remove this break statement once done.
-        break
+    count = 0
+    courses_added = 0
+    courses_not_added = 0
+    course_already_present = 0
+
+
+    for level in difficulty:
+        count = 1
+        course_level = level
+        while True:
+            page_number += 1
+            url = udemy_keys['url']+str(page_number)+"&page_size="+str(page_size)+"&instructional_level="+course_level
+            # print("URL is ", url)
+            client_secret = udemy_keys["udemy"]["clientid"] + ":" + udemy_keys["udemy"]["clientsecret"]
+            authorization_token = "Basic " + base64.b64encode(client_secret.encode('utf-8')).decode('UTF-8')
+            headers = {
+                        "Accept": "application/json, text/plain, */*",
+                        "Authorization": authorization_token,
+                        "Content-Type": "application/json;charset=utf-8"
+                    }
+
+            try:
+                response = requests.get(url, headers=headers)
+                json_response = json.loads(response.content)
+            except Exception as e:
+                print ("Exception while loading data from the API")
+                print("Exception : ", e)
+                raise Exception
+             
+            # Parsing JSON data into defined data set and pushing it into Elastic Search Server
+            if response.status_code == 200 and len(json_response['results']) > 0:
+                courses = json_response['results']
+                for course in courses:
+                    count += 1
+                    
+                    
+                    # Search Course in Elastic Search Server
+                    search_query = search_elastic_server("udemy-"+str(course['id']), elastic_search_search_data_url)
+
+                    # course_dict['courses'].append(serialized_response)
+                    
+                    if search_query == False:
+                        serialized_response = parse_json(course)
+                        if serialized_response == False:
+                            courses_not_added += 1
+                            print("System Waiting due to failure")
+                            for x in range (1800, -1, -1):
+                                print("Time Remaining : " + str(x) + " sec")
+                                sys.stdout.write("\033[F")
+                                time.sleep(1.0)
+                            continue
+                        
+                        print("Course ID is : ", serialized_response['CourseId'], level, count)
+
+                        add_data_response = add_data_elastic_search(serialized_response, elastic_search_add_data_url)
+                        if add_data_response:
+                            print("Course Successfully added ")
+                            courses_added += 1
+                        else:
+                            courses_not_added += 1
+                        
+                        # Sleep before the next request
+                        print("System Waiting local")
+                        for x in range (10, -1, -1):
+                            print("Time Remaining : " + str(x) + " sec")
+                            sys.stdout.write("\033[F")
+                            time.sleep(1.0)
+                    else:
+                        course_already_present += 1
+                        print("Course already present in Elastic Search Server : ", course['id'])
+
+            else:
+                print("Unsuccessful Response Code : ", response.status_code)
+                continue
+
+            print("Total course added are ", courses_added)
+
+            if json_response['next'] == None or count >= udemy_keys['number_of_courses']:
+                break
+
+    # with open(course_level+'-data.json', 'w') as outfile:
+    #     json.dump(course_dict, outfile)
     
     print("Course Catalog Update Complete")
+    print("Total Operations : ", count)
+    print("Total Courses Added : ", courses_added)
+    print("Total Courses Not Added : ", courses_not_added)
+    print("Total Courses Already Present in the Database : ", course_already_present)
+
+    return True
+
 
 if __name__ == "__main__":
-    lambda_handler('', '')
+    lambda_handler('keys.json')
