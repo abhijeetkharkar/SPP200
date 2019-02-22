@@ -41,9 +41,6 @@ class LoginPage extends Component {
     const { validated } = this.state;
     return (
       <>
-        {/* <Button variant="primary" onClick={this.handleShow}>
-          Custom Width Modal
-        </Button> */}
 
         <Modal
           show={this.state.show}
