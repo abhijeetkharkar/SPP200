@@ -5,30 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 class CHNavigator extends Component {
 
-    /* constructor(props) {
-        super(props);
-        this.state = {
-            showLogin: false,
-            loginPage: null
-        }
-    }
-
-    handleClick() {
-        const self = this;
-        console.log(self);
-        if (!self.state.showLogin) {
-            self.setState({
-                showLogin: !self.state.showLogin,
-                loginPage: <LoginPage />
-            });
-        } else {
-            self.setState({
-                showLogin: !self.state.showLogin,
-                loginPage: null
-            });
-        }
-    } */
-
     render() {
         // const self = this;
 
@@ -45,19 +21,5 @@ class CHNavigator extends Component {
         );
     }
 }
-
-/* export class CHNavigatorLanding extends Component {
-    render() {
-
-        return (
-            <div id="homeHeader">
-                <div id="website-navigators-container">
-                    <button className="my-nav-tabs"><FontAwesomeIcon icon="sign-in-alt" /> Login/Signup</button>
-                    <button className="my-nav-tabs">Deals</button>
-                </div>
-            </div>
-        );
-    }
-} */
 
 export default CHNavigator;
