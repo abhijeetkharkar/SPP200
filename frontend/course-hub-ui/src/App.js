@@ -45,6 +45,7 @@ class App extends Component {
         }
 
         { choice === "loginScreen" && <LoginPage updateContent = {this.handleClick}/> }
+        { choice === "signupScreen" && <LoginPage updateContent = {this.handleClick}/> }
       </div>
     );
   }

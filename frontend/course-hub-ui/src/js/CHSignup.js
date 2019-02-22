@@ -57,6 +57,18 @@ class LoginPage extends Component {
           <Modal.Body>
             <Form>
               <Form.Row>
+                <Form.Group as={Col} controlId="formGridFirstName">
+                  <Form.Control type="text" placeholder="First Name" />
+                  <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                </Form.Group>
+              </Form.Row>
+              <Form.Row>
+                <Form.Group as={Col} controlId="formGridLastName">
+                  <Form.Control type="text" placeholder="Last Name" />
+                  <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                </Form.Group>
+              </Form.Row>
+              <Form.Row>
                 <Form.Group as={Col} controlId="formGridEmail">
                   <Form.Control type="email" placeholder="Enter email" />
                   <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
@@ -69,26 +81,24 @@ class LoginPage extends Component {
                 </Form.Group>
               </Form.Row>
               <Form.Row>
-                <Form.Group className="float-left" as={Col} controlId="formGridSignIn">
-                  <Button size="lg" variant="success" type="Login">Login</Button>
+                <Form.Group as={Col} controlId="formGridPassword">
+                  <Form.Control type="password" placeholder="Confirm Password" />
+                  <Form.Control.Feedback>Looks Nice!</Form.Control.Feedback>
                 </Form.Group>
-                <Form.Group className="float-right text-right" as={Col} controlId="formGridForgot">
-                  <Button variant="link">Forgot Password?</Button>
+              </Form.Row>
+              <Form.Row>
+                <Form.Group className="float-left" as={Col} controlId="formGridSignUp">
+                  <Button size="lg" variant="success" type="Sign-Up">Login</Button>
                 </Form.Group>
               </Form.Row>
               <Form.Row className="text-center">
-                <Form.Group className="float-center" as={Col} controlId="formGridGoogleSignIn">
+                <Form.Group className="float-center" as={Col} controlId="formGridGoogleSignUp">
                   <h1><Badge pill variant="info">OR</Badge></h1>
                 </Form.Group>
               </Form.Row>
               <Form.Row>
                 <Form.Group className="float-center" as={Col} controlId="formGridGoogleSignIn">
                   <GoogleLoginButton align="center" onClick={() => alert("Hello")} />
-                </Form.Group>
-              </Form.Row>
-              <Form.Row>
-                <Form.Group className="float-right text-right" as={Col} controlId="formGridSignUp">
-                  New User? <Button variant="link">Register</Button>
                 </Form.Group>
               </Form.Row>
             </Form>
