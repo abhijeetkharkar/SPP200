@@ -24,11 +24,23 @@ class SignupPage extends Component {
 
   handleSubmit(event) {
     console.log("CHSignup HandleSubmit")
+    // alert("form submitted")
+    // const data = new FormData(event.target);
+
     const form = event.currentTarget;
     if (form.checkValidity() === false) {
+      console.log("inside check validity ")
       event.preventDefault();
       event.stopPropagation();
     }
+
+    fetch('/api/form-submit-url', {
+      method: 'POST',
+      body: form,
+    });
+
+    alert("outside check validity ")
+
     this.setState({ validated: true });
   }
 
@@ -44,10 +56,9 @@ class SignupPage extends Component {
           show={this.state.show}
           /* onHide={[this.handleHide]} */
           dialogClassName="modal-90w"
-          aria-labelledby="example-custom-modal-styling-title"
-        >
+          aria-labelledby="example-custom-modal-styling-title">
           <Modal.Header>
-            <Modal.Title size="lg" id="login-in-title">
+            <Modal.Title id="sign-up-title">
               SignUp
             </Modal.Title>            
             <Button variant="danger" onClick={(e) => this.props.updateContent("home",null, null, null)}>
@@ -55,40 +66,46 @@ class SignupPage extends Component {
             </Button>
           </Modal.Header>
           <Modal.Body>
-            <Form>
+            <Form onSubmit={e => this.handleSubmit(e)}>
               <Form.Row>
                 <Form.Group as={Col} controlId="formGridFirstName">
-                  <Form.Control type="text" placeholder="First Name" />
+                  <Form.Control required type="text" placeholder="First Name" />
                   <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                 </Form.Group>
               </Form.Row>
               <Form.Row>
                 <Form.Group as={Col} controlId="formGridLastName">
-                  <Form.Control type="text" placeholder="Last Name" />
+                  <Form.Control required type="text" placeholder="Last Name" />
                   <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                 </Form.Group>
               </Form.Row>
               <Form.Row>
                 <Form.Group as={Col} controlId="formGridEmail">
-                  <Form.Control type="email" placeholder="Enter email" />
+                  <Form.Control required type="email" placeholder="Enter email" />
                   <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                  <Form.Text className="text-muted">
+                    We'll never share your email with anyone else.
+                  </Form.Text>
                 </Form.Group>
               </Form.Row>
               <Form.Row>
                 <Form.Group as={Col} controlId="formGridPassword">
-                  <Form.Control type="password" placeholder="Password" />
+                  <Form.Control required type="password" placeholder="Password" />
                   <Form.Control.Feedback>Looks Nice!</Form.Control.Feedback>
+                  <Form.Text className="text-muted">
+                    Minimum of 8 characters in length.
+                  </Form.Text>
                 </Form.Group>
               </Form.Row>
               <Form.Row>
-                <Form.Group as={Col} controlId="formGridPassword">
-                  <Form.Control type="password" placeholder="Confirm Password" />
+                <Form.Group as={Col} controlId="formGridConfirmPassword">
+                  <Form.Control required type="password" placeholder="Confirm Password" />
                   <Form.Control.Feedback>Looks Nice!</Form.Control.Feedback>
                 </Form.Group>
               </Form.Row>
               <Form.Row>
                 <Form.Group className="float-left" as={Col} controlId="formGridSignUp">
-                  <Button size="lg" variant="success" type="Sign-Up">Sign-Up</Button>
+                  <Button variant="success" type="Sign-Up">Sign-Up</Button>
                 </Form.Group>
               </Form.Row>
             </Form>

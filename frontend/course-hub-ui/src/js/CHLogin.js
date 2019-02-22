@@ -44,8 +44,7 @@ class LoginPage extends Component {
           show={this.state.show}
           /* onHide={[this.handleHide]} */
           dialogClassName="modal-90w"
-          aria-labelledby="example-custom-modal-styling-title"
-        >
+          aria-labelledby="example-custom-modal-styling-title">
           <Modal.Header>
             <Modal.Title size="lg" id="login-in-title">
               Login
