@@ -7,10 +7,16 @@ class SignupPage extends Component {
   constructor(props, context) {
     console.log("CHSignup Constructor")
     super(props, context);
+    this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
 
     this.state = {
       show: false,
       validated: false,
+      firstName : "",
+      lastName : "",
+      email : "",
+      password : "",
+      confirmPassword: ""
     };
 
     this.handleShow = () => {
@@ -23,29 +29,30 @@ class SignupPage extends Component {
   }
 
   handleSubmit(event) {
-    console.log("CHSignup HandleSubmit")
-    // alert("form submitted")
-    // const data = new FormData(event.target);
-
-    const form = event.currentTarget;
-    if (form.checkValidity() === false) {
-      console.log("inside check validity ")
-      event.preventDefault();
-      event.stopPropagation();
-    }
-
-    fetch('/api/form-submit-url', {
+    console.log("CHSignup HandleSubmit", this.state.firstName);
+    // alert("handle submit hit ");
+    event.preventDefault();
+    
+    fetch('http://localhost:4000/signup', {
+      mode: 'no-cors',
       method: 'POST',
-      body: form,
+      headers: {
+        "Content-Type": "application/json"
+      },
+      body: JSON.stringify({
+        'firstName': 'sample-test'
+      })
+    }).then(function(response){
+      console.log("response is ", response.body, response.status);
     });
-
-    alert("outside check validity ")
-
-    this.setState({ validated: true });
   }
 
   componentDidMount() {
     this.state.show ? this.handleHide() : this.handleShow()
+  }
+  
+  handleFirstNameChange(e) {
+    this.setState({firstName: e.target.value});
   }
 
   render() {
@@ -69,7 +76,7 @@ class SignupPage extends Component {
             <Form onSubmit={e => this.handleSubmit(e)}>
               <Form.Row>
                 <Form.Group as={Col} controlId="formGridFirstName">
-                  <Form.Control required type="text" placeholder="First Name" />
+                  <Form.Control required value={this.state.firstName} onChange={this.handleFirstNameChange} type="text" placeholder="First Name" />
                   <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                 </Form.Group>
               </Form.Row>

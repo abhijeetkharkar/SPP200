@@ -40,8 +40,8 @@ class App extends Component {
       <div className="App container-fluid">
         { choice === "home" && 
           [<CHNavigator updateContent={this.handleClick} />,
-          <div className="container-landing my-content-landing">,
-            <CHLandingContent />,
+          <div className="container-landing my-content-landing">
+            <CHLandingContent />
           </div>,
           <CHFooter />]
         }
