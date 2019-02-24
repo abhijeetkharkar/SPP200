@@ -80,7 +80,6 @@ class SignupPage extends Component {
     return (
         <Modal
           show={this.state.show}
-          /* onHide={[this.handleHide]} */
           dialogClassName="modal-90w"
           aria-labelledby="example-custom-modal-styling-title">
           <Modal.Header>
