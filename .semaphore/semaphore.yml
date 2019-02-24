@@ -16,8 +16,7 @@ blocks:
           - checkout
           - ls -1
           - echo $APP_ENV
-          - echo "Docker build..."
-          - echo "done"
+          - docker-compose build
   - name: "Unit tests"
     task:
       prologue:
@@ -31,7 +30,9 @@ blocks:
           - python -m unittest discover -p 'Test*.py'
       - name: NodeTest
         commands:
-          - echo npm
+          - checkout
+          - npm --prefix ./awslambda/edx/ install
+          - npm --prefix ./awslambda/edx/ test
   - name: "Integration tests"
     task:
       jobs:

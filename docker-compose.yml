@@ -1,0 +1,6 @@
+version: '3'
+services:
+  web:
+    build: ./backend/course-hub-api
+    ports:
+     - "3000:3000"

@@ -20,7 +20,7 @@ const catalog = {
 				"currency": "USD"
 			}
 			],
-			"start": "2019-02-05T00:00:00Z",
+			"start": "2019-02-05T12:00:00Z",
 			"end": "2019-03-25T23:59:00Z",
 			"pacing_type": "instructor_paced",
 			"full_description": "Some Description11",
@@ -39,7 +39,7 @@ const catalog = {
 			"min_effort": 4,
 			"max_effort": 5,
 			"weeks_to_complete": 5,
-			"modified": "2019-02-08T21:47:59.170024Z",
+			"modified": "2019-02-08T12:47:59.170024Z",
 			"level_type": "Introductory"
 		},
 		],
@@ -63,7 +63,7 @@ const catalog = {
 				"currency": "USD"
 			}
 			],
-			"start": "2019-05-05T00:00:00Z",
+			"start": "2019-05-05T12:00:00Z",
 			"end": "2019-06-25T23:59:00Z",
 			"pacing_type": "self_paced",
 			"full_description": "Some Description21",
@@ -77,7 +77,7 @@ const catalog = {
 			"min_effort": 4,
 			"max_effort": 6,
 			"weeks_to_complete": 5,
-			"modified": "2019-02-08T21:47:59.170024Z",
+			"modified": "2019-02-08T12:47:59.170024Z",
 			"level_type": "Introductory"
 		},
 		],
@@ -113,7 +113,7 @@ const catalogNull = {
 				"currency": "USD"
 			}
 			],
-			"start": "2019-02-05T00:00:00Z",
+			"start": "2019-02-05T12:00:00Z",
 			"end": "2019-03-25T23:59:00Z",
 			"pacing_type": "instructor_paced",
 			"full_description": "Some Description11",
@@ -132,7 +132,7 @@ const catalogNull = {
 			"min_effort": 4,
 			"max_effort": 5,
 			"weeks_to_complete": 5,
-			"modified": "2019-02-08T21:47:59.170024Z",
+			"modified": "2019-02-08T12:47:59.170024Z",
 			"level_type": "Introductory"
 		},
 		],
@@ -156,7 +156,7 @@ const catalogNull = {
 				"currency": "USD"
 			}
 			],
-			"start": "2019-05-05T00:00:00Z",
+			"start": "2019-05-05T12:00:00Z",
 			"end": "2019-06-25T23:59:00Z",
 			"pacing_type": "self_paced",
 			"full_description": "Some Description21",
@@ -170,7 +170,7 @@ const catalogNull = {
 			"min_effort": 4,
 			"max_effort": 6,
 			"weeks_to_complete": 5,
-			"modified": "2019-02-08T21:47:59.170024Z",
+			"modified": "2019-02-08T12:47:59.170024Z",
 			"level_type": "Introductory"
 		},
 		],
@@ -201,7 +201,7 @@ const courseList = [
 		"Rating": 0.0,
 		"Description": "Some Description11",
 		"CourseImage": "someImage11.png",
-		"StartDate": "2019-2-4",
+		"StartDate": "2019-2-5",
 		"EndDate": "2019-3-25",
 		"SelfPaced": false,
 		"Difficulty": "Introductory"
@@ -220,7 +220,7 @@ const courseList = [
 		"Rating": 0.0,
 		"Description": "Some Description21",
 		"CourseImage": "someImage21.png",
-		"StartDate": "2019-5-4",
+		"StartDate": "2019-5-5",
 		"EndDate": "2019-6-25",
 		"SelfPaced": true,
 		"Difficulty": "Introductory"
