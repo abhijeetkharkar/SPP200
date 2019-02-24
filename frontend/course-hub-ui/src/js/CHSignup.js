@@ -30,7 +30,6 @@ class SignupPage extends Component {
 
   handleSubmit(event) {
     console.log("CHSignup HandleSubmit", this.state.firstName);
-    // alert("handle submit hit ");
     event.preventDefault();
     
     fetch('http://localhost:4000/signup', {
@@ -40,7 +39,11 @@ class SignupPage extends Component {
         "Content-Type": "application/json"
       },
       body: JSON.stringify({
-        'firstName': 'sample-test'
+        'firstName': this.state.firstName,
+        'lastname' : this.state.lastName,
+        'email' : this.state.email,
+        'password' : this.state.password,
+        'confirmpassword' : this.state.confirmPassword
       })
     }).then(function(response){
       console.log("response is ", response.body, response.status);
@@ -53,6 +56,22 @@ class SignupPage extends Component {
   
   handleFirstNameChange(e) {
     this.setState({firstName: e.target.value});
+  }
+
+  handleLastNameChange(e) {
+    this.setState({lastName: e.target.value});
+  }
+
+  handleEmailChange(e) {
+    this.setState({email: e.target.value});
+  }
+
+  handlePasswordChange(e) {
+    this.setState({password: e.target.value});
+  }
+  
+  handleConfirmPasswordChange(e) {
+    this.setState({confirmpassword: e.target.value});
   }
 
   render() {
@@ -82,13 +101,13 @@ class SignupPage extends Component {
               </Form.Row>
               <Form.Row>
                 <Form.Group as={Col} controlId="formGridLastName">
-                  <Form.Control required type="text" placeholder="Last Name" />
+                  <Form.Control required value={this.state.lastName} onChange={this.handleLastNameChange} type="text" placeholder="Last Name" />
                   <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                 </Form.Group>
               </Form.Row>
               <Form.Row>
                 <Form.Group as={Col} controlId="formGridEmail">
-                  <Form.Control required type="email" placeholder="Enter email" />
+                  <Form.Control required value={this.state.email} onChange={this.handleEmailChange} type="email" placeholder="Enter email" />
                   <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                   <Form.Text className="text-muted">
                     We'll never share your email with anyone else.
@@ -97,7 +116,7 @@ class SignupPage extends Component {
               </Form.Row>
               <Form.Row>
                 <Form.Group as={Col} controlId="formGridPassword">
-                  <Form.Control required type="password" placeholder="Password" />
+                  <Form.Control required value={this.state.password} onChange={this.handlePasswordChange} type="password" placeholder="Password" />
                   <Form.Control.Feedback>Looks Nice!</Form.Control.Feedback>
                   <Form.Text className="text-muted">
                     Minimum of 8 characters in length.
@@ -106,7 +125,7 @@ class SignupPage extends Component {
               </Form.Row>
               <Form.Row>
                 <Form.Group as={Col} controlId="formGridConfirmPassword">
-                  <Form.Control required type="password" placeholder="Confirm Password" />
+                  <Form.Control required value={this.state.confirmPassword} onChange={this.handleConfirmPasswordChange} type="password" placeholder="Confirm Password" />
                   <Form.Control.Feedback>Looks Nice!</Form.Control.Feedback>
                 </Form.Group>
               </Form.Row>
