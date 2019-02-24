@@ -8,6 +8,10 @@ class SignupPage extends Component {
     console.log("CHSignup Constructor")
     super(props, context);
     this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
+    this.handleLastNameChange = this.handleLastNameChange.bind(this);
+    this.handleEmailChange = this.handleEmailChange.bind(this);
+    this.handlePasswordChange = this.handlePasswordChange.bind(this);
+    this.handleConfirmPasswordChange = this.handleConfirmPasswordChange.bind(this);
 
     this.state = {
       show: false,
@@ -71,7 +75,7 @@ class SignupPage extends Component {
   }
   
   handleConfirmPasswordChange(e) {
-    this.setState({confirmpassword: e.target.value});
+    this.setState({confirmPassword: e.target.value});
   }
 
   render() {
