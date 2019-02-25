@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
+import ReactDOM from 'react-dom'
 import './App.css';
 import './css/bootstrap.min.css';
 import CHNavigator from './js/CHNavigator'
 import CHLandingContent from './js/CHLandingContent';
 import LoginPage from './js/CHLogin';
+import SignupPage from './js/CHSignup';
 import CHFilters from './js/CHFilters';
 import CHRightLane from './js/CHRightLane';
 import CHFooter from './js/CHFooter';
@@ -38,13 +40,14 @@ class App extends Component {
       <div className="App container-fluid">
         { choice === "home" && 
           [<CHNavigator updateContent={this.handleClick} />,
-          <div className="container-landing my-content-landing">,
-            <CHLandingContent />,
+          <div className="container-landing my-content-landing">
+            <CHLandingContent />
           </div>,
           <CHFooter />]
         }
 
         { choice === "loginScreen" && <LoginPage updateContent = {this.handleClick}/> }
+        { choice === "signupScreen" && <SignupPage updateContent = {this.handleClick}/> }
       </div>
     );
   }

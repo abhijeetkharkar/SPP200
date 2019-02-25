@@ -40,14 +40,11 @@ class LoginPage extends Component {
     console.log("Inside CHLogin Render")
     const { validated } = this.state;
     return (
-      <>
-
         <Modal
           show={this.state.show}
           /* onHide={[this.handleHide]} */
           dialogClassName="modal-90w"
-          aria-labelledby="example-custom-modal-styling-title"
-        >
+          aria-labelledby="example-custom-modal-styling-title">
           <Modal.Header>
             <Modal.Title size="lg" id="login-in-title">
               Login
@@ -90,13 +87,12 @@ class LoginPage extends Component {
               </Form.Row>
               <Form.Row>
                 <Form.Group className="float-right text-right" as={Col} controlId="formGridSignUp">
-                  New User? <Button variant="link">Register</Button>
+                  New User? <Button variant="link" onClick={(e) => this.props.updateContent("signupScreen",null, null, null)}>Register</Button>
                 </Form.Group>
               </Form.Row>
             </Form>
           </Modal.Body>
         </Modal>
-      </>
     );
   }
 }
