@@ -1,5 +1,4 @@
 // //All search Related query
-
 const req = require('request')
 const config = require('../config/config.json');
 
@@ -23,7 +22,6 @@ exports.autosuggest = function(request, response){
     }, (error, res, body) => {
         console.log(JSON.stringify(searchquery))
         console.log(`statusCode: ${res.statusCode}`)
-
         var suggestions={}
         suggestions['suggestions']=[]
         

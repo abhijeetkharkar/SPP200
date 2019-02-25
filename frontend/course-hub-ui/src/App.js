@@ -3,6 +3,7 @@ import './App.css';
 import './css/bootstrap.min.css';
 import CHNavigator from './js/CHNavigator'
 import CHLandingContent from './js/CHLandingContent';
+import LoginPage from './js/CHLogin';
 import CHFilters from './js/CHFilters';
 import CHRightLane from './js/CHRightLane';
 import CHFooter from './js/CHFooter';
@@ -29,15 +30,21 @@ class App extends Component {
   handleClick = (choice, optional1, optional2, optional3) => { this.setState({ choice }); this.setState({ optional1 }); this.setState({ optional2 }); this.setState({ optional3 }) }
 
   render() {
+    const choice = this.state.choice
+    const optional1 = this.state.optional1
+    const optional2 = this.state.optional2
+    const optional3 = this.state.optional3
     return (
       <div className="App container-fluid">
-        <CHNavigator updateContent={this.handleClick} />
-        {/* <CHFilters />
-        <CHRightLane /> */}
-        <div className="container-landing my-content-landing">
-          <CHLandingContent />
-        </div>
-        <CHFooter />
+        { choice === "home" && 
+          [<CHNavigator updateContent={this.handleClick} />,
+          <div className="container-landing my-content-landing">,
+            <CHLandingContent />,
+          </div>,
+          <CHFooter />]
+        }
+
+        { choice === "loginScreen" && <LoginPage updateContent = {this.handleClick}/> }
       </div>
     );
   }
