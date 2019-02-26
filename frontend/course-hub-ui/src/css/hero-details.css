@@ -1,0 +1,82 @@
+.hero-details-header {
+    background-color: rgb(208, 233, 255);
+    color: darkblue;
+    border: 1px solid transparent;
+    border-color: rgb(208, 233, 255);
+    border-radius: 4px;
+    margin: auto 0.3%;
+    font-size: 30px;
+    margin-bottom: 2%;
+}
+
+.hero-details-section-header {
+    background-color: rgb(208, 233, 255);
+    color: darkblue;
+    border: 1px solid transparent;
+    border-color: rgb(208, 233, 255);
+    border-radius: 4px;
+    margin: auto 0.3%;
+    font-size: 18px;
+    margin-bottom: 1.5%;
+}
+
+.abilities-row {
+    background-color: rgb(208, 233, 255);
+    color: darkblue;
+    border: 1px solid transparent;
+    border-color: rgb(208, 233, 255);
+    border-radius: 4px;
+    margin: auto 0.3%;
+    font-size: 18px;
+    margin-bottom: 2%;
+    font-weight: 700;
+    padding-top: 1%;
+}
+
+.matches-row {
+    background-color: rgb(208, 233, 255);
+    color: darkblue;
+    border: 1px solid transparent;
+    border-color: rgb(208, 233, 255);
+    border-radius: 4px;
+    margin: auto 0.3%;
+    font-size: 18px;
+    margin-bottom: 2%;
+    font-weight: 700;
+    padding: 1%;
+}
+
+.my-table td.td-left-heroes-details {
+    width: 25% !important;
+}
+
+.my-table td.team-logo-hover a.tooltiptext {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px solid rgb(52, 116, 172);
+    border-right: 1px solid rgb(52, 116, 172);
+    visibility: hidden;
+    width: 10%;
+    background-color: rgb(76, 171, 253);
+    color: darkblue;    
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    opacity: 0.9;
+
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+}
+
+.my-table td.team-logo-hover {
+    width: 7% !important;
+}
+
+.my-table td.team-logo-hover:hover .tooltip {
+    visibility: visible;
+}
+
+.my-table td.team-logo-hover:hover .tooltiptext {
+    visibility: visible;
+}

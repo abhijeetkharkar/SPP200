@@ -155,3 +155,4 @@ venv2/
 __init__.pyc
 TestUdacity.pyc
 TestUdemy.pyc
+jsconfig.json

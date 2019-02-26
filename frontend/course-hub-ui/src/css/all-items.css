@@ -1,0 +1,22 @@
+.itemDiv {
+  background-color: rgb(208,233,255) !important;
+}
+
+.p-3 {
+  padding: 20px 20px !important;
+}
+
+.cardFont {
+  font-size: 16px;
+  text-shadow: 1px 1px rgb(95, 95, 95);
+  color: darkblue;
+}
+
+.cardSideShop {
+  font-size: 14px;
+  color: black ;
+}
+.row.force-height>card{
+  height: 500px;
+
+}

@@ -19,7 +19,7 @@ class CHLandingContent extends Component {
                     <input className="form-control my-0 py-1" type="text" placeholder="Search courses" aria-label="Search" />
                     <MDBBtn size="lg">Search</MDBBtn>
                 </div>
-            </MDBCol>
+            </MDBCol>   
         );
     }
 }
