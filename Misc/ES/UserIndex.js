@@ -19,6 +19,9 @@
             }
           }
         },
+        "ProfileImage": {
+          "type": "text"
+        },
         "Bio": {
           "type": "text"
         },
