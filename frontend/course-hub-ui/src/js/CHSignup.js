@@ -1,7 +1,5 @@
 import React, { Component } from 'react';
-import { MDBContainer, MDBRow, MDBCol, MDBCard, MDBCardBody, MDBInput, MDBBtn, MDBIcon, MDBModalFooter } from 'mdbreact';
-import { Modal, Button, Form, Col, Row, Badge } from 'react-bootstrap';
-import { GoogleLoginButton } from "react-social-login-buttons";
+import { Modal, Button, Form, Col } from 'react-bootstrap';
 
 class SignupPage extends Component {
   constructor(props, context) {

@@ -1,20 +1,16 @@
 import React, { Component } from 'react';
-import ReactDOM from 'react-dom'
 import './App.css';
 import './css/bootstrap.min.css';
 import CHNavigator from './js/CHNavigator'
 import CHLandingContent from './js/CHLandingContent';
 import LoginPage from './js/CHLogin';
 import SignupPage from './js/CHSignup';
-import CHFilters from './js/CHFilters';
-import CHRightLane from './js/CHRightLane';
 import CHFooter from './js/CHFooter';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faEnvelope, faKey, faSignInAlt, faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope, faKey, faSignInAlt, faSearch, faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import { faFacebookF, faGithub, faTwitter, faLinkedin } from '@fortawesome/free-brands-svg-icons';
-// import GoogleLogin from 'react-google-login';
 
-library.add(faEnvelope, faKey, faFacebookF, faGithub, faTwitter, faLinkedin, faSignInAlt, faSearch);
+library.add(faEnvelope, faKey, faFacebookF, faGithub, faTwitter, faLinkedin, faSignInAlt, faSearch, faAngleDown);
 
 
 class App extends Component {
@@ -45,28 +41,37 @@ class App extends Component {
     return (
       <div className="App container-fluid">
         {choice === "home" &&
-          [<CHNavigator updateContent={this.handleClick} />,
-          <div className="container-landing my-content-landing">
+          [<CHNavigator updateContent={this.handleClick} signedIn={false} key="keyNavigatorLandingContent"/>,
+          <div className="container-landing my-content-landing"  key="keyLandingContent">
             <CHLandingContent />
           </div>,
-          <CHFooter />]
+          <CHFooter key="keyFooterLandingContent"/>]
         }
 
         {choice === "loginScreen" &&
-          [<LoginPage updateContent={this.handleClick} />,
-          <CHNavigator updateContent={this.handleClick} />,
-          <div className="container-landing my-content-landing">
+          [<LoginPage updateContent={this.handleClick} key="keyLoginOverlayOnLandingContent"/>,
+          <CHNavigator updateContent={this.handleClick} signedIn={false} key="keyNavigatorLoginOverlayOnLandingContent"/>,
+          <div className="container-landing my-content-landing" key="keyContentLoginOverlayOnLandingContent">
             <CHLandingContent />
           </div>,
-          <CHFooter />]
+          <CHFooter key="keyFooterLoginOverlayOnLandingContent"/>]
         }
+
         {choice === "signupScreen" &&
-          [<SignupPage updateContent={this.handleClick} />,
-          <CHNavigator updateContent={this.handleClick} />,
-          <div className="container-landing my-content-landing">
+          [<SignupPage updateContent={this.handleClick} key="keySignUpOverlayOnLandingContent"/>,
+          <CHNavigator updateContent={this.handleClick} signedIn={false} key="keyNavigatorSignUpOverlayOnLandingContent"/>,
+          <div className="container-landing my-content-landing" key="keyContentSignUpOverlayOnLandingContent">
             <CHLandingContent />
           </div>,
-          <CHFooter />]
+          <CHFooter key="keyFooterSignUpOverlayOnLandingContent"/>]
+        }
+
+        {choice === "homeSignedIn" &&
+          [<CHNavigator updateContent={this.handleClick} signedIn={true} key="keyNavigatorLandingContent"/>,
+          <div className="container-landing my-content-landing"  key="keyLandingContent">
+            <CHLandingContent />
+          </div>,
+          <CHFooter key="keyFooterLandingContent"/>]
         }
       </div>
     );
