@@ -9,6 +9,7 @@ exports.addUsers = function(request, response){
                     "status" : "success",
                     "body" : "You have reached the SignUp API of Course-Hub"
                   })
+    
 }, function(err){
     response.json({
                     "status" : "error",
