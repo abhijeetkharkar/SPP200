@@ -12,6 +12,7 @@ import CHFooter from './js/CHFooter';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faEnvelope, faKey, faSignInAlt, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { faFacebookF, faGithub, faTwitter, faLinkedin } from '@fortawesome/free-brands-svg-icons';
+// import GoogleLogin from 'react-google-login';
 
 library.add(faEnvelope, faKey, faFacebookF, faGithub, faTwitter, faLinkedin, faSignInAlt, faSearch);
 
@@ -29,7 +30,12 @@ class App extends Component {
     this.handleClick = this.handleClick.bind(this);
   }
 
-  handleClick = (choice, optional1, optional2, optional3) => { this.setState({ choice }); this.setState({ optional1 }); this.setState({ optional2 }); this.setState({ optional3 }) }
+  handleClick = (choice, optional1, optional2, optional3) => {
+    this.setState({ choice });
+    this.setState({ optional1 });
+    this.setState({ optional2 });
+    this.setState({ optional3 });
+  }
 
   render() {
     const choice = this.state.choice
@@ -38,7 +44,7 @@ class App extends Component {
     const optional3 = this.state.optional3
     return (
       <div className="App container-fluid">
-        { choice === "home" && 
+        {choice === "home" &&
           [<CHNavigator updateContent={this.handleClick} />,
           <div className="container-landing my-content-landing">
             <CHLandingContent />
@@ -46,8 +52,22 @@ class App extends Component {
           <CHFooter />]
         }
 
-        { choice === "loginScreen" && <LoginPage updateContent = {this.handleClick}/> }
-        { choice === "signupScreen" && <SignupPage updateContent = {this.handleClick}/> }
+        {choice === "loginScreen" &&
+          [<LoginPage updateContent={this.handleClick} />,
+          <CHNavigator updateContent={this.handleClick} />,
+          <div className="container-landing my-content-landing">
+            <CHLandingContent />
+          </div>,
+          <CHFooter />]
+        }
+        {choice === "signupScreen" &&
+          [<SignupPage updateContent={this.handleClick} />,
+          <CHNavigator updateContent={this.handleClick} />,
+          <div className="container-landing my-content-landing">
+            <CHLandingContent />
+          </div>,
+          <CHFooter />]
+        }
       </div>
     );
   }
