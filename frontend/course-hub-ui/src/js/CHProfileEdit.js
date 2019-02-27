@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
-class ProfilePage extends Component{
+class ProfilePageEdit extends Component{
     constructor(props, context) {
-        console.log("CHProfile Constructor");
+        console.log("CHProfileEdit Constructor");
         super(props, context);
         this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
         this.handleLastNameChange = this.handleLastNameChange.bind(this);
@@ -209,4 +209,4 @@ class ProfilePage extends Component{
     }
 }
 
-export default ProfilePage
+export default ProfilePageEdit
