@@ -54,7 +54,7 @@ class SignupPage extends Component {
               //TODO delete firebase user
               throw Error("Error inserting in Elastic Search");
             }
-          });   
+          });
         })
     } catch (error) {
       this.setState({ serverErrorMsg: error.message });

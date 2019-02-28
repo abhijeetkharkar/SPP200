@@ -6,12 +6,10 @@ const addUser = async payload => {
 			{ 
 				method: 'POST', 
 				body: JSON.stringify(payload), 
-				headers: { 'Content-Type': 'application/json' 
-			} 
+				headers: { 'Content-Type': 'application/json'
+			}
 	}).then(response => {
-		return response.json();
-	}).then(elasticData => {
-		if (elasticData.result === "created") {
+		if (response.result === "created") {
 			return true;
 		} else {
 			return false;
@@ -22,19 +20,16 @@ const addUser = async payload => {
 	return response;
 }
 
-//TODO fix searchUser. It is just a copy paste presently
 const searchUser = async payload => {
 	console.log("in add user")
-	const response = await fetch(process.env.REACT_APP_AWS_ELASTIC_ADD_URL + "users/user", 
-			{ 
-				method: 'POST', 
-				body: JSON.stringify(payload), 
-				headers: { 'Content-Type': 'application/json' 
-			} 
+	const response = await fetch(process.env.REACT_APP_AWS_ELASTIC_SEARCH_URL + "users/_search",
+			{
+				method: 'POST',
+				body: JSON.stringify(payload),
+				headers: { 'Content-Type': 'application/json'
+			}
 	}).then(response => {
-		return response.json();
-	}).then(elasticData => {
-		if (elasticData.result === "created") {
+		if (response.hits.total >= 1) {
 			return true;
 		} else {
 			return false;
