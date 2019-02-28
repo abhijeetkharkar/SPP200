@@ -9,20 +9,21 @@ import CHFooter from './js/CHFooter';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faEnvelope, faKey, faSignInAlt, faSearch, faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import { faFacebookF, faGithub, faTwitter, faLinkedin } from '@fortawesome/free-brands-svg-icons';
+import {isUserSignedIn} from './FirebaseUtils'
 
 library.add(faEnvelope, faKey, faFacebookF, faGithub, faTwitter, faLinkedin, faSignInAlt, faSearch, faAngleDown);
-
 
 class App extends Component {
 
   constructor() {
     super();
     this.state = {
-      choice: "home",
+      choice: isUserSignedIn()?"homeSignedIn":"home",
       optional1: "",
       optional2: "",
       optional3: ""
     };
+
     this.handleClick = this.handleClick.bind(this);
   }
 

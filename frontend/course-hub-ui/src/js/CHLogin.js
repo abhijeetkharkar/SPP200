@@ -1,7 +1,8 @@
 import React, { Component } from 'react';
 import { Modal, Button, Form, Col, Badge } from 'react-bootstrap';
-import GoogleLogin from 'react-google-login';
-import firebaseInitialization from '../initializeFirebase';
+import { GoogleLoginButton } from 'react-social-login-buttons';
+import { doSignInWithEmailAndPassword, doSignInWithGoogle } from '../FirebaseUtils';
+import {addUser} from '../elasticSearch';
 
 class LoginPage extends Component {
   constructor(props, context) {
@@ -21,15 +22,11 @@ class LoginPage extends Component {
     this.handleEmailChange = this.handleEmailChange.bind(this);
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
-    this.responseGoogle = this.responseGoogle.bind(this);
+    this.handleGoogleSignin = this.handleGoogleSignin.bind(this);
   }
 
   componentWillMount = () => {
     this.state.show ? this.handleHide() : this.handleShow()
-  }
-
-  responseGoogle = (response) => {
-    console.log("Google Response: ", response);
   }
 
   handleShow = () => {
@@ -50,38 +47,67 @@ class LoginPage extends Component {
   }
 
   handleSubmit = async e => {
-    // console.log("CHLogin HandleSubmit");
     e.preventDefault();
     e.stopPropagation();
     const form = e.currentTarget;
     if (!form.checkValidity()) {
-      // console.log("Inside If");
       this.setState({ validated: true });
     } else {
-      // console.log("Inside Else");
-      // console.log("Email:", this.state.email, ", Password:", this.state.password);
-      try {
-        const user = await firebaseInitialization.auth().signInWithEmailAndPassword(this.state.email, this.state.password);
-
-        
-        // this.props.history.push("/");
-        // console.log("User:", user);
+      doSignInWithEmailAndPassword(this.state.email, this.state.password).then(response => {
+        // console.log("SIGN-IN USER:", response.user.email);
         this.setState({ loggedIn: true });
         this.setState({ validated: false });
-        document.getElementById("invalidUsernamePwdFeedback").style.display="none";
+        document.getElementById("invalidUsernamePwdFeedback").style.display = "none";
         this.props.updateContent("homeSignedIn", null, null, null);
-      } catch (error) {
-        // alert(error);
-        this.setState({serverErrorMsg: error.message});
-        document.getElementById("formGridPassword").style.borderColor="#dc3545";
-        document.getElementById("invalidUsernamePwdFeedback").style.display="block";
+      }).catch(error => {
+        this.setState({ serverErrorMsg: error.message });
+        document.getElementById("formGridPassword").style.borderColor = "#dc3545";
+        document.getElementById("invalidUsernamePwdFeedback").style.display = "block";
         this.setState({ validated: true });
-      }
+      });
     }
   }
 
+  handleGoogleSignin = () => {
+    doSignInWithGoogle().then(result => {
+      var token = result.credential.accessToken;
+      var email = result.additionalUserInfo.profile.email;
+      var firstName = result.additionalUserInfo.profile.given_name;
+      var lastName = result.additionalUserInfo.profile.family_name;
+      var gender = result.additionalUserInfo.profile.gender;
+      var picture = result.additionalUserInfo.profile.picture;
+
+      var payload = {
+        UserName: {
+          First: firstName,
+          Last: lastName
+        },
+        PhotoURL: picture,
+        Email: email
+      }
+
+      addUser(payload).then(response => {
+        // console.log("Response:", response);
+        if (response) {
+          this.setState({ loggedIn: true });
+          document.getElementById("googleSigninError").style.display = "none";
+          this.props.updateContent("homeSignedIn", null, null, null);
+        } else {
+          //TODO delete from Firebase as well
+          throw Error("Error inserting in Elastic Search");
+        }
+      });
+    }).catch(error => {
+      var errorCode = error.code;
+      var errorMessage = error.message;
+      // var email = error.email;
+      // var credential = error.credential;
+      this.setState({ serverErrorMsg: error.message });
+      document.getElementById("googleSigninError").style.display = "block";
+    });
+  }
+
   render() {
-    // console.log("Inside CHLogin Render")
     const { validated } = this.state;
     return (
       <Modal
@@ -128,14 +154,8 @@ class LoginPage extends Component {
             </Form.Row>
             <Form.Row>
               <Form.Group className="text-center" as={Col} controlId="formGridGoogleSignIn">
-                {/* <GoogleLoginButton align="center" onClick={(e) => this.props.updateContent("googleSignin",null, null, null)} /> */}
-                <GoogleLogin
-                  align="center"
-                  clientId={process.env.REACT_APP_GOOGLE_OAUTH_CLIENT_ID}
-                  buttonText="Google SignIn"
-                  onSuccess={this.responseGoogle}
-                  onFailure={this.responseGoogle}
-                />
+                <GoogleLoginButton align="center" onClick={this.handleGoogleSignin} />
+                <Form.Control.Feedback type="invalid" id="googleSigninError">{this.state.serverErrorMsg}</Form.Control.Feedback>
               </Form.Group>
             </Form.Row>
             <Form.Row>
