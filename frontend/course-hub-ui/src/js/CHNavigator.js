@@ -3,7 +3,7 @@ import '../css/bootstrap.min.css';
 import '../css/common-components.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Dropdown } from 'react-bootstrap';
-import firebaseInitialization from '../initializeFirebase';
+import {doSignOut} from '../FirebaseUtils';
 
 class CHNavigator extends Component {
 
@@ -15,7 +15,7 @@ class CHNavigator extends Component {
 
     handleSignOut = e => {
         const self = this;
-        firebaseInitialization.auth().signOut().then(function () {
+        doSignOut().then( () => {
             self.props.updateContent("home", null, null, null);
         }).catch(function (error) {
             console.log(error);
@@ -27,13 +27,9 @@ class CHNavigator extends Component {
     }
 
     render() {
-        // const self = this;
-
         return (
             <div id="homeHeader">
-                {/* <div id="website-name-container"> */}
                 <h1 className="website-name">Course-Hub</h1>
-                {/* </div> */}
                 <div id="website-navigators-container">
                     {!this.props.signedIn &&
                         <Button className="my-nav-tabs" onClick={(e) => this.props.updateContent("loginScreen", null, null, null)}>
@@ -46,7 +42,6 @@ class CHNavigator extends Component {
                         <Dropdown>
                             <Dropdown.Toggle className="my-nav-tabs" id="signedInOptions">
                                 Hello, Madarchod&nbsp;&nbsp;
-                                {/* <FontAwesomeIcon icon="angle-down"/> */}
                             </Dropdown.Toggle>
 
                             <Dropdown.Menu>

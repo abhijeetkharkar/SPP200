@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import { Modal, Button, Form, Col } from 'react-bootstrap';
-import firebase from '../initializeFirebase';
-import addUser, {searchUser} from '../elasticSearch'
+import {doCreateUserWithEmailAndPassword} from '../FirebaseUtils';
+import {addUser} from '../elasticSearch';
 
 class SignupPage extends Component {
   constructor(props, context) {
-    console.log("CHSignup Constructor")
     super(props, context);
     this.handleFirstNameChange = this.handleFirstNameChange.bind(this);
     this.handleLastNameChange = this.handleLastNameChange.bind(this);
@@ -34,46 +33,28 @@ class SignupPage extends Component {
   }
 
   handleSubmit = async event => {
-    console.log("CHSignup HandleSubmit", this.state.firstName);
     event.preventDefault();
-
-    // // Update data in the Elastic Search Server
-    // fetch('http://localhost:4000/signup', {
-    //   mode: 'no-cors',
-    //   method: 'POST',
-    //   headers: {
-    //     "Content-Type": "application/json"
-    //   },
-    //   body: JSON.stringify({
-    //     'firstName': this.state.firstName,
-    //     'lastname' : this.state.lastName,
-    //     'email' : this.state.email,
-    //     'password' : this.state.password,
-    //     'confirmpassword' : this.state.confirmPassword
-    //   })
-    // }).then(function(response){
-    //   console.log("response is ", response.body, response.status);
-    //   console.log("Data successfully updated in elastic search ");
-    // });
     try {
       document.getElementById("invalidUsernamePwdFeedback").style.display = "none";
-      await firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
+      doCreateUserWithEmailAndPassword(this.state.email, this.state.password)
         .then(user => {
           console.log("User successfully signed up ");
           // Todo: Update the information in Elastic Search Server
-          const success = addUser({
+          addUser({
             "Email": this.state.email,
             "UserName": {
               "First": this.state.firstName,
               "Last": this.state.lastName
             }
-          })
-          if (!success){
-            //TODO delete firebase user
-          }
-          else{
-            console.log("User successfully created ");
-          }          
+          }).then(response => {
+            if(response) {
+              console.log("User successfully created ");
+              this.props.updateContent("home", null, null, null);
+            } else {
+              //TODO delete firebase user
+              throw Error("Error inserting in Elastic Search");
+            }
+          });   
         })
     } catch (error) {
       this.setState({ serverErrorMsg: error.message });
@@ -82,7 +63,7 @@ class SignupPage extends Component {
     }
   }
 
-  componentDidMount() {
+  componentWillMount() {
     this.state.show ? this.handleHide() : this.handleShow()
   }
 
