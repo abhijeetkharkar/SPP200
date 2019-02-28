@@ -62,6 +62,8 @@ class LoginPage extends Component {
       // console.log("Email:", this.state.email, ", Password:", this.state.password);
       try {
         const user = await firebaseInitialization.auth().signInWithEmailAndPassword(this.state.email, this.state.password);
+
+        
         // this.props.history.push("/");
         // console.log("User:", user);
         this.setState({ loggedIn: true });
