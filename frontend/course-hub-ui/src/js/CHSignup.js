@@ -1,5 +1,7 @@
 import React, { Component } from 'react';
 import { Modal, Button, Form, Col } from 'react-bootstrap';
+import firebase from '../initializeFirebase';
+import addUser, {searchUser} from '../elasticSearch'
 
 class SignupPage extends Component {
   constructor(props, context) {
@@ -14,11 +16,12 @@ class SignupPage extends Component {
     this.state = {
       show: false,
       validated: false,
-      firstName : "",
-      lastName : "",
-      email : "",
-      password : "",
-      confirmPassword: ""
+      firstName: "",
+      lastName: "",
+      email: "",
+      password: "",
+      confirmPassword: "",
+      serverErrorMsg: ''
     };
 
     this.handleShow = () => {
@@ -30,114 +33,142 @@ class SignupPage extends Component {
     };
   }
 
-  handleSubmit(event) {
+  handleSubmit = async event => {
     console.log("CHSignup HandleSubmit", this.state.firstName);
     event.preventDefault();
-    
-    fetch('http://localhost:4000/signup', {
-      mode: 'no-cors',
-      method: 'POST',
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        'firstName': this.state.firstName,
-        'lastname' : this.state.lastName,
-        'email' : this.state.email,
-        'password' : this.state.password,
-        'confirmpassword' : this.state.confirmPassword
-      })
-    }).then(function(response){
-      console.log("response is ", response.body, response.status);
-    });
+
+    // // Update data in the Elastic Search Server
+    // fetch('http://localhost:4000/signup', {
+    //   mode: 'no-cors',
+    //   method: 'POST',
+    //   headers: {
+    //     "Content-Type": "application/json"
+    //   },
+    //   body: JSON.stringify({
+    //     'firstName': this.state.firstName,
+    //     'lastname' : this.state.lastName,
+    //     'email' : this.state.email,
+    //     'password' : this.state.password,
+    //     'confirmpassword' : this.state.confirmPassword
+    //   })
+    // }).then(function(response){
+    //   console.log("response is ", response.body, response.status);
+    //   console.log("Data successfully updated in elastic search ");
+    // });
+    try {
+      document.getElementById("invalidUsernamePwdFeedback").style.display = "none";
+      await firebase.auth().createUserWithEmailAndPassword(this.state.email, this.state.password)
+        .then(user => {
+          console.log("User successfully signed up ");
+          // Todo: Update the information in Elastic Search Server
+          const success = addUser({
+            "Email": this.state.email,
+            "UserName": {
+              "First": this.state.firstName,
+              "Last": this.state.lastName
+            }
+          })
+          if (!success){
+            //TODO delete firebase user
+          }
+          else{
+            console.log("User successfully created ");
+          }          
+        })
+    } catch (error) {
+      this.setState({ serverErrorMsg: error.message });
+      document.getElementById("invalidUsernamePwdFeedback").style.display = "block";
+      console.log("error is", error);
+    }
   }
 
   componentDidMount() {
     this.state.show ? this.handleHide() : this.handleShow()
   }
-  
+
   handleFirstNameChange(e) {
-    this.setState({firstName: e.target.value});
+    this.setState({ firstName: e.target.value });
   }
 
   handleLastNameChange(e) {
-    this.setState({lastName: e.target.value});
+    this.setState({ lastName: e.target.value });
   }
 
   handleEmailChange(e) {
-    this.setState({email: e.target.value});
+    this.setState({ email: e.target.value });
   }
 
   handlePasswordChange(e) {
-    this.setState({password: e.target.value});
+    this.setState({ password: e.target.value });
   }
-  
+
   handleConfirmPasswordChange(e) {
-    this.setState({confirmPassword: e.target.value});
+    this.setState({ confirmPassword: e.target.value });
   }
 
   render() {
     console.log("Inside CHSignup Render")
     const { validated } = this.state;
     return (
-        <Modal
-          show={this.state.show}
-          dialogClassName="modal-90w"
-          aria-labelledby="example-custom-modal-styling-title">
-          <Modal.Header>
-            <Modal.Title id="sign-up-title">
-              SignUp
-            </Modal.Title>            
-            <Button variant="danger" onClick={(e) => this.props.updateContent("home",null, null, null)}>
-              X
+      <Modal
+        show={this.state.show}
+        dialogClassName="modal-90w"
+        aria-labelledby="example-custom-modal-styling-title">
+        <Modal.Header>
+          <Modal.Title id="sign-up-title">
+            SignUp
+            </Modal.Title>
+          <Button variant="danger" onClick={(e) => this.props.updateContent("home", null, null, null)}>
+            X
             </Button>
-          </Modal.Header>
-          <Modal.Body>
-            <Form onSubmit={e => this.handleSubmit(e)}>
-              <Form.Row>
-                <Form.Group as={Col} controlId="formGridFirstName">
-                  <Form.Control required value={this.state.firstName} onChange={this.handleFirstNameChange} type="text" placeholder="First Name" />
-                  <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                </Form.Group>
-              </Form.Row>
-              <Form.Row>
-                <Form.Group as={Col} controlId="formGridLastName">
-                  <Form.Control required value={this.state.lastName} onChange={this.handleLastNameChange} type="text" placeholder="Last Name" />
-                  <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                </Form.Group>
-              </Form.Row>
-              <Form.Row>
-                <Form.Group as={Col} controlId="formGridEmail">
-                  <Form.Control required value={this.state.email} onChange={this.handleEmailChange} type="email" placeholder="Enter email" />
-                  <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                  <Form.Text className="text-muted">
-                    We'll never share your email with anyone else.
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={e => this.handleSubmit(e)}>
+            <Form.Row>
+              <Form.Group as={Col} controlId="formGridFirstName">
+                <Form.Control required value={this.state.firstName} onChange={this.handleFirstNameChange} type="text" placeholder="First Name" />
+                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+              </Form.Group>
+            </Form.Row>
+            <Form.Row>
+              <Form.Group as={Col} controlId="formGridLastName">
+                <Form.Control required value={this.state.lastName} onChange={this.handleLastNameChange} type="text" placeholder="Last Name" />
+                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+              </Form.Group>
+            </Form.Row>
+            <Form.Row>
+              <Form.Group as={Col} controlId="formGridEmail">
+                <Form.Control required value={this.state.email} onChange={this.handleEmailChange} type="email" placeholder="Enter email" />
+                <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                <Form.Text className="text-muted">
+                  We'll never share your email with anyone else.
                   </Form.Text>
-                </Form.Group>
-              </Form.Row>
-              <Form.Row>
-                <Form.Group as={Col} controlId="formGridPassword">
-                  <Form.Control required value={this.state.password} onChange={this.handlePasswordChange} type="password" placeholder="Password" />
-                  <Form.Control.Feedback>Looks Nice!</Form.Control.Feedback>
-                  <Form.Text className="text-muted">
-                    Minimum of 8 characters in length.
+              </Form.Group>
+            </Form.Row>
+            <Form.Row>
+              <Form.Group as={Col} controlId="formGridPassword">
+                <Form.Control required value={this.state.password} onChange={this.handlePasswordChange} type="password" placeholder="Password" />
+                <Form.Control.Feedback>Looks Nice!</Form.Control.Feedback>
+                <Form.Text className="text-muted">
+                  Minimum of 8 characters in length.
                   </Form.Text>
-                </Form.Group>
-              </Form.Row>
-              <Form.Row>
-                <Form.Group as={Col} controlId="formGridConfirmPassword">
-                  <Form.Control required value={this.state.confirmPassword} onChange={this.handleConfirmPasswordChange} type="password" placeholder="Confirm Password" />
-                  <Form.Control.Feedback>Looks Nice!</Form.Control.Feedback>
-                </Form.Group>
-              </Form.Row>
-              <Form.Row>
-                <Form.Group className="float-left" as={Col} controlId="formGridSignUp">
-                  <Button variant="success" type="Sign-Up">Sign-Up</Button>
-                </Form.Group>
-              </Form.Row>
-            </Form>
-          </Modal.Body>
-        </Modal>
+              </Form.Group>
+            </Form.Row>
+            <Form.Row>
+              <Form.Group as={Col} controlId="formGridConfirmPassword">
+                <Form.Control required value={this.state.confirmPassword} onChange={this.handleConfirmPasswordChange} type="password" placeholder="Confirm Password" />
+                <Form.Control.Feedback type="invalid" id="invalidUsernamePwdFeedback">{this.state.serverErrorMsg}</Form.Control.Feedback>
+                <Form.Control.Feedback>Looks Nice!</Form.Control.Feedback>
+              </Form.Group>
+            </Form.Row>
+            <Form.Row>
+              <Form.Group className="float-left" as={Col} controlId="formGridSignUp">
+                <Button variant="success" type="Sign-Up">Sign-Up</Button>
+              </Form.Group>
+            </Form.Row>
+          </Form>
+        </Modal.Body>
+      </Modal>
     );
   }
 }
