@@ -41,7 +41,7 @@ class CHNavigator extends Component {
                     {this.props.signedIn &&
                         <Dropdown>
                             <Dropdown.Toggle className="my-nav-tabs" id="signedInOptions">
-                                Hello, Madarchod&nbsp;&nbsp;
+                                Hello, {this.props.firstName?this.props.firstName:"Jon Snow"}&nbsp;&nbsp;
                             </Dropdown.Toggle>
 
                             <Dropdown.Menu>

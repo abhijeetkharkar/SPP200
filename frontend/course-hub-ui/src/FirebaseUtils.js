@@ -28,13 +28,13 @@ const doSignInWithGoogle = async () => {
 
 const doSignOut = async () => {
   const response = await firebaseInitialization.auth().signOut();
+  console.log("Response Signout: ", response);
   return response;
 }
 
-const isUserSignedIn = () => {
-  var user = firebase.auth().currentUser;
-  console.log("Firebase Utils, isUserSignedIn, User:", user);
-  return user;
+const isUserSignedIn = async () => {
+  const response = await firebaseInitialization.auth().onAuthStateChanged();
+  return response;
 }
 
 const doPasswordReset = async email => {
@@ -47,7 +47,19 @@ const doPasswordUpdate = async password => {
   return response;
 }
 
-// export default firebaseInitialization;
+const doDeleteUser = async () => {
+  var user = firebaseInitialization.auth().currentUser;
+  console.log("In Delete, user: ", user);
+  const response = await user.delete().then(function() {
+    return true;
+  }).catch(function(error) {
+    return false;
+  });
+  console.log("In Delete, response: ", response);
+  return response;
+}
+
+export default firebaseInitialization;
 
 export {
   doCreateUserWithEmailAndPassword,
@@ -56,5 +68,6 @@ export {
   doSignOut,
   isUserSignedIn,
   doPasswordReset,
-  doPasswordUpdate
+  doPasswordUpdate,
+  doDeleteUser
 };

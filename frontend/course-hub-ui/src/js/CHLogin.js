@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import { Modal, Button, Form, Col, Badge } from 'react-bootstrap';
 import { GoogleLoginButton } from 'react-social-login-buttons';
-import { doSignInWithEmailAndPassword, doSignInWithGoogle } from '../FirebaseUtils';
-import {addUser} from '../elasticSearch';
+import { doSignInWithEmailAndPassword, doSignInWithGoogle, doDeleteUser } from '../FirebaseUtils';
+import {addUser, searchUser} from '../elasticSearch';
 
 class LoginPage extends Component {
   constructor(props, context) {
@@ -54,12 +54,21 @@ class LoginPage extends Component {
       this.setState({ validated: true });
     } else {
       doSignInWithEmailAndPassword(this.state.email, this.state.password).then(response => {
-        // console.log("SIGN-IN USER:", response.user.email);
+        console.log("SIGN-IN USER:", response.user.email);
+        // localStorage.setItem("current_user_email", response.user.email);
+        var payloadSearch = {
+          query : {
+              term : { Email : response.user.email }
+          }
+        }
+        return searchUser(payloadSearch);
+      }).then(elasticData => {
         this.setState({ loggedIn: true });
         this.setState({ validated: false });
-        document.getElementById("invalidUsernamePwdFeedback").style.display = "none";
-        this.props.updateContent("homeSignedIn", null, null, null);
+        // document.getElementById("invalidUsernamePwdFeedback").style.display = "none";
+        this.props.updateContent("homeSignedIn", elasticData, null, null);
       }).catch(error => {
+        console.log("SIGN-IN ERROR:", error.message);
         this.setState({ serverErrorMsg: error.message });
         document.getElementById("formGridPassword").style.borderColor = "#dc3545";
         document.getElementById("invalidUsernamePwdFeedback").style.display = "block";
@@ -69,42 +78,70 @@ class LoginPage extends Component {
   }
 
   handleGoogleSignin = () => {
+    var payloadAdd = {};
+    var firstName = null;
+    var isErrorPresent = false;
     doSignInWithGoogle().then(result => {
       var token = result.credential.accessToken;
       var email = result.additionalUserInfo.profile.email;
-      var firstName = result.additionalUserInfo.profile.given_name;
+      firstName = result.additionalUserInfo.profile.given_name;
       var lastName = result.additionalUserInfo.profile.family_name;
       var gender = result.additionalUserInfo.profile.gender;
       var picture = result.additionalUserInfo.profile.picture;
 
-      var payload = {
+      var payloadSearch = {
+        query : {
+            term : { Email : email }
+        }
+      }
+
+      payloadAdd = {
         UserName: {
           First: firstName,
           Last: lastName
         },
         PhotoURL: picture,
         Email: email
-      }
+      };
 
-      addUser(payload).then(response => {
-        // console.log("Response:", response);
-        if (response) {
-          this.setState({ loggedIn: true });
-          document.getElementById("googleSigninError").style.display = "none";
-          this.props.updateContent("homeSignedIn", null, null, null);
-        } else {
-          //TODO delete from Firebase as well
-          throw Error("Error inserting in Elastic Search");
-        }
-      });
+      return searchUser(payloadSearch);
+    }).then(response => {
+      // console.log("Response in chain: ", response);
+      if(response === null) {
+        addUser(payloadAdd).then(response => {
+          // console.log("Response:", response); 
+          if (response) {
+            this.setState({ loggedIn: true });
+            this.props.updateContent("homeSignedIn", firstName, null, null);
+          } else {
+            // console.log("Google Signin, came to error");
+            doDeleteUser().then(deleteResponse => {
+              // console.log("DELETE:", deleteResponse);
+            }).catch(error => {
+              // TODO Needs to be reported to the Course-Hub team
+              console.log("This needs to be handled");
+            });
+            throw Error("Unable to sign-in now. Please try after some time.");
+          }
+        }).catch(error => {          
+            // console.log("FINAL111 ERROR:", error.message);
+            this.setState({ serverErrorMsg: error.message });
+            // document.getElementById("googleSigninError").style.display = "block";
+        });
+      } else {
+        // console.log("Still inside else? WTF");
+        this.setState({ loggedIn: true });
+        this.props.updateContent("homeSignedIn", firstName, null, null);
+      }
     }).catch(error => {
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      // var email = error.email;
-      // var credential = error.credential;
+      // console.log("FINAL ERROR:", error.message);
       this.setState({ serverErrorMsg: error.message });
-      document.getElementById("googleSigninError").style.display = "block";
+      // document.getElementById("googleSigninError").style.display = "block";
     });
+
+    // console.log("Came Here");
+
+    if(isErrorPresent) document.getElementById("googleSigninError").style.display = "block";
   }
 
   render() {
