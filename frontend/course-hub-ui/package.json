@@ -8,23 +8,30 @@
     "@fortawesome/free-solid-svg-icons": "^5.7.2",
     "@fortawesome/react-fontawesome": "^0.1.4",
     "bootstrap": "^4.3.1",
+    "dotenv-webpack": "^1.7.0",
+    "elasticsearch": "^15.4.1",
+    "firebase": "^5.8.4",
     "jest-fetch-mock": "^2.1.1",
     "jquery": "^3.3.1",
     "mdbreact": "^4.11.0",
     "node-fetch": "^2.3.0",
+    "q": "^1.5.1",
     "react": "^16.7.0",
     "react-bootstrap": "^1.0.0-beta.5",
     "react-dom": "^16.7.0",
     "react-google-login": "^5.0.2",
     "react-router-dom": "^4.3.1",
     "react-scripts": "2.1.3",
-    "react-social-login-buttons": "^2.3.0"
+    "react-social-login-buttons": "^2.3.0",
+    "webpack": "^4.19.1",
+    "webpack-cli": "^3.2.3"
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "webpack --env.ENVIRONMENT=production --config webpack.config.build.js",
     "test": "jest -u --coverage",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "dev": "webpack --env.ENVIRONMENT=development --config webpack.config.dev.js"
   },
   "jest": {
     "automock": false,
