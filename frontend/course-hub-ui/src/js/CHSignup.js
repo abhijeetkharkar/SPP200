@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Modal, Button, Form, Col } from 'react-bootstrap';
-import {doCreateUserWithEmailAndPassword} from '../FirebaseUtils';
-import {addUser} from '../elasticSearch';
+import { doCreateUserWithEmailAndPassword } from '../FirebaseUtils';
+import { addUser } from '../elasticSearch';
 
 class SignupPage extends Component {
   constructor(props, context) {
@@ -47,7 +47,7 @@ class SignupPage extends Component {
               "Last": this.state.lastName
             }
           }).then(response => {
-            if(response) {
+            if (response) {
               console.log("User successfully created ");
               this.props.updateContent("home", null, null, null);
             } else {

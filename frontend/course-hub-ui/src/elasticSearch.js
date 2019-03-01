@@ -25,7 +25,7 @@ const addUser = async payload => {
 }
 
 const searchUser = async payload => {
-	console.log("in add user")
+	console.log("in search user");
 	const response = await fetch(process.env.REACT_APP_AWS_ELASTIC_SEARCH_URL + "users/_search",
 			{
 				method: 'POST',
@@ -36,13 +36,14 @@ const searchUser = async payload => {
                 return response.json();
             }).then(elasticData => {
                 if (elasticData.hits.total >= 1) {
-                    return true;
+                    return elasticData.hits.hits[0]._source.UserName.First;
                 } else {
-                    return false;
+                    return null;
                 }
             }).catch(error => {
-                return false;
-            });
+                return null;
+			});
+	console.log("Search User Response:", response);
 	return response;
 }
 
