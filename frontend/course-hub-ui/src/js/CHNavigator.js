@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import '../css/bootstrap.min.css';
 import '../css/common-components.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { BrowserRouter as Router, Route, Switch, Link } from "react-router-dom";
+import ProfilePage from "./CHProfile";
 
 class CHNavigator extends Component {
 
@@ -9,15 +11,22 @@ class CHNavigator extends Component {
         // const self = this;
 
         return (
-            <div id="homeHeader">
-                {/* <div id="website-name-container"> */}
-                <h1 className="website-name">Course-Hub</h1>
-                {/* </div> */}
-                <div id="website-navigators-container">
-                    <button className="my-nav-tabs" onClick={(e) => this.props.updateContent("loginScreen",null, null, null)}><FontAwesomeIcon icon="sign-in-alt" /> Login/Signup</button>
-                    <button className="my-nav-tabs">Deals</button>
+            <Router>
+                <div id="homeHeader">
+                    {/* <div id="website-name-container"> */}
+                    <h1 className="website-name">Course-Hub</h1>
+                    {/* </div> */}
+                    <div id="website-navigators-container">
+                        <button className="my-nav-tabs" onClick={(e) => this.props.updateContent("loginScreen",null, null, null)}><FontAwesomeIcon icon="sign-in-alt" /> Login/Signup</button>
+                        <button className="my-nav-tabs">Deals</button>
+                        <Link to="/profile"><button className="my-nav-tabs" onClick={(e) => this.props.updateContent("profileScreen",null, null, null)}>Profile</button></Link>
+                    </div>
+
+                    <Switch>
+                        <Route exact path="/profile" component={ProfilePage} />
+                    </Switch>
                 </div>
-            </div>
+            </Router>
         );
     }
 }

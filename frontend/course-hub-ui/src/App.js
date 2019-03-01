@@ -12,6 +12,7 @@ import CHFooter from './js/CHFooter';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faEnvelope, faKey, faSignInAlt, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { faFacebookF, faGithub, faTwitter, faLinkedin } from '@fortawesome/free-brands-svg-icons';
+import ProfilePage from "./js/CHProfile";
 
 library.add(faEnvelope, faKey, faFacebookF, faGithub, faTwitter, faLinkedin, faSignInAlt, faSearch);
 
@@ -48,6 +49,7 @@ class App extends Component {
 
         { choice === "loginScreen" && <LoginPage updateContent = {this.handleClick}/> }
         { choice === "signupScreen" && <SignupPage updateContent = {this.handleClick}/> }
+        { choice === "profileScreen" && <ProfilePage updateContent = {this.handleClick}/> }
       </div>
     );
   }
