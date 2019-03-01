@@ -8,9 +8,11 @@ var firebase = require('firebase');
 var fs = require('fs');
 
 // Loading Configuration from the keys.json file 
-var obj = JSON.parse(fs.readFileSync('keys.json', 'utf8'));
+// var obj = JSON.parse(fs.readFileSync('keys.json', 'utf8'));
 
 var indexRouter = require('./routes/index');
+var autosuggestRouter = require('./routes/search');
+
 var signupRouter = require('./routes/signup');
 
 var app = express();
@@ -22,14 +24,14 @@ app.use(function(req, res, next) {
 });
 
 // Loading config keys in a config object.
-var config = {
-	apiKey: obj.firebase_apiKey,
-	authDomain: obj.firebase_authDomain,
-	databaseURL: obj.firebase_databaseURL,
-	storageBucket: obj.firebase_storageBucket,
-	messagingSenderId: obj.firebase_messagingSenderId,
-	projectId: obj.firebase_projectId
-};
+// var config = {
+// 	apiKey: obj.firebase_apiKey,
+// 	authDomain: obj.firebase_authDomain,
+// 	databaseURL: obj.firebase_databaseURL,
+// 	storageBucket: obj.firebase_storageBucket,
+// 	messagingSenderId: obj.firebase_messagingSenderId,
+// 	projectId: obj.firebase_projectId
+// };
 
 
 app.use(logger('dev'));
@@ -38,6 +40,8 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.get('/', indexRouter);
+app.get('/autosuggest', autosuggestRouter);
 // create application/json parser
 var jsonParser = bodyParser.json()
 // create application/x-www-form-urlencoded parser
@@ -45,7 +49,6 @@ var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 app.get('/', indexRouter);
 app.post('/signup', jsonParser, signupRouter);
-
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));
@@ -56,6 +59,11 @@ app.use(function(err, req, res, next) {
   // set locals, only providing error in development
   // res.locals.message = err.message;
   // res.locals.error = req.app.get('env') === 'development' ? err : {};
+
+  // render the error page
+  // res.status(err.status || 500);
+  // res.render('error');
+
 
   // // render the error page
   // res.status(err.status || 500);

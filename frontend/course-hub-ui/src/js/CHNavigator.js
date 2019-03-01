@@ -55,7 +55,7 @@ class CHNavigator extends Component {
                 </div>
             </div>
         );
-    }
+    }   
 }
 
 export default CHNavigator;
