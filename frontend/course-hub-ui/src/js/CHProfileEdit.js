@@ -1,4 +1,14 @@
 import React, { Component } from 'react';
+import {
+    Container,
+    Row,
+    Col,
+    FormGroup,
+    FormControl,
+    Button,
+} from "react-bootstrap";
+import FormInputs from "./CHFormInputs";
+import Card from "./Card";
 
 class ProfilePageEdit extends Component{
     constructor(props, context) {
@@ -14,6 +24,12 @@ class ProfilePageEdit extends Component{
             firstName : "Ali",
             lastName : "Asgher",
             email : "ali@coursehub.edu",
+            dob: "",
+            bio: "",
+            address: "",
+            city: "",
+            state: "",
+            zip_code: ""
         };
     }
 
@@ -61,7 +77,7 @@ class ProfilePageEdit extends Component{
     render() {
         return (
             <div className="content">
-                <Grid fluid>
+                <Container fluid>
                     <Row>
                         <Col md={8}>
                             <Card
@@ -76,14 +92,14 @@ class ProfilePageEdit extends Component{
                                                     type: "text",
                                                     bsClass: "form-control",
                                                     placeholder: "First name",
-                                                    defaultValue: {this.state.firstName}
+                                                    defaultValue: this.state.firstName
                                                 },
                                                 {
                                                     label: "Last name",
                                                     type: "text",
                                                     bsClass: "form-control",
                                                     placeholder: "Last name",
-                                                    defaultValue: {this.state.lastName}
+                                                    defaultValue: this.state.lastName
                                                 }
                                             ]}
                                         />
@@ -95,19 +111,22 @@ class ProfilePageEdit extends Component{
                                                     type: "email",
                                                     bsClass: "form-control",
                                                     placeholder: "Email",
+                                                    defaultValue: this.state.email,
                                                     disabled: true
                                                 },
                                                 {
                                                     label: "Date of Birth",
                                                     type: "date",
                                                     bsClass: "form-control",
-                                                    placeholder: "Date of Birth"
+                                                    placeholder: "Date of Birth",
+                                                    defaultValue: this.state.dob,
                                                 },
                                                 {
                                                     label: "Phone No.",
                                                     type: "text",
                                                     bsClass: "form-control",
-                                                    placeholder: "Phone No"
+                                                    placeholder: "Phone No",
+                                                    defaultValue: this.state.phone
                                                 }
                                             ]}
                                         />
@@ -116,11 +135,11 @@ class ProfilePageEdit extends Component{
                                             ncols={["col-md-12"]}
                                             proprieties={[
                                                 {
-                                                    label: "Adress",
+                                                    label: "Address",
                                                     type: "text",
                                                     bsClass: "form-control",
-                                                    placeholder: "Home Adress",
-                                                    defaultValue: {this.state.street_address}
+                                                    placeholder: "Home Address",
+                                                    defaultValue: this.state.address
                                                 }
                                             ]}
                                         />
@@ -132,20 +151,21 @@ class ProfilePageEdit extends Component{
                                                     type: "text",
                                                     bsClass: "form-control",
                                                     placeholder: "City",
-                                                    defaultValue: {this.state.city}
+                                                    defaultValue: this.state.city
                                                 },
                                                 {
                                                     label: "State",
                                                     type: "text",
                                                     bsClass: "form-control",
                                                     placeholder: "Country",
-                                                    defaultValue: {this.state.us_state}
+                                                    defaultValue: this.state.state
                                                 },
                                                 {
                                                     label: "Zip Code",
                                                     type: "number",
                                                     bsClass: "form-control",
-                                                    placeholder: "ZIP Code"
+                                                    placeholder: "ZIP Code",
+                                                    defaultValue: this.state.zip_code,
                                                 }
                                             ]}
                                         />
@@ -153,13 +173,13 @@ class ProfilePageEdit extends Component{
                                         <Row>
                                             <Col md={12}>
                                                 <FormGroup controlId="formControlsTextarea">
-                                                    <ControlLabel>Bio</ControlLabel>
+                                                    <FormControl>Bio</FormControl>
                                                     <FormControl
                                                         rows="5"
                                                         componentClass="textarea"
                                                         bsClass="form-control"
                                                         placeholder="Here can be your description"
-                                                        defaultValue={this.state.bio}
+                                                        defaultValue= {this.state.bio}
                                                     />
                                                 </FormGroup>
                                             </Col>
@@ -173,9 +193,8 @@ class ProfilePageEdit extends Component{
                             />
                         </Col>
                         <Col md={4}>
-                            <UserCard
+                            <Card
                                 bgImage="https://ununsplash.imgix.net/photo-1431578500526-4d9613015464?fit=crop&fm=jpg&h=300&q=75&w=400"
-                                avatar={avatar}
                                 name="Mike Andrew"
                                 userName="michael24"
                                 description={
@@ -203,7 +222,7 @@ class ProfilePageEdit extends Component{
                             />
                         </Col>
                     </Row>
-                </Grid>>
+                </Container>
             </div>
         );
     }
