@@ -1,0 +1,5 @@
+{
+    "elasticsearch": {
+        "endpoint": "https://search-coursehub-mmrw23yio2a4ylx2cgmx34eiyy.us-east-2.es.amazonaws.com/"
+    }
+}

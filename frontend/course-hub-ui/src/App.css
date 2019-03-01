@@ -7,8 +7,8 @@
 html {
   background: #02111D;  /* fallback for old browsers */
 	background-color: white;
-  /* background: -webkit-linear-gradient(to right, rgb(124, 124, 124), rgb(218, 218, 218), rgb(124, 124, 124));
-  background: linear-gradient(to right, rgb(124, 124, 124), rgb(218, 218, 218), rgb(124, 124, 124)); */
+  background: -webkit-linear-gradient(to right, rgb(124, 124, 124), rgb(218, 218, 218), rgb(124, 124, 124));
+  background: linear-gradient(to right, rgb(124, 124, 124), rgb(218, 218, 218), rgb(124, 124, 124)); 
 }
 
 .my-content {
@@ -18,14 +18,16 @@ html {
   position: relative;
   text-align: center;
   width: 64% !important;
+  
 }
 
 .my-content-landing {
   float: left; 
   padding: 1%; 
-  margin: 16% 20%;
+  margin: 14% 20%;
   text-align: center;
   width: 100% !important;
+  
 }
 
 @media (min-width: 1200px) {
