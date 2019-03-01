@@ -52,9 +52,12 @@ class SignupPage extends Component {
               this.props.updateContent("home", null, null, null);
             } else {
               //TODO delete firebase user
-              throw Error("Error inserting in Elastic Search");
+              // throw Error("Error inserting in Elastic Search");
+              this.setState({ serverErrorMsg: "Unable to create User Account." });
+              document.getElementById("invalidUsernamePwdFeedback").style.display = "block";
+              console.log("Response from Elastic Search API is :", response);
             }
-          });   
+          });
         })
     } catch (error) {
       this.setState({ serverErrorMsg: error.message });
