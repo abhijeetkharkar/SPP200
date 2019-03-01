@@ -1,6 +1,8 @@
 // Profile Controller
+const User = require('./../models/user')
 
 exports.viewProfile = function(request, response){
+
     console.log("request received in viewProfile");
     console.log("request method is ", request.method);
     response.json({
