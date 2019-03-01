@@ -4,9 +4,8 @@ import {
     Container,
     Row,
     Col,
+    Card,
 } from "react-bootstrap";
-import Card from "./Card";
-import FormInputs from "./CHFormInputs";
 
 class ProfilePage extends Component {
     constructor(props, context) {
@@ -19,30 +18,28 @@ class ProfilePage extends Component {
                 <Container fluid>
                     <Row>
                         <Col md={8}>
-                            <Card title="User Profile"
-                                  content={
-                                      <form>
-                                          <FormInputs
-                                              ncols={["col-md-6", "col-md-6"]}
-                                              proprieties={[
-                                                  {
-                                                      label: "First name",
-                                                      type: "text",
-                                                      bsClass: "form-control",
-                                                      placeholder: "First name",
-                                                      defaultValue: "Ali"
-                                                  },
-                                                  {
-                                                      label: "Last name",
-                                                      type: "text",
-                                                      bsClass: "form-control",
-                                                      placeholder: "Last name",
-                                                      defaultValue: "Asgher"
-                                                  }
-                                              ]}
-                                          />
-                                      </form>
-                                  }
+                            <Card style={{ width: '18rem' }}>
+                                <Card.Body>
+                                    <Card.Title>Ali Asgher</Card.Title>
+
+                                    <Card.Link href="#">Card Link</Card.Link>
+                                    <Card.Link href="#">Another Link</Card.Link>
+                                </Card.Body>
+                            </Card>
+                        </Col>
+                        <Col md={4}>
+                            <Card
+                                title="Tasks"
+                                category="Backend development"
+                                stats="Updated 3 minutes ago"
+                                statsIcon="fa fa-history"
+                                content={
+                                    <div className="profile_card">
+                                        <h1 className="name">{"Ali Asgher"}</h1>
+                                        <label>Email: </label><p className="email">{"ali-asgher@coursehub.edu"}</p>
+                                        <p className="Bio">{"Hi, I am blah blah blah..."}</p>
+                                    </div>
+                                }
                             />
                         </Col>
                     </Row>
