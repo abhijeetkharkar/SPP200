@@ -24,7 +24,8 @@
     "node-fetch": "^2.3.0",
     "url": "^0.11.0",
     "node-mocks-http": "^1.7.3",
-    "mock-express-response":"^0.2.2"
+    "mock-express-response":"^0.2.2",
+    "firebase": "^5.7.0"
   },
   "description": "Node Express App (https://expressjs.com/)",
   "main": "app.js",

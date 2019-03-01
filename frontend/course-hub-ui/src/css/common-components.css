@@ -13,6 +13,12 @@
     height: 100%;
 } */
 
+.autocomplete {
+    position: relative;
+    top:1000px;
+    background-color: #ffffff;
+}
+
 .website-name {    
     color: rgb(207, 204, 19);
     text-shadow: 1px 1px rgb(146, 144, 4);

@@ -10,6 +10,7 @@ awslambda/udemy/intermediate-data-1.json
 awslambda/udemy/page_content.html
 awslambda/udemy/htmlcov
 proxy.py
+backend/course-hub-api/keys.json
 
 .vscode
 .idea 

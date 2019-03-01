@@ -14,7 +14,7 @@ exports.autosuggest = function(request, response){
             }
         },
         _source: ["Title"],
-        size: 10
+        size: 5
     }
 
     req.post(url,{
@@ -30,6 +30,8 @@ exports.autosuggest = function(request, response){
             doc=dbsuggestionlist[index]
             suggestions['suggestions'].push(doc['_source']['Title'])
         }
+
+        console.log(suggestions)
 
         if (error) {
             console.error(error)
