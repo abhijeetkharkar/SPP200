@@ -8,6 +8,7 @@ var logger = require('morgan');
 
 var indexRouter = require('./routes/index');
 var signupRouter = require('./routes/signup');
+var profileRouter = require('./routes/profile');
 
 var app = express();
 app.use(function(req, res, next) {
@@ -33,6 +34,7 @@ var jsonParser = bodyParser.json()
 var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 app.get('/', indexRouter);
+app.get('/profile:id', profileRouter)
 app.post('/signup', jsonParser, signupRouter);
 
 // catch 404 and forward to error handler
