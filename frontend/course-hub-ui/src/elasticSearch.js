@@ -2,7 +2,7 @@ const fetch = require("node-fetch");
 
 const addUser = async payload => {
 	console.log("in add user")
-	const response = await fetch(process.env.REACT_APP_AWS_ELASTIC_ADD_URL + "users/user", 
+	const response = await fetch(process.env.REACT_APP_AWS_ELASTIC_SEARCH_URL + "users/user", 
 			{ 
 				method: 'POST', 
 				body: JSON.stringify(payload), 
