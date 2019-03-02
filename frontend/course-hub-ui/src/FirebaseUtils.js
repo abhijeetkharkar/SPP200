@@ -38,7 +38,13 @@ const isUserSignedIn = async () => {
 }
 
 const doPasswordReset = async email => {
-  const response = await firebaseInitialization.auth().sendPasswordResetEmail(email);
+  const response = await firebaseInitialization.auth().sendPasswordResetEmail(email).then(function() {
+    return true;
+  }).catch(function(error) {
+    // console.log("In PasswordReset, response: ", error.message);
+    return false;
+  });
+  // console.log("In PasswordReset, response: ", response);;
   return response;
 }
 
