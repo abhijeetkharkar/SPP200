@@ -1,14 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import renderer from 'react-test-renderer'
 import App from '../App';
-// const edxMocks = require('./tests/__mocks__/');
+import Footer from '../js/CHFooter'
+import { shallow } from 'enzyme';
+import { render } from 'enzyme';
+import { mount } from 'enzyme';
 
-jest.mock('./SomeComponent', () => () => 'SomeComponent');
-
-it('renders without crashing', () => {
-  const div = document.createElement('div');
-  ReactDOM.render(<App />, div);
-  ReactDOM.unmountComponentAtNode(div);
+// sample test
+test('renders without crashing', () => {
+  expect(true).toBe(true);
 });
 
-//"test": "react-scripts test",
+
+// Login Page test
+test('Testing Footer Component load without error', () => {
+  const tree = renderer
+    .create(<Footer />)
+    .toJSON();
+  expect(tree).toMatchSnapshot();
+});
