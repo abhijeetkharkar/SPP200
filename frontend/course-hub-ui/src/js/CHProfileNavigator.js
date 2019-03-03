@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../css/bootstrap.min.css';
-import '../css/common-components.css';
+import '../css/profile.css';
+
 import {Navbar, Nav} from "react-bootstrap";
 
 class ProfileNavigator extends Component {
@@ -9,9 +10,11 @@ class ProfileNavigator extends Component {
         super(props, context);
     }
 
+
+
     render() {
         return (
-            <div id="profile-navigator">
+            <div className="profile-navigator">
                 <Navbar bg="light" expand="lg">
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
