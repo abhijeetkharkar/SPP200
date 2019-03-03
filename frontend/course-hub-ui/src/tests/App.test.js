@@ -5,11 +5,9 @@ import {shallow} from 'enzyme';
 
 test('renders without crashing', () => {
   // const div = document.createElement('div');
-  const app = shallow(
-    <App />
-  );
-  // ReactDOM.render(app);
-  // ReactDOM.unmountComponentAtNode(div);
+  // const app = shallow(
+  //   <App />
+  // );
   expect(true).toBe
 });
 

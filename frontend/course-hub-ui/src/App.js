@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import './App.css';
-import './css/bootstrap.min.css';
+// import './App.css';
+// import './css/bootstrap.min.css';
 import CHNavigator from './js/CHNavigator'
 import CHLandingContent from './js/CHLandingContent';
 import LoginPage from './js/CHLogin';
