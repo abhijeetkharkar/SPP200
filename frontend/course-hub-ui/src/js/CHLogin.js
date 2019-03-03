@@ -23,6 +23,7 @@ class LoginPage extends Component {
     this.handlePasswordChange = this.handlePasswordChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleGoogleSignin = this.handleGoogleSignin.bind(this);
+    this.handleForgotPassword = this.handleForgotPassword.bind(this);
   }
 
   componentWillMount = () => {
@@ -77,10 +78,13 @@ class LoginPage extends Component {
     }
   }
 
+  handleForgotPassword = () => {
+    this.props.updateContent("forgotPasswordScreen", null, null, null);
+  }
+
   handleGoogleSignin = () => {
     var payloadAdd = {};
     var firstName = null;
-    var isErrorPresent = false;
     doSignInWithGoogle().then(result => {
       var token = result.credential.accessToken;
       var email = result.additionalUserInfo.profile.email;
@@ -106,42 +110,43 @@ class LoginPage extends Component {
 
       return searchUser(payloadSearch);
     }).then(response => {
-      // console.log("Response in chain: ", response);
+      console.log("Response in chain: ", response);
       if(response === null) {
         addUser(payloadAdd).then(response => {
-          // console.log("Response:", response); 
+          console.log("Response:", response); 
           if (response) {
             this.setState({ loggedIn: true });
             this.props.updateContent("homeSignedIn", firstName, null, null);
           } else {
-            // console.log("Google Signin, came to error");
+            console.log("Google Signin, came to error");
             doDeleteUser().then(deleteResponse => {
-              // console.log("DELETE:", deleteResponse);
+              console.log("DELETE:", deleteResponse);
+              this.setState({ serverErrorMsg: "Unable to sign-in now. Please try after some time." });
+              this.props.updateContent("loginScreen", null, null, null);
+              document.getElementById("googleSigninError").style.display = "block";
             }).catch(error => {
               // TODO Needs to be reported to the Course-Hub team
               console.log("This needs to be handled");
             });
-            throw Error("Unable to sign-in now. Please try after some time.");
+            //throw Error("Unable to sign-in now. Please try after some time.");
           }
         }).catch(error => {          
-            // console.log("FINAL111 ERROR:", error.message);
+            console.log("FINAL111 ERROR:", error.message);
             this.setState({ serverErrorMsg: error.message });
-            // document.getElementById("googleSigninError").style.display = "block";
+            this.props.updateContent("loginScreen", null, null, null);
+            document.getElementById("googleSigninError").style.display = "block";
         });
       } else {
-        // console.log("Still inside else? WTF");
+        console.log("Still inside else? WTF");
         this.setState({ loggedIn: true });
         this.props.updateContent("homeSignedIn", firstName, null, null);
       }
     }).catch(error => {
-      // console.log("FINAL ERROR:", error.message);
+      console.log("FINAL ERROR:", error.message);
       this.setState({ serverErrorMsg: error.message });
-      // document.getElementById("googleSigninError").style.display = "block";
+      this.props.updateContent("loginScreen", null, null, null);
+      document.getElementById("googleSigninError").style.display = "block";
     });
-
-    // console.log("Came Here");
-
-    if(isErrorPresent) document.getElementById("googleSigninError").style.display = "block";
   }
 
   render() {
@@ -182,7 +187,7 @@ class LoginPage extends Component {
                 <Button size="lg" variant="success" type="submit">Login</Button>
               </Form.Group>
               <Form.Group className="float-right text-right" as={Col} controlId="formGridForgot">
-                <Button variant="link">Forgot Password?</Button>
+                <Button variant="link" onClick={this.handleForgotPassword}>Forgot Password?</Button>
               </Form.Group>
             </Form.Row>
             <Form.Row className="text-center">
