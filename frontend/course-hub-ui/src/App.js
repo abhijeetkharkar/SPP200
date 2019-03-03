@@ -32,8 +32,10 @@ class App extends Component {
   componentWillMount() {
     firebaseInitialization.auth().onAuthStateChanged(user => {
       if (user) {
+        console.log("In app, EMAIL:", user.email);
         this.setState({
-          choice: "homeSignedIn"
+          choice: "homeSignedIn",
+          optional2: user.email
         });
       } else {
         this.setState({
@@ -84,7 +86,7 @@ class App extends Component {
         }
 
         {choice === "homeSignedIn" &&
-          [<CHNavigator updateContent={this.handleClick} signedIn={true} firstName={optional1} key="keyNavigatorLandingContent"/>,
+          [<CHNavigator updateContent={this.handleClick} signedIn={true} firstName={optional1} email={optional2} key="keyNavigatorLandingContent"/>,
           <div className="container-landing my-content-landing"  key="keyLandingContent">
             <CHLandingContent />
           </div>,
@@ -92,12 +94,10 @@ class App extends Component {
         }
 
         {choice === "profile" &&
-        [<CHNavigator updateContent={this.handleClick} signedIn={true} firstName={optional1} key="keyNavigatorLandingContent"/>,
-            <div className="profile-nav" key="profilenavbar">
-              <ProfileNavigator />
-            </div>,
-          <div className="profile-page"  key="profilecontent">
-            <ProfilePage />
+        [<CHNavigator updateContent={this.handleClick} signedIn={true} firstName={optional1} email={optional2} key="keyNavigatorLandingContent"/>,
+          <div className="container-landing profile-content"  key="keyLandingContent">
+            <ProfileNavigator/>
+            <ProfilePage email={optional2}/>
           </div>,
           <CHFooter key="keyFooterLandingContent"/>]
         }
