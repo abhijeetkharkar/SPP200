@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-// import '../css/bootstrap.min.css';
-// import '../css/common-components.css';
+import '../css/bootstrap.min.css';
+import '../css/common-components.css';
 import { MDBCol, MDBBtn } from "mdbreact";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {Autosuggest} from 'react-autosuggest';
