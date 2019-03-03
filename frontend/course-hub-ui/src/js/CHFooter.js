@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-// import '../css/bootstrap.min.css';
-// import '../css/common-components.css';
+import '../css/bootstrap.min.css';
+import '../css/common-components.css';
 // import '../css/font-awesome.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
