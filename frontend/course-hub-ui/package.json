@@ -11,6 +11,7 @@
     "dotenv-webpack": "^1.7.0",
     "elasticsearch": "^15.4.1",
     "firebase": "^5.8.4",
+    "jest": "^24.1.0",
     "jest-fetch-mock": "^2.1.1",
     "jquery": "^3.3.1",
     "mdbreact": "^4.11.0",
@@ -39,7 +40,7 @@
   "jest": {
     "automock": false,
     "setupFiles": [
-      "./tests/config/setupJest.js"
+      "./src/tests/config/setupJest.js"
     ]
   },
   "eslintConfig": {
