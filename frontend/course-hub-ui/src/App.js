@@ -5,6 +5,7 @@ import CHNavigator from './js/CHNavigator'
 import CHLandingContent from './js/CHLandingContent';
 import LoginPage from './js/CHLogin';
 import SignupPage from './js/CHSignup';
+import ForgotPasswordPage from './js/CHForgotPassword';
 import CHFooter from './js/CHFooter';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faEnvelope, faKey, faSignInAlt, faSearch, faAngleDown } from '@fortawesome/free-solid-svg-icons';
@@ -13,6 +14,7 @@ import firebaseInitialization, {isUserSignedIn} from './FirebaseUtils';
 import app from 'firebase/app';
 import ProfilePage from "./js/CHProfile";
 import ProfileNavigator from "./js/CHProfileNavigator";
+import {searchUser} from './elasticSearch';
 
 library.add(faEnvelope, faKey, faFacebookF, faGithub, faTwitter, faLinkedin, faSignInAlt, faSearch, faAngleDown);
 
@@ -32,10 +34,21 @@ class App extends Component {
   componentWillMount() {
     firebaseInitialization.auth().onAuthStateChanged(user => {
       if (user) {
-        console.log("In app, EMAIL:", user.email);
-        this.setState({
+        /* this.setState({
           choice: "homeSignedIn",
-          optional2: user.email
+        }); */
+        var email = user.email;
+        var payloadSearch = {
+          query : {
+              term : { Email : email }
+          }
+        }
+        searchUser(payloadSearch).then(firstName => {
+          this.setState({
+            choice: "homeSignedIn",
+            optional1: firstName,
+            optional2: email
+          });
         });
       } else {
         this.setState({
@@ -83,6 +96,15 @@ class App extends Component {
             <CHLandingContent />
           </div>,
           <CHFooter key="keyFooterSignUpOverlayOnLandingContent"/>]
+        }
+
+        {choice === "forgotPasswordScreen" &&
+          [<ForgotPasswordPage updateContent={this.handleClick} key="keyForgotPasswordOverlayOnLandingContent"/>,
+          <CHNavigator updateContent={this.handleClick} signedIn={false} key="keyNavigatorForgotPasswordOverlayOnLandingContent"/>,
+          <div className="container-landing my-content-landing" key="keyContentForgotPasswordOverlayOnLandingContent">
+            <CHLandingContent />
+          </div>,
+          <CHFooter key="keyFooterForgotPasswordOverlayOnLandingContent"/>]
         }
 
         {choice === "homeSignedIn" &&
