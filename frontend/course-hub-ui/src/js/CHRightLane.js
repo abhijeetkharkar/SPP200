@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import '../css/bootstrap.min.css';
-import '../css/common-components.css';
+// import '../css/bootstrap.min.css';
+// import '../css/common-components.css';
 
 class CHRightLane extends Component {
 

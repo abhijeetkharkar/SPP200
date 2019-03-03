@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
-import '../css/bootstrap.min.css';
-import '../css/common-components.css';
+// import '../css/bootstrap.min.css';
+// import '../css/common-components.css';
 // import { TwitterTimelineEmbed, TwitterShareButton, TwitterFollowButton, TwitterHashtagButton, TwitterMentionButton, TwitterTweetEmbed, TwitterMomentShare, TwitterDMButton, TwitterVideoEmbed, TwitterOnAirButton } from 'react-twitter-embed';
 
 
