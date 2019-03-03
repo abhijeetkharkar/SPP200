@@ -1,17 +1,10 @@
 import firebase from "firebase";
 
-// const firebaseInitialization = firebase.initializeApp({
-//   apiKey: process.env.REACT_APP_FIREBASE_KEY,
-//   authDomain: process.env.REACT_APP_FIREBASE_DOMAIN,
-//   databaseURL: process.env.REACT_APP_FIREBASE_DATABASE,
-//   projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID
-// });
-
 const firebaseInitialization = firebase.initializeApp({
-  apiKey: "AIzaSyCs3orLna02e2C5LHIjE9qVEmbLZlT7Woo",
-  authDomain: "course-hub-73ea7.firebaseapp.com",
-  databaseURL: "https://course-hub-73ea7.firebaseio.com",
-  projectId: "course-hub-73ea7"
+  apiKey: process.env.REACT_APP_FIREBASE_KEY,
+  authDomain: process.env.REACT_APP_FIREBASE_DOMAIN,
+  databaseURL: process.env.REACT_APP_FIREBASE_DATABASE,
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID
 });
 
 // await can be used only in an async function. usage of await returns a "pending" promise. 
