@@ -6,7 +6,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 class CHNavigator extends Component {
 	render() {
-
 		return (
 			<footer className="footer-distributed">
 
