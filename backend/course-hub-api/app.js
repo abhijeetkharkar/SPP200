@@ -1,10 +1,14 @@
-
 var createError = require('http-errors');
 var express = require('express');
 var bodyParser = require('body-parser')
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var firebase = require('firebase');
+var fs = require('fs');
+
+// Loading Configuration from the keys.json file 
+// var obj = JSON.parse(fs.readFileSync('keys.json', 'utf8'));
 
 var indexRouter = require('./routes/index');
 var autosuggestRouter = require('./routes/search');
@@ -19,9 +23,16 @@ app.use(function(req, res, next) {
   next();
 });
 
-// view engine setup
-// app.set('views', path.join(__dirname, 'views'));
-// app.set('view engine', 'jade');
+// Loading config keys in a config object.
+// var config = {
+// 	apiKey: obj.firebase_apiKey,
+// 	authDomain: obj.firebase_authDomain,
+// 	databaseURL: obj.firebase_databaseURL,
+// 	storageBucket: obj.firebase_storageBucket,
+// 	messagingSenderId: obj.firebase_messagingSenderId,
+// 	projectId: obj.firebase_projectId
+// };
+
 
 app.use(logger('dev'));
 app.use(express.json());
