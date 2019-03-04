@@ -29,7 +29,7 @@ describe('Testing SignUp', () => {
             resolve(true)
         });
 
-        doCreateUserWithEmailAndPassword = jest.fn(response_create_user);
+        // doCreateUserWithEmailAndPassword = jest.fn(response_create_user);
         
         const event = {
             preventDefault() {},

@@ -1,3 +1,4 @@
+nltk==3.4
 altgraph==0.10.2
 asn1crypto==0.24.0
 bcrypt==3.1.4

@@ -1,0 +1,40 @@
+.heading {
+    color: white;
+}
+
+.card-title{
+    color: #565a9e;
+    text-align: left;
+    font-size: x-large;
+}
+
+.profile-card-title{
+    padding-top: 30px;
+    color: #565a9e;
+    text-align: center;
+    font-size: x-large;
+}
+
+.profile-card-body{
+    border-radius: 3px;
+    background-color: lightgrey;
+    height: 245px;
+}
+
+.profile-form{
+    color: #6e6cdd;
+    text-align: left;
+    font-weight: bold;
+    font-size: 10px;
+    padding: 10px;
+}
+
+.profile-form-control {
+    height: 80% !important;
+    font-size: small;
+}
+
+.password-button{
+    float: right;
+}
+
