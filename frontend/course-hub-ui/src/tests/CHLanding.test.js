@@ -25,7 +25,7 @@ test('Testing onchange autocomplete fetch', async () => {
     //scomponent.setState({ searchquery: "abc", suggestions: ["Deep Learning","Machine Learning"] });
     const event = {
         preventDefault() {},
-        target: { value: 'deep' }
+        target: { value: 'deep'}
       };
     const response ={ suggestions: ["Deep Learning","Machine Learning"]};
     fetch.mockResponseOnce(response);
