@@ -7,6 +7,7 @@ import { shallow } from 'enzyme';
 import { render } from 'enzyme';
 import { mount } from 'enzyme';
 const fetch = require('node-fetch');
+
 test('Testing Loading of LandingPage', () => {
     const wrapper = shallow(<LandingPage />);
     expect(wrapper.exists()).toBe(true);
