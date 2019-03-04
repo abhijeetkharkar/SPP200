@@ -153,6 +153,7 @@ class LoginPage extends Component {
     const { validated } = this.state;
     return (
       <Modal
+        className="loginModal"
         show={this.state.show}
         onHide={this.handleHide}
         dialogClassName="modal-90w"

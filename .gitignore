@@ -157,3 +157,5 @@ __init__.pyc
 TestUdacity.pyc
 TestUdemy.pyc
 jsconfig.json
+
+*.snap

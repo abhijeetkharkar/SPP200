@@ -87,8 +87,8 @@ class ProfilePage extends Component {
                 }
             }).then(response => {
                 if (response) {
+                    this.props.updateContent("homeSignedIn", null, this.state.email, null);
                     alert("Profile Updated Successfully");
-                    //this.props.updateContent("profile", null, this.state.email, null);
                 } else {
                     this.setState({ serverErrorMsg: "Unable to update Profile." });
                     alert("Error: Couldn't update profile");
