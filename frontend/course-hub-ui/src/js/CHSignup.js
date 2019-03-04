@@ -35,10 +35,10 @@ class SignupPage extends Component {
   handleSubmit = async event => {
     event.preventDefault();
     try {
-      document.getElementById("invalidUsernamePwdFeedback").style.display = "none";
+      // document.getElementById("invalidUsernamePwdFeedback").style.display = "none";
       doCreateUserWithEmailAndPassword(this.state.email, this.state.password)
         .then(user => {
-          console.log("User successfully signed up ");
+          console.log("User successfully signed up ", user);
           // Todo: Update the information in Elastic Search Server
           addUser({
             "Email": this.state.email,
