@@ -1,10 +1,10 @@
 import unittest
-import requests_mock
-from mock import patch
-# sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
-from awslambda.iversity.handler import lambda_handler as iversity_lambda_handler
-from awslambda.open_learning.handler import lambda_handler as open_learning_lambda_handler
-from awslambda.utils import add_data_elastic_search, search_data_elastic_search, fetch_data
+# import requests_mock
+# from mock import patch
+# # sys.path.append(path.dirname(path.dirname(path.abspath(__file__))))
+# from awslambda.iversity.handler import lambda_handler as iversity_lambda_handler
+# from awslambda.open_learning.handler import lambda_handler as open_learning_lambda_handler
+# from awslambda.utils import add_data_elastic_search, search_data_elastic_search, fetch_data
 
 
 class TestLambdas(unittest.TestCase):
