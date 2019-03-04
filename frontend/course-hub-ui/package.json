@@ -32,7 +32,7 @@
   "scripts": {
     "start": "webpack-dev-server --mode development --open --hot",
     "build": "webpack --env.development --config webpack.config.js",
-    "test": "jest",
+    "test": "jest -u --coverage",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage --colors",
     "eject": "react-scripts eject",
