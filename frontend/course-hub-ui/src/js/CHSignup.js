@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Modal, Button, Form, Col } from 'react-bootstrap';
-import { doCreateUserWithEmailAndPassword } from '../FirebaseUtils';
-import { addUser } from '../elasticSearch';
+import { doSignInWithEmailAndPassword, doCreateUserWithEmailAndPassword, doDeleteUser } from '../FirebaseUtils';
+import {addUser, searchUser} from '../elasticSearch';
 
 class SignupPage extends Component {
   constructor(props, context) {
@@ -35,31 +35,51 @@ class SignupPage extends Component {
   handleSubmit = async event => {
     event.preventDefault();
     try {
-      // document.getElementById("invalidUsernamePwdFeedback").style.display = "none";
-      doCreateUserWithEmailAndPassword(this.state.email, this.state.password)
-        .then(user => {
-          console.log("User successfully signed up ", user);
-          // Todo: Update the information in Elastic Search Server
-          addUser({
-            "Email": this.state.email,
-            "UserName": {
-              "First": this.state.firstName,
-              "Last": this.state.lastName
-            }
-          }).then(response => {
+      var payloadSearch = {
+        query : {
+            term : { Email : this.state.email }
+        }
+      }
+
+      searchUser(payloadSearch)
+      .then( user => {
+        if (user){
+          this.setState({ serverErrorMsg: "User Account already present." });
+          document.getElementById("invalidUsernamePwdFeedback").style.display = "block";
+        }else{
+          doCreateUserWithEmailAndPassword(this.state.email, this.state.password)
+          .then(user => {
+            return doSignInWithEmailAndPassword(this.state.email, this.state.password)
+          })
+          .then(user => {
+            // Creating User Profile in Elastic Search Database
+            return addUser({
+              "Email": this.state.email,
+              "UserName": {
+                "First": this.state.firstName,
+                "Last": this.state.lastName
+              }
+            })
+          })
+          .then(response => {
             if (response) {
-              console.log("User successfully created ");
-              this.props.updateContent("home", null, null, null);
+              console.log("User successfully created "); 
+              this.props.updateContent("homeSignedIn", this.state.firstName, null, null);
             } else {
-              //TODO delete firebase user
-              // throw Error("Error inserting in Elastic Search");
-              this.setState({ serverErrorMsg: "Unable to create User Account." });
-              document.getElementById("invalidUsernamePwdFeedback").style.display = "block";
-              console.log("Response from Elastic Search API is :", response);
+              // Deleting account in Firebase if Elastic Search Update fails
+              doDeleteUser().then(deleteResponse => {
+                console.log("DELETE:", deleteResponse);
+                this.setState({ serverErrorMsg: "Unable to sign-up now." });
+                this.props.updateContent("loginScreen", null, null, null);
+                document.getElementById("invalidUsernamePwdFeedback").style.display = "block";
+              }).catch(error => {
+                // TODO Needs to be reported to the Course-Hub team
+                console.log("This needs to be handled");
+              });
             }
           });
-        })
-    } catch (error) {
+      }});
+    }catch (error) {
       this.setState({ serverErrorMsg: error.message });
       document.getElementById("invalidUsernamePwdFeedback").style.display = "block";
       console.log("error is", error);

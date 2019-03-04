@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import '../css/bootstrap.min.css';
 import '../css/common-components.css';
-import { MDBCol, MDBBtn } from "mdbreact";
+import { MDBCol, MDBBtn, MDBContainer, MDBRow } from "mdbreact";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {Autosuggest} from 'react-autosuggest';
 const fetch = require('node-fetch');
@@ -45,38 +45,46 @@ class CHLandingContent extends Component {
         var suggestionResults;
         if (this.state.suggestions.length > 0 && this.state.searchquery.length > 2) {
             return (
-                <MDBCol md="7">
-                    <div className="input-group md-form form-sm form-1 pl-0" id="landingdiv">
-                        <div className="input-group-prepend">
-                            <span className="input-group-text" id="basic-text1">
-                                <FontAwesomeIcon icons="search" color='rgb(207, 204, 19)' size='3x' />
-                            </span>
-                        </div>
-                        <input className="form-control my-0 py-1" value={this.state.searchquery} onChange={this.handlesearchqueryChange} type="text" placeholder="Search courses" aria-label="Search" />
-                        <MDBBtn size="lg" className="searchbutton">Search</MDBBtn>
-                    </div>
-                    <div className="autocompleteclass" id="autocomplete">
-                         <table className="suggestions-table">
-                            {this.state.suggestions.map((item, index) => {
-                                return (<tr><td className="suggestions-data" key={index}>{item}</td></tr>);
-                            })}
-                        </table>
-                    </div>
-                </MDBCol>
+                <MDBContainer>
+                    <MDBRow>
+                        <MDBCol md="12">
+                            <div className="input-group md-form form-sm form-1 pl-0" id="landingdiv">
+                                <div className="input-group-prepend">
+                                    <span className="input-group-text" id="basic-text1">
+                                        <FontAwesomeIcon icons="search" color='rgb(207, 204, 19)' size='3x' />
+                                    </span>
+                                </div>
+                                <input className="form-control my-0 py-1" value={this.state.searchquery} onChange={this.handlesearchqueryChange} type="text" placeholder="Search courses" aria-label="Search" />
+                                <MDBBtn size="lg" className="searchbutton">Search</MDBBtn>
+                            </div>
+                            <div className="autocompleteclass" id="autocomplete">
+                                <table className="suggestions-table">
+                                    {this.state.suggestions.map((item, index) => {
+                                        return (<tr><td className="suggestions-data" key={index}>{item}</td></tr>);
+                                    })}
+                                </table>
+                            </div>
+                        </MDBCol>
+                    </MDBRow>
+                </MDBContainer>
             );
         }
         return (
-            <MDBCol md="7">
-                <div className="input-group md-form form-sm form-1 pl-0">
-                    <div className="input-group-prepend">
-                        <span className="input-group-text" id="basic-text1">
-                            <FontAwesomeIcon icons="search" color='rgb(207, 204, 19)' size='3x' />
-                        </span>
-                    </div>
-                    <input className="form-control my-0 py-1" value={this.state.searchquery} onChange={this.handlesearchqueryChange} type="text" placeholder="Search courses" aria-label="Search" />
-                    <MDBBtn size="lg" className="searchbutton">Search</MDBBtn>
-                </div>
-            </MDBCol>
+            <MDBContainer>
+                <MDBRow>
+                    <MDBCol md="12">
+                        <div className="input-group md-form form-sm form-1 pl-0">
+                            <div className="input-group-prepend">
+                                <span className="input-group-text" id="basic-text1">
+                                    <FontAwesomeIcon icons="search" color='rgb(207, 204, 19)' size='3x' />
+                                </span>
+                            </div>
+                            <input className="form-control my-0 py-1" value={this.state.searchquery} onChange={this.handlesearchqueryChange} type="text" placeholder="Search courses" aria-label="Search" />
+                            <MDBBtn size="lg" className="searchbutton">Search</MDBBtn>
+                        </div>
+                    </MDBCol>
+                </MDBRow>
+            </MDBContainer>
         );
     }
 }
