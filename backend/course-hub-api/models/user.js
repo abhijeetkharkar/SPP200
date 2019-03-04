@@ -1,4 +1,4 @@
-var elasticsearch = require('elasticsearch');
+/*var elasticsearch = require('elasticsearch');
 
 index = 'User'
 type = 'user'
@@ -31,4 +31,4 @@ module.exports = {
             }
         });
     },
-};
+};*/
