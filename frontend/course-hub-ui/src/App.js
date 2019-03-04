@@ -23,6 +23,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
+      choice: "",
       optional1: "",
       optional2: "",
       optional3: ""

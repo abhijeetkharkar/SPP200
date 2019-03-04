@@ -7,16 +7,16 @@ import { shallow } from 'enzyme';
 import { render } from 'enzyme';
 import { mount } from 'enzyme';
 
-// sample test
-test('renders without crashing', () => {
-  expect(true).toBe(true);
+
+test('Loading Home Page', () => {
+  
+  const wrapper = shallow(<App />);
+  wrapper.setState({ choice: "home", optional1: "", optional2 : "", optional3: ""  });
+  expect(wrapper.exists()).toBe(true);
 });
 
-
-// Login Page test
-test('Testing Footer Component load without error', () => {
-  const tree = renderer
-    .create(<Footer />)
-    .toJSON();
-  expect(tree).toMatchSnapshot();
-});
+// test("test handle click", () => {
+//   var app = new App();
+//   app.handleClick("home", "", "", "");
+//   expect(app.state.choice).toBe("");
+// });

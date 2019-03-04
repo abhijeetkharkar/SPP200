@@ -40,7 +40,7 @@ class ForgotPasswordPage extends Component {
 
   handleSubmit = async e => {
     e.preventDefault();
-    e.stopPropagation();
+    // e.stopPropagation();
     const form = e.currentTarget;
     if (!form.checkValidity()) {
       this.setState({ validated: true });
