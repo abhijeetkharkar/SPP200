@@ -9,6 +9,8 @@
     "@fortawesome/free-solid-svg-icons": "^5.7.2",
     "@fortawesome/react-fontawesome": "^0.1.4",
     "bootstrap": "^4.3.1",
+    "create-react-class": "^15.6.3",
+    "dateformat": "^3.0.3",
     "dotenv-webpack": "^1.7.0",
     "elasticsearch": "^15.4.1",
     "firebase": "^5.8.4",

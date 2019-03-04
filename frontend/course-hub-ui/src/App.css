@@ -30,6 +30,14 @@ html {
   
 }
 
+.profile-content {
+  float: left;
+  padding: 1%;
+  text-align: center;
+  width: 100% !important;
+
+}
+
 @media (min-width: 1200px) {
   .container {
     max-width: 63.5% !important;

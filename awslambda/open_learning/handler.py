@@ -65,7 +65,3 @@ def lambda_handler(event, context):
         print("Total Courses Fetch:", total)
         print("Total Courses Added:", add_count)
         print('Total time taken:', round(time.time() - start, 2), 'sec\n')
-
-
-if __name__ == '__main__':
-    lambda_handler('', '')

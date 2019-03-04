@@ -23,8 +23,8 @@ class CHNavigator extends Component {
     }
 
     handleViewProfile = e => {
-        console.log("In CHNavigator, email: ", this.props.email);
-        this.props.updateContent("home", null, null, null);
+        console.log("In CHnavigator, email:", this.props.email);
+        this.props.updateContent("profile", this.props.firstName, this.props.email, null);
     }
 
     render() {
@@ -51,7 +51,6 @@ class CHNavigator extends Component {
                             </Dropdown.Menu>
                         </Dropdown>
                     }
-
                     <Button className="my-nav-tabs">Deals</Button>
                 </div>
             </div>
