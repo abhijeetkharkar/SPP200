@@ -10,7 +10,7 @@ import CHFooter from './js/CHFooter';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faEnvelope, faKey, faSignInAlt, faSearch, faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import { faFacebookF, faGithub, faTwitter, faLinkedin } from '@fortawesome/free-brands-svg-icons';
-import firebaseInitialization, {isUserSignedIn} from './FirebaseUtils';
+import firebaseInitialization from './FirebaseUtils';
 import app from 'firebase/app';
 import ProfilePage from "./js/CHProfile";
 import ProfileNavigator from "./js/CHProfileNavigator";

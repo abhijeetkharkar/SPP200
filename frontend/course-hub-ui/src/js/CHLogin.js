@@ -55,7 +55,7 @@ class LoginPage extends Component {
       this.setState({ validated: true });
     } else {
       doSignInWithEmailAndPassword(this.state.email, this.state.password).then(response => {
-        console.log("SIGN-IN USER:", response.user.email);
+        // console.log("SIGN-IN USER:", response.user.email);
         // localStorage.setItem("current_user_email", response.user.email);
         var payloadSearch = {
           query : {
@@ -69,7 +69,7 @@ class LoginPage extends Component {
         // document.getElementById("invalidUsernamePwdFeedback").style.display = "none";
         this.props.updateContent("homeSignedIn", elasticData, null, null);
       }).catch(error => {
-        console.log("SIGN-IN ERROR:", error.message);
+        // console.log("SIGN-IN ERROR:", error.message);
         this.setState({ serverErrorMsg: error.message });
         document.getElementById("formGridPassword").style.borderColor = "#dc3545";
         document.getElementById("invalidUsernamePwdFeedback").style.display = "block";
@@ -110,39 +110,38 @@ class LoginPage extends Component {
 
       return searchUser(payloadSearch);
     }).then(response => {
-      console.log("Response in chain: ", response);
+      // console.log("Response in chain: ", response);
       if(response === null) {
         addUser(payloadAdd).then(response => {
-          console.log("Response:", response); 
+          // console.log("Response:", response); 
           if (response) {
             this.setState({ loggedIn: true });
             this.props.updateContent("homeSignedIn", firstName, null, null);
           } else {
-            console.log("Google Signin, came to error");
+            // console.log("Google Signin, came to error");
             doDeleteUser().then(deleteResponse => {
-              console.log("DELETE:", deleteResponse);
+              // console.log("DELETE:", deleteResponse);
               this.setState({ serverErrorMsg: "Unable to sign-in now. Please try after some time." });
               this.props.updateContent("loginScreen", null, null, null);
               document.getElementById("googleSigninError").style.display = "block";
             }).catch(error => {
               // TODO Needs to be reported to the Course-Hub team
-              console.log("This needs to be handled");
+              // console.log("This needs to be handled");
             });
             //throw Error("Unable to sign-in now. Please try after some time.");
           }
         }).catch(error => {          
-            console.log("FINAL111 ERROR:", error.message);
+            // console.log("FINAL111 ERROR:", error.message);
             this.setState({ serverErrorMsg: error.message });
             this.props.updateContent("loginScreen", null, null, null);
             document.getElementById("googleSigninError").style.display = "block";
         });
       } else {
-        console.log("Still inside else? WTF");
         this.setState({ loggedIn: true });
         this.props.updateContent("homeSignedIn", firstName, null, null);
       }
     }).catch(error => {
-      console.log("FINAL ERROR:", error.message);
+      // console.log("FINAL ERROR:", error.message);
       this.setState({ serverErrorMsg: error.message });
       this.props.updateContent("loginScreen", null, null, null);
       document.getElementById("googleSigninError").style.display = "block";

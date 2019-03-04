@@ -63,18 +63,18 @@ class SignupPage extends Component {
           })
           .then(response => {
             if (response) {
-              console.log("User successfully created "); 
+              // console.log("User successfully created "); 
               this.props.updateContent("homeSignedIn", this.state.firstName, null, null);
             } else {
               // Deleting account in Firebase if Elastic Search Update fails
               doDeleteUser().then(deleteResponse => {
-                console.log("DELETE:", deleteResponse);
+                // console.log("DELETE:", deleteResponse);
                 this.setState({ serverErrorMsg: "Unable to sign-up now." });
                 this.props.updateContent("loginScreen", null, null, null);
                 document.getElementById("invalidUsernamePwdFeedback").style.display = "block";
               }).catch(error => {
                 // TODO Needs to be reported to the Course-Hub team
-                console.log("This needs to be handled");
+                // console.log("This needs to be handled");
               });
             }
           });
@@ -82,7 +82,7 @@ class SignupPage extends Component {
     }catch (error) {
       this.setState({ serverErrorMsg: error.message });
       document.getElementById("invalidUsernamePwdFeedback").style.display = "block";
-      console.log("error is", error);
+      // console.log("error is", error);
     }
   }
 

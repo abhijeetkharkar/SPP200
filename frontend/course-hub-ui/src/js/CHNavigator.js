@@ -23,7 +23,7 @@ class CHNavigator extends Component {
     }
 
     handleViewProfile = e => {
-        console.log("In CHnavigator, email:", this.props.email);
+        // console.log("In CHnavigator, email:", this.props.email);
         this.props.updateContent("profile", this.props.firstName, this.props.email, null);
     }
 

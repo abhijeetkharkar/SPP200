@@ -52,6 +52,30 @@ describe('Testing SignUp', () => {
         expect(true).toBe(true);
     });
 
+    test('Testing Google Sign-in ', () => {
+        var loginPage = new LoginPage();
+        loginPage.setState({
+            show: false,
+            validated: false,
+            email: '',
+            password: '',
+            loggedIn: false,
+            serverErrorMsg: ''
+        })
+
+        /* doSignInWithEmailAndPassword = jest.fn(new Promise((resolve, reject) => {
+            resolve(true);
+        })
+        ); */
+
+        const event = {
+            preventDefault() { },
+        };
+
+        loginPage.handleGoogleSignin();
+        expect(true).toBe(true);
+    });
+
     test('Testing update email ', () => {
         var loginPage = new LoginPage();
 
