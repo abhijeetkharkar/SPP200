@@ -10,4 +10,4 @@ module.exports = {
 		// defaults: false // load '.env.defaults' as the default values if empty.
 	  })
 	]
-  };
+};
