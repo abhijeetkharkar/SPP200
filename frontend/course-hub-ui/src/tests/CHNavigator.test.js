@@ -11,12 +11,22 @@ import PropTypes from 'prop-types';
 const fetch = require('node-fetch');
 
 test('Testing Loading of Navigator webpage', () => {
-    const wrapper = shallow(<Navigator />);
+    const handleClick = jest.fn();
+    const wrapper = shallow(<Navigator updateContent={handleClick} signedIn={false}/>);
     expect(wrapper.exists()).toBe(true);
 });
 
+test('Testing Loading of Navigator webpage', () => {
+    const handleClick = jest.fn();
+    const wrapper = shallow(<Navigator updateContent={handleClick} signedIn={true} firstName={"Test1"} email={"test1@test.com"}/>);
+    expect(wrapper.exists()).toBe(true);
+});
+
+
 test('Testing Signout feature', async () => {
-    var navigator = new Navigator();
+   var navigator = new Navigator();
+    const handleClick = jest.fn();
+    const wrapper = shallow(<Navigator updateContent={handleClick} signedIn={true} firstName={"Test1"} email={"test1@test.com"}/>);
     const event = {
         preventDefault() {}
       };
@@ -26,6 +36,8 @@ test('Testing Signout feature', async () => {
 
 test('Testing View Profile feature', async () => {
     var navigator = new Navigator();
+     const handleClick = jest.fn();
+     const wrapper = shallow(<Navigator updateContent={handleClick} signedIn={true} firstName={"Test1"} email={"test1@test.com"}/>);
     const event = {
         preventDefault() {}
       };

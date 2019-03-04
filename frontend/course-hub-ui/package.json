@@ -34,7 +34,7 @@
   "scripts": {
     "start": "webpack-dev-server --mode development --open --hot",
     "build": "webpack --env.development --config webpack.config.js",
-    "test": "jest -u --coverage",
+    "test": "jest -u --coverage --collectCoverageFrom=src/**/*.js --collectCoverageFrom=!src/**/CHFilters.js  --collectCoverageFrom=!src/**/CHLoginRoute.js --collectCoverageFrom=!src/**/CHRightLane.js --collectCoverageFrom=!src/index.js --collectCoverageFrom=!src/serviceWorker.js --collectCoverageFrom=!src/webpack.config.build.js --collectCoverageFrom=!src/webpack.config.dev.js",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage --colors",
     "eject": "react-scripts eject",
