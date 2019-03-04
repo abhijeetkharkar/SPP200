@@ -19,6 +19,7 @@ class ProfilePage extends Component {
         super(props, context);
 
         this.state = {
+            id: "",
             firstName: "",
             lastName: "",
             email: "",
@@ -37,17 +38,20 @@ class ProfilePage extends Component {
                 term : { Email : this.props.email }
             }
         };
-        getUserDetails(payload).then(elasticData => {
+        getUserDetails(payload).then(elasticResponse => {
+            var id = elasticResponse.id;
+            var elasticData = elasticResponse.data;
+            this.setState({id: id})
             this.setState({firstName: ((elasticData.UserName.First != null) ? elasticData.UserName.First : '')});
             this.setState({lastName: ((elasticData.UserName.Last != null) ? elasticData.UserName.Last : '')});
             this.setState({email: ((elasticData.Email != null) ? elasticData.Email : '')});
-            this.setState({dob: ((elasticData.date_of_birth != null) ? dateFormat(elasticData.date_of_birth, "isoDateTime").split('T')[0] : dateFormat(new Date('01/01/1996'), "isoDateTime").split('T')[0])});
-            this.setState({phone: ((elasticData.phone_no != null) ? elasticData.phone_no : '319-123-4567')});
-            this.setState({address: ((elasticData.address != null) ? elasticData.address : '711 Carriage Hill')});
-            this.setState({city: ((elasticData.city != null) ? elasticData.city : 'Iowa City')});
-            this.setState({state: ((elasticData.state != null) ? elasticData.state : 'IA')});
-            this.setState({zip_code: ((elasticData.zip_code != null) ? elasticData.zip_code : '52246')});
-            this.setState({bio: ((elasticData.bio != null) ? elasticData.bio : "I am a greatest Software in the World of Engineer")});
+            this.setState({dob: ((elasticData.DOB != null) ? String(dateFormat(elasticData.DOB, "isoDateTime").split('T')[0]): '')});
+            this.setState({phone: ((elasticData.PhoneNo != null) ? elasticData.PhoneNo : '')});
+            this.setState({address: ((elasticData.Address.Street != null) ? elasticData.Address.Street : '')});
+            this.setState({city: ((elasticData.Address.City != null) ? elasticData.Address.City : '')});
+            this.setState({state: ((elasticData.Address.State != null) ? elasticData.Address.State : '')});
+            this.setState({zip_code: ((elasticData.Address.ZipCode != null) ? elasticData.Address.ZipCode : '')});
+            this.setState({bio: ((elasticData.Bio != null) ? elasticData.Bio : "I am a greatest Software in the World of Engineer")});
             this.setState({password: ((elasticData.password != null) ? elasticData.password : "Don't know")});
 
         }).catch(error => {
@@ -65,27 +69,29 @@ class ProfilePage extends Component {
         console.log('In Submit');
         event.preventDefault();
         try {
-            updateUser({
-                "Email": this.state.email,
-                "UserName": {
-                    "First": this.state.firstName,
-                    "Last": this.state.lastName
-                },
-                "DOB": this.state.dob,
-                "Address":{
-                    "Street": this.state.address,
-                    "City": this.state.city,
-                    "State": this.state.state,
-                    "ZipCode": this.state.zip_code
-                },
-                "PhoneNo": this.state.phone,
-
+            updateUser(this.state.id, {
+                "doc" : {
+                    "Email": this.state.email,
+                    "UserName": {
+                        "First": this.state.firstName,
+                        "Last": this.state.lastName
+                    },
+                    "DOB": dateFormat(new Date(new Date(this.state.dob).getTime() + 1000*60*60*24), "isoDateTime").split("T")[0],
+                    "Address":{
+                        "Street": this.state.address,
+                        "City": this.state.city,
+                        "State": this.state.state,
+                        "ZipCode": this.state.zip_code
+                    },
+                    "PhoneNo": this.state.phone,
+                }
             }).then(response => {
                 if (response) {
-                    console.log("User details updated successfully");
+                    alert("Profile Updated Successfully");
                     //this.props.updateContent("profile", null, this.state.email, null);
                 } else {
-                    this.setState({ serverErrorMsg: "Unable to update User Profile." });
+                    this.setState({ serverErrorMsg: "Unable to update Profile." });
+                    alert("Error: Couldn't update profile");
                     console.log("Response from Elastic Search API is :", response);
                 }
             });
@@ -108,7 +114,7 @@ class ProfilePage extends Component {
 
     handleDobChange = (e) => {
         console.log('dob', e.target.value);
-        this.setState({ dob: dateFormat(e.target.value, "isoDateTime").split('T')[0]});
+        this.setState({ dob: e.target.value});
     }
 
     handlePhoneChange = (e) => {
@@ -132,8 +138,8 @@ class ProfilePage extends Component {
     }
 
     handleZipChange = (e) => {
-        console.log('zip', e.target.value);
-        this.setState({ zip: e.target.value });
+        console.log('zip_code', e.target.value);
+        this.setState({ zip_code: e.target.value });
     }
 
 

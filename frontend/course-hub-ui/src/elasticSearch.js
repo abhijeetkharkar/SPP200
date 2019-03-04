@@ -59,7 +59,9 @@ const getUserDetails = async payload => {
         return response.json();
     }).then(elasticData => {
         if (elasticData.hits.total >= 1) {
-            return elasticData.hits.hits[0]._source;
+            console.log("Get User Details JSON OBJECT IS ")
+            console.log("log is ", elasticData.hits.hits[0]._source);
+            return {'id': elasticData.hits.hits[0]._id, 'data': elasticData.hits.hits[0]._source};
         } else {
             return null;
         }
@@ -70,9 +72,10 @@ const getUserDetails = async payload => {
     return response;
 }
 
-const updateUser = async payload => {
-    console.log("in update user")
-    const response = await fetch(process.env.REACT_APP_AWS_ELASTIC_SEARCH_URL + "users/user/_update",
+const updateUser = async (_id, payload) => {
+    console.log("in update user");
+    console.log("payload is:", payload);
+    const response = await fetch(process.env.REACT_APP_AWS_ELASTIC_SEARCH_URL + "users/user/" + _id + '/_update',
         {
             method: 'POST',
             body: JSON.stringify(payload),
@@ -80,9 +83,9 @@ const updateUser = async payload => {
         }).then(response => {
         return response.json();
     }).then(elasticData => {
-        console.log("JSON OBJECT IS ")
+        console.log("Update User JSON OBJECT IS ")
         console.log("log is ", elasticData)
-        if (elasticData.result === "created") {
+        if (elasticData.result === "updated" || elasticData.result === "noop") {
             return true;
         } else {
             return false;
