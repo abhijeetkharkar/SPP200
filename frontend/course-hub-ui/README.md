@@ -69,10 +69,10 @@ This section has moved here: https://facebook.github.io/create-react-app/docs/tr
 
 ### Unit Testing
 
-## Mocking Functions (using Jest + Enzyme)
+#### Mocking Functions (using Jest + Enzyme)
 
 The *shallow* method of Enzyme can be used to get a wrapper of a component in React. The instance of this component can be obtained by using *shallow(<Your Component />).instance()*. Now the member methods of the component can be unit tested. Functions used in unit testing can be mocked using Jest in 2 different ways:
-1. # Mocking all exported functions from a file:
+1. ##### Mocking all exported functions from a file:
 ```javascript
 const yourReference = require('../YourFileToHaveFunctionsExportedFrom');
 jest.mock('../YourFileToHaveFunctionsExportedFrom');
@@ -83,7 +83,7 @@ test('Testing Signout feature - Sad Path', async () => {
 	expect(yourReference.exportedFunction).toHaveBeenCalledTimes(NumberOfTimes);
 }
 ```
-2. # Mocking function in the same file:
+2. ##### Mocking function in the same file:
 ```javascript
 test('Testing Signout feature - Sad Path', async () => {
 	....
