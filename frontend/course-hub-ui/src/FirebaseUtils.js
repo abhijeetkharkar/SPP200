@@ -28,7 +28,7 @@ const doSignInWithGoogle = async () => {
 
 const doSignOut = async () => {
   const response = await firebaseInitialization.auth().signOut();
-  console.log("Response Signout: ", response);
+  // console.log("Response Signout: ", response);
   return response;
 }
 

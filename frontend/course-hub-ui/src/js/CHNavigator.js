@@ -18,6 +18,7 @@ class CHNavigator extends Component {
         doSignOut().then( () => {
             self.props.updateContent("home", null, null, null);
         }).catch(function (error) {
+            // TODO Deal with this. Have an alert sent to some system to assist user.
             console.log(error);
         });
     }
@@ -33,7 +34,7 @@ class CHNavigator extends Component {
                 <h1 className="website-name">Course-Hub</h1>
                 <div id="website-navigators-container">
                     {!this.props.signedIn &&
-                        <Button className="my-nav-tabs" onClick={(e) => this.props.updateContent("loginScreen", null, null, null)}>
+                        <Button id="loginButtonNavigator" className="my-nav-tabs" onClick={(e) => this.props.updateContent("loginScreen", null, null, null)}>
                             <FontAwesomeIcon icon="sign-in-alt" />
                             &nbsp;&nbsp;Login/Signup
                         </Button>

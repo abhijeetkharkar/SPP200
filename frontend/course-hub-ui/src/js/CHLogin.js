@@ -161,7 +161,7 @@ class LoginPage extends Component {
           <Modal.Title size="lg" id="login-in-title">
             Login
             </Modal.Title>
-          <Button variant="danger" onClick={(e) => this.props.updateContent("home", null, null, null)}>
+          <Button id="loginCloseButton" variant="danger" onClick={(e) => this.props.updateContent("home", null, null, null)}>
             X
           </Button>
         </Modal.Header>
@@ -202,7 +202,7 @@ class LoginPage extends Component {
             </Form.Row>
             <Form.Row>
               <Form.Group className="float-right text-right" as={Col} controlId="formGridSignUp">
-                New User? <Button variant="link" onClick={(e) => this.props.updateContent("signupScreen", null, null, null)}>Register</Button>
+                New User? <Button id="loginRegisterButton" variant="link" onClick={(e) => this.props.updateContent("signupScreen", null, null, null)}>Register</Button>
               </Form.Group>
             </Form.Row>
           </Form>
