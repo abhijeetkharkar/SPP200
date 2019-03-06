@@ -6,11 +6,12 @@ import {
     Col,
     Card,
     Form,
-    Button,
+    Button, Modal,
 } from "react-bootstrap";
-import {updateUser, getUserDetails} from "../elasticSearch";
+import {updateUser, getUserDetails, addUser} from "../elasticSearch";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser  } from '@fortawesome/free-solid-svg-icons'
+import {doPasswordUpdate} from "../FirebaseUtils";
 
 var dateFormat = require('dateformat');
 class ProfilePage extends Component {
@@ -30,8 +31,11 @@ class ProfilePage extends Component {
             state: "",
             zip_code: "",
             bio: "",
-            password: "",
-            confirmPassword: "",
+            old_password: "",
+            new_password: "",
+            confirm_password: "",
+            isOpen: false,
+            serverErrorMsg: '',
         };
         var payload = {
             query : {
@@ -52,7 +56,6 @@ class ProfilePage extends Component {
             this.setState({state: ((elasticData.Address.State != null) ? elasticData.Address.State : '')});
             this.setState({zip_code: ((elasticData.Address.ZipCode != null) ? elasticData.Address.ZipCode : '')});
             this.setState({bio: ((elasticData.Bio != null) ? elasticData.Bio : "I am a greatest Software in the World of Engineer")});
-            this.setState({password: ((elasticData.password != null) ? elasticData.password : "Don't know")});
 
         }).catch(error => {
             console.log("Fetch Details ERROR:", error.message);
@@ -97,9 +100,49 @@ class ProfilePage extends Component {
             });
         } catch (error) {
             this.setState({ serverErrorMsg: error.message });
-            document.getElementById("invalidUsernamePwdFeedback").style.display = "block";
+            alert("Error: Couldn't update profile");
             console.log("error is", error);
         }
+    }
+
+    handlePasswordSubmit = async event => {
+        console.log('In Password Submit');
+        document.getElementById("invalidUsernamePwdFeedback").style.display = "None";
+        document.getElementById("invalidNewPassword").style.display = "None";
+        document.getElementById("invalidCurrentPassword").style.display = "None";
+        event.preventDefault();
+        try {
+            if (this.state.new_password !== this.state.confirm_password) {
+                this.setState({ serverErrorMsg: "Didn't match with new password" });
+                document.getElementById("invalidUsernamePwdFeedback").style.display = "block";
+            } else {
+                doPasswordUpdate(this.state.old_password, this.state.new_password).then(res => {
+                    console.log(res);
+                    if(res === "SUCCESS"){
+                        alert('Password Updated Successfully!');
+                        this.toggleModal();
+                    }
+                    else if(res === "REJECTED"){
+                        this.setState({ serverErrorMsg: "Password didn't meet required specifications" });
+                        document.getElementById("invalidNewPassword").style.display = "block";
+                    }
+                    else{
+                        this.setState({ serverErrorMsg: "Invalid current password" });
+                        document.getElementById("invalidCurrentPassword").style.display = "block";
+                    }
+                })
+            }
+        } catch (error) {
+            this.setState({ serverErrorMsg: error.message });
+            alert("Error: Couldn't update password");
+            console.log("error is", error);
+        }
+    }
+
+    toggleModal = () => {
+        this.setState({
+            isOpen: !this.state.isOpen
+        });
     }
 
     handleFirstNameChange = (e) => {
@@ -142,9 +185,16 @@ class ProfilePage extends Component {
         this.setState({ zip_code: e.target.value });
     }
 
+    handleOldPasswordChange = (e) => {
+        this.setState({ old_password: e.target.value });
+    }
 
     handlePasswordChange = (e) => {
-        this.setState({ password: e.target.value });
+        this.setState({ new_password: e.target.value });
+    }
+
+    handleConfirmPasswordChange = (e) => {
+        this.setState({ confirm_password: e.target.value });
     }
 
 
@@ -152,6 +202,48 @@ class ProfilePage extends Component {
         return (
             <div className="content">
                 <Container fluid>
+                    <Modal show={this.state.isOpen}>
+                        <Modal.Header>
+                            <Modal.Title id="password-change-title">
+                                Change Password
+                            </Modal.Title>
+                            <Button variant="danger" onClick={this.toggleModal}>
+                                X
+                            </Button>
+                        </Modal.Header>
+                        <Modal.Body>
+
+                            <Form className="profile-form" onSubmit={e => this.handlePasswordSubmit(e)}>
+                                <Form.Row>
+                                    <Form.Group as={Col} controlId="formGridOldPassword">
+                                        <Form.Label>CURRENT PASSWORD</Form.Label>
+                                        <Form.Control className="password-form-control" required onChange={this.handleOldPasswordChange} type="password" placeholder="Enter Current Password" />
+                                        <Form.Control.Feedback type="invalid" id="invalidCurrentPassword">{this.state.serverErrorMsg}</Form.Control.Feedback>
+                                    </Form.Group>
+                                </Form.Row>
+                                <Form.Row>
+                                    <Form.Group as={Col} controlId="formGridNewPassword">
+                                        <Form.Label>NEW PASSWORD</Form.Label>
+                                        <Form.Control className="password-form-control" required onChange={this.handlePasswordChange} type="password" placeholder="Enter New Password" />
+                                        <Form.Text className="text-muted">
+                                            Minimum of 8 characters in length.
+                                        </Form.Text>
+                                        <Form.Control.Feedback type="invalid" id="invalidNewPassword">{this.state.serverErrorMsg}</Form.Control.Feedback>
+                                    </Form.Group>
+                                </Form.Row>
+                                <Form.Row>
+                                    <Form.Group as={Col} controlId="formGridConfirmPassword">
+                                        <Form.Label>CONFIRM NEW PASSWORD</Form.Label>
+                                        <Form.Control className="password-form-control" required onChange={this.handleConfirmPasswordChange} type="password" placeholder="Confirm New Password" />
+                                        <Form.Control.Feedback type="invalid" id="invalidUsernamePwdFeedback">{this.state.serverErrorMsg}</Form.Control.Feedback>
+                                    </Form.Group>
+                                </Form.Row>
+                                <Button variant="primary" type="submit">
+                                    Update
+                                </Button>
+                            </Form>
+                        </Modal.Body>
+                    </Modal>
                     <Row>
                         <Col md={4}>
                             <Card className="profile_card">
@@ -210,7 +302,7 @@ class ProfilePage extends Component {
 
                                     <Form.Group controlId="formGridAddress">
                                         <Form.Label>ADDRESS</Form.Label>
-                                        <Form.Control className="profile-form-control" onChange={this.handleAddressChange} value={this.state.address} />
+                                        <Form.Control className="profile-form-control" onChange={this.handleAddressChange} type="address" value={this.state.address} />
                                     </Form.Group>
 
                                     <Form.Row>
@@ -234,7 +326,7 @@ class ProfilePage extends Component {
                                         Update
                                     </Button>
 
-                                    <Button className="password-button" variant="danger" type="button">
+                                    <Button onClick={this.toggleModal} className="password-button" variant="danger" type="button">
                                         Change Password
                                     </Button>
                                 </Form>
