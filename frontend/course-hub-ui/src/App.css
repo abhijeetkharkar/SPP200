@@ -45,4 +45,7 @@ html {
   .container-landing {
     max-width: 80% !important;
   }
+  .profile-container-landing{
+    max-width: 100% !important;
+  }
 }

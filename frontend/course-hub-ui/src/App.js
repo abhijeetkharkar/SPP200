@@ -118,7 +118,7 @@ class App extends Component {
 
         {choice === "profile" &&
         [<CHNavigator updateContent={this.handleClick} signedIn={true} firstName={optional1} email={optional2} key="keyNavigatorLandingContent"/>,
-          <div className="container-landing profile-content"  key="keyLandingContent">
+          <div className="profile-container-landing profile-content"  key="keyLandingContent">
             <ProfileNavigator/>
             <ProfilePage updateContent={this.handleClick} email={optional2}/>
           </div>,

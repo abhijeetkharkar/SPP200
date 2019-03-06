@@ -30,11 +30,20 @@
 }
 
 .profile-form-control {
-    height: 80% !important;
+    height: 35px;
+    font-size: small;
+}
+
+.password-form-control {
+    height: 40px;
     font-size: small;
 }
 
 .password-button{
     float: right;
+}
+
+.invalid-input{
+    font-size: larger;
 }
 
