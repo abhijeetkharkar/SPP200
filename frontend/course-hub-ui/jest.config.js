@@ -16,6 +16,10 @@ module.exports = {
   
     // The paths to modules that run some code to configure or set up the testing environment before each test
     setupFiles: ['<rootDir>/enzyme.config.js','<rootDir>/src/tests/config/setupjest.js'],
+
+    moduleNameMapper: {
+      "\\.(css|less)$": "<rootDir>/src/css/__mocks__/styleMock.js"
+    },
   
     // The test environment that will be used for testing
     testEnvironment: 'jsdom',

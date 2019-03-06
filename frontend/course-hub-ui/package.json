@@ -9,6 +9,8 @@
     "@fortawesome/free-solid-svg-icons": "^5.7.2",
     "@fortawesome/react-fontawesome": "^0.1.4",
     "bootstrap": "^4.3.1",
+    "create-react-class": "^15.6.3",
+    "dateformat": "^3.0.3",
     "dotenv-webpack": "^1.7.0",
     "elasticsearch": "^15.4.1",
     "firebase": "^5.8.4",
@@ -32,7 +34,7 @@
   "scripts": {
     "start": "webpack-dev-server --mode development --open --hot",
     "build": "webpack --env.development --config webpack.config.js",
-    "test": "jest -u --coverage",
+    "test": "jest -u --coverage --collectCoverageFrom=src/**/*.js --collectCoverageFrom=!src/**/CHFilters.js  --collectCoverageFrom=!src/**/CHLoginRoute.js --collectCoverageFrom=!src/**/CHRightLane.js --collectCoverageFrom=!src/index.js --collectCoverageFrom=!src/serviceWorker.js --collectCoverageFrom=!src/webpack.config.build.js --collectCoverageFrom=!src/webpack.config.dev.js",
     "test:watch": "jest --watch",
     "test:coverage": "jest --coverage --colors",
     "eject": "react-scripts eject",
@@ -70,10 +72,5 @@
     "webpack": "^4.29.6",
     "webpack-cli": "^3.2.3",
     "webpack-dev-server": "^3.2.1"
-  },
-  "jest": {
-    "moduleNameMapper": {
-      "\\.(css|less)$": "<rootDir>/src/css/__mocks__/styleMock.js"
-    }
   }
 }

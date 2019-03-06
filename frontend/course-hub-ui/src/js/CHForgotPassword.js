@@ -40,7 +40,6 @@ class ForgotPasswordPage extends Component {
 
   handleSubmit = async e => {
     e.preventDefault();
-    e.stopPropagation();
     const form = e.currentTarget;
     if (!form.checkValidity()) {
       this.setState({ validated: true });
@@ -66,7 +65,7 @@ class ForgotPasswordPage extends Component {
           <Modal.Title size="lg" id="login-in-title">
             Forgot Password?
             </Modal.Title>
-          <Button variant="danger" onClick={(e) => this.props.updateContent("home", null, null, null)}>
+          <Button id="forgotPasswordCloseButton" variant="danger" onClick={(e) => this.props.updateContent("home", null, null, null)}>
             X
           </Button>
         </Modal.Header>

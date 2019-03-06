@@ -10,8 +10,10 @@ import CHFooter from './js/CHFooter';
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { faEnvelope, faKey, faSignInAlt, faSearch, faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import { faFacebookF, faGithub, faTwitter, faLinkedin } from '@fortawesome/free-brands-svg-icons';
-import firebaseInitialization, {isUserSignedIn} from './FirebaseUtils';
+import firebaseInitialization from './FirebaseUtils';
 import app from 'firebase/app';
+import ProfilePage from "./js/CHProfile";
+import ProfileNavigator from "./js/CHProfileNavigator";
 import {searchUser} from './elasticSearch';
 
 library.add(faEnvelope, faKey, faFacebookF, faGithub, faTwitter, faLinkedin, faSignInAlt, faSearch, faAngleDown);
@@ -21,6 +23,7 @@ class App extends Component {
   constructor() {
     super();
     this.state = {
+      choice: "",
       optional1: "",
       optional2: "",
       optional3: ""
@@ -109,6 +112,15 @@ class App extends Component {
           [<CHNavigator updateContent={this.handleClick} signedIn={true} firstName={optional1} email={optional2} key="keyNavigatorLandingContent"/>,
           <div className="container-landing my-content-landing"  key="keyLandingContent">
             <CHLandingContent />
+          </div>,
+          <CHFooter key="keyFooterLandingContent"/>]
+        }
+
+        {choice === "profile" &&
+        [<CHNavigator updateContent={this.handleClick} signedIn={true} firstName={optional1} email={optional2} key="keyNavigatorLandingContent"/>,
+          <div className="container-landing profile-content"  key="keyLandingContent">
+            <ProfileNavigator/>
+            <ProfilePage updateContent={this.handleClick} email={optional2}/>
           </div>,
           <CHFooter key="keyFooterLandingContent"/>]
         }

@@ -28,14 +28,14 @@ const doSignInWithGoogle = async () => {
 
 const doSignOut = async () => {
   const response = await firebaseInitialization.auth().signOut();
-  console.log("Response Signout: ", response);
+  // console.log("Response Signout: ", response);
   return response;
 }
 
-const isUserSignedIn = async () => {
+/* const isUserSignedIn = async () => {
   const response = await firebaseInitialization.auth().onAuthStateChanged();
   return response;
-}
+} */
 
 const doPasswordReset = async email => {
   const response = await firebaseInitialization.auth().sendPasswordResetEmail(email).then(function() {
@@ -54,14 +54,15 @@ const doPasswordUpdate = async password => {
 }
 
 const doDeleteUser = async () => {
-  var user = firebaseInitialization.auth().currentUser;
-  console.log("In Delete, user: ", user);
-  const response = await user.delete().then(function() {
+  // var user = firebaseInitialization.auth().currentUser;
+  // console.log("In Delete, user: ");
+  // const response = await user.delete().then(function() {
+  const response = await firebaseInitialization.auth().currentUser.delete().then(function() {
     return true;
-  }).catch(function(error) {
+  }).catch(error => {
     return false;
   });
-  console.log("In Delete, response: ", response);
+  // console.log("In Delete, response: ", response);
   return response;
 }
 
@@ -72,7 +73,7 @@ export {
   doSignInWithEmailAndPassword,
   doSignInWithGoogle,
   doSignOut,
-  isUserSignedIn,
+  //isUserSignedIn,
   doPasswordReset,
   doPasswordUpdate,
   doDeleteUser

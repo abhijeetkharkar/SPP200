@@ -18,13 +18,14 @@ class CHNavigator extends Component {
         doSignOut().then( () => {
             self.props.updateContent("home", null, null, null);
         }).catch(function (error) {
+            // TODO Deal with this. Have an alert sent to some system to assist user.
             console.log(error);
         });
     }
 
     handleViewProfile = e => {
-        console.log("In CHNavigator, email: ", this.props.email);
-        this.props.updateContent("home", null, null, null);
+        // console.log("In CHnavigator, email:", this.props.email);
+        this.props.updateContent("profile", this.props.firstName, this.props.email, null);
     }
 
     render() {
@@ -33,7 +34,7 @@ class CHNavigator extends Component {
                 <h1 className="website-name">Course-Hub</h1>
                 <div id="website-navigators-container">
                     {!this.props.signedIn &&
-                        <Button className="my-nav-tabs" onClick={(e) => this.props.updateContent("loginScreen", null, null, null)}>
+                        <Button id="loginButtonNavigator" className="my-nav-tabs" onClick={(e) => this.props.updateContent("loginScreen", null, null, null)}>
                             <FontAwesomeIcon icon="sign-in-alt" />
                             &nbsp;&nbsp;Login/Signup
                         </Button>
@@ -51,7 +52,6 @@ class CHNavigator extends Component {
                             </Dropdown.Menu>
                         </Dropdown>
                     }
-
                     <Button className="my-nav-tabs">Deals</Button>
                 </div>
             </div>
