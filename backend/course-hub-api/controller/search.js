@@ -24,13 +24,13 @@ exports.autosuggest = function(request, response){
         console.log(`statusCode: ${res.statusCode}`)
         var suggestions={}
         suggestions['suggestions']= []
-        var  dict = {}
+        var  duplicatemap = {}
         suggestioncount=0
         dbsuggestionlist=body['hits']['hits']
         for(index in dbsuggestionlist){
             doc=dbsuggestionlist[index]
-            if (dict[doc['_source']['Title'].toLowerCase()]==undefined){
-                dict[doc['_source']['Title'].toLocaleLowerCase()]=1
+            if (duplicatemap[doc['_source']['Title'].toLowerCase()]==undefined){
+                duplicatemap[doc['_source']['Title'].toLocaleLowerCase()]=1
                 suggestions['suggestions'].push(doc['_source']['Title'])
                 suggestioncount=suggestioncount+1
                 if(suggestioncount==5) break;
