@@ -51,7 +51,7 @@ class CHLandingContent extends Component {
                             <div className="input-group md-form form-sm form-1 pl-0" id="landingdiv">
                                 <div className="input-group-prepend">
                                     <span className="input-group-text" id="basic-text1">
-                                        <FontAwesomeIcon icons="search" color='rgb(207, 204, 19)' size='3x' />
+                                        <FontAwesomeIcon icon={['fa', 'search']} color='rgb(207, 204, 19)' size='3x' />
                                     </span>
                                 </div>
                                 <input className="form-control my-0 py-1" value={this.state.searchquery} onChange={this.handlesearchqueryChange} type="text" placeholder="Search courses" aria-label="Search" />
@@ -76,7 +76,7 @@ class CHLandingContent extends Component {
                         <div className="input-group md-form form-sm form-1 pl-0">
                             <div className="input-group-prepend">
                                 <span className="input-group-text" id="basic-text1">
-                                    <FontAwesomeIcon icons="search" color='rgb(207, 204, 19)' size='3x' />
+                                    <FontAwesomeIcon icon={['fa', 'search']} color='rgb(207, 204, 19)' size='3x' />
                                 </span>
                             </div>
                             <input className="form-control my-0 py-1" value={this.state.searchquery} onChange={this.handlesearchqueryChange} type="text" placeholder="Search courses" aria-label="Search" />
