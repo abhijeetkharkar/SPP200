@@ -14,7 +14,7 @@ exports.autosuggest = function(request, response){
             }
         },
         _source: ["Title"],
-        size: 5
+        size: 10
     }
 
     req.post(url,{
@@ -23,16 +23,20 @@ exports.autosuggest = function(request, response){
         console.log(JSON.stringify(searchquery))
         console.log(`statusCode: ${res.statusCode}`)
         var suggestions={}
-        suggestions['suggestions']=[]
-        
+        suggestions['suggestions']= []
+        var  duplicatemap = {}
+        suggestioncount=0
         dbsuggestionlist=body['hits']['hits']
         for(index in dbsuggestionlist){
             doc=dbsuggestionlist[index]
-            suggestions['suggestions'].push(doc['_source']['Title'])
+            if (duplicatemap[doc['_source']['Title'].toLowerCase()]==undefined){
+                duplicatemap[doc['_source']['Title'].toLocaleLowerCase()]=1
+                suggestions['suggestions'].push(doc['_source']['Title'])
+                suggestioncount=suggestioncount+1
+                if(suggestioncount==5) break;
+            }
         }
-
         console.log(suggestions)
-
         if (error) {
             console.error(error)
             response.json({

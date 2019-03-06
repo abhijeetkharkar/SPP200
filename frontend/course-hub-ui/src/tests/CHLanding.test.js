@@ -21,8 +21,6 @@ test('Testing autocomplete Landing Page', () => {
 
 test('Testing onchange autocomplete fetch', async () => {
     var LP = new LandingPage();
-    //const component=shallow(<input onChange={LP.LandingPage}/>)
-    //scomponent.setState({ searchquery: "abc", suggestions: ["Deep Learning","Machine Learning"] });
     const event = {
         preventDefault() {},
         target: { value: 'deep'}
