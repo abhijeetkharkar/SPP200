@@ -25,16 +25,28 @@ blocks:
       jobs:
       - name: Pytest
         commands:
-          - checkout
+        - checkout
           - pip install -r requirements.txt
           - python -m unittest discover -p 'Test*.py'
-      - name: NodeTest
+          
+      - name: NodeTestLambda
         commands:
-          - checkout
+        - checkout
           - npm --prefix ./awslambda/edx/ install
           - npm --prefix ./awslambda/edx/ test
+
+      - name: NodeTestBackend
+        commands:
+        - checkout
           - npm --prefix ./backend/course-hub-api/ install
           - npm --prefix ./backend/course-hub-api/ test
+
+      - name: NodeTestFrontend
+        commands:
+        - checkout
+          - npm --prefix ./frontend/course-hub-api/ install
+          - npm --prefix ./frontend/course-hub-api/ test
+
   - name: "Integration tests"
     task:
       jobs:
