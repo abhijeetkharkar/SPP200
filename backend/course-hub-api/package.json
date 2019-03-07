@@ -23,6 +23,12 @@
     "node-fetch": "^2.3.0",
     "node-mocks-http": "^1.7.3"
   },
+  "jest": {
+    "automock": false,
+    "setupFiles": [
+      "./Tests/config/setupJest.js"
+    ]
+  },
   "description": "Node Express App (https://expressjs.com/)",
   "main": "app.js",
   "devDependencies": {},

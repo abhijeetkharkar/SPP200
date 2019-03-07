@@ -2,19 +2,54 @@
 const fetch = require('node-fetch');
 var search = require('../controller/search');
 var httpMocks = require('node-mocks-http');
-var MockExpressResponse = require('mock-express-response');
-var mockRequest  = httpMocks.createRequest({
+var mockRequest = httpMocks.createRequest({
     query: { term: 'deep learning' }
 });
 
-var mockResponse=httpMocks.createResponse({ eventEmitter: require('events').EventEmitter});
+var mockRequest2 = httpMocks.createRequest({
+    query: { terms: 'deep learning' }
+});
 
-describe('testing autosuggest', () => {
-    test('Successfully fetches suggestions', done => {
-    mockResponse.on('end', function() {
-            expect(mockResponse.statusCode ).toEqual(200);
-            done();
-        });
-    search.autosuggest(mockRequest, mockResponse);
-    });
+var mockResponse = httpMocks.createResponse({ eventEmitter: require('events').EventEmitter });
+
+// describe('testing autosuggest', () => {
+//     test('Successfully fetches suggestions', done => {
+//     mockResponse.on('end', function() {
+//             expect(mockResponse.statusCode ).toEqual(200);
+//             done();
+//         });
+//     search.autosuggest(mockRequest, mockResponse);
+//     });
+
+const mockres = {
+    hits:
+    {
+        total: 2,
+        hits:
+            [
+                {
+                    _source:
+                    {
+                        Title: 'abc'
+                    }
+                },
+                {
+                    _source:
+                    {
+                        Title: 'def'
+                    }
+                }
+            ]
+    }
+}
+test('invalid search term', async () => {
+    fetch.mockResponseOnce(JSON.stringify(mockres));
+    await search.autosuggest(mockRequest2, mockResponse);
+    expect(mockResponse.statusCode).toEqual(200);
+});
+
+test('successfull search', async () => {
+    fetch.mockResponseOnce(JSON.stringify(mockres));
+    await search.autosuggest(mockRequest, mockResponse);
+    expect(mockResponse.statusCode).toEqual(200);
 });
