@@ -34,51 +34,58 @@ class SignupPage extends Component {
 
   handleSubmit = async event => {
     event.preventDefault();
+    const errorMessage = "User Account already present.";
     try {
       var payloadSearch = {
         query : {
             term : { Email : this.state.email }
         }
       }
-
-      searchUser(payloadSearch)
-      .then( user => {
-        if (user){
-          this.setState({ serverErrorMsg: "User Account already present." });
-          document.getElementById("invalidUsernamePwdFeedback").style.display = "block";
-        }else{
-          doCreateUserWithEmailAndPassword(this.state.email, this.state.password)
-          .then(user => {
-            return doSignInWithEmailAndPassword(this.state.email, this.state.password)
-          })
-          .then(user => {
-            // Creating User Profile in Elastic Search Database
-            return addUser({
-              "Email": this.state.email,
-              "UserName": {
-                "First": this.state.firstName,
-                "Last": this.state.lastName
-              }
+      if (this.state.password != this.state.confirmPassword){
+        this.setState({ serverErrorMsg: "Password not matching" });
+        document.getElementById("invalidUsernamePwdFeedback").style.display = "block";
+      }else{
+        searchUser(payloadSearch)
+        .then( user => {
+          if (user){
+            this.setState({ serverErrorMsg: errorMessage });
+            document.getElementById("invalidUsernamePwdFeedback").style.display = "block";
+          }else{
+            doCreateUserWithEmailAndPassword(this.state.email, this.state.password)
+            .then(user => {
+              return doSignInWithEmailAndPassword(this.state.email, this.state.password)
             })
-          })
-          .then(response => {
-            if (response) {
-              // console.log("User successfully created "); 
-              this.props.updateContent("homeSignedIn", this.state.firstName, null, null);
-            } else {
-              // Deleting account in Firebase if Elastic Search Update fails
-              doDeleteUser().then(deleteResponse => {
-                // console.log("DELETE:", deleteResponse);
-                this.setState({ serverErrorMsg: "Unable to sign-up now." });
-                this.props.updateContent("loginScreen", null, null, null);
-                document.getElementById("invalidUsernamePwdFeedback").style.display = "block";
-              }).catch(error => {
-                // TODO Needs to be reported to the Course-Hub team
-                // console.log("This needs to be handled");
-              });
-            }
-          });
-      }});
+            .then(user => {
+              // Creating User Profile in Elastic Search Database
+              return addUser({
+                "Email": this.state.email,
+                "UserName": {
+                  "First": this.state.firstName,
+                  "Last": this.state.lastName
+                }
+              })
+            })
+            .then(response => {
+              if (response) {
+                console.log("User successfully created ", response);
+                this.props.updateContent("homeSignedIn", this.state.firstName, null, null);
+              } else {
+                // Deleting account in Firebase if Elastic Search Update fails
+                console.log("User successfully created 2");
+                doDeleteUser().then(deleteResponse => {
+                  console.log("DELETE:", deleteResponse);
+                  this.setState({ serverErrorMsg: "Unable to sign-up now." });
+                  this.props.updateContent("loginScreen", null, null, null);
+                  document.getElementById("invalidUsernamePwdFeedback").style.display = "block";
+                }).catch(error => {
+                  console.log("erorr is ", error);
+                  // TODO Needs to be reported to the Course-Hub team
+                  // console.log("This needs to be handled");
+                });
+              }
+            });
+        }});
+      }
     }catch (error) {
       this.setState({ serverErrorMsg: error.message });
       document.getElementById("invalidUsernamePwdFeedback").style.display = "block";
@@ -111,7 +118,6 @@ class SignupPage extends Component {
   }
 
   render() {
-    console.log("Inside CHSignup Render")
     const { validated } = this.state;
     return (
       <Modal

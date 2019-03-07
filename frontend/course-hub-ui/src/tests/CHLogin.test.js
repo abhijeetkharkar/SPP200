@@ -25,7 +25,7 @@ describe('Testing SignUp', () => {
         const wrapper = shallow(<LoginPage updateContent={handleClick}/>);
         const instance = wrapper.instance();
         const event = {
-            currentTarget: { 
+            currentTarget: {
                 checkValidity: () => true
             },
             preventDefault() { },
