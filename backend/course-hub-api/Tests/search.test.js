@@ -6,7 +6,7 @@ var mockRequest = httpMocks.createRequest({
     query: { term: 'deep learning' }
 });
 
-var mockRequest2 = httpMocks.createRequest({
+var mockRequestnew = httpMocks.createRequest({
     query: { terms: 'deep learning' }
 });
 
@@ -44,7 +44,7 @@ const mockres = {
 }
 test('invalid search term', async () => {
     fetch.mockResponseOnce(JSON.stringify(mockres));
-    await search.autosuggest(mockRequest2, mockResponse);
+    await search.autosuggest(mockRequestnew, mockResponse);
     expect(mockResponse.statusCode).toEqual(200);
 });
 
