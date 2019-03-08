@@ -49,12 +49,9 @@ blocks:
           - ./cc-test-reporter before-build
           - npm --prefix ./awslambda/edx/ install
           - npm --prefix ./awslambda/edx/ test
-          - cd ./awslambda/edx/
-          - ls -l
-          - checkout
           - echo $SEMAPHORE_THREAD_RESULT
           -  exitcode=$(if [ "$SEMAPHORE_THREAD_RESULT" == "passed" ]; then echo 0; else echo 1; fi)
-          - ./cc-test-reporter after-build --prefix ./awslambda/edx/coverage/Icov-report
+          - ./cc-test-reporter after-build --prefix ./awslambda/edx/coverage/
 
       - name: NodeTestBackend
         commands: 
