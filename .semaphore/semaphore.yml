@@ -43,7 +43,9 @@ blocks:
       - name: NodeTestLambda
         commands:
           - checkout
+          - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
           - ls -l
+          - chmod +x ./cc-test-reporter
           - ./cc-test-reporter before-build
           - npm --prefix ./awslambda/edx/ install
           - npm --prefix ./awslambda/edx/ test
