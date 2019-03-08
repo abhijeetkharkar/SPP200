@@ -57,6 +57,7 @@ blocks:
           - npm --prefix ./frontend/course-hub-ui/ test
       - name: Coverage Report
         commands:
+          - checkout
           - exitcode=$(if [ "$SEMAPHORE_THREAD_RESULT" == "passed" ]; then echo 0; else echo 1; fi)
           - ./cc-test-reporter after-build --exit-code $exitcode
 
