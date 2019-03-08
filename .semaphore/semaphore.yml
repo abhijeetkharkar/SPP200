@@ -51,6 +51,7 @@ blocks:
           - npm --prefix ./awslambda/edx/ test
           - echo $SEMAPHORE_THREAD_RESULT
           -  exitcode=$(if [ "$SEMAPHORE_THREAD_RESULT" == "passed" ]; then echo 0; else echo 1; fi)
+          - cd backend/course-hub-api
           - ./cc-test-reporter after-build
 
       - name: NodeTestBackend
@@ -68,7 +69,7 @@ blocks:
         commands:
           - checkout
           - exitcode=$(if [ "$SEMAPHORE_THREAD_RESULT" == "passed" ]; then echo 0; else echo 1; fi)
-          - ./cc-test-reporter after-build --exit-code $exitcode
+          - ./cc-test-reporter after-build
 
   - name: "Integration tests"
     task:
