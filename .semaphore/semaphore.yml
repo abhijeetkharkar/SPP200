@@ -40,7 +40,7 @@ blocks:
           - pip install -r requirements.txt
           - python -m unittest discover -p 'Test*.py'
 
-      - name: NodeTestLambda
+      - name: NodeTestLambda  
         commands:
           - checkout
           - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
@@ -52,7 +52,7 @@ blocks:
           - echo $SEMAPHORE_THREAD_RESULT
           -  exitcode=$(if [ "$SEMAPHORE_THREAD_RESULT" == "passed" ]; then echo 0; else echo 1; fi)
           #- ./cc-test-reporter format-coverage -t lcov --add-prefix ./awslambda/edx/coverage/
-          - ./cc-test-reporter format-coverage ./awslambda/edx/coverage/lcov.info
+          - ./cc-test-reporter format-coverage ./awslambda/edx/coverage/lcov.info -t lcov
 
       - name: NodeTestBackend
         commands: 
