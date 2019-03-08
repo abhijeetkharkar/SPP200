@@ -26,7 +26,7 @@
   "jest": {
     "automock": false,
     "setupFiles": [
-      "<rootDir>/Tests/config/setupJest.js"
+      "./Tests/config/setupjest.js"
     ]
   },
   "description": "Node Express App (https://expressjs.com/)",
