@@ -44,8 +44,8 @@ blocks:
       - name: NodeTestFrontend
         commands:
           - checkout
-          - npm --prefix ./frontend/course-hub-api/ install
-          - npm --prefix ./frontend/course-hub-api/ test
+          - npm --prefix ./frontend/course-hub-ui/ install
+          - npm --prefix ./frontend/course-hub-ui/ test
 
   - name: "Integration tests"
     task:
