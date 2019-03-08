@@ -22,7 +22,8 @@ blocks:
           - docker-compose build
       - name: Code Climate
         commands:
-          - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > <rootDir>/cc-test-reporter
+          - checkout
+          - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
           - ls -l
           - chmod +x ./cc-test-reporter
 
