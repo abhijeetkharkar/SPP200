@@ -49,6 +49,7 @@ blocks:
           - ./cc-test-reporter before-build
           - npm --prefix ./awslambda/edx/ install
           - npm --prefix ./awslambda/edx/ test
+          - echo $SEMAPHORE_THREAD_RESULT
           -  exitcode=$(if [ "$SEMAPHORE_THREAD_RESULT" == "passed" ]; then echo 0; else echo 1; fi)
           - ./cc-test-reporter after-build --exit-code $exitcode
 
