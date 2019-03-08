@@ -12,15 +12,6 @@ var mockRequestnew = httpMocks.createRequest({
 
 var mockResponse = httpMocks.createResponse({ eventEmitter: require('events').EventEmitter });
 
-// describe('testing autosuggest', () => {
-//     test('Successfully fetches suggestions', done => {
-//     mockResponse.on('end', function() {
-//             expect(mockResponse.statusCode ).toEqual(200);
-//             done();
-//         });
-//     search.autosuggest(mockRequest, mockResponse);
-//     });
-
 const mockres = {
     hits:
     {
