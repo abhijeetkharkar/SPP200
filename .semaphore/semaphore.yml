@@ -25,7 +25,8 @@ blocks:
           - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
           - chmod +x ./cc-test-reporter
           - ./cc-test-reporter before-build
-          - ./cc-test-reporter after-build --exit-code 0
+          -  exitcode=$(if [ "$SEMAPHORE_THREAD_RESULT" == "passed" ]; then echo 0; else echo 1; fi)
+          - ./cc-test-reporter after-build --exit-code $exitcode
 
   - name: "Unit tests"
     task:
