@@ -10,6 +10,9 @@ blocks:
       env_vars:
         - name: APP_ENV
           value: prod
+        - name: CC_TEST_REPORTER_ID
+          value: 3b8cc7752799b01b3f2f42a4237543e0e781e7ac99e5b44fc0767c9bea8f697a
+
       jobs:
       - name: Docker build
         commands:
@@ -17,6 +20,12 @@ blocks:
           - ls -1
           - echo $APP_ENV
           - docker-compose build
+      - name: Code Climate
+        commands:
+          - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+          - chmod +x ./cc-test-reporter
+          - ./cc-test-reporter before-build
+
   - name: "Unit tests"
     task:
       prologue:
@@ -46,6 +55,10 @@ blocks:
           - checkout
           - npm --prefix ./frontend/course-hub-ui/ install
           - npm --prefix ./frontend/course-hub-ui/ test
+      - name: Coverage Report
+        commands:
+          - exitcode=$(if [ "$SEMAPHORE_THREAD_RESULT" == "passed" ]; then echo 0; else echo 1; fi)
+          - ./cc-test-reporter after-build --exit-code $exitcode
 
   - name: "Integration tests"
     task:
