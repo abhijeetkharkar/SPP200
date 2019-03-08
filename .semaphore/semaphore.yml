@@ -51,7 +51,7 @@ blocks:
           - npm --prefix ./awslambda/edx/ test
           - echo $SEMAPHORE_THREAD_RESULT
           -  exitcode=$(if [ "$SEMAPHORE_THREAD_RESULT" == "passed" ]; then echo 0; else echo 1; fi)
-          - ./cc-test-reporter format-coverage -t lcov -p ./awslambda/edx/coverage/
+          - ./cc-test-reporter format-coverage -t lcov --add-prefix ./awslambda/edx/coverage/
 
       - name: NodeTestBackend
         commands: 
