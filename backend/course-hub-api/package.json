@@ -4,7 +4,9 @@
   "private": true,
   "scripts": {
     "start": "node ./bin/www",
-    "test": "jest"
+    "test": "jest -u --coverage --collectCoverageFrom=controller/**/search.js",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage --colors"
   },
   "dependencies": {
     "body-parser": "^1.18.3",
@@ -23,6 +25,12 @@
     "node-fetch": "^2.3.0",
     "node-mocks-http": "^1.7.3"
   },
+  "jest": {
+    "automock": false,
+    "setupFiles": [
+      "./Tests/config/setupjest.js"
+    ]
+  }, 
   "description": "Node Express App (https://expressjs.com/)",
   "main": "app.js",
   "devDependencies": {},
