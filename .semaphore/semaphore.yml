@@ -42,7 +42,7 @@ blocks:
           - npm --prefix ./awslambda/edx/ install
           - npm --prefix ./awslambda/edx/ test
           - ./cc-test-reporter format-coverage ./awslambda/edx/coverage/lcov.info -t lcov
-          - ./cc-test-reporter upload-coverage -d 
+          - ./cc-test-reporter upload-coverage -r $CC_TEST_REPORTER_ID
 
       - name: NodeTestBackend
         commands: 
