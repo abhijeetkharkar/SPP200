@@ -28,7 +28,7 @@
     "setupFiles": [
       "./Tests/config/setupjest.js"
     ]
-  },
+  }, 
   "description": "Node Express App (https://expressjs.com/)",
   "main": "app.js",
   "devDependencies": {},

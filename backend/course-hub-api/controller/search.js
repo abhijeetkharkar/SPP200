@@ -58,7 +58,9 @@ exports.autosuggest = function(request, response){
                         duplicatemap[doc['_source']['Title'].toLocaleLowerCase()] = 1
                         suggestions['suggestions'].push(doc['_source']['Title'])
                         suggestioncount = suggestioncount + 1
-                        if (suggestioncount == 5) break;
+                        if (suggestioncount == 5) {
+                            break;
+                        }
                     }
                 }
                 console.log('suggestions: ',suggestions);
