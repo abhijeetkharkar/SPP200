@@ -53,6 +53,7 @@ blocks:
           - npm --prefix ./backend/course-hub-api/ install
           - npm --prefix ./backend/course-hub-api/ test
           - ./cc-test-reporter format-coverage ./backend/course-hub-api/coverage/lcov.info -t lcov
+          - ./cc-test-reporter upload-coverage -r 3b8cc7752799b01b3f2f42a4237543e0e781e7ac99e5b44fc0767c9bea8f697a
 
       - name: NodeTestFrontend
         commands:
@@ -63,6 +64,7 @@ blocks:
           - npm --prefix ./frontend/course-hub-ui/ install
           - npm --prefix ./frontend/course-hub-ui/ test
           - ./cc-test-reporter format-coverage ./frontend/course-hub-ui/coverage/lcov.info -t lcov
+          - ./cc-test-reporter upload-coverage -r 3b8cc7752799b01b3f2f42a4237543e0e781e7ac99e5b44fc0767c9bea8f697a
 
   - name: "Integration tests"
     task:
