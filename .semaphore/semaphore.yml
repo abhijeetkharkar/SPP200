@@ -41,6 +41,7 @@ blocks:
       - name: NodeTestLambda
         commands:
           - checkout
+          - ls -l
           - ./cc-test-reporter before-build
           - npm --prefix ./awslambda/edx/ install
           - npm --prefix ./awslambda/edx/ test
