@@ -10,6 +10,9 @@ blocks:
       env_vars:
         - name: APP_ENV
           value: prod
+        - name: CC_TEST_REPORTER_ID
+          value: 3b8cc7752799b01b3f2f42a4237543e0e781e7ac99e5b44fc0767c9bea8f697a
+
       jobs:
       - name: Docker build
         commands:
@@ -17,6 +20,14 @@ blocks:
           - ls -1
           - echo $APP_ENV
           - docker-compose build
+      - name: Code Climate
+        commands:
+          - checkout
+          - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+          - ls -l
+          - chmod +x ./cc-test-reporter
+
+
   - name: "Unit tests"
     task:
       prologue:
@@ -29,23 +40,35 @@ blocks:
           - pip install -r requirements.txt
           - python -m unittest discover -p 'Test*.py'
 
-      - name: NodeTestLambda
+      - name: NodeTestLambda  
         commands:
           - checkout
+          - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+          - chmod +x ./cc-test-reporter
+          - ./cc-test-reporter before-build
           - npm --prefix ./awslambda/edx/ install
           - npm --prefix ./awslambda/edx/ test
+          - ./cc-test-reporter format-coverage ./awslambda/edx/coverage/lcov.info -t lcov
 
       - name: NodeTestBackend
         commands: 
           - checkout
+          - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+          - chmod +x ./cc-test-reporter
+          - ./cc-test-reporter before-build
           - npm --prefix ./backend/course-hub-api/ install
           - npm --prefix ./backend/course-hub-api/ test
+          - ./cc-test-reporter format-coverage ./backend/course-hub-api/coverage/lcov.info -t lcov
 
       - name: NodeTestFrontend
         commands:
           - checkout
+          - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+          - chmod +x ./cc-test-reporter
+          - ./cc-test-reporter before-build
           - npm --prefix ./frontend/course-hub-ui/ install
           - npm --prefix ./frontend/course-hub-ui/ test
+          - ./cc-test-reporter format-coverage ./frontend/course-hub-ui/coverage/lcov.info -t lcov
 
   - name: "Integration tests"
     task:
