@@ -58,7 +58,7 @@ blocks:
           - ./cc-test-reporter before-build
           - npm --prefix ./backend/course-hub-api/ install
           - npm --prefix ./backend/course-hub-api/ test
-          - ./cc-test-reporter format-coverage ./backend/course-hup-api/coverage/lcov.info -t lcov
+          - ./cc-test-reporter format-coverage ./backend/course-hub-api/coverage/lcov.info -t lcov
 
       - name: NodeTestFrontend
         commands:
