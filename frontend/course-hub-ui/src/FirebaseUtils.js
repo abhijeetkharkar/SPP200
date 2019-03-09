@@ -4,7 +4,8 @@ const firebaseInitialization = firebase.initializeApp({
   apiKey: process.env.REACT_APP_FIREBASE_KEY,
   authDomain: process.env.REACT_APP_FIREBASE_DOMAIN,
   databaseURL: process.env.REACT_APP_FIREBASE_DATABASE,
-  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID
+  projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
+  storageBucket: "course-hub-73ea7.appspot.com"
 });
 
 // await can be used only in an async function. usage of await returns a "pending" promise. 
@@ -70,6 +71,33 @@ const doPasswordUpdate = async (currentPassword, newPassword) => {
     return "INVALID";
   });
   return response;
+};
+
+const doUploadProfilePicture = async (file) =>{
+  console.log('In Firebase Picture upload');
+  var user = firebase.auth().currentUser;
+
+  var storageRef = await firebase.storage().ref('/images/' + user.email.split('@')[0] + '_profile.txt');
+  return await storageRef.put(file).then(response => {
+    return "SUCCESS"
+  }).catch((error) => {
+    console.log(error);
+    return "ERROR";
+  });
+};
+
+const doGetProfilePicture = async () =>{
+    var user = firebase.auth().currentUser;
+    var path = '/images/' + user.email.split('@')[0] + '_profile.txt';
+    var image = firebase.storage().ref();
+    const url = await image.child(path).getDownloadURL().then(url =>{
+      return url;
+    }).catch((error) => {
+      console.log(error);
+      return null;
+  });
+    console.log(url);
+    return url;
 }
 
 const doDeleteUser = async () => {
@@ -95,5 +123,7 @@ export {
   //isUserSignedIn,
   doPasswordReset,
   doPasswordUpdate,
-  doDeleteUser
+  doDeleteUser,
+  doUploadProfilePicture,
+  doGetProfilePicture
 };
