@@ -3,7 +3,7 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 const Dotenv = require('dotenv-webpack');
 
 module.exports = {
-    entry: ["babel-polyfill", './src/index.js'],
+    entry: ["babel-polyfill", path.join(__dirname, 'src/index.js')],
     mode: "production",
     output: {
         path: path.join(__dirname, 'dist'),
@@ -24,14 +24,18 @@ module.exports = {
     },
     plugins: [
         new HtmlWebpackPlugin({
-            template: './public/index.html'
+            template: 'public/index.html'
         }),
         new Dotenv({
-            path: './.env', // load this now instead of the ones in '.env'
+            path: '/home/react/app/.env', // load this now instead of the ones in '.env'
             // safe: true, // load '.env.example' to verify the '.env' variables are all set. Can also be a string to a different file.
             // systemvars: true, // load all the predefined 'process.env' variables which will trump anything local per dotenv specs.
             silent: false, // hide any errors
             // defaults: false // load '.env.defaults' as the default values if empty.
         })
-    ]
+    ],
+    devServer: {
+        inline:true,
+        port: 8080
+    }
 }

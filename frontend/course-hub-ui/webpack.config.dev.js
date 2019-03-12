@@ -34,5 +34,9 @@ module.exports = {
             silent: false, // hide any errors
             // defaults: false // load '.env.defaults' as the default values if empty.
         })
-    ]
+    ],
+    devServer: {
+        inline:true,
+        port: 8080
+    }
 }
