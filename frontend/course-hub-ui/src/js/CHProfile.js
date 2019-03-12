@@ -82,8 +82,8 @@ class ProfilePage extends Component {
                         "First": this.state.firstName,
                         "Last": this.state.lastName
                     },
-                    // "DOB": (this.state.dob != '') ? dateFormat(new Date(new Date(this.state.dob).getTime() + 1000*60*60*24), "isoDateTime").split("T")[0]
-                    //     : null,
+                    "DOB": (this.state.dob != '') ? dateFormat(new Date(new Date(this.state.dob).getTime() + 1000*60*60*24), "isoDateTime").split("T")[0]
+                        : null,
                     "Address":{
                         "Street": this.state.address,
                         "City": this.state.city,
