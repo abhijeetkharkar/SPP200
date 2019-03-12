@@ -12,6 +12,7 @@ import {updateUser, getUserDetails, addUser} from "../elasticSearch";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser  } from '@fortawesome/free-solid-svg-icons'
 import {doGetProfilePicture, doPasswordUpdate, doUploadProfilePicture} from "../FirebaseUtils";
+import ProfileNavigator from "./CHProfileNavigator";
 
 var dateFormat = require('dateformat');
 class ProfilePage extends Component {
@@ -81,7 +82,8 @@ class ProfilePage extends Component {
                         "First": this.state.firstName,
                         "Last": this.state.lastName
                     },
-                    "DOB": dateFormat(new Date(new Date(this.state.dob).getTime() + 1000*60*60*24), "isoDateTime").split("T")[0],
+                    // "DOB": (this.state.dob != '') ? dateFormat(new Date(new Date(this.state.dob).getTime() + 1000*60*60*24), "isoDateTime").split("T")[0]
+                    //     : null,
                     "Address":{
                         "Street": this.state.address,
                         "City": this.state.city,
@@ -92,7 +94,7 @@ class ProfilePage extends Component {
                 }
             }).then(response => {
                 if (response) {
-                    this.props.updateContent("homeSignedIn", null, this.state.email, null);
+                    this.props.updateContent("homeSignedIn", this.state.firstName, this.state.email, null);
                     alert("Profile Updated Successfully");
                 } else {
                     this.setState({ serverErrorMsg: "Unable to update Profile." });
@@ -231,8 +233,8 @@ class ProfilePage extends Component {
 
         if(url != null){
             img.src = url + '&v=' + date;
-            img.style.height = '150px';
-            img.style.width = '150px';
+            img.style.height = '175px';
+            img.style.width = '175px';
             img.style.display = 'block';
             icon.style.display = 'None';
         }
@@ -289,7 +291,6 @@ class ProfilePage extends Component {
                             </Form>
                         </Modal.Body>
                     </Modal>
-                    <Row>
                         {/*<Col md={3}>*/}
                             {/*<Card className="profile_card">*/}
                                 {/*<div className='profile-picture'>*/}
@@ -312,90 +313,94 @@ class ProfilePage extends Component {
                             {/*</Card>*/}
                         {/*</Col>*/}
 
-                        <Col>
-                            <Card className="profile-edit-card">
+                            <Card className="maincard">
                                 <Row>
-                                    <Col md={8} className="update-profile-box">
-                                        <Card.Title className="card-title">Edit Profile</Card.Title>
-                                        <Form className="profile-form" onSubmit={e => this.handleSubmit(e)}>
-                                            <Form.Row>
-                                                <Form.Group as={Col} controlId="formGridfname">
-                                                    <Form.Label>FIRST NAME</Form.Label>
-                                                    <Form.Control className="profile-form-control" onChange={this.handleFirstNameChange} type="fname" value={this.state.firstName} placeholder="Enter first name" />
-                                                </Form.Group>
-
-                                                <Form.Group as={Col} controlId="formGridlname">
-                                                    <Form.Label>LAST NAME</Form.Label>
-                                                    <Form.Control className="profile-form-control" onChange={this.handleLastNameChange} type="lname" value={this.state.lastName} placeholder="Enter last name" />
-                                                </Form.Group>
-                                            </Form.Row>
-
-                                            <Form.Row>
-                                                <Form.Group as={Col} controlId="formGridEmail">
-                                                    <Form.Label>EMAIL</Form.Label>
-                                                    <Form.Control className="profile-form-control" type="email" value={this.state.email} disabled="true" />
-                                                </Form.Group>
-
-                                                <Form.Group as={Col} controlId="formGriddob">
-                                                    <Form.Label>DATE OF BIRTH</Form.Label>
-                                                    <Form.Control className="profile-form-control" onChange={this.handleDobChange} type="dob" value={this.state.dob} placeholder="MM/DD/YYYY" />
-                                                </Form.Group>
-
-                                                <Form.Group as={Col} controlId="formGridphone">
-                                                    <Form.Label>PHONE NO.</Form.Label>
-                                                    <Form.Control className="profile-form-control" onChange={this.handlePhoneChange} type="phone" value={this.state.phone} placeholder="123-456-7890" />
-                                                </Form.Group>
-                                            </Form.Row>
-
-                                            <Form.Group controlId="formGridAddress">
-                                                <Form.Label>ADDRESS</Form.Label>
-                                                <Form.Control className="profile-form-control" onChange={this.handleAddressChange} type="address" value={this.state.address} />
-                                            </Form.Group>
-
-                                            <Form.Row>
-                                                <Form.Group as={Col} controlId="formGridCity">
-                                                    <Form.Label>CITY</Form.Label>
-                                                    <Form.Control className="profile-form-control" onChange={this.handleCityChange} value={this.state.city}/>
-                                                </Form.Group>
-
-                                                <Form.Group as={Col} controlId="formGridState">
-                                                    <Form.Label>STATE</Form.Label>
-                                                    <Form.Control className="profile-form-control" onChange={this.handleStateChange} value={this.state.state} />
-                                                </Form.Group>
-
-                                                <Form.Group as={Col} controlId="formGridZip">
-                                                    <Form.Label>ZIP</Form.Label>
-                                                    <Form.Control className="profile-form-control" onChange={this.handleZipChange} value={this.state.zip_code} />
-                                                </Form.Group>
-                                            </Form.Row>
-
-                                            <Button variant="primary" type="submit">
-                                                Update
-                                            </Button>
-
-                                            <Button onClick={this.toggleModal} className="password-button" variant="danger" type="button">
-                                                Change Password
-                                            </Button>
-                                        </Form>
+                                    <Col md={1}>
+                                        <ProfileNavigator/>
                                     </Col>
-                                    <Col md={2} className='profile-image-box'>
-                                        <div className='profile-upload'>
-                                            <label htmlFor='single'>
-                                                <img id="profile-image" src="#" alt="your image" />
-                                                <FontAwesomeIcon id='profile-icon' icon={faUser} size='5x' color='rgb(110,108,221)'/>
-                                            </label>
-                                            <br/>
-                                            <br/>
-                                            <input type='file' id='profile_picture' onChange={this.onDrop} title="&nbsp;"/>
-                                        </div>
-                                        <Button variant="primary" className="profile-picture-button" onClick={this.handleImageUpload}>
-                                            Update Picture
-                                        </Button>
+                                    <Col md={8} className="update-profile-box">
+                                        <Card className="profile-edit-card">
+                                            <Card.Title className="card-title">Edit Profile</Card.Title>
+                                            <Form className="profile-form" onSubmit={e => this.handleSubmit(e)}>
+                                                <Form.Row>
+                                                    <Form.Group as={Col} controlId="formGridfname">
+                                                        <Form.Label>FIRST NAME</Form.Label>
+                                                        <Form.Control className="profile-form-control" onChange={this.handleFirstNameChange} type="fname" value={this.state.firstName} placeholder="Enter first name" />
+                                                    </Form.Group>
+
+                                                    <Form.Group as={Col} controlId="formGridlname">
+                                                        <Form.Label>LAST NAME</Form.Label>
+                                                        <Form.Control className="profile-form-control" onChange={this.handleLastNameChange} type="lname" value={this.state.lastName} placeholder="Enter last name" />
+                                                    </Form.Group>
+                                                </Form.Row>
+
+                                                <Form.Row>
+                                                    <Form.Group as={Col} controlId="formGridEmail">
+                                                        <Form.Label>EMAIL</Form.Label>
+                                                        <Form.Control className="profile-form-control" type="email" value={this.state.email} disabled="true" />
+                                                    </Form.Group>
+
+                                                    <Form.Group as={Col} controlId="formGriddob">
+                                                        <Form.Label>DATE OF BIRTH</Form.Label>
+                                                        <Form.Control className="profile-form-control" onChange={this.handleDobChange} type="dob" value={this.state.dob} placeholder="MM/DD/YYYY" />
+                                                    </Form.Group>
+
+                                                    <Form.Group as={Col} controlId="formGridphone">
+                                                        <Form.Label>PHONE NO.</Form.Label>
+                                                        <Form.Control className="profile-form-control" onChange={this.handlePhoneChange} type="phone" value={this.state.phone} placeholder="123-456-7890" />
+                                                    </Form.Group>
+                                                </Form.Row>
+
+                                                <Form.Group controlId="formGridAddress">
+                                                    <Form.Label>ADDRESS</Form.Label>
+                                                    <Form.Control className="profile-form-control" onChange={this.handleAddressChange} type="address" value={this.state.address} />
+                                                </Form.Group>
+
+                                                <Form.Row>
+                                                    <Form.Group as={Col} controlId="formGridCity">
+                                                        <Form.Label>CITY</Form.Label>
+                                                        <Form.Control className="profile-form-control" onChange={this.handleCityChange} value={this.state.city}/>
+                                                    </Form.Group>
+
+                                                    <Form.Group as={Col} controlId="formGridState">
+                                                        <Form.Label>STATE</Form.Label>
+                                                        <Form.Control className="profile-form-control" onChange={this.handleStateChange} value={this.state.state} />
+                                                    </Form.Group>
+
+                                                    <Form.Group as={Col} controlId="formGridZip">
+                                                        <Form.Label>ZIP</Form.Label>
+                                                        <Form.Control className="profile-form-control" onChange={this.handleZipChange} value={this.state.zip_code} />
+                                                    </Form.Group>
+                                                </Form.Row>
+
+                                                <Button variant="primary" type="submit">
+                                                    Update
+                                                </Button>
+
+                                                <Button onClick={this.toggleModal} className="password-button" variant="danger" type="button">
+                                                    Change Password
+                                                </Button>
+                                            </Form>
+                                        </Card>
+                                    </Col>
+                                    <Col md={3} className='profile-image-box'>
+                                        <Card className='profile-image-card'>
+                                            <div className='profile-upload'>
+                                                <label htmlFor='single'>
+                                                    <img id="profile-image" src="#" alt="your image" />
+                                                    <FontAwesomeIcon id='profile-icon' icon={faUser} size='5x' color='rgb(110,108,221)'/>
+                                                </label>
+                                                <br/>
+                                                <br/>
+                                                <input type='file' id='profile_picture' className="profile-picture-button" onChange={this.onDrop} title="&nbsp;"/>
+                                            </div>
+                                            <Button variant="primary" className="profile-picture-button" onClick={this.handleImageUpload}>
+                                                Update Picture
+                                            </Button>
+                                        </Card>
                                     </Col>
                                 </Row>
                             </Card>
-                        </Col>
-                    </Row>
                 </Container>
             </div>
         );
