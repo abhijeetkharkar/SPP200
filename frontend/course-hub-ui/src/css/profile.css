@@ -2,6 +2,28 @@
     color: white;
 }
 
+.navlink{
+    margin-top: 50px;
+}
+
+.nav-listitem{
+    background-color: #f3f4f8;
+    list-style-type: none;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+.navbar a:hover{
+    color: #6e6cdd;
+    font-weight: bold;
+    font-size: 15px;
+    text-decoration: none;
+}
+
+.maincard{
+    padding: 10px;
+}
+
 .card-title{
     color: #565a9e;
     text-align: left;
@@ -15,18 +37,16 @@
     font-size: x-large;
 }
 
-.update-profile-box{
-    border: 1px solid lightgrey;
-    margin-left: 2%;
-    margin-top: 1%;
-    margin-bottom: 1%;
-    border-radius: 5px;
+.profile-edit-card{
+    background-color: #f6f6f6;
+    margin-bottom: 10px;
+    width: 100%;
+    height: 100%;
 }
 
 .profile-card-body{
     border-radius: 3px;
     background-color: lightgrey;
-    height: 245px;
 }
 
 .profile-form{
@@ -54,23 +74,31 @@
 .invalid-input{
     font-size: larger;
 }
-
-.profile-image-box{
-    margin-top: 1%;
-    margin-left: 1%;
-    margin-bottom: 1%;
-    border-radius: 5px;
-    border: 1px solid lightgrey;
+.profile-image-card{
+    background-color: #f6f6f6;
+    margin-bottom: 10px;
+    width: 100%;
+    height: 100%;
 }
 
 .profile-upload{
-    padding-top: 40%;
+    padding-top: 30%;
     padding-right: 10px;
 }
 
 .profile-picture-button{
-    margin-top: 10px;
-    width: 95%;
+    margin: 0 auto;
+    width: 80%;
+}
+
+#profile_picture{
+    margin: 0 auto;
+    margin-bottom: 20px;
+}
+
+#profile-image{
+    border-radius: 100px;
+    border: 6px solid lightgrey;
 }
 
 #profile-image{
