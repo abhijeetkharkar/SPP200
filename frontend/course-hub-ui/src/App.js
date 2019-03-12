@@ -13,7 +13,6 @@ import { faFacebookF, faGithub, faTwitter, faLinkedin } from '@fortawesome/free-
 import firebaseInitialization from './FirebaseUtils';
 import app from 'firebase/app';
 import ProfilePage from "./js/CHProfile";
-import ProfileNavigator from "./js/CHProfileNavigator";
 import {searchUser} from './elasticSearch';
 
 library.add(faEnvelope, faKey, faFacebookF, faGithub, faTwitter, faLinkedin, faSignInAlt, faSearch, faAngleDown);
@@ -119,7 +118,6 @@ class App extends Component {
         {choice === "profile" &&
         [<CHNavigator updateContent={this.handleClick} signedIn={true} firstName={optional1} email={optional2} key="keyNavigatorLandingContent"/>,
           <div className="profile-container-landing profile-content"  key="keyLandingContent">
-            <ProfileNavigator/>
             <ProfilePage updateContent={this.handleClick} email={optional2}/>
           </div>,
           <CHFooter key="keyFooterLandingContent"/>]
