@@ -1,6 +1,10 @@
 version: '3'
 services:
-  web:
+  backend:
     build: ./backend/course-hub-api
     ports:
-     - "3000:3000"
+     - "4000:4000"
+  frontend:
+    build: ./frontend/course-hub-ui
+    ports:
+     - "80:80"
