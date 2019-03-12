@@ -11,7 +11,7 @@ import {
 import {updateUser, getUserDetails, addUser} from "../elasticSearch";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser  } from '@fortawesome/free-solid-svg-icons'
-import {doPasswordUpdate} from "../FirebaseUtils";
+import {doGetProfilePicture, doPasswordUpdate, doUploadProfilePicture} from "../FirebaseUtils";
 
 var dateFormat = require('dateformat');
 class ProfilePage extends Component {
@@ -36,6 +36,7 @@ class ProfilePage extends Component {
             confirm_password: "",
             isOpen: false,
             serverErrorMsg: '',
+            profile_picture: '',
         };
         var payload = {
             query : {
@@ -51,11 +52,12 @@ class ProfilePage extends Component {
             this.setState({email: ((elasticData.Email != null) ? elasticData.Email : '')});
             this.setState({dob: ((elasticData.DOB != null) ? String(dateFormat(elasticData.DOB, "isoDateTime").split('T')[0]): '')});
             this.setState({phone: ((elasticData.PhoneNo != null) ? elasticData.PhoneNo : '')});
-            this.setState({address: ((elasticData.Address.Street != null) ? elasticData.Address.Street : '')});
-            this.setState({city: ((elasticData.Address.City != null) ? elasticData.Address.City : '')});
-            this.setState({state: ((elasticData.Address.State != null) ? elasticData.Address.State : '')});
-            this.setState({zip_code: ((elasticData.Address.ZipCode != null) ? elasticData.Address.ZipCode : '')});
+            this.setState({address: ((elasticData.Address != null && elasticData.Address.Street != null) ? elasticData.Address.Street : '')});
+            this.setState({city: ((elasticData.Address != null && elasticData.Address.City != null) ? elasticData.Address.City : '')});
+            this.setState({state: ((elasticData.Address != null && elasticData.Address.State != null) ? elasticData.Address.State : '')});
+            this.setState({zip_code: ((elasticData.Address != null && elasticData.Address.ZipCode != null) ? elasticData.Address.ZipCode : '')});
             this.setState({bio: ((elasticData.Bio != null) ? elasticData.Bio : "I am a greatest Software in the World of Engineer")});
+            this.handleImageChange();
 
         }).catch(error => {
             console.log("Fetch Details ERROR:", error.message);
@@ -139,9 +141,31 @@ class ProfilePage extends Component {
         }
     }
 
+    handleImageUpload = async () => {
+        console.log('In Image Submit');
+        await doUploadProfilePicture(this.state.profile_picture).then(res => {
+            console.log(res);
+            if(res === "SUCCESS"){
+                alert('Profile Picture Updated Successfully!');
+                this.handleImageChange();
+            }
+            else{
+                alert('Error');
+            }
+        });
+    }
+
     toggleModal = () => {
         this.setState({
             isOpen: !this.state.isOpen
+        });
+    }
+
+    onDrop = (e) => {
+        console.log('In Drop');
+        console.log(event.target.files[0]);
+        this.setState({
+            profile_picture: event.target.files[0],
         });
     }
 
@@ -197,6 +221,27 @@ class ProfilePage extends Component {
         this.setState({ confirm_password: e.target.value });
     }
 
+    handleImageChange = async () => {
+        var url = await doGetProfilePicture();
+        console.log('Updating');
+        var date = Date.now();
+        var icon = document.getElementById('profile-icon');
+        var img = document.getElementById('profile-image');
+
+
+        if(url != null){
+            img.src = url + '&v=' + date;
+            img.style.height = '150px';
+            img.style.width = '150px';
+            img.style.display = 'block';
+            icon.style.display = 'None';
+        }
+        else{
+            img.style.display = 'none';
+            icon.style.display = 'block';
+        }
+    }
+
 
     render() {
         return (
@@ -245,91 +290,109 @@ class ProfilePage extends Component {
                         </Modal.Body>
                     </Modal>
                     <Row>
-                        <Col md={4}>
-                            <Card className="profile_card">
-                                <div className='profile-picture'>
-                                    <div className='button'>
-                                        <label htmlFor='single'>
-                                            <FontAwesomeIcon icon={faUser} size='5x' color='rgb(110,108,221)'/>
-                                        </label>
-                                        <br/>
-                                        <input type='file' id='single'/>
-                                    </div>
-                                </div>
+                        {/*<Col md={3}>*/}
+                            {/*<Card className="profile_card">*/}
+                                {/*<div className='profile-picture'>*/}
+                                    {/*<div className='button'>*/}
+                                        {/*<label htmlFor='single'>*/}
+                                            {/*<FontAwesomeIcon icon={faUser} size='5x' color='rgb(110,108,221)'/>*/}
+                                        {/*</label>*/}
+                                        {/*<br/>*/}
+                                        {/*<input type='file' id='profile_picture' onChange={this.onDrop}/>*/}
+                                    {/*</div>*/}
+                                {/*</div>*/}
 
-                                <div className="profile-card-body">
-                                    <Card.Title className="profile-card-title">
-                                        {this.state.firstName + " " + this.state.lastName}
-                                    </Card.Title>
-                                    <p className="email">{this.state.email}</p>
-                                    <p className="Bio">{this.state.bio}</p>
-                                </div>
-                            </Card>
-                        </Col>
+                                {/*<div className="profile-card-body">*/}
+                                    {/*<Card.Title className="profile-card-title">*/}
+                                        {/*{this.state.firstName + " " + this.state.lastName}*/}
+                                    {/*</Card.Title>*/}
+                                    {/*<p className="email">{this.state.email}</p>*/}
+                                    {/*<p className="Bio">{this.state.bio}</p>*/}
+                                {/*</div>*/}
+                            {/*</Card>*/}
+                        {/*</Col>*/}
 
-                        <Col md={8}>
+                        <Col>
                             <Card className="profile-edit-card">
-                                <Card.Title className="card-title">Edit Profile</Card.Title>
-                                <Form className="profile-form" onSubmit={e => this.handleSubmit(e)}>
-                                    <Form.Row>
-                                        <Form.Group as={Col} controlId="formGridfname">
-                                            <Form.Label>FIRST NAME</Form.Label>
-                                            <Form.Control className="profile-form-control" onChange={this.handleFirstNameChange} type="fname" value={this.state.firstName} placeholder="Enter first name" />
-                                        </Form.Group>
+                                <Row>
+                                    <Col md={8} className="update-profile-box">
+                                        <Card.Title className="card-title">Edit Profile</Card.Title>
+                                        <Form className="profile-form" onSubmit={e => this.handleSubmit(e)}>
+                                            <Form.Row>
+                                                <Form.Group as={Col} controlId="formGridfname">
+                                                    <Form.Label>FIRST NAME</Form.Label>
+                                                    <Form.Control className="profile-form-control" onChange={this.handleFirstNameChange} type="fname" value={this.state.firstName} placeholder="Enter first name" />
+                                                </Form.Group>
 
-                                        <Form.Group as={Col} controlId="formGridlname">
-                                            <Form.Label>LAST NAME</Form.Label>
-                                            <Form.Control className="profile-form-control" onChange={this.handleLastNameChange} type="lname" value={this.state.lastName} placeholder="Enter last name" />
-                                        </Form.Group>
-                                    </Form.Row>
+                                                <Form.Group as={Col} controlId="formGridlname">
+                                                    <Form.Label>LAST NAME</Form.Label>
+                                                    <Form.Control className="profile-form-control" onChange={this.handleLastNameChange} type="lname" value={this.state.lastName} placeholder="Enter last name" />
+                                                </Form.Group>
+                                            </Form.Row>
 
-                                    <Form.Row>
-                                        <Form.Group as={Col} controlId="formGridEmail">
-                                            <Form.Label>EMAIL</Form.Label>
-                                            <Form.Control className="profile-form-control" type="email" value={this.state.email} disabled="true" />
-                                        </Form.Group>
+                                            <Form.Row>
+                                                <Form.Group as={Col} controlId="formGridEmail">
+                                                    <Form.Label>EMAIL</Form.Label>
+                                                    <Form.Control className="profile-form-control" type="email" value={this.state.email} disabled="true" />
+                                                </Form.Group>
 
-                                        <Form.Group as={Col} controlId="formGriddob">
-                                            <Form.Label>DATE OF BIRTH</Form.Label>
-                                            <Form.Control className="profile-form-control" onChange={this.handleDobChange} type="dob" value={this.state.dob} placeholder="MM/DD/YYYY" />
-                                        </Form.Group>
+                                                <Form.Group as={Col} controlId="formGriddob">
+                                                    <Form.Label>DATE OF BIRTH</Form.Label>
+                                                    <Form.Control className="profile-form-control" onChange={this.handleDobChange} type="dob" value={this.state.dob} placeholder="MM/DD/YYYY" />
+                                                </Form.Group>
 
-                                        <Form.Group as={Col} controlId="formGridphone">
-                                            <Form.Label>PHONE NO.</Form.Label>
-                                            <Form.Control className="profile-form-control" onChange={this.handlePhoneChange} type="phone" value={this.state.phone} placeholder="123-456-7890" />
-                                        </Form.Group>
-                                    </Form.Row>
+                                                <Form.Group as={Col} controlId="formGridphone">
+                                                    <Form.Label>PHONE NO.</Form.Label>
+                                                    <Form.Control className="profile-form-control" onChange={this.handlePhoneChange} type="phone" value={this.state.phone} placeholder="123-456-7890" />
+                                                </Form.Group>
+                                            </Form.Row>
 
-                                    <Form.Group controlId="formGridAddress">
-                                        <Form.Label>ADDRESS</Form.Label>
-                                        <Form.Control className="profile-form-control" onChange={this.handleAddressChange} type="address" value={this.state.address} />
-                                    </Form.Group>
+                                            <Form.Group controlId="formGridAddress">
+                                                <Form.Label>ADDRESS</Form.Label>
+                                                <Form.Control className="profile-form-control" onChange={this.handleAddressChange} type="address" value={this.state.address} />
+                                            </Form.Group>
 
-                                    <Form.Row>
-                                        <Form.Group as={Col} controlId="formGridCity">
-                                            <Form.Label>CITY</Form.Label>
-                                            <Form.Control className="profile-form-control" onChange={this.handleCityChange} value={this.state.city}/>
-                                        </Form.Group>
+                                            <Form.Row>
+                                                <Form.Group as={Col} controlId="formGridCity">
+                                                    <Form.Label>CITY</Form.Label>
+                                                    <Form.Control className="profile-form-control" onChange={this.handleCityChange} value={this.state.city}/>
+                                                </Form.Group>
 
-                                        <Form.Group as={Col} controlId="formGridState">
-                                            <Form.Label>STATE</Form.Label>
-                                            <Form.Control className="profile-form-control" onChange={this.handleStateChange} value={this.state.state} />
-                                        </Form.Group>
+                                                <Form.Group as={Col} controlId="formGridState">
+                                                    <Form.Label>STATE</Form.Label>
+                                                    <Form.Control className="profile-form-control" onChange={this.handleStateChange} value={this.state.state} />
+                                                </Form.Group>
 
-                                        <Form.Group as={Col} controlId="formGridZip">
-                                            <Form.Label>ZIP</Form.Label>
-                                            <Form.Control className="profile-form-control" onChange={this.handleZipChange} value={this.state.zip_code} />
-                                        </Form.Group>
-                                    </Form.Row>
+                                                <Form.Group as={Col} controlId="formGridZip">
+                                                    <Form.Label>ZIP</Form.Label>
+                                                    <Form.Control className="profile-form-control" onChange={this.handleZipChange} value={this.state.zip_code} />
+                                                </Form.Group>
+                                            </Form.Row>
 
-                                    <Button variant="primary" type="submit">
-                                        Update
-                                    </Button>
+                                            <Button variant="primary" type="submit">
+                                                Update
+                                            </Button>
 
-                                    <Button onClick={this.toggleModal} className="password-button" variant="danger" type="button">
-                                        Change Password
-                                    </Button>
-                                </Form>
+                                            <Button onClick={this.toggleModal} className="password-button" variant="danger" type="button">
+                                                Change Password
+                                            </Button>
+                                        </Form>
+                                    </Col>
+                                    <Col md={2} className='profile-image-box'>
+                                        <div className='profile-upload'>
+                                            <label htmlFor='single'>
+                                                <img id="profile-image" src="#" alt="your image" />
+                                                <FontAwesomeIcon id='profile-icon' icon={faUser} size='5x' color='rgb(110,108,221)'/>
+                                            </label>
+                                            <br/>
+                                            <br/>
+                                            <input type='file' id='profile_picture' onChange={this.onDrop} title="&nbsp;"/>
+                                        </div>
+                                        <Button variant="primary" className="profile-picture-button" onClick={this.handleImageUpload}>
+                                            Update Picture
+                                        </Button>
+                                    </Col>
+                                </Row>
                             </Card>
                         </Col>
                     </Row>
