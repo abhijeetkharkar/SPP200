@@ -15,16 +15,23 @@ class ProfileNavigator extends Component {
     render() {
         return (
             <div className="profile-navigator">
-                <Navbar bg="light" expand="lg">
-                    <Navbar.Toggle aria-controls="basic-navbar-nav" />
-                    <Navbar.Collapse id="basic-navbar-nav">
-                        <Nav className="mr-auto">
-                            <Nav.Link href="#home">Profile</Nav.Link>
-                            <Nav.Link href="#link">Courses</Nav.Link>
-                            <Nav.Link href="#link">Reviews</Nav.Link>
-                        </Nav>
-                    </Navbar.Collapse>
-                </Navbar>
+                <ul className="navbar">
+                    <a href="#" className="navlink">
+                        <li href="#" className="nav-listitem">
+                            Profile
+                        </li>
+                    </a>
+                    <a href="#" className="navlink">
+                        <li className="nav-listitem">
+                            Reviews
+                        </li>
+                    </a>
+                    <a href="#" className="navlink">
+                        <li className="nav-listitem">
+                            Courses
+                        </li>
+                    </a>
+                </ul>
             </div>
         );
     }

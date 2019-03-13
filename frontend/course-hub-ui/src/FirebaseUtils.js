@@ -5,7 +5,7 @@ const firebaseInitialization = firebase.initializeApp({
   authDomain: process.env.REACT_APP_FIREBASE_DOMAIN,
   databaseURL: process.env.REACT_APP_FIREBASE_DATABASE,
   projectId: process.env.REACT_APP_FIREBASE_PROJECT_ID,
-  storageBucket: "course-hub-73ea7.appspot.com"
+  storageBucket: process.env.REACT_APP_FIREBASE_STORAGE_BUCKET
 });
 
 // await can be used only in an async function. usage of await returns a "pending" promise. 
