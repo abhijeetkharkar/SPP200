@@ -11,9 +11,8 @@ import { library } from '@fortawesome/fontawesome-svg-core';
 import { faEnvelope, faKey, faSignInAlt, faSearch, faAngleDown } from '@fortawesome/free-solid-svg-icons';
 import { faFacebookF, faGithub, faTwitter, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import firebaseInitialization from './FirebaseUtils';
-import app from 'firebase/app';
 import ProfilePage from "./js/CHProfile";
-import {searchUser} from './elasticSearch';
+import { searchUser } from './elasticSearch';
 
 library.add(faEnvelope, faKey, faFacebookF, faGithub, faTwitter, faLinkedin, faSignInAlt, faSearch, faAngleDown);
 
@@ -29,33 +28,34 @@ class App extends Component {
     };
 
     this.handleClick = this.handleClick.bind(this);
+    this.handleAuthStateChange = this.handleAuthStateChange.bind(this);
   }
 
   componentWillMount() {
-    firebaseInitialization.auth().onAuthStateChanged(user => {
-      if (user) {
-        /* this.setState({
-          choice: "homeSignedIn",
-        }); */
-        var email = user.email;
-        var payloadSearch = {
-          query : {
-              term : { Email : email }
-          }
+    const self = this;
+    firebaseInitialization.auth().onAuthStateChanged(user => self.handleAuthStateChange(user));
+  }
+
+  handleAuthStateChange = user => {
+    if (user) {
+      var email = user.email;
+      var payloadSearch = {
+        query: {
+          term: { Email: email }
         }
-        searchUser(payloadSearch).then(firstName => {
-          this.setState({
-            choice: "homeSignedIn",
-            optional1: firstName,
-            optional2: email
-          });
-        });
-      } else {
-        this.setState({
-          choice: "home"
-        });
       }
-    });
+      searchUser(payloadSearch).then(firstName => {
+        this.setState({
+          choice: "homeSignedIn",
+          optional1: firstName,
+          optional2: email
+        });
+      });
+    } else {
+      this.setState({
+        choice: "home"
+      });
+    }
   }
 
   handleClick = (choice, optional1, optional2, optional3) => {
@@ -73,55 +73,61 @@ class App extends Component {
     return (
       <div className="App container-fluid">
         {choice === "home" &&
-          [<CHNavigator updateContent={this.handleClick} signedIn={false} key="keyNavigatorLandingContent"/>,
-          <div className="container-landing my-content-landing"  key="keyLandingContent">
-            <CHLandingContent />
+          [<CHNavigator updateContent={this.handleClick} signedIn={false} key="keyNavigatorLandingContent" />,
+          <div className="container-landing my-content-landing" key="keyLandingContent">
+            <CHLandingContent updateContent={this.handleClick} />
           </div>,
-          <CHFooter key="keyFooterLandingContent"/>]
+          <CHFooter key="keyFooterLandingContent" />]
         }
 
         {choice === "loginScreen" &&
-          [<LoginPage updateContent={this.handleClick} key="keyLoginOverlayOnLandingContent"/>,
-          <CHNavigator updateContent={this.handleClick} signedIn={false} key="keyNavigatorLoginOverlayOnLandingContent"/>,
+          [<LoginPage updateContent={this.handleClick} key="keyLoginOverlayOnLandingContent" />,
+          <CHNavigator updateContent={this.handleClick} signedIn={false} key="keyNavigatorLoginOverlayOnLandingContent" />,
           <div className="container-landing my-content-landing" key="keyContentLoginOverlayOnLandingContent">
-            <CHLandingContent />
+            <CHLandingContent updateContent={this.handleClick} />
           </div>,
-          <CHFooter key="keyFooterLoginOverlayOnLandingContent"/>]
+          <CHFooter key="keyFooterLoginOverlayOnLandingContent" />]
         }
 
         {choice === "signupScreen" &&
-          [<SignupPage updateContent={this.handleClick} key="keySignUpOverlayOnLandingContent"/>,
-          <CHNavigator updateContent={this.handleClick} signedIn={false} key="keyNavigatorSignUpOverlayOnLandingContent"/>,
+          [<SignupPage updateContent={this.handleClick} key="keySignUpOverlayOnLandingContent" />,
+          <CHNavigator updateContent={this.handleClick} signedIn={false} key="keyNavigatorSignUpOverlayOnLandingContent" />,
           <div className="container-landing my-content-landing" key="keyContentSignUpOverlayOnLandingContent">
-            <CHLandingContent />
+            <CHLandingContent updateContent={this.handleClick} />
           </div>,
-          <CHFooter key="keyFooterSignUpOverlayOnLandingContent"/>]
+          <CHFooter key="keyFooterSignUpOverlayOnLandingContent" />]
         }
 
         {choice === "forgotPasswordScreen" &&
-          [<ForgotPasswordPage updateContent={this.handleClick} key="keyForgotPasswordOverlayOnLandingContent"/>,
-          <CHNavigator updateContent={this.handleClick} signedIn={false} key="keyNavigatorForgotPasswordOverlayOnLandingContent"/>,
+          [<ForgotPasswordPage updateContent={this.handleClick} key="keyForgotPasswordOverlayOnLandingContent" />,
+          <CHNavigator updateContent={this.handleClick} signedIn={false} key="keyNavigatorForgotPasswordOverlayOnLandingContent" />,
           <div className="container-landing my-content-landing" key="keyContentForgotPasswordOverlayOnLandingContent">
-            <CHLandingContent />
+            <CHLandingContent updateContent={this.handleClick} />
           </div>,
-          <CHFooter key="keyFooterForgotPasswordOverlayOnLandingContent"/>]
+          <CHFooter key="keyFooterForgotPasswordOverlayOnLandingContent" />]
         }
 
         {choice === "homeSignedIn" &&
-          [<CHNavigator updateContent={this.handleClick} signedIn={true} firstName={optional1} email={optional2} key="keyNavigatorLandingContent"/>,
-          <div className="container-landing my-content-landing"  key="keyLandingContent">
-            <CHLandingContent />
+          [<CHNavigator updateContent={this.handleClick} signedIn={true} firstName={optional1} email={optional2} key="keyNavigatorLandingContent" />,
+          <div className="container-landing my-content-landing" key="keyLandingContent">
+            <CHLandingContent updateContent={this.handleClick} signedIn={true} firstName={optional1} email={optional2} />
           </div>,
-          <CHFooter key="keyFooterLandingContent"/>]
+          <CHFooter key="keyFooterLandingContent" />]
         }
 
         {choice === "profile" &&
-        [<CHNavigator updateContent={this.handleClick} signedIn={true} firstName={optional1} email={optional2} key="keyNavigatorLandingContent"/>,
-          <div className="profile-container-landing profile-content"  key="keyLandingContent">
-            <ProfilePage updateContent={this.handleClick} email={optional2}/>
+          [<CHNavigator updateContent={this.handleClick} signedIn={true} firstName={optional1} email={optional2} key="keyNavigatorLandingContent" />,
+          <div className="profile-container-landing profile-content" key="keyLandingContent">
+            <ProfilePage updateContent={this.handleClick} email={optional2} />
           </div>,
-          <CHFooter key="keyFooterLandingContent"/>]
+          <CHFooter key="keyFooterLandingContent" />]
         }
+
+        {choice === "searchResultsSignedIn" &&
+          this.props.history.push('/search?searchString=' + optional3 + '&firstName=' + optional1 + '&email=' + optional2 + '&signedIn=y')}
+
+        {choice === "searchResultsNotSignedIn" &&
+          this.props.history.push('/search?searchString=' + optional3 + '&signedIn=n')}
       </div>
     );
   }
