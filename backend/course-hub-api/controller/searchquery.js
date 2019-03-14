@@ -55,6 +55,7 @@ exports.searchquery = function(request, response){
         if (body.hits){
             var search_response = {};
             search_response['number_of_pages'] = body.hits.total / page_size;
+            search_response['current_page'] = page_number;
             search_response['courses'] = parseCourses(body.hits.hits);
 
             response.json(search_response);
