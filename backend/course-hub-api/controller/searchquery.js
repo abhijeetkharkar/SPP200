@@ -12,6 +12,8 @@ exports.searchquery = function(request, response){
     // search_query contains the searched Term
     search_query = request.body.term;
 
+    console.log("body is ", request.body);
+    console.log("params is ", request.params);
     console.log("PAGE NUMBERS IS ", page_number);
     console.log("SEARCH QUERY IS ", search_query);
 

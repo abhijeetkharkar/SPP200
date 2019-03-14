@@ -1,6 +1,5 @@
 var createError = require('http-errors');
 var express = require('express');
-var bodyParser = require('body-parser')
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
@@ -27,21 +26,17 @@ app.use(function(req, res, next) {
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
+app.use(express.urlencoded({ extended: true }));
+// app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', indexRouter);
 app.get('/autosuggest', autosuggestRouter);
-// create application/json parser
-var jsonParser = bodyParser.json()
-// create application/x-www-form-urlencoded parser
-var urlencodedParser = bodyParser.urlencoded({ extended: false })
 
 app.get('/', indexRouter);
 app.get('/profile:id', profileRouter);
-app.post('/signup', jsonParser, signupRouter);
-app.post('/searchquery', jsonParser, searchQueryRouter);
+app.post('/signup', signupRouter);
+app.post('/searchquery', searchQueryRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
