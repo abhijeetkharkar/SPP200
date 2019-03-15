@@ -121,6 +121,8 @@ exports.searchquery = function(request, response){
         searchQuery = addCourseProvider(searchQuery, request.body.courseprovider);
     }
 
+    console.log("COME OUTSIDE", searchQuery);
+
     // Loading Data from Elastic Search
     fetch(url, {
         method: 'post',
