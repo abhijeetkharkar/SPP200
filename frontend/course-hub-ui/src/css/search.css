@@ -1,0 +1,140 @@
+/*FILTERS*/
+.left-lane {
+    float: left;
+    text-align: left !important;
+    padding: 1%;
+    border: 1px solid transparent;
+    border-color: rgb(146, 144, 4);
+    color: rgb(207, 204, 19);
+    background-color: #292c2f;
+    border-radius: 4px;
+    margin: 1% 1% 0% 1%;
+    width: 15%;
+}
+
+.my-left-lane-title {
+    text-align: center !important;
+}
+
+.my-input-alignment {
+    text-align: left !important;
+    margin-right: 2% !important;
+}
+
+.my-label-alignment {    
+    margin-right: 4% !important;
+}
+
+.my-button-alignment {    
+   margin: auto !important;
+   background-color: rgb(243, 242, 166) !important;
+   border-color: rgb(146, 144, 4) !important;
+   color: black;
+}
+
+
+
+/* SEARCH RESULTS*/
+#search-results-div {
+	float: left; 
+	padding-top: 1%;
+	padding-bottom: 10%;
+	text-align: center;
+	width: 66% !important;
+}
+
+	#search-results-table {		
+		background-color: #292c2f;
+	}
+
+		.search-results-table-header {			
+			color: rgb(207, 204, 19);
+			margin: 0%;
+			font-size: 24pt;
+		}
+
+		.search-results-course-image {
+			width: 30%;
+			max-width: 30%;
+			line-height: 0 !important;
+		}
+
+		.search-results-course-data {
+			width: 70%;
+			max-width: 70%;
+			text-align: left;
+		}
+
+			.search-results-course-data-type {				
+				color: rgb(243, 242, 166);
+				font-size: 14pt;
+			}
+
+			.search-results-course-data-name {				
+				color: rgb(207, 204, 19);
+				font-size: 18pt;
+				font-weight: bold;
+			}
+
+			.search-results-course-data-short-description {
+				color: rgb(243, 242, 166);
+				font-size: 12pt;
+				font-style: italic;
+			}
+
+			.search-results-course-data-duration {
+				color: rgb(207, 204, 19);
+				font-size: 12pt;
+				font-weight: bold;
+				float: left;
+			}
+
+			.search-results-course-data-difficulty {
+				color: rgb(207, 204, 19);
+				font-size: 12pt;
+				font-weight: bold;
+				float: left;
+				margin-left: 4%;
+			}
+
+			.search-results-course-data-rating {
+				margin-left: 4%;
+				float: left;
+			}
+		
+		.search-results-table-footer {
+			margin: 0%;
+			font-size: 24pt;
+		}
+
+			#search-results-table-footer-paginator {
+				margin: 0% !important;
+				text-align: center !important;
+			}
+
+				#search-results-table-footer-paginator .page-item .page-link {			
+					background-color: rgb(243, 242, 166) !important;;
+					color: black !important;
+					border-color: rgb(146, 144, 4);
+				}
+
+				#search-results-table-footer-paginator .page-item.active .page-link {			
+					background-color: rgb(207, 204, 19) !important;;
+					color: black !important;
+					border-color: rgb(107, 105, 3);
+				}
+
+
+/*ADVERTISEMENTS*/
+.search-results-advertisements-div {
+    float: right;
+    text-align: left !important;
+    padding: 1%;
+    border: 1px solid transparent;
+    border-color: rgb(146, 144, 4);
+    color: rgb(207, 204, 19);
+    background-color: #292c2f;
+    border-radius: 4px;
+    margin: 1% 1% 1% 0%;
+    width: 15%;
+}

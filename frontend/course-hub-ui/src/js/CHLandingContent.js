@@ -43,7 +43,9 @@ class CHLandingContent extends Component {
             }).catch(e => {
                 // console.log('error ', e);
             });
-        }    
+        } else {
+            this.setState({ showResults: false });
+        }
         // console.log('state response ', this.state.suggestions);
     }
 
@@ -58,7 +60,7 @@ class CHLandingContent extends Component {
         event.preventDefault();
         // console.log(event.target);
         // console.log("CHLAndingContent, inside handleSearch:: searchQuery:", this.state.searchquery);
-        this.props.updateContent(this.props.email != null? "searchResultsSignedIn":"searchResultsNotSignedIn", this.props.firstName, this.props.email, this.state.searchquery);
+        this.props.updateContent("searchResults", this.props.firstName, this.props.email, this.state.searchquery);
     }
 
     render() {

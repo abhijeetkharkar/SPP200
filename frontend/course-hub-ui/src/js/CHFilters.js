@@ -6,7 +6,7 @@ import '../css/common-components.css';
 
 class CHFilters extends Component {
     render() {
-        console.log("Height",window.innerHeight)
+        // console.log("Height",window.innerHeight)
         var customStyle = {
             height: "75vh"
         }

@@ -68,14 +68,14 @@ class SignupPage extends Component {
             .then(response => {
               if (response) {
                 console.log("User successfully created ", response);
-                this.props.updateContent("homeSignedIn", this.state.firstName, null, null);
+                this.props.updateContent("homeSignedIn", this.state.firstName, null, this.props.searchString != undefined? this.props.searchString: null);
               } else {
                 // Deleting account in Firebase if Elastic Search Update fails
                 console.log("User successfully created 2");
                 doDeleteUser().then(deleteResponse => {
                   console.log("DELETE:", deleteResponse);
                   this.setState({ serverErrorMsg: "Unable to sign-up now." });
-                  this.props.updateContent("loginScreen", null, null, null);
+                  this.props.updateContent("loginScreen", null, null, this.props.searchString != undefined? this.props.searchString: null);
                   document.getElementById("invalidUsernamePwdFeedback").style.display = "block";
                 }).catch(error => {
                   console.log("erorr is ", error);
@@ -128,7 +128,7 @@ class SignupPage extends Component {
           <Modal.Title id="sign-up-title">
             SignUp
             </Modal.Title>
-          <Button variant="danger" onClick={(e) => this.props.updateContent("home", null, null, null)}>
+          <Button variant="danger" onClick={(e) => this.props.updateContent("home", null, null, this.props.searchString != undefined? this.props.searchString: null)}>
             X
             </Button>
         </Modal.Header>
