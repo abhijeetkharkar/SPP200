@@ -31,7 +31,7 @@ class CHNavigator extends Component {
     render() {
         return (
             <div id="homeHeader">
-                <h1 className="website-name">Course-Hub</h1>
+                <a href='/'><h1 className="website-name">Course-Hub</h1></a>
                 <div id="website-navigators-container">
                     {!this.props.signedIn &&
                         <Button id="loginButtonNavigator" className="my-nav-tabs" onClick={(e) => this.props.updateContent("loginScreen", null, null, null)}>

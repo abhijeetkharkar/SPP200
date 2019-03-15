@@ -8,13 +8,13 @@ import SignupPage from './js/CHSignup';
 import ForgotPasswordPage from './js/CHForgotPassword';
 import CHFooter from './js/CHFooter';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faEnvelope, faKey, faSignInAlt, faSearch, faAngleDown } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope, faKey, faSignInAlt, faSearch, faAngleDown, faClock } from '@fortawesome/free-solid-svg-icons';
 import { faFacebookF, faGithub, faTwitter, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import firebaseInitialization from './FirebaseUtils';
 import ProfilePage from "./js/CHProfile";
 import { searchUser } from './elasticSearch';
 
-library.add(faEnvelope, faKey, faFacebookF, faGithub, faTwitter, faLinkedin, faSignInAlt, faSearch, faAngleDown);
+library.add(faEnvelope, faKey, faFacebookF, faGithub, faTwitter, faLinkedin, faSignInAlt, faSearch, faAngleDown, faClock);
 
 class App extends Component {
 
@@ -123,11 +123,8 @@ class App extends Component {
           <CHFooter key="keyFooterLandingContent" />]
         }
 
-        {choice === "searchResultsSignedIn" &&
-          this.props.history.push('/search?searchString=' + optional3 + '&firstName=' + optional1 + '&email=' + optional2 + '&signedIn=y')}
-
-        {choice === "searchResultsNotSignedIn" &&
-          this.props.history.push('/search?searchString=' + optional3 + '&signedIn=n')}
+        {choice === "searchResults" &&
+          this.props.history.push('/search?searchString=' + optional3)}
       </div>
     );
   }

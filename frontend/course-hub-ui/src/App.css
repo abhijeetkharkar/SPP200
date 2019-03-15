@@ -24,7 +24,7 @@ html {
 .my-content-landing {
   float: left; 
   padding: 1%; 
-  margin: 14% 10%;
+  margin-top: 14%;
   text-align: center;
   width: 100% !important;
   
@@ -40,10 +40,10 @@ html {
 
 @media (min-width: 1200px) {
   .container {
-    max-width: 63.5% !important;
+    max-width: 50% !important;
   }
   .container-landing {
-    max-width: 80% !important;
+    max-width: 100% !important;
   }
   .profile-container-landing{
     max-width: 100% !important;
