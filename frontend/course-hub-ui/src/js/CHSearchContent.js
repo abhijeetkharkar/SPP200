@@ -4,7 +4,7 @@ import '../css/search.css';
 import { Table, Image, Pagination } from 'react-bootstrap';
 import StarRatingComponent from 'react-star-rating-component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import * as fetch from 'node-fetch';
+const fetch = require('node-fetch');
 
 // const fetch = require('node-fetch');
 
