@@ -25,7 +25,6 @@ function addDateRange(searchQuery, startDate, endDate){
             }
         }
     }
-    console.log("Date Range is : ", dateRange);
 
     searchQuery.query.bool.must.push(dateRange);
     return searchQuery;
@@ -79,11 +78,6 @@ exports.searchquery = function(request, response){
     // search_query contains the searched Term
     search_query = request.body.term;
 
-    console.log("body is ", request.body);
-    console.log("params is ", request.params);
-    console.log("PAGE NUMBERS IS ", page_number);
-    console.log("SEARCH QUERY IS ", search_query);
-
     var searchQuery = {
         query: {
             bool : {
@@ -121,8 +115,6 @@ exports.searchquery = function(request, response){
         searchQuery = addCourseProvider(searchQuery, request.body.courseprovider);
     }
 
-    console.log("COME OUTSIDE", searchQuery);
-
     // Loading Data from Elastic Search
     fetch(url, {
         method: 'post',
@@ -146,7 +138,6 @@ exports.searchquery = function(request, response){
             search_response['number_of_pages'] = Math.floor(body.hits.total / page_size) - 1;
             search_response['current_page'] = page_number;
             search_response['courses'] = parseCourses(body.hits.hits);
-            console.log("Total Courses are ", body.hits.total);
             response.json(search_response);
         }else{
             error={
