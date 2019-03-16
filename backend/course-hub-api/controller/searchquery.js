@@ -92,7 +92,7 @@ exports.searchquery = function(request, response){
                 ]
             }
         },
-        _source: ["Title", "Date", "CourseImage", "Difficulty", "Price", "PriceCurrency", "Paid", "Rating", "last_updated"],
+        _source: ["Title", "Date", "CourseImage", "Difficulty", "Price", "PriceCurrency", "Paid", "Rating", "last_updated", "Description", "CourseDuration", "CourseProvider", "CourseId", "Category", "Instructors"],
         from: page_number * page_size,
         size: page_size
     }
@@ -135,6 +135,7 @@ exports.searchquery = function(request, response){
     }).then(body => {
         if (body.hits){
             var search_response = {};
+            search_response['total_courses'] = body.hits.total;
             search_response['number_of_pages'] = Math.floor(body.hits.total / page_size) - 1;
             search_response['current_page'] = page_number;
             search_response['courses'] = parseCourses(body.hits.hits);

@@ -47,6 +47,14 @@
 		background-color: #292c2f;
 	}
 
+		#search-results-table thead th {
+			border-color: rgb(146, 144, 4);
+		}
+
+		#search-results-table tbody td {
+			border-color: rgb(146, 144, 4);
+		}
+
 		.search-results-table-header {			
 			color: rgb(207, 204, 19);
 			margin: 0%;
@@ -76,9 +84,14 @@
 				font-weight: bold;
 			}
 
-			.search-results-course-data-short-description {
+			.search-results-course-data-short-provider-instructors {
 				color: rgb(243, 242, 166);
 				font-size: 12pt;
+			}
+
+			.search-results-course-data-short-description {
+				color: rgb(243, 242, 166);
+				font-size: 10pt;
 				font-style: italic;
 			}
 
@@ -107,18 +120,18 @@
 			font-size: 24pt;
 		}
 
-			#search-results-table-footer-paginator {
+			.search-results-table-footer-paginator {
 				margin: 0% !important;
 				text-align: center !important;
 			}
 
-				#search-results-table-footer-paginator .page-item .page-link {			
+				.search-results-table-footer-paginator .page-item .page-link {			
 					background-color: rgb(243, 242, 166) !important;;
 					color: black !important;
 					border-color: rgb(146, 144, 4);
 				}
 
-				#search-results-table-footer-paginator .page-item.active .page-link {			
+				.search-results-table-footer-paginator .page-item.active .page-link {			
 					background-color: rgb(207, 204, 19) !important;;
 					color: black !important;
 					border-color: rgb(107, 105, 3);
