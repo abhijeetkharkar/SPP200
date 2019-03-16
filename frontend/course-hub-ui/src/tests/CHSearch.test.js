@@ -97,3 +97,11 @@ test('Testing handleAuthStateChange - Not Signed In', async () => {
   instance.handleAuthStateChange(null);
   expect(instance.state.choice).toBe("home");
 });
+
+test('Search results handlePagination', () => {
+  const location = { search: { searchString: "testString", firstName: "Test1", email: "test1@test.com" } }
+  const wrapper = shallow(<CHSearch history={[]} location={location} />);
+  const instance = wrapper.instance();
+  instance.handlePagination("deep", 1);
+  expect(instance.state.pageNumber).toBe(1);
+});

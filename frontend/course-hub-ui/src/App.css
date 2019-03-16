@@ -1,7 +1,11 @@
-
 .App {
   text-align: center;
 	background-color: #292c2f;
+}
+
+.container-fluid {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
 }
 
 html {
