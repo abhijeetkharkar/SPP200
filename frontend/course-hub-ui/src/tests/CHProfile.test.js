@@ -37,4 +37,31 @@ describe('Testing Profile', () => {
             expect(instance.state.isOpen).toBe(false);
         });
     });
+
+    describe('Test User Profile Methods without User Details', () => {
+        beforeEach(() => {
+            elastic.getUserDetails.mockImplementationOnce(() => {
+                return Promise.resolve({})
+            });
+        });
+
+        test('Testing User profile update onSubmit - Happy Path', async () => {
+            const handleClick = jest.fn();
+            elastic.updateUser.mockImplementationOnce(() => {
+                {
+                    return Promise.resolve(true)
+                }
+            });
+            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+
+            const instance = wrapper.instance();
+            const event = {
+                preventDefault() {
+                },
+            };
+
+            await instance.handleSubmit(event);
+            expect(instance.state.elastic_message).toBe('Profile Updated Successfully');
+        });
+    });
 });
