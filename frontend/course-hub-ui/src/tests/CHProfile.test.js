@@ -148,5 +148,53 @@ describe('Testing Profile', () => {
             instance.handlePhoneChange(event);
             expect(instance.state.phone).toBe('(123)-456-7890');
         });
+
+        test('Testing update address', async () => {
+            const handleClick = jest.fn();
+            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+
+            const instance = wrapper.instance();
+            const event = {
+                target: { value: 'test_address' },
+            };
+            instance.handleAddressChange(event);
+            expect(instance.state.address).toBe('test_address');
+        });
+
+        test('Testing update city', async () => {
+            const handleClick = jest.fn();
+            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+
+            const instance = wrapper.instance();
+            const event = {
+                target: { value: 'test_city' },
+            };
+            instance.handleCityChange(event);
+            expect(instance.state.city).toBe('test_city');
+        });
+
+        test('Testing update state', async () => {
+            const handleClick = jest.fn();
+            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+
+            const instance = wrapper.instance();
+            const event = {
+                target: { value: 'test_state' },
+            };
+            instance.handleStateChange(event);
+            expect(instance.state.state).toBe('test_state');
+        });
+
+        test('Testing update zip code', async () => {
+            const handleClick = jest.fn();
+            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+
+            const instance = wrapper.instance();
+            const event = {
+                target: { value: 'test_zip' },
+            };
+            instance.handleZipChange(event);
+            expect(instance.state.zip_code).toBe('test_zip');
+        });
     });
 });
