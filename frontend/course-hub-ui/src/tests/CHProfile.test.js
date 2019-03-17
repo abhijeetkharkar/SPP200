@@ -63,5 +63,20 @@ describe('Testing Profile', () => {
             await instance.handleSubmit(event);
             expect(instance.state.elastic_message).toBe('Profile Updated Successfully');
         });
+
+        test('Testing User profile update onSubmit - Sad Path', async () => {
+            const handleClick = jest.fn();
+            elastic.updateUser.mockImplementationOnce(() => {{return Promise.resolve(false)}});
+
+            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+            const instance = wrapper.instance();
+
+            const event = {
+                preventDefault() {},
+            };
+
+            await instance.handleSubmit(event);
+            expect(instance.state.elastic_message).toBe('Unable to update Profile');
+        });
     });
 });
