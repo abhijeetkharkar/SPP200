@@ -274,5 +274,27 @@ describe('Testing Profile', () => {
             instance.handleImageChange();
 
         });
+
+        test('Testing upload profile profile - Happy Path', async () => {
+            const handleClick = jest.fn();
+            firebase.doUploadProfilePicture.mockImplementationOnce(() => {return Promise.resolve("SUCCESS")});
+
+            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+
+            const instance = wrapper.instance();
+            instance.handleImageUpload();
+
+        });
+
+        test('Testing upload profile profile - Sad Path', async () => {
+            const handleClick = jest.fn();
+            firebase.doUploadProfilePicture.mockImplementationOnce(() => {return Promise.resolve("FAILURE")});
+
+            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+
+            const instance = wrapper.instance();
+            instance.handleImageUpload();
+
+        });
     });
 });
