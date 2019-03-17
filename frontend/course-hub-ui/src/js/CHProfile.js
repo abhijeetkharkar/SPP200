@@ -36,6 +36,7 @@ class ProfilePage extends Component {
             new_password: "",
             confirm_password: "",
             isOpen: false,
+            elastic_message: '',
             serverErrorMsg: '',
             profile_picture: '',
         };
@@ -63,7 +64,7 @@ class ProfilePage extends Component {
         }).catch(error => {
             console.log("Fetch Details ERROR:", error.message);
             this.setState({ serverErrorMsg: error.message });
-            this.setState({ validated: true });
+            document.getElementById("fetchError").style.display = 'block';
         });
     }
 
@@ -95,22 +96,22 @@ class ProfilePage extends Component {
             }).then(response => {
                 if (response) {
                     this.props.updateContent("homeSignedIn", this.state.firstName, this.state.email, null);
+                    this.setState({ elastic_message: "Profile Updated Successfully" });
                     alert("Profile Updated Successfully");
                 } else {
-                    this.setState({ serverErrorMsg: "Unable to update Profile." });
+                    this.setState({ elastic_message: "Unable to update Profile" });
                     alert("Error: Couldn't update profile");
                     console.log("Response from Elastic Search API is :", response);
                 }
             });
         } catch (error) {
-            this.setState({ serverErrorMsg: error.message });
+            this.setState({ elastic_message: error.message });
             alert("Error: Couldn't update profile");
             console.log("error is", error);
         }
     }
 
     handlePasswordSubmit = async event => {
-        console.log('In Password Submit');
         document.getElementById("invalidUsernamePwdFeedback").style.display = "None";
         document.getElementById("invalidNewPassword").style.display = "None";
         document.getElementById("invalidCurrentPassword").style.display = "None";
@@ -121,9 +122,7 @@ class ProfilePage extends Component {
                 document.getElementById("invalidUsernamePwdFeedback").style.display = "block";
             } else {
                 doPasswordUpdate(this.state.old_password, this.state.new_password).then(res => {
-                    console.log(res);
                     if(res === "SUCCESS"){
-                        alert('Password Updated Successfully!');
                         this.toggleModal();
                     }
                     else if(res === "REJECTED"){
@@ -138,8 +137,6 @@ class ProfilePage extends Component {
             }
         } catch (error) {
             this.setState({ serverErrorMsg: error.message });
-            alert("Error: Couldn't update password");
-            console.log("error is", error);
         }
     }
 
@@ -165,9 +162,9 @@ class ProfilePage extends Component {
 
     onDrop = (e) => {
         console.log('In Drop');
-        console.log(event.target.files[0]);
+        console.log(e.target.files[0]);
         this.setState({
-            profile_picture: event.target.files[0],
+            profile_picture: e.target.files[0],
         });
     }
 
@@ -232,7 +229,7 @@ class ProfilePage extends Component {
 
 
         if(url != null){
-            img.src = url + '&v=' + date;
+            img.src = url;
             img.style.height = '175px';
             img.style.width = '175px';
             img.style.display = 'block';
@@ -242,7 +239,7 @@ class ProfilePage extends Component {
             img.style.display = 'none';
             icon.style.display = 'block';
         }
-    }
+    };
 
 
     render() {
@@ -265,7 +262,7 @@ class ProfilePage extends Component {
                                     <Form.Group as={Col} controlId="formGridOldPassword">
                                         <Form.Label>CURRENT PASSWORD</Form.Label>
                                         <Form.Control className="password-form-control" required onChange={this.handleOldPasswordChange} type="password" placeholder="Enter Current Password" />
-                                        <Form.Control.Feedback type="invalid" id="invalidCurrentPassword">{this.state.serverErrorMsg}</Form.Control.Feedback>
+                                        <Form.Control.Feedback type="invalid" ref="invalidCurrentPassword">{this.state.serverErrorMsg}</Form.Control.Feedback>
                                     </Form.Group>
                                 </Form.Row>
                                 <Form.Row>
@@ -275,14 +272,14 @@ class ProfilePage extends Component {
                                         <Form.Text className="text-muted">
                                             Minimum of 8 characters in length.
                                         </Form.Text>
-                                        <Form.Control.Feedback type="invalid" id="invalidNewPassword">{this.state.serverErrorMsg}</Form.Control.Feedback>
+                                        <Form.Control.Feedback type="invalid" ref="invalidNewPassword">{this.state.serverErrorMsg}</Form.Control.Feedback>
                                     </Form.Group>
                                 </Form.Row>
                                 <Form.Row>
                                     <Form.Group as={Col} controlId="formGridConfirmPassword">
                                         <Form.Label>CONFIRM NEW PASSWORD</Form.Label>
                                         <Form.Control className="password-form-control" required onChange={this.handleConfirmPasswordChange} type="password" placeholder="Confirm New Password" />
-                                        <Form.Control.Feedback type="invalid" id="invalidUsernamePwdFeedback">{this.state.serverErrorMsg}</Form.Control.Feedback>
+                                        <Form.Control.Feedback type="invalid" ref="invalidUsernamePwdFeedback">{this.state.serverErrorMsg}</Form.Control.Feedback>
                                     </Form.Group>
                                 </Form.Row>
                                 <Button variant="primary" type="submit">
@@ -322,6 +319,7 @@ class ProfilePage extends Component {
                                         <Card className="profile-edit-card">
                                             <Card.Title className="card-title">Edit Profile</Card.Title>
                                             <Form className="profile-form" onSubmit={e => this.handleSubmit(e)}>
+                                                <Form.Control.Feedback type="error" id="fetchError">{this.state.serverErrorMsg}</Form.Control.Feedback>
                                                 <Form.Row>
                                                     <Form.Group as={Col} controlId="formGridfname">
                                                         <Form.Label>FIRST NAME</Form.Label>
@@ -353,7 +351,7 @@ class ProfilePage extends Component {
 
                                                 <Form.Group controlId="formGridAddress">
                                                     <Form.Label>ADDRESS</Form.Label>
-                                                    <Form.Control className="profile-form-control" onChange={this.handleAddressChange} type="address" value={this.state.address} />
+                                                    <Form.Control as="textarea" rows="1" className="profile-form-text-area" onChange={this.handleAddressChange} type="address" value={this.state.address} />
                                                 </Form.Group>
 
                                                 <Form.Row>
