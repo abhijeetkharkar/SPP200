@@ -124,5 +124,17 @@ describe('Testing Profile', () => {
             instance.handleLastNameChange(event);
             expect(instance.state.lastName).toBe('test_lname');
         });
+
+        test('Testing update date of birth', async () => {
+            const handleClick = jest.fn();
+            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+
+            const instance = wrapper.instance();
+            const event = {
+                target: { value: '01/01/1990' },
+            };
+            instance.handleDobChange(event);
+            expect(instance.state.dob).toBe('01/01/1990');
+        });
     });
 });
