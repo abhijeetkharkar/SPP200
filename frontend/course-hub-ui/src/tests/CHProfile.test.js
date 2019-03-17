@@ -93,5 +93,13 @@ describe('Testing Profile', () => {
             await instance.handleSubmit(event);
             expect(instance.state.elastic_message).toBe('Update profile exception');
         });
+
+        test('Testing Fetch User Profile Details - Sad Path', async () => {
+            const handleClick = jest.fn();
+            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+
+            const instance = wrapper.instance();
+            expect(instance.state.isOpen).toBe(false);
+        });
     });
 });
