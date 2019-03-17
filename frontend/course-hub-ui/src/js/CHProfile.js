@@ -262,7 +262,7 @@ class ProfilePage extends Component {
                                     <Form.Group as={Col} controlId="formGridOldPassword">
                                         <Form.Label>CURRENT PASSWORD</Form.Label>
                                         <Form.Control className="password-form-control" required onChange={this.handleOldPasswordChange} type="password" placeholder="Enter Current Password" />
-                                        <Form.Control.Feedback type="invalid" ref="invalidCurrentPassword">{this.state.serverErrorMsg}</Form.Control.Feedback>
+                                        <Form.Control.Feedback type="invalid" id="invalidCurrentPassword">{this.state.serverErrorMsg}</Form.Control.Feedback>
                                     </Form.Group>
                                 </Form.Row>
                                 <Form.Row>
@@ -272,14 +272,14 @@ class ProfilePage extends Component {
                                         <Form.Text className="text-muted">
                                             Minimum of 8 characters in length.
                                         </Form.Text>
-                                        <Form.Control.Feedback type="invalid" ref="invalidNewPassword">{this.state.serverErrorMsg}</Form.Control.Feedback>
+                                        <Form.Control.Feedback type="invalid" id="invalidNewPassword">{this.state.serverErrorMsg}</Form.Control.Feedback>
                                     </Form.Group>
                                 </Form.Row>
                                 <Form.Row>
                                     <Form.Group as={Col} controlId="formGridConfirmPassword">
                                         <Form.Label>CONFIRM NEW PASSWORD</Form.Label>
                                         <Form.Control className="password-form-control" required onChange={this.handleConfirmPasswordChange} type="password" placeholder="Confirm New Password" />
-                                        <Form.Control.Feedback type="invalid" ref="invalidUsernamePwdFeedback">{this.state.serverErrorMsg}</Form.Control.Feedback>
+                                        <Form.Control.Feedback type="invalid" id="invalidUsernamePwdFeedback">{this.state.serverErrorMsg}</Form.Control.Feedback>
                                     </Form.Group>
                                 </Form.Row>
                                 <Button variant="primary" type="submit">
