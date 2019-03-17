@@ -101,5 +101,28 @@ describe('Testing Profile', () => {
             const instance = wrapper.instance();
             expect(instance.state.isOpen).toBe(false);
         });
+
+        test('Testing update first name', async () => {
+            const handleClick = jest.fn();
+            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+            const instance = wrapper.instance();
+            const event = {
+                target: { value: 'test_fname' },
+            };
+            instance.handleFirstNameChange(event);
+            expect(instance.state.firstName).toBe('test_fname');
+        });
+
+        test('Testing update last name', async () => {
+            const handleClick = jest.fn();
+            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+
+            const instance = wrapper.instance();
+            const event = {
+                target: { value: 'test_lname' },
+            };
+            instance.handleLastNameChange(event);
+            expect(instance.state.lastName).toBe('test_lname');
+        });
     });
 });
