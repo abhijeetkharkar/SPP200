@@ -296,5 +296,16 @@ describe('Testing Profile', () => {
             instance.handleImageUpload();
 
         });
+
+        test('Testing update password submit - Happy Path', async () => {
+            const handleClick = jest.fn();
+            firebase.doPasswordUpdate.mockImplementationOnce(() => {return Promise.resolve("SUCCESS")});
+
+            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+
+            const instance = wrapper.instance();
+            instance.handlePasswordSubmit();
+
+        });
     });
 });
