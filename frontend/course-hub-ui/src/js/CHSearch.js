@@ -64,25 +64,24 @@ class CHSearch extends Component {
 	}
 
 	handlePagination = (searchString, pageNumber) => {
-		// console.log("In CHSearch, before history");
-		this.setState({pageNumber: pageNumber});
+		// console.log("In CHSearch, before history, searchString:", searchString, ", pageNumber:", pageNumber);
+		this.setState({pageNumber: pageNumber, searchString: searchString});
 		this.props.history.push('/search?searchString=' + searchString + "&pageNumber=" + pageNumber);
 		// this.forceUpdate();
 	}
 
 	render() {
-		// console.log("In CHSearch, render called, pagenumber=", this.state.pageNumber, ", choice: ", this.state.choice);
 		const choice = this.state.choice;
 		const firstName = this.state.firstName;
 		const email = this.state.email;
 		const searchString = this.state.searchString;
 		const pageNumber = this.state.pageNumber;
 
-		// console.log("Choice:", choice, ", First:", firstName, ", Email:", email);
+		// console.log("In CHSearch, render called, pagenumber:", pageNumber, ", choice:", choice, ", searchString:", searchString);
 		return (
 			<div className="App container-fluid">
 				{choice === "home" &&
-					[<CHNavigator updateContent={this.handleClick} signedIn={false} firstName={firstName} email={email} key="keyNavigatorSearch" />,
+					[<CHNavigator updateContent={this.handleClick} updatePage={this.handlePagination} signedIn={false} caller={"search"} firstName={firstName} email={email} key="keyNavigatorSearch" />,
 					<div className="container-landing" key="keySearchContent">
 						<CHFilters updateContent={this.handleClick} />
 						<CHSearchContent updateContent={this.handleClick} updatePage={this.handlePagination} firstName={firstName} email={email} searchString={searchString} pageNumber={pageNumber}/>
@@ -93,7 +92,7 @@ class CHSearch extends Component {
 
 				{choice === "loginScreen" &&
 					[<LoginPage updateContent={this.handleClick} key="keyLoginOverlayOnSearch" searchString={searchString}/>,
-					<CHNavigator updateContent={this.handleClick} signedIn={false} key="keyNavigatorLoginOverlayOnSearch" />,
+					<CHNavigator updateContent={this.handleClick} updatePage={this.handlePagination} signedIn={false} caller={"search"} key="keyNavigatorLoginOverlayOnSearch" />,
 					<div className="container-landing" key="keyContentLoginOverlayOnSearch">
 						<CHFilters updateContent={this.handleClick} />
 						<CHSearchContent updateContent={this.handleClick} updatePage={this.handlePagination} firstName={firstName} email={email} searchString={searchString} pageNumber={pageNumber}/>
@@ -104,7 +103,7 @@ class CHSearch extends Component {
 
 				{choice === "signupScreen" &&
 					[<SignupPage updateContent={this.handleClick} key="keySignUpOverlayOnSearch" searchString={searchString} />,
-					<CHNavigator updateContent={this.handleClick} signedIn={false} key="keyNavigatorSignUpOverlayOnSearch" />,
+					<CHNavigator updateContent={this.handleClick} updatePage={this.handlePagination} signedIn={false} caller={"search"} key="keyNavigatorSignUpOverlayOnSearch" />,
 					<div className="container-landing" key="keyContentSignUpOverlayOnSearch">
 						<CHFilters updateContent={this.handleClick} />
 						<CHSearchContent updateContent={this.handleClick} updatePage={this.handlePagination} firstName={firstName} email={email} searchString={searchString} pageNumber={pageNumber}/>
@@ -115,7 +114,7 @@ class CHSearch extends Component {
 
 				{choice === "forgotPasswordScreen" &&
 					[<ForgotPasswordPage updateContent={this.handleClick} key="keyForgotPasswordOverlayOnSearch" searchString={searchString} />,
-					<CHNavigator updateContent={this.handleClick} signedIn={false} key="keyNavigatorForgotPasswordOverlayOnSearch" />,
+					<CHNavigator updateContent={this.handleClick} updatePage={this.handlePagination} signedIn={false} caller={"search"} key="keyNavigatorForgotPasswordOverlayOnSearch" />,
 					<div className="container-landing" key="keyContentForgotPasswordOverlayOnSearch">
 						<CHFilters updateContent={this.handleClick} />
 						<CHSearchContent updateContent={this.handleClick} updatePage={this.handlePagination} firstName={firstName} email={email} searchString={searchString} pageNumber={pageNumber}/>
@@ -125,7 +124,7 @@ class CHSearch extends Component {
 				}
 
 				{choice === "profile" &&
-					[<CHNavigator updateContent={this.handleClick} signedIn={true} firstName={firstName} email={email} key="keyNavigatorSearch" />,
+					[<CHNavigator updateContent={this.handleClick} updatePage={this.handlePagination} signedIn={true} caller={"search"} firstName={firstName} email={email} key="keyNavigatorSearch" />,
 					<div className="profile-container-landing profile-content" key="keySearch">
 						<ProfilePage updateContent={this.handleClick} updatePage={this.handlePagination} firstName={firstName} email={email} searchString={searchString} pageNumber={pageNumber}/>
 					</div>,
@@ -133,7 +132,7 @@ class CHSearch extends Component {
 				}
 
 				{choice === "homeSignedIn" &&
-					[<CHNavigator updateContent={this.handleClick} signedIn={firstName != null} firstName={firstName} email={email} key="keyNavigatorSearch" />,
+					[<CHNavigator updateContent={this.handleClick} updatePage={this.handlePagination} signedIn={firstName != null} caller={"search"} firstName={firstName} email={email} key="keyNavigatorSearch" />,
 					<div className="container-landing" key="keySearchContent">
 						<CHFilters updateContent={this.handleClick} />
 						<CHSearchContent updateContent={this.handleClick} updatePage={this.handlePagination} firstName={firstName} email={email} searchString={searchString} pageNumber={pageNumber}/>
