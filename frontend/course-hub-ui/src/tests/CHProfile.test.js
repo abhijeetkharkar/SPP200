@@ -196,5 +196,41 @@ describe('Testing Profile', () => {
             instance.handleZipChange(event);
             expect(instance.state.zip_code).toBe('test_zip');
         });
+
+        test('Testing update old password', async () => {
+            const handleClick = jest.fn();
+            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+
+            const instance = wrapper.instance();
+            const event = {
+                target: { value: 'test_old_password' },
+            };
+            instance.handleOldPasswordChange(event);
+            expect(instance.state.old_password).toBe('test_old_password');
+        });
+
+        test('Testing update new password', async () => {
+            const handleClick = jest.fn();
+            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+
+            const instance = wrapper.instance();
+            const event = {
+                target: { value: 'test_new_password' },
+            };
+            instance.handlePasswordChange(event);
+            expect(instance.state.new_password).toBe('test_new_password');
+        });
+
+        test('Testing confirm new password', async () => {
+            const handleClick = jest.fn();
+            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+
+            const instance = wrapper.instance();
+            const event = {
+                target: { value: 'test_new_password' },
+            };
+            instance.handleConfirmPasswordChange(event);
+            expect(instance.state.confirm_password).toBe('test_new_password');
+        });
     });
 });
