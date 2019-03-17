@@ -232,5 +232,14 @@ describe('Testing Profile', () => {
             instance.handleConfirmPasswordChange(event);
             expect(instance.state.confirm_password).toBe('test_new_password');
         });
+
+        test('Testing toggle modal', async () => {
+            const handleClick = jest.fn();
+            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+
+            const instance = wrapper.instance();
+            instance.toggleModal();
+            expect(instance.state.isOpen).toBe(true);
+        });
     });
 });
