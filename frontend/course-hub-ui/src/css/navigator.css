@@ -35,6 +35,8 @@
 			margin-top: 6%;
 			width: 90%;
 			font-size:18pt;
+			border-top-left-radius: 10pt;
+			border-bottom-left-radius: 10pt;
 		}
 
 			.search-results-search-box:focus {
@@ -50,7 +52,10 @@
 			background-color: rgb(241, 239, 108);
 			border-color: rgb(124, 123, 30) !important;
 			border: 1px solid transparent;
-			border-radius: 3px;
+			border-top-right-radius: 10pt;
+			border-bottom-right-radius: 10pt;
+			border-bottom-left-radius: 0pt;
+			border-top-left-radius: 0pt;
 		}
 
 			.search-results-search-button .search-results-search-button-font {
