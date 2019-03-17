@@ -241,5 +241,17 @@ describe('Testing Profile', () => {
             instance.toggleModal();
             expect(instance.state.isOpen).toBe(true);
         });
+
+        test('Testing on drop image', async () => {
+            const handleClick = jest.fn();
+            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+
+            const instance = wrapper.instance();
+            const event = {
+                target: { files: ['test_on_drop_image'] },
+            };
+            instance.onDrop(event);
+            expect(instance.state.profile_picture).toBe('test_on_drop_image');
+        });
     });
 });
