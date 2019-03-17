@@ -253,5 +253,26 @@ describe('Testing Profile', () => {
             instance.onDrop(event);
             expect(instance.state.profile_picture).toBe('test_on_drop_image');
         });
+
+        test('Testing update profile image - exist', async () => {
+            const handleClick = jest.fn();
+            firebase.doGetProfilePicture.mockImplementationOnce(() => {return Promise.resolve('test_url')});
+            const wrapper = mount(<ProfilePage updateContent={handleClick}/>);
+
+            const instance = wrapper.instance();
+            instance.handleImageChange();
+
+        });
+
+        test('Testing update profile image - not exist', async () => {
+            const handleClick = jest.fn();
+            firebase.doGetProfilePicture.mockImplementationOnce(() => {return Promise.resolve(null)});
+
+            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+
+            const instance = wrapper.instance();
+            instance.handleImageChange();
+
+        });
     });
 });
