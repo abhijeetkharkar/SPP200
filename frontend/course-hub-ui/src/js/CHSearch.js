@@ -3,11 +3,12 @@ import queryString from 'query-string';
 import '../css/bootstrap.min.css';
 import '../css/common-components.css';
 import CHNavigator from './CHNavigator';
+import CHSearchFilter from './CHFilters';
+import ProfilePage from "./CHProfile";
+import ProfileNavigator from "./CHProfileNavigator";
 import LoginPage from './CHLogin';
 import SignupPage from './CHSignup';
 import ForgotPasswordPage from './CHForgotPassword';
-import ProfilePage from "./CHProfile";
-import CHFilters from './CHFilters';
 import CHSearchContent from './CHSearchContent';
 import CHAdvertisements from './CHAdvertisements';
 import CHFooter from './CHFooter';
@@ -83,10 +84,9 @@ class CHSearch extends Component {
 			<div className="App container-fluid">
 				{choice === "home" &&
 					[<CHNavigator updateContent={this.handleClick} signedIn={false} firstName={firstName} email={email} key="keyNavigatorSearch" />,
-					<div className="container-landing" key="keySearchContent">
-						<CHFilters updateContent={this.handleClick} />
-						<CHSearchContent updateContent={this.handleClick} updatePage={this.handlePagination} firstName={firstName} email={email} searchString={searchString} pageNumber={pageNumber}/>
-						<CHAdvertisements updateContent={this.handleClick} />
+					<div className="container-landing my-content-landing" key="keySearchContent">
+						<CHSearchFilter updateContent={this.handleClick} />
+						<CHSearchContent updateContent={this.handleClick} />
 					</div>,
 					<CHFooter key="keyFooterSearch" />]
 				}
@@ -94,10 +94,9 @@ class CHSearch extends Component {
 				{choice === "loginScreen" &&
 					[<LoginPage updateContent={this.handleClick} key="keyLoginOverlayOnSearch" searchString={searchString}/>,
 					<CHNavigator updateContent={this.handleClick} signedIn={false} key="keyNavigatorLoginOverlayOnSearch" />,
-					<div className="container-landing" key="keyContentLoginOverlayOnSearch">
-						<CHFilters updateContent={this.handleClick} />
-						<CHSearchContent updateContent={this.handleClick} updatePage={this.handlePagination} firstName={firstName} email={email} searchString={searchString} pageNumber={pageNumber}/>
-						<CHAdvertisements updateContent={this.handleClick} />
+					<div className="container-landing my-content-landing" key="keyContentLoginOverlayOnSearch">
+						<CHSearchFilter updateContent={this.handleClick} />
+						<CHSearchContent updateContent={this.handleClick} />
 					</div>,
 					<CHFooter key="keyFooterLoginOverlayOnSearch" />]
 				}
@@ -105,10 +104,9 @@ class CHSearch extends Component {
 				{choice === "signupScreen" &&
 					[<SignupPage updateContent={this.handleClick} key="keySignUpOverlayOnSearch" searchString={searchString} />,
 					<CHNavigator updateContent={this.handleClick} signedIn={false} key="keyNavigatorSignUpOverlayOnSearch" />,
-					<div className="container-landing" key="keyContentSignUpOverlayOnSearch">
-						<CHFilters updateContent={this.handleClick} />
-						<CHSearchContent updateContent={this.handleClick} updatePage={this.handlePagination} firstName={firstName} email={email} searchString={searchString} pageNumber={pageNumber}/>
-						<CHAdvertisements updateContent={this.handleClick} />
+					<div className="container-landing my-content-landing" key="keyContentSignUpOverlayOnSearch">
+						<CHSearchFilter updateContent={this.handleClick} />
+						<CHSearchContent updateContent={this.handleClick} />
 					</div>,
 					<CHFooter key="keyFooterSignUpOverlayOnSearch" />]
 				}
@@ -116,10 +114,9 @@ class CHSearch extends Component {
 				{choice === "forgotPasswordScreen" &&
 					[<ForgotPasswordPage updateContent={this.handleClick} key="keyForgotPasswordOverlayOnSearch" searchString={searchString} />,
 					<CHNavigator updateContent={this.handleClick} signedIn={false} key="keyNavigatorForgotPasswordOverlayOnSearch" />,
-					<div className="container-landing" key="keyContentForgotPasswordOverlayOnSearch">
-						<CHFilters updateContent={this.handleClick} />
-						<CHSearchContent updateContent={this.handleClick} updatePage={this.handlePagination} firstName={firstName} email={email} searchString={searchString} pageNumber={pageNumber}/>
-						<CHAdvertisements updateContent={this.handleClick} />
+					<div className="container-landing my-content-landing" key="keyContentForgotPasswordOverlayOnSearch">
+						<CHSearchFilter updateContent={this.handleClick} />
+						<CHSearchContent updateContent={this.handleClick} />
 					</div>,
 					<CHFooter key="keyFooterForgotPasswordOverlayOnSearch" />]
 				}
@@ -127,17 +124,17 @@ class CHSearch extends Component {
 				{choice === "profile" &&
 					[<CHNavigator updateContent={this.handleClick} signedIn={true} firstName={firstName} email={email} key="keyNavigatorSearch" />,
 					<div className="profile-container-landing profile-content" key="keySearch">
-						<ProfilePage updateContent={this.handleClick} updatePage={this.handlePagination} firstName={firstName} email={email} searchString={searchString} pageNumber={pageNumber}/>
+						<CHSearchFilter updateContent={this.handleClick} />
+						<ProfilePage updateContent={this.handleClick} email={email} />
 					</div>,
 					<CHFooter key="keyFooterSearch" />]
 				}
 
 				{choice === "homeSignedIn" &&
-					[<CHNavigator updateContent={this.handleClick} signedIn={firstName != null} firstName={firstName} email={email} key="keyNavigatorSearch" />,
-					<div className="container-landing" key="keySearchContent">
-						<CHFilters updateContent={this.handleClick} />
-						<CHSearchContent updateContent={this.handleClick} updatePage={this.handlePagination} firstName={firstName} email={email} searchString={searchString} pageNumber={pageNumber}/>
-						<CHAdvertisements updateContent={this.handleClick} />
+					[<CHNavigator updateContent={this.handleClick} signedIn={signedIn || firstName != null} firstName={firstName} email={email} key="keyNavigatorSearch" />,
+					<div className="container-landing my-content-landing" key="keySearchContent">
+						<CHSearchFilter updateContent={this.handleClick} />
+						<CHSearchContent updateContent={this.handleClick} />
 					</div>,
 					<CHFooter key="keyFooterSearch" />]
 				}
