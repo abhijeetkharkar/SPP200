@@ -136,5 +136,17 @@ describe('Testing Profile', () => {
             instance.handleDobChange(event);
             expect(instance.state.dob).toBe('01/01/1990');
         });
+
+        test('Testing update phone number', async () => {
+            const handleClick = jest.fn();
+            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+
+            const instance = wrapper.instance();
+            const event = {
+                target: { value: '(123)-456-7890' },
+            };
+            instance.handlePhoneChange(event);
+            expect(instance.state.phone).toBe('(123)-456-7890');
+        });
     });
 });
