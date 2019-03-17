@@ -62,7 +62,10 @@
     font-size: small;
 }
 
-.profile-form-text-area{}
+.profile-form-text-area{
+    /*height: 35px;*/
+    font-size: small;
+}
 
 .password-form-control {
     height: 40px;

@@ -351,7 +351,7 @@ class ProfilePage extends Component {
 
                                                 <Form.Group controlId="formGridAddress">
                                                     <Form.Label>ADDRESS</Form.Label>
-                                                    <Form.Control as="textarea" rows="1" className="profile-form-text-area" onChange={this.handleAddressChange} type="address" value={this.state.address} />
+                                                    <Form.Control as="textarea" rows="2" className="profile-form-text-area" onChange={this.handleAddressChange} type="address" value={this.state.address} />
                                                 </Form.Group>
 
                                                 <Form.Row>
