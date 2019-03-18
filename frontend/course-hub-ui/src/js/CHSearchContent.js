@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import '../App.css';
 import '../css/common-components.css';
 import '../css/search.css';
 import { Table, Image, Pagination } from 'react-bootstrap';
@@ -88,9 +89,11 @@ class CHSearchContent extends Component {
 
     render() {
         // console.log("In CHSearchContent, inside render, pageNumber props:", this.props.pageNumber);
-
+        var customStyle = {
+            marginTop: window.outerHeight * 0.11
+        }
         return (
-            <div id="search-results-div">
+            <div id="search-results-div" style={customStyle}>
                 <Table striped hover id="search-results-table">
                     <thead>
                         <tr>
@@ -112,7 +115,7 @@ class CHSearchContent extends Component {
                                                 <p className="search-results-course-data-type">{"Course"}</p>                                                
                                                 <p className="search-results-course-data-name">{item.Title}</p>                                                    
                                                 <p className="search-results-course-data-short-provider-instructors">{"Provider: " +  item.CourseProvider + " | Taught By: " + (item.Instructors? item.Instructors.map(item => item.InstructorName).toString(): "")}</p>
-                                                <p className="search-results-course-data-short-description">{item.Description}</p>
+                                                {/* <p className="search-results-course-data-short-description">{item.Description}</p> */}
                                                 <span>
                                                     <p className="search-results-course-data-duration">
                                                         <FontAwesomeIcon icon={['fa', 'clock']} color='rgb(207, 204, 19)' />{item.CourseDuration? " " + item.CourseDuration.Value + " " + item.CourseDuration.Unit: " 1 hr"}

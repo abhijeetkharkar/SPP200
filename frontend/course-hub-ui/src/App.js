@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import './css/bootstrap.min.css';
+import './css/common-components.css';
 import CHNavigator from './js/CHNavigator'
 import CHLandingContent from './js/CHLandingContent';
 import LoginPage from './js/CHLogin';
@@ -71,11 +71,13 @@ class App extends Component {
     const optional2 = this.state.optional2
     const optional3 = this.state.optional3
     
+    const mainContainerStyle = {height: window.outerHeight};
+
     return (
-      <div className="App container-fluid">
+      <div className="App container-fluid" style={mainContainerStyle}>
         {choice === "home" &&
           [<CHNavigator updateContent={this.handleClick} signedIn={false} caller={"app"} key="keyNavigatorLandingContent" />,
-          <div className="container-landing my-content-landing" key="keyLandingContent">
+          <div className="my-content-landing" key="keyLandingContent">
             <CHLandingContent updateContent={this.handleClick} />
           </div>,
           <CHFooter key="keyFooterLandingContent" />]
@@ -84,7 +86,7 @@ class App extends Component {
         {choice === "loginScreen" &&
           [<LoginPage updateContent={this.handleClick} key="keyLoginOverlayOnLandingContent" />,
           <CHNavigator updateContent={this.handleClick} signedIn={false} caller={"app"} key="keyNavigatorLoginOverlayOnLandingContent" />,
-          <div className="container-landing my-content-landing" key="keyContentLoginOverlayOnLandingContent">
+          <div className="my-content-landing" key="keyContentLoginOverlayOnLandingContent">
             <CHLandingContent updateContent={this.handleClick} />
           </div>,
           <CHFooter key="keyFooterLoginOverlayOnLandingContent" />]
@@ -93,7 +95,7 @@ class App extends Component {
         {choice === "signupScreen" &&
           [<SignupPage updateContent={this.handleClick} key="keySignUpOverlayOnLandingContent" />,
           <CHNavigator updateContent={this.handleClick} signedIn={false} caller={"app"} key="keyNavigatorSignUpOverlayOnLandingContent" />,
-          <div className="container-landing my-content-landing" key="keyContentSignUpOverlayOnLandingContent">
+          <div className="my-content-landing" key="keyContentSignUpOverlayOnLandingContent">
             <CHLandingContent updateContent={this.handleClick} />
           </div>,
           <CHFooter key="keyFooterSignUpOverlayOnLandingContent" />]
@@ -102,7 +104,7 @@ class App extends Component {
         {choice === "forgotPasswordScreen" &&
           [<ForgotPasswordPage updateContent={this.handleClick} key="keyForgotPasswordOverlayOnLandingContent" />,
           <CHNavigator updateContent={this.handleClick} signedIn={false} caller={"app"} key="keyNavigatorForgotPasswordOverlayOnLandingContent" />,
-          <div className="container-landing my-content-landing" key="keyContentForgotPasswordOverlayOnLandingContent">
+          <div className="my-content-landing" key="keyContentForgotPasswordOverlayOnLandingContent">
             <CHLandingContent updateContent={this.handleClick} />
           </div>,
           <CHFooter key="keyFooterForgotPasswordOverlayOnLandingContent" />]
@@ -110,7 +112,7 @@ class App extends Component {
 
         {choice === "homeSignedIn" &&
           [<CHNavigator updateContent={this.handleClick} signedIn={true} caller={"app"} firstName={optional1} email={optional2} key="keyNavigatorLandingContent" />,
-          <div className="container-landing my-content-landing" key="keyLandingContent">
+          <div className="my-content-landing" key="keyLandingContent">
             <CHLandingContent updateContent={this.handleClick} signedIn={true} firstName={optional1} email={optional2} />
           </div>,
           <CHFooter key="keyFooterLandingContent" />]
@@ -118,7 +120,7 @@ class App extends Component {
 
         {choice === "profile" &&
           [<CHNavigator updateContent={this.handleClick} signedIn={true} caller={"app"} firstName={optional1} email={optional2} key="keyNavigatorLandingContent" />,
-          <div className="profile-container-landing profile-content" key="keyLandingContent">
+          <div className="profile-content" key="keyLandingContent">
             <ProfilePage updateContent={this.handleClick} email={optional2} />
           </div>,
           <CHFooter key="keyFooterLandingContent" />]

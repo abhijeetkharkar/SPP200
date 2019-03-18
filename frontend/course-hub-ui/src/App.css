@@ -1,55 +1,20 @@
-.App {
-  text-align: center;
-	background-color: #292c2f;
-}
-
-.container-fluid {
-  padding-left: 0px !important;
-  padding-right: 0px !important;
-}
-
 html {
   background: #02111D;  /* fallback for old browsers */
 	background-color: white;
-  background: -webkit-linear-gradient(to right, rgb(124, 124, 124), rgb(218, 218, 218), rgb(124, 124, 124));
-  background: linear-gradient(to right, rgb(124, 124, 124), rgb(218, 218, 218), rgb(124, 124, 124)); 
 }
 
-.my-content {
-  float: left; 
-  padding: 1%; 
-  margin: auto 0.3%;
-  position: relative;
-  text-align: center;
-  width: 64% !important;
-  
-}
-
-.my-content-landing {
-  float: left; 
-  padding: 1%; 
-  margin-top: 14%;
-  text-align: center;
-  width: 100% !important;
-  
-}
-
-.profile-content {
-  float: left;
-  padding: 1%;
-  text-align: center;
-  width: 100% !important;
-
-}
-
-@media (min-width: 1200px) {
-  .container {
-    max-width: 50% !important;
+  body{
+      font-size: 1rem;
+      font-weight: 200;
+      line-height: 0.8;
   }
-  .container-landing {
-    max-width: 100% !important;
-  }
-  .profile-container-landing{
-    max-width: 100% !important;
-  }
-}
+
+    .App {
+      text-align: center;
+      background-color: #292c2f;
+    }
+
+    .container-fluid {
+      padding-left: 0px !important;
+      padding-right: 0px !important;
+    }

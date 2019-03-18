@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import '../css/bootstrap.min.css';
 import '../css/common-components.css';
 import '../css/navigator.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -21,6 +20,11 @@ class CHNavigator extends Component {
             searched: false,
             showResults: false
         };
+    }
+
+    componentWillReceiveProps() {
+        // console.log("In CHNavigator, componentWillReceiveProps");
+        this.setState({ showResults: false });
     }
 
     handleSignOut = e => {
@@ -74,24 +78,26 @@ class CHNavigator extends Component {
     }
 
     render() {
-        const resultDivStyle = {display: this.state.showResults? "block": "none"};
+        const resultTableStyle = {display: this.state.showResults? "table": "none"};
         const logoStyle = {
             float: this.props.caller === "app"? "inherit": "left",
-            height: this.props.caller === "app"? "90%": "60%"
+            height: this.props.caller === "app"? "90%": "60%",
+            marginTop: this.props.caller === "app"? "auto": "1%",
+            maxWidth: "100%"
         };
         const headerHeightStyle = {height: window.outerHeight * 0.1}
         return (
             <div id="homeHeader" style={headerHeightStyle}>
-                <a style={logoStyle} href='/'>
+                <a href='/'>
                     {/* <h1 className="website-name">Course-Hub</h1> */}
-                    <Image className="website-logo" src="https://firebasestorage.googleapis.com/v0/b/course-hub-73ea7.appspot.com/o/images%2FCourse_Hub_Transparent_Background.png?alt=media&token=8fa88330-c06e-4935-9ff7-f19e4d61b3f7" fluid/>
+                    <Image style={logoStyle} className="website-logo" src="https://firebasestorage.googleapis.com/v0/b/course-hub-73ea7.appspot.com/o/Course_Hub_Transparent_Background.png?alt=media&token=7932c4fe-54d6-4802-9ab6-8e12fc359cb9"/>
                 </a>
                 {
                     this.props.caller !== "app" &&                    
                     <Form className="search-results-search-form" onSubmit={e => this.handleSearch(e)}>
                         <input className="search-results-search-box" placeholder="Search courses" value={this.state.searchString} onChange={this.handleSearchStringChange} type="text" />
                         <Button className="search-results-search-button" type="submit"><FontAwesomeIcon className="search-results-search-button-font" icon={['fa', 'search']} size='sm' /></Button>
-                        <table className="search-results-suggestions-table" style={resultDivStyle}>
+                        <table className="search-results-suggestions-table" style={resultTableStyle}>
                             <tbody>
                                 {
                                     this.state.suggestions.length > 0 ? 
