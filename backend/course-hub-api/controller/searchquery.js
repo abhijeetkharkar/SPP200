@@ -140,6 +140,7 @@ exports.searchquery = function(request, response){
             search_response['current_page'] = page_number;
             search_response['courses'] = parseCourses(body.hits.hits);
             response.json(search_response);
+            // console.log("Search Reponse: #Results: ", body.hits.total);
         }else{
             error={
                 "status": 500,

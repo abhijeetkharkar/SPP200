@@ -4,7 +4,7 @@ const fetch = require("node-fetch");
 
 exports.autosuggest = function(request, response){
     if(request.query.term==undefined){
-        console.log('StatusCode: 400');
+        // console.log('StatusCode: 400');
         console.log('Error: BAD REQUEST!! Could not find the search query');
         response.json ({
             "status" : 400,
@@ -30,8 +30,8 @@ exports.autosuggest = function(request, response){
             body: JSON.stringify(searchquery),
             headers: {'Content-Type': 'application/json', 'Accept': 'application/json'}
         }).then(res => {
-            console.log('search query: ', JSON.stringify(searchquery))
-            console.log("StatusCode: ", res.status);
+            // console.log('search query: ', JSON.stringify(searchquery))
+            // console.log("StatusCode: ", res.status);
             if (res.status == 200) {
                 return res.json();
             } else {
@@ -63,7 +63,7 @@ exports.autosuggest = function(request, response){
                         }
                     }
                 }
-                console.log('suggestions: ',suggestions);
+                // console.log('suggestions: ',suggestions);
                 response.json(suggestions);
             }
         });
