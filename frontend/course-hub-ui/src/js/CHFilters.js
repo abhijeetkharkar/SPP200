@@ -8,7 +8,8 @@ class CHFilters extends Component {
     render() {
         // console.log("Height",window.innerHeight)
         var customStyle = {
-            height: "75vh"
+            height: "75vh",
+            marginTop: window.outerHeight * 0.11
         }
         return (
             <div className="left-lane" style={customStyle}>

@@ -243,8 +243,11 @@ class ProfilePage extends Component {
 
 
     render() {
+        var customStyle = {
+            marginTop: window.outerHeight * 0.11
+        }
         return (
-            <div className="content">
+            <div className="content" style={customStyle}>
                 <Container fluid>
                     <Modal show={this.state.isOpen}>
                         <Modal.Header>

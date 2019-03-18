@@ -15,9 +15,12 @@ class CHAdvertisements extends Component {
     }
 
     render() {
-
+        var customStyle = {
+            height: "75vh",
+            marginTop: window.outerHeight * 0.11
+        }
         return (
-            <div className="search-results-advertisements-div">
+            <div className="search-results-advertisements-div" style={customStyle}>
                 <AdSense.Google
                     client={process.env.REACT_APP_SEARCH_EP}
                     slot='7806394673'

@@ -1,0 +1,130 @@
+/*HEADER*/
+#homeHeader {
+    position: fixed;
+    width: 100%;
+    background-color: #292c2f;
+}
+
+    #homeHeader a {        
+	    text-decoration: none;
+	}	
+
+	.website-name {    
+		color: rgb(207, 204, 19);
+		text-shadow: 1px 1px rgb(146, 144, 4);
+		font-size: 60px;
+	}
+
+	.website-name:hover {
+		text-shadow: rgb(146, 144, 4) 0px 0px 0.2em, rgb(146, 144, 4) 0px 0px 0.2em, rgb(146, 144, 4) 0px 0px 0.2em;
+	}
+
+	.website-logo {
+		height: 90%;
+	}
+
+	.search-results-search-form {
+		float: left !important;
+		margin-left: 10%;
+		width: 25%;
+	}
+
+		.search-results-search-box {
+			position: relative;
+			float: left !important;
+			margin-top: 6%;
+			width: 90%;
+			font-size:18pt;
+			border-top-left-radius: 10pt;
+			border-bottom-left-radius: 10pt;
+		}
+
+			.search-results-search-box:focus {
+				border-color: rgb(243, 242, 166) !important;
+				outline: rgb(243, 242, 166) auto 3px !important;
+				border-top-left-radius: 10pt;
+				border-bottom-left-radius: 10pt;
+			}
+
+		.search-results-search-button {
+			position: relative !important;
+			float: left !important;
+			margin-top: 6%;
+			height: 32pt;
+			width: 10% !important;
+			background-color: rgb(241, 239, 108) !important;
+			border-color: rgb(124, 123, 30) !important;
+			border: 1px solid transparent !important;
+			border-top-right-radius: 10pt !important;
+			border-bottom-right-radius: 10pt !important;
+			border-bottom-left-radius: 0pt !important;
+			border-top-left-radius: 0pt !important;
+		}
+
+			.search-results-search-button .search-results-search-button-font {
+				color: rgb(124, 123, 30) !important;
+			}
+
+			.search-results-search-button:hover {    
+				background-color: rgb(124, 123, 30) !important;
+				border-color: rgb(241, 239, 108) !important;
+				border-top-right-radius: 10pt !important;
+				border-bottom-right-radius: 10pt !important;
+				border-bottom-left-radius: 0pt !important;
+				border-top-left-radius: 0pt !important;
+			}
+
+				.search-results-search-button:hover .search-results-search-button-font {    
+					color: rgb(241, 239, 108) !important;
+				}
+
+		.search-results-suggestions-table {
+			/* position: absolute;
+			margin-top: 5%; */
+			position: relative;
+			width: 90%;
+			text-align: left;
+			background-color: #292c2f;
+			color: rgb(241, 239, 108);
+			opacity: 0.9;
+		}
+
+			.search-results-suggestions-table-data {
+				margin-top: 1%;
+				margin-bottom: 1%;
+			}
+
+				.search-results-suggestions-table-data:hover {
+					background-color: rgb(124, 123, 30);
+				}
+
+	#website-navigators-container {
+		right: 1%;
+		top: 35%;
+		width: 29%;
+		position: absolute;
+		background-color: #292c2f !important;
+	}
+	
+		.my-nav-tabs {
+			/*width: 10%;*/
+			background-color: rgb(241, 239, 108) !important;
+			color: black !important;
+			border: 1px solid transparent !important;
+			border-color: rgb(124, 123, 30) !important;
+			border-radius: 4px !important;
+			margin: auto 1% !important;
+			font-size: 15px !important;
+			float: right !important;
+		}
+
+			.my-nav-tabs:hover {    
+				background-color: rgb(124, 123, 30) !important;
+				border-color: rgb(241, 239, 108) !important;
+			}
+
+@media (max-width: 1000px) {
+	.search-results-search-form {
+		margin-left: 2%;
+	}
+}

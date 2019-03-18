@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
-import '../css/bootstrap.min.css';
 import '../css/common-components.css';
-import { MDBCol, MDBBtn, MDBContainer, MDBRow } from "mdbreact";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Form } from 'react-bootstrap';
+import { Form, Button } from 'react-bootstrap';
 const fetch = require('node-fetch');
 
 
@@ -64,38 +62,26 @@ class CHLandingContent extends Component {
     }
 
     render() {
-        const resultDivStyle = {display: this.state.showResults? "block": "none"};
+        const resultTableStyle = {display: this.state.showResults? "table": "none"};
+        const formMarginStyle = {marginTop: window.innerHeight * 0.8 * 0.5};
         return (
-            <MDBContainer>
-                <MDBRow>
-                    <MDBCol md="12">
-                        <Form onSubmit={e => this.handleSearch(e)}>
-                            <div className="input-group md-form form-sm form-1 pl-0" id="landingdiv">
-                                <div className="input-group-prepend">
-                                    <span className="input-group-text" id="basic-text1">
-                                        <FontAwesomeIcon icon={['fa', 'search']} color='rgb(207, 204, 19)' size='3x' />
-                                    </span>
-                                </div>
-                                <input id="searchbox" className="form-control my-0 py-1" value={this.state.searchquery} onChange={this.handlesearchqueryChange} type="text" placeholder="Search courses" aria-label="Search" />
-                                <MDBBtn size="lg" className="searchbutton" type="submit">Search</MDBBtn>
-                            </div>
-                            <div className="autocompleteclass" id="autocomplete" style={resultDivStyle}>
-                                <table className="suggestions-table">
-                                    <tbody>
-                                        {
-                                            this.state.suggestions.length > 0 ? 
-                                            this.state.suggestions.map((item, index) => {
-                                                return (<tr key={index}><td className="suggestions-data" onClick={this.handleOnclick}>{item}</td></tr>);
-                                            }):
-                                            []
-                                        }
-                                    </tbody>
-                                </table>
-                            </div>
-                        </Form>
-                    </MDBCol>
-                </MDBRow>
-            </MDBContainer>
+            <Form className="landing-search-form" style={formMarginStyle} onSubmit={e => this.handleSearch(e)}>
+                <div className="landing-search-form-div">
+                    <input className="landing-search-box" placeholder="Search courses" value={this.state.searchquery} onChange={this.handlesearchqueryChange} type="text" />
+                    <Button className="landing-search-button" type="submit"><FontAwesomeIcon className="landing-search-button-font" icon={['fa', 'search']} size='2x' /></Button>
+                </div>
+                <table className="landing-suggestions-table" style={resultTableStyle}>
+                    <tbody>
+                        {
+                            this.state.suggestions.length > 0 ? 
+                            this.state.suggestions.map((item, index) => {
+                                return (<tr key={index}><td className="landing-suggestions-table-data" onClick={this.handleOnclick}>{item}</td></tr>);
+                            }):
+                            []
+                        }
+                    </tbody>
+                </table>
+            </Form>
         );
     }
 }
