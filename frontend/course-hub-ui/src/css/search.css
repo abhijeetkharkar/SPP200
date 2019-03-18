@@ -13,27 +13,38 @@
     width: 15%;
 }
 
-.my-left-lane-title {
-    text-align: center !important;
-}
+	.filter-form {
+		font-size: 12pt;
+	}
 
-.my-input-alignment {
-    text-align: left !important;
-    margin-right: 2% !important;
-}
+		.pricebox{
+		width: 30% !important;
+		height: 40% !important;
+		padding-top: 2%;
+		padding-left: 2%;
+		box-sizing: border-box;
+		border-radius: 4px;
+		}
 
-.my-label-alignment {    
-    margin-right: 4% !important;
-}
+		.pricerange{
+		display: inline-block;
+		padding-right: 5%;
+		padding-top: 3%;
+		}
 
-.my-button-alignment {    
-   margin: auto !important;
-   background-color: rgb(243, 242, 166) !important;
-   border-color: rgb(146, 144, 4) !important;
-   color: black;
-}
+		.date{
+		width: 80% !important;
+		height: 70% !important;
+		padding-top: 1%;
+		padding-bottom: 1%;
+		padding-left: 2%;
+		border-radius: 4px;
+		}
 
-
+		.company{
+			padding-bottom: 5% !important;
+			line-height: 1;
+		}
 
 /* SEARCH RESULTS*/
 #search-results-div {

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import '../css/bootstrap.min.css';
-import '../css/filter-component.css';
+import '../css/search.css';
 import { Modal, Button, Form, Col, Badge } from 'react-bootstrap';
 //const Range = Slider.Range;
 
@@ -8,30 +8,64 @@ class CHFilters extends Component {
 
     constructor(props) {
         super(props);
+        this.componentWillMount=()=>{
+            this.selectedproviders=new Set();
+        }
         this.state = {
-          lowerBound: 0,
-          upperBound: 0,
-          value: [0, 10],
+            courseproviders: new Set([]),
+            minprice: 0,
+            maxprice: 0,
+            startdate: '',
+            enddate: ''
         };
-      }
+        
+        this.handleproviderchange = this.handleproviderchange.bind(this);
+        this.handleminpricechange = this.handleminpricechange.bind(this);
+        this.handleminpricechange = this.handleminpricechange.bind(this);
+        this.handlestartdatechange = this.handlestartdatechange.bind(this);
+        this.handleenddatechange = this.handleenddatechange.bind(this);
+        this.applyfilter = this.applyfilter.bind(this);
+    }
 
-    onLowerBoundChange = (e) => {
-        this.setState({ lowerBound: +e.target.value });
-      }
-      onUpperBoundChange = (e) => {
-        this.setState({ upperBound: +e.target.value });
-      }
-      onSliderChange = (value) => {
-        log(value);
-        this.setState({
-          value,
-        });
-      }
-      handleApply = () => {
-        const { lowerBound, upperBound } = this.state;
-        this.setState({ value: [lowerBound, upperBound] });
-      }
+    handleproviderchange = e => {
+        if(this.selectedproviders.has(e.currentTarget.id)){
+            this.selectedproviders.delete(e.currentTarget.id)
+        }
+        else{
+            this.selectedproviders.add(e.currentTarget.id)
+        }
+        this.setState({courseproviders : this.selectedproviders});
+        console.log(this.state.courseproviders)
+    }
 
+    handleminpricechange = e =>{
+        console.log('Min Price: ',e.target.value)
+        this.setState({minprice:e.target.value})
+    }
+
+    handlemaxpricechange = e =>{
+        console.log('Max Price: ',e.target.value)
+        this.setState({maxprice:e.target.value})
+    }
+
+    handlestartdatechange = e =>{
+        console.log('Start Date: ',e.target.value)
+        this.setState({startdate:e.target.value})
+    }
+
+    handleenddatechange = e =>{
+        console.log('Start Date: ',e.target.value)
+        this.setState({enddate:e.target.value})
+    }
+    
+    applyfilter = e => {
+		e.preventDefault();
+        e.stopPropagation();
+        //this.setState({pageNumber: pageNumber});
+        //this.props.history.push('/search?searchString=' + searchString + "&pageNumber=" + pageNumber);
+        this.props.updateFilter(this.props.searchString, 0, this.state )
+	}
+ 
     render() {
         // console.log("Height",window.innerHeight)
         var customStyle = {
@@ -41,25 +75,49 @@ class CHFilters extends Component {
 
         return (
             <div className="left-lane" style={customStyle} >
-             <Form>
-             <Form.Row>
-                    <label className="pricerange">Price </label>
-                    <input className="pricebox" placeholder="Min" type="number" onChange={this.onLowerBoundChange} />
-                    &nbsp;-&nbsp;
-                    <input className="pricebox" placeholder="Max" type="number" onChange={this.onUpperBoundChange} />
+                <Form className="filter-form" onSubmit={e => this.applyfilter(e)}>
+                    <Form.Row>
+                        <label className="provider">Course Provider: </label>
+                    </Form.Row>
+                    <Form.Row>
+                        <Form.Check className="company" label="EdX" id="EDX" onChange={this.handleproviderchange} />
+                    </Form.Row>
+                    <Form.Row>
+                        <Form.Check className="company" label="Iversity" id="Iversity" onChange={this.handleproviderchange} />
+                    </Form.Row>
+                    <Form.Row>
+                        <Form.Check className="company" label="Udemy" id="udemy" onChange={this.handleproviderchange} />
+                    </Form.Row>
+                    <Form.Row>
+                        <Form.Check className="company" label="Udacity" id="udacity" onChange={this.handleproviderchange} />
+                    </Form.Row>
+
+                    <Form.Row>
+                        <label className="pricerange">Price: </label>
+                        <input className="pricebox" placeholder="Min" onChange={this.handleminpricechange} value={this.state.minprice} type="number" />
+                        &nbsp;-&nbsp;
+                        <input className="pricebox" placeholder="Max" onChange={this.handlemaxpricechange} value={this.state.maxprice} type="number" />
+                    </Form.Row>
                     <br />
-            </Form.Row>
-                
-               {/*  <input className="my-input-alignment" type="radio" name="searchChoice" id="team" />
-                <label className="my-label-alignment" htmlFo r="team">Team</label>
-                <input className="my-input-alignment" type="radio" name="searchChoice" id="match" />
-                <label className="my-label-alignment" htmlFor="match">Match</label><br />
-                <div style={{ textAlign: "center" }}>
-                    <button type="button" className="btn btn-info my-button-alignment">Search</button>
-                </div> */}
-            </Form>
+                    <Form.Row>
+                         <label className="daterange">Start Date: </label>
+                    </Form.Row>
+                    <Form.Row>
+                         <input className="date" placeholder="Start Date" onChange={this.handlestartdatechange} value={this.state.startdate} type="date" />
+                    </Form.Row>
+                    <br />
+                    <Form.Row>
+                         <label className="daterange">End Date: </label>
+                    </Form.Row>
+                    <Form.Row>
+                        <input className="date" placeholder="End Date" onChange={this.handleenddatechange} value={this.state.enddate} type="date" />
+                    </Form.Row>
+                    <br />
+                    <Form.Row><Button className="filter-button" size="sm"  type="submit">Filter</Button></Form.Row>
+
+                </Form>
             </div>
-        );  
+        );
     }
 }
 
