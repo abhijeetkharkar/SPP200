@@ -34,8 +34,9 @@ class CHFilters extends Component {
 
     render() {
         // console.log("Height",window.innerHeight)
-        const customStyle = {
-            height: "75vh"
+        var customStyle = {
+            height: "75vh",
+            marginTop: window.outerHeight * 0.11
         }
 
         return (

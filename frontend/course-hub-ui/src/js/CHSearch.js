@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import queryString from 'query-string';
-import '../css/bootstrap.min.css';
+import '../App.css';
 import '../css/common-components.css';
 import CHNavigator from './CHNavigator';
 import CHSearchFilter from './CHFilters';
@@ -65,76 +65,79 @@ class CHSearch extends Component {
 	}
 
 	handlePagination = (searchString, pageNumber) => {
-		// console.log("In CHSearch, before history");
-		this.setState({pageNumber: pageNumber});
+		// console.log("In CHSearch, before history, searchString:", searchString, ", pageNumber:", pageNumber);
+		this.setState({pageNumber: pageNumber, searchString: searchString});
 		this.props.history.push('/search?searchString=' + searchString + "&pageNumber=" + pageNumber);
 		// this.forceUpdate();
 	}
 
 	render() {
-		// console.log("In CHSearch, render called, pagenumber=", this.state.pageNumber, ", choice: ", this.state.choice);
 		const choice = this.state.choice;
 		const firstName = this.state.firstName;
 		const email = this.state.email;
 		const searchString = this.state.searchString;
 		const pageNumber = this.state.pageNumber;
 
-		// console.log("Choice:", choice, ", First:", firstName, ", Email:", email);
+		// console.log("In CHSearch, render called, pagenumber:", pageNumber, ", choice:", choice, ", searchString:", searchString);
 		return (
 			<div className="App container-fluid">
 				{choice === "home" &&
-					[<CHNavigator updateContent={this.handleClick} signedIn={false} firstName={firstName} email={email} key="keyNavigatorSearch" />,
-					<div className="container-landing my-content-landing" key="keySearchContent">
-						<CHSearchFilter updateContent={this.handleClick} />
-						<CHSearchContent updateContent={this.handleClick} />
+					[<CHNavigator updateContent={this.handleClick} updatePage={this.handlePagination} signedIn={false} caller={"search"} firstName={firstName} email={email} key="keyNavigatorSearch" />,
+					<div className="my-content-landing" key="keySearchContent">
+						<CHFilters updateContent={this.handleClick} />
+						<CHSearchContent updateContent={this.handleClick} updatePage={this.handlePagination} firstName={firstName} email={email} searchString={searchString} pageNumber={pageNumber}/>
+						<CHAdvertisements updateContent={this.handleClick} />
 					</div>,
 					<CHFooter key="keyFooterSearch" />]
 				}
 
 				{choice === "loginScreen" &&
 					[<LoginPage updateContent={this.handleClick} key="keyLoginOverlayOnSearch" searchString={searchString}/>,
-					<CHNavigator updateContent={this.handleClick} signedIn={false} key="keyNavigatorLoginOverlayOnSearch" />,
-					<div className="container-landing my-content-landing" key="keyContentLoginOverlayOnSearch">
-						<CHSearchFilter updateContent={this.handleClick} />
-						<CHSearchContent updateContent={this.handleClick} />
+					<CHNavigator updateContent={this.handleClick} updatePage={this.handlePagination} signedIn={false} caller={"search"} key="keyNavigatorLoginOverlayOnSearch" />,
+					<div className="my-content-landing" key="keyContentLoginOverlayOnSearch">
+						<CHFilters updateContent={this.handleClick} />
+						<CHSearchContent updateContent={this.handleClick} updatePage={this.handlePagination} firstName={firstName} email={email} searchString={searchString} pageNumber={pageNumber}/>
+						<CHAdvertisements updateContent={this.handleClick} />
 					</div>,
 					<CHFooter key="keyFooterLoginOverlayOnSearch" />]
 				}
 
 				{choice === "signupScreen" &&
 					[<SignupPage updateContent={this.handleClick} key="keySignUpOverlayOnSearch" searchString={searchString} />,
-					<CHNavigator updateContent={this.handleClick} signedIn={false} key="keyNavigatorSignUpOverlayOnSearch" />,
-					<div className="container-landing my-content-landing" key="keyContentSignUpOverlayOnSearch">
-						<CHSearchFilter updateContent={this.handleClick} />
-						<CHSearchContent updateContent={this.handleClick} />
+					<CHNavigator updateContent={this.handleClick} updatePage={this.handlePagination} signedIn={false} caller={"search"} key="keyNavigatorSignUpOverlayOnSearch" />,
+					<div className="my-content-landing" key="keyContentSignUpOverlayOnSearch">
+						<CHFilters updateContent={this.handleClick} />
+						<CHSearchContent updateContent={this.handleClick} updatePage={this.handlePagination} firstName={firstName} email={email} searchString={searchString} pageNumber={pageNumber}/>
+						<CHAdvertisements updateContent={this.handleClick} />
 					</div>,
 					<CHFooter key="keyFooterSignUpOverlayOnSearch" />]
 				}
 
 				{choice === "forgotPasswordScreen" &&
 					[<ForgotPasswordPage updateContent={this.handleClick} key="keyForgotPasswordOverlayOnSearch" searchString={searchString} />,
-					<CHNavigator updateContent={this.handleClick} signedIn={false} key="keyNavigatorForgotPasswordOverlayOnSearch" />,
-					<div className="container-landing my-content-landing" key="keyContentForgotPasswordOverlayOnSearch">
-						<CHSearchFilter updateContent={this.handleClick} />
-						<CHSearchContent updateContent={this.handleClick} />
+					<CHNavigator updateContent={this.handleClick} updatePage={this.handlePagination} signedIn={false} caller={"search"} key="keyNavigatorForgotPasswordOverlayOnSearch" />,
+					<div className="my-content-landing" key="keyContentForgotPasswordOverlayOnSearch">
+						<CHFilters updateContent={this.handleClick} />
+						<CHSearchContent updateContent={this.handleClick} updatePage={this.handlePagination} firstName={firstName} email={email} searchString={searchString} pageNumber={pageNumber}/>
+						<CHAdvertisements updateContent={this.handleClick} />
 					</div>,
 					<CHFooter key="keyFooterForgotPasswordOverlayOnSearch" />]
 				}
 
 				{choice === "profile" &&
-					[<CHNavigator updateContent={this.handleClick} signedIn={true} firstName={firstName} email={email} key="keyNavigatorSearch" />,
-					<div className="profile-container-landing profile-content" key="keySearch">
-						<CHSearchFilter updateContent={this.handleClick} />
-						<ProfilePage updateContent={this.handleClick} email={email} />
+					[<CHNavigator updateContent={this.handleClick} updatePage={this.handlePagination} signedIn={true} caller={"search"} firstName={firstName} email={email} key="keyNavigatorSearch" />,
+					<div className="profile-content" key="keySearch">
+						<ProfilePage updateContent={this.handleClick} updatePage={this.handlePagination} firstName={firstName} email={email} searchString={searchString} pageNumber={pageNumber}/>
 					</div>,
 					<CHFooter key="keyFooterSearch" />]
 				}
 
 				{choice === "homeSignedIn" &&
-					[<CHNavigator updateContent={this.handleClick} signedIn={signedIn || firstName != null} firstName={firstName} email={email} key="keyNavigatorSearch" />,
-					<div className="container-landing my-content-landing" key="keySearchContent">
-						<CHSearchFilter updateContent={this.handleClick} />
-						<CHSearchContent updateContent={this.handleClick} />
+					[<CHNavigator updateContent={this.handleClick} updatePage={this.handlePagination} signedIn={firstName != null} caller={"search"} firstName={firstName} email={email} key="keyNavigatorSearch" />,
+					<div className="my-content-landing" key="keySearchContent">
+						<CHFilters updateContent={this.handleClick} />
+						<CHSearchContent updateContent={this.handleClick} updatePage={this.handlePagination} firstName={firstName} email={email} searchString={searchString} pageNumber={pageNumber}/>
+						<CHAdvertisements updateContent={this.handleClick} />
 					</div>,
 					<CHFooter key="keyFooterSearch" />]
 				}
