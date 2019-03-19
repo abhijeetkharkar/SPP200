@@ -58,7 +58,8 @@ test('Testing search results fetch - Sad', async () => {
 test('Testing search results componentWillReceiveProps - Happy 1', async () => {
 	const handleClick = jest.fn();
     const handlePagination = jest.fn();
-	const wrapper = shallow(<CHSearchContent updateContent={handleClick} updatePage={handlePagination} firstName={"Test1"} email={"test1@test.com"} searchString={"test"} pageNumber={1}/>);
+    const filterparams={"filtersApplied":true,"startDate":'2017-08-08',endDate:'2018-08-08',minPrice:0,maxPrice:10,courseProviders:['EDX']}
+    const wrapper = shallow(<CHSearchContent updateContent={handleClick} updatePage={handlePagination} firstName={"Test1"} email={"test1@test.com"} searchString={"test"} pageNumber={1} filters={filterparams}/>);
 	const response = {
     "number_of_pages": 43,
     "current_page": 1,
@@ -72,18 +73,19 @@ test('Testing search results componentWillReceiveProps - Happy 1', async () => {
         }]};
     fetch.mockResponseOnce(JSON.stringify(response));
     const instance = wrapper.instance();
-    instance.componentWillReceiveProps({searchString: "test", pageNumber: 1});
+    instance.componentWillReceiveProps({searchString: "test", pageNumber: 1, filters:filterparams});
 	expect(wrapper.exists()).toBe(true);
 });
 
 test('Testing search results componentWillReceiveProps - Sad', async () => {
     const handleClick = jest.fn();
     const handlePagination = jest.fn();
-	const wrapper = shallow(<CHSearchContent updateContent={handleClick} updatePage={handlePagination} firstName={"Test1"} email={"test1@test.com"} searchString={"test"} pageNumber={1}/>);
+    const filterparams={"filtersApplied":true,"startDate":'2017-08-08',endDate:'2018-08-08',minPrice:0,maxPrice:10,courseProviders:['EDX']}
+	const wrapper = shallow(<CHSearchContent updateContent={handleClick} updatePage={handlePagination} firstName={"Test1"} email={"test1@test.com"} searchString={"test"} pageNumber={1} filters={filterparams}/>);
 	const response = { suggestions: ["Deep Learning", "Machine Learning"] };
 	fetch.mockResponseOnce(response);
     const instance = wrapper.instance();
-    instance.componentWillReceiveProps({searchString: "test", pageNumber: 1});
+    instance.componentWillReceiveProps({searchString: "test", pageNumber: 1, filters:filterparams});
 	expect(wrapper.exists()).toBe(true);
 });
 

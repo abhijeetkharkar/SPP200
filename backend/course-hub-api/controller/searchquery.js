@@ -60,21 +60,26 @@ function addPriceRange(searchQuery, gte, lt){
     return searchQuery;
 }
 
-function addCourseProvider(searchQuery, courseProvider) {
-    var course = {
+function addCourseProvider(searchQuery, courseProviders) {
+    coursefilter={bool:{should:[]}}
+    for(i=0;i<courseProviders.length;i++){
+        matchQ={"match": {"CourseProvider": courseProviders[i]} }
+        coursefilter.bool.should.push(matchQ);
+    }
+    /*var course = {
         match : {
             CourseProvider : courseProvider
         }
-    }
+    }*/
     
-    searchQuery.query.bool.must.push(course);
+    searchQuery.query.bool.must.push(coursefilter);
     return searchQuery;
 }
 
 exports.searchquery = function(request, response){
     // page_number is Pagination parameters
     page_number = request.body.page_number || 0;
-
+    //console.log(request.body)
     // search_query contains the searched Term
     search_query = request.body.term;
 
@@ -114,6 +119,8 @@ exports.searchquery = function(request, response){
     if (request.body.courseprovider){
         searchQuery = addCourseProvider(searchQuery, request.body.courseprovider);
     }
+
+    console.log("Search Query: ",JSON.stringify(searchQuery))
 
     // Loading Data from Elastic Search
     fetch(url, {

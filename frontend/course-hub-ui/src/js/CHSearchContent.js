@@ -44,9 +44,26 @@ class CHSearchContent extends Component {
 
     componentWillReceiveProps(nextProps) {
         // console.log("In CHSearchContent, componentWillReceiveProps");
-        const payload = {
-            "term": nextProps.searchString,
-            "page_number": nextProps.pageNumber || 0
+        var payload;
+        if(nextProps.filters.filtersApplied) {
+            payload = {
+                "term" : nextProps.searchString,
+                "page_number" : nextProps.pageNumber || 0,
+                "daterange" : {
+                    "startdate" : nextProps.filters.startDate,
+                    "enddate" : nextProps.filters.endDate
+                },
+                "pricerange" : {
+                    "gte" : nextProps.filters.minPrice,
+                    "lt" : nextProps.filters.maxPrice
+                },
+                "courseprovider" : nextProps.filters.courseproviders
+             }
+        } else {
+            payload = {
+                "term": nextProps.searchString,
+                "page_number": nextProps.pageNumber || 0
+            };
         }
 
         fetch(process.env.REACT_APP_SEARCH_EP, {

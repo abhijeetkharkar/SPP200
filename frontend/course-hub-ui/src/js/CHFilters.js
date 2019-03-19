@@ -1,41 +1,125 @@
 import React, { Component } from 'react';
 import '../css/bootstrap.min.css';
-import '../css/common-components.css';
-// import { TwitterTimelineEmbed, TwitterShareButton, TwitterFollowButton, TwitterHashtagButton, TwitterMentionButton, TwitterTweetEmbed, TwitterMomentShare, TwitterDMButton, TwitterVideoEmbed, TwitterOnAirButton } from 'react-twitter-embed';
-
+import '../css/search.css';
+import { Modal, Button, Form, Col, Badge } from 'react-bootstrap';
+//const Range = Slider.Range;
 
 class CHFilters extends Component {
+
+    constructor(props) {
+        super(props);
+        this.componentWillMount=()=>{
+            this.selectedproviders=new Set();
+        }
+        this.state = {
+            courseproviders: new Set([]),
+            minprice: 0,
+            maxprice: 0,
+            startdate: '',
+            enddate: ''
+        };
+        
+        this.handleproviderchange = this.handleproviderchange.bind(this);
+        this.handleminpricechange = this.handleminpricechange.bind(this);
+        this.handleminpricechange = this.handleminpricechange.bind(this);
+        this.handlestartdatechange = this.handlestartdatechange.bind(this);
+        this.handleenddatechange = this.handleenddatechange.bind(this);
+        this.applyfilter = this.applyfilter.bind(this);
+    }
+
+    handleproviderchange = e => {
+        if(this.selectedproviders.has(e.currentTarget.id)){
+            this.selectedproviders.delete(e.currentTarget.id)
+        }
+        else{
+            this.selectedproviders.add(e.currentTarget.id)
+        }
+        this.setState({courseproviders : this.selectedproviders});
+        console.log(this.state.courseproviders)
+    }
+
+    handleminpricechange = e =>{
+        console.log('Min Price: ',e.target.value)
+        this.setState({minprice:e.target.value})
+    }
+
+    handlemaxpricechange = e =>{
+        console.log('Max Price: ',e.target.value)
+        this.setState({maxprice:e.target.value})
+    }
+
+    handlestartdatechange = e =>{
+        console.log('Start Date: ',e.target.value)
+        this.setState({startdate:e.target.value})
+    }
+
+    handleenddatechange = e =>{
+        console.log('Start Date: ',e.target.value)
+        this.setState({enddate:e.target.value})
+    }
+    
+    applyfilter = e => {
+		e.preventDefault();
+        e.stopPropagation();
+        //this.setState({pageNumber: pageNumber});
+        //this.props.history.push('/search?searchString=' + searchString + "&pageNumber=" + pageNumber);
+        this.props.updateFilter(this.props.searchString, 0, this.state )
+	}
+ 
     render() {
         // console.log("Height",window.innerHeight)
         var customStyle = {
             height: "75vh",
             marginTop: window.outerHeight * 0.11
         }
+
         return (
-            <div className="left-lane" style={customStyle}>
-                <div className="my-left-lane-title">
-                    <h6>Search Options</h6>
-                </div>
-                <div className="form-group">
-                    <input type="text" className="form-control" id="usr"/><br/>
-                    <input className="my-input-alignment" type="radio" name="searchChoice" id="player"/>
-                    <label className="my-label-alignment" htmlFor="player">Player</label>
-                    <input className="my-input-alignment" type="radio" name="searchChoice" id="team"/>
-                    <label className="my-label-alignment" htmlFor="team">Team</label>
-                    <input className="my-input-alignment" type="radio" name="searchChoice" id="match"/>
-                    <label className="my-label-alignment" htmlFor="match">Match</label><br/>
-                    <div style={{textAlign:"center"}}>
-                        <button type="button" className="btn btn-info my-button-alignment">Search</button>
-                    </div>
-                </div>
-                {/* <TwitterTimelineEmbed
-                    sourceType="profile"
-                    screenName="DOTA2"
-                    options={{height: 400}}
-                    /> */}
+            <div className="left-lane" style={customStyle} >
+                <Form className="filter-form" onSubmit={e => this.applyfilter(e)}>
+                    <Form.Row>
+                        <label className="provider">Course Provider: </label>
+                    </Form.Row>
+                    <Form.Row>
+                        <Form.Check className="company" label="EdX" id="EDX" onChange={this.handleproviderchange} />
+                    </Form.Row>
+                    <Form.Row>
+                        <Form.Check className="company" label="Iversity" id="Iversity" onChange={this.handleproviderchange} />
+                    </Form.Row>
+                    <Form.Row>
+                        <Form.Check className="company" label="Udemy" id="udemy" onChange={this.handleproviderchange} />
+                    </Form.Row>
+                    <Form.Row>
+                        <Form.Check className="company" label="Udacity" id="udacity" onChange={this.handleproviderchange} />
+                    </Form.Row>
+
+                    <Form.Row>
+                        <label className="pricerange">Price: </label>
+                        <input className="pricebox" placeholder="Min" onChange={this.handleminpricechange} value={this.state.minprice} type="number" />
+                        &nbsp;-&nbsp;
+                        <input className="pricebox" placeholder="Max" onChange={this.handlemaxpricechange} value={this.state.maxprice} type="number" />
+                    </Form.Row>
+                    <br />
+                    <Form.Row>
+                         <label className="daterange">Start Date: </label>
+                    </Form.Row>
+                    <Form.Row>
+                         <input className="date" placeholder="Start Date" onChange={this.handlestartdatechange} value={this.state.startdate} type="date" />
+                    </Form.Row>
+                    <br />
+                    <Form.Row>
+                         <label className="daterange">End Date: </label>
+                    </Form.Row>
+                    <Form.Row>
+                        <input className="date" placeholder="End Date" onChange={this.handleenddatechange} value={this.state.enddate} type="date" />
+                    </Form.Row>
+                    <br />
+                    <Form.Row><Button className="filter-button" size="sm"  type="submit">Filter</Button></Form.Row>
+
+                </Form>
             </div>
         );
     }
- }
+}
+
 
 export default CHFilters;

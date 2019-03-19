@@ -36,7 +36,8 @@
     "react-select": "^2.0.0",
     "react-social-login-buttons": "^2.3.0",
     "react-star-rating-component": "^1.4.1",
-    "suggestion-react-input-search": "^1.2.1"
+    "suggestion-react-input-search": "^1.2.1",
+    "react-bootstrap-date-picker":"^5.1.0"
   },
   "scripts": {
     "start": "webpack-dev-server --mode development --open --hot",
