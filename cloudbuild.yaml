@@ -1,10 +1,4 @@
 #cloudbuild.yaml
 steps:
 - name: ‘docker/compose:1.19.0’
-  args: [‘build’]
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['tag', 'workspace_app:latest', 'gcr.io/course-hub-234807/spp200_course-hub-frontend']
-images: ['gcr.io/course-hub-234807/spp200_course-hub-frontend']
-- name: 'gcr.io/cloud-builders/docker'
-  args: ['tag', 'workspace_app:latest', 'gcr.io/course-hub-234807/spp200_course-hub-backend']
-images: ['gcr.io/course-hub-234807/spp200_course-hub-backend']
+  args: [‘up’, ‘-d’]
