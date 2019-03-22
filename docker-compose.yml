@@ -1,10 +1,10 @@
 version: '3'
 services:
-  backend:
+  course-hub-backend:
     build: ./backend/course-hub-api
     ports:
      - "4000:4000"
-  frontend:
+  course-hub-frontend:
     build: ./frontend/course-hub-ui
     ports:
      - "80:80"
