@@ -4,3 +4,5 @@ steps:
   args: ['build']
 - name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/course-hub-234807/spp200_frontend']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/course-hub-234807/spp200_backend']
