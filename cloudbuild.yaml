@@ -1,5 +1,14 @@
 #cloudbuild.yaml
 steps:
+- name: gcr.io/cloud-builders/gcloud
+  args:
+  - kms
+  - decrypt
+  - --ciphertext-file=/frontend/course-hub-ui/.env.enc
+  - --plaintext-file=/frontend/course-hub-ui/.env
+  - --location=global
+  - --keyring=course-hub-keyring
+  - --key=course-hub-key
 - name: 'docker/compose:1.19.0'
   args: ['build']
 - name: 'gcr.io/cloud-builders/docker'
