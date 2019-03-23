@@ -12,6 +12,6 @@ steps:
 - name: 'docker/compose:1.19.0'
   args: ['build']
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/$PROJECT_ID/spp200_frontend:latest']
+  args: ['push', 'gcr.io/$PROJECT_ID/spp200_frontend']
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/$PROJECT_ID/spp200_backend:latest']
+  args: ['push', 'gcr.io/$PROJECT_ID/spp200_backend']

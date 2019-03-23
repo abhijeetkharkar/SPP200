@@ -2,11 +2,11 @@ version: '3'
 services:
   course-hub-backend:
     build: ./backend/course-hub-api
-    image: gcr.io/course-hub-234807/spp200_backend:latest
+    image: gcr.io/course-hub-234807/spp200_backend
     ports:
      - "4000:4000"
   course-hub-frontend:
     build: ./frontend/course-hub-ui
-    image: gcr.io/course-hub-234807/spp200_frontend:latest
+    image: gcr.io/course-hub-234807/spp200_frontend
     ports:
      - "80:80"
