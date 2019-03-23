@@ -4,8 +4,8 @@ steps:
   args:
   - kms
   - decrypt
-  - --ciphertext-file=frontend/course-hub-ui/.env.enc
-  - --plaintext-file=frontend/course-hub-ui/.env
+  - --ciphertext-file=./frontend/course-hub-ui/.env.enc
+  - --plaintext-file=./frontend/course-hub-ui/.env
   - --location=global
   - --keyring=course-hub-keyring
   - --key=course-hub-key
