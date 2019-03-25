@@ -12,6 +12,10 @@ steps:
 - name: 'docker/compose:1.19.0'
   args: ['build']
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/$PROJECT_ID/spp200_frontend']
+  args: ['tag', 'workspace_app:latest', 'gcr.io/$PROJECT_ID/spp200_frontend:$COMMIT_SHA']
 - name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/$PROJECT_ID/spp200_backend']
+  args: ['tag', 'workspace_app:latest', 'gcr.io/$PROJECT_ID/spp200_backend:$COMMIT_SHA']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/$PROJECT_ID/spp200_frontend:$COMMIT_SHA']
+- name: 'gcr.io/cloud-builders/docker'
+  args: ['push', 'gcr.io/$PROJECT_ID/spp200_backend:$COMMIT_SHA']
