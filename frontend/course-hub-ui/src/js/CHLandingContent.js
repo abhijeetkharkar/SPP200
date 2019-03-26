@@ -28,7 +28,8 @@ class CHLandingContent extends Component {
         const searchterm = this.state.searchquery;
         if(searchterm.length > 2) {
             this.setState({ searchquery: event.target.value, showResults: true });
-            const url = process.env.REACT_APP_AUTOCOMPLETE_EP + searchterm
+            // const url = process.env.REACT_APP_AUTOCOMPLETE_EP + searchterm
+            const url = "http://" + process.env.BACK_END_LOAD_BALANCER_SERVICE_HOST + "/autosuggest?term=" + searchterm
             fetch(url, {
                 method: 'GET',
                 headers: {
