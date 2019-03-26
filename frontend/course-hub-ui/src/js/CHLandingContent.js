@@ -3,6 +3,7 @@ import '../css/common-components.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Form, Button } from 'react-bootstrap';
 const fetch = require('node-fetch');
+const dns = require('dns');
 
 
 class CHLandingContent extends Component {
@@ -29,8 +30,13 @@ class CHLandingContent extends Component {
         if(searchterm.length > 2) {
             this.setState({ searchquery: event.target.value, showResults: true });
             // const url = process.env.REACT_APP_AUTOCOMPLETE_EP + searchterm
-            console.log("BACKEND IP IS : ", process.env.BACK_END_LOAD_BALANCER_SERVICE_HOST);
-            const url = "http://" + process.env.BACK_END_LOAD_BALANCER_SERVICE_HOST + ":4000/autosuggest?term=" + searchterm
+            console.log("PROCESS ENV IS : ", process.env);
+            dns.resolve4('back-end-load-balancer.default.svc.cluster.local', (err, addresses) => {
+                if (err) throw err;
+                console.log("ADDRESS IS ", addresses);
+                const url = "http://" + addresses + ":4000/autosuggest?term=" + searchterm
+            });
+            console.log("URL IS ", url);
             fetch(url, {
                 method: 'GET',
                 headers: {
