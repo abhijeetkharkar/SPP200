@@ -13,6 +13,13 @@ class CHAdvertisements extends Component {
             topTenPlayers: []
         }
     }
+    
+    componentDidMount () {
+        (adsbygoogle = window.adsbygoogle || []).push({
+        google_ad_client: "ca-pub-6797429263528218",
+        enable_page_level_ads: true
+      });
+    }
 
     render() {
         var customStyle = {
