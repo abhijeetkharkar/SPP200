@@ -30,7 +30,7 @@ class CHLandingContent extends Component {
             this.setState({ searchquery: event.target.value, showResults: true });
             // const url = process.env.REACT_APP_AUTOCOMPLETE_EP + searchterm
             console.log("BACKEND IP IS : ", process.env.BACK_END_LOAD_BALANCER_SERVICE_HOST);
-            const url = "http://" + process.env.BACK_END_LOAD_BALANCER_SERVICE_HOST + "/autosuggest?term=" + searchterm
+            const url = "http://" + process.env.BACK_END_LOAD_BALANCER_SERVICE_HOST + ":4000/autosuggest?term=" + searchterm
             fetch(url, {
                 method: 'GET',
                 headers: {
