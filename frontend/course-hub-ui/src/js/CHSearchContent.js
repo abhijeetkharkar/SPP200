@@ -134,8 +134,8 @@ class CHSearchContent extends Component {
                                             </td>
                                             <td className="search-results-course-data">
                                                 <p className="search-results-course-data-type">{"Course"}</p>                                                
-                                                {/* <p className="search-results-course-data-name">{item.Title}</p>   */}
-                                                 <Button className="search-results-course-data-name" variant="link" onClick={ () => this.props.updateContent('coursedetails',null,null,item.CourseId)}>{item.Title}</Button>                                            
+                                                {/* <p className="search-results-course-data-name">{item.Title}</p>    */}
+                                                <p className="search-results-course-data-name"><Button className="search-results-course-data-name-link" variant="link" onClick={ () => this.props.updateContent('coursedetails',null,null,item.CourseId)}>{item.Title}</Button></p>
                                                 <p className="search-results-course-data-short-provider-instructors">{"Provider: " +  item.CourseProvider + " | Taught By: " + (item.Instructors? item.Instructors.map(item => item.InstructorName).toString(): "")}</p>
                                                 {/* <p className="search-results-course-data-short-description">{item.Description}</p> */}
                                                 <span>

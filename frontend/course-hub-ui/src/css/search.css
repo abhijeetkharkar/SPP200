@@ -95,6 +95,13 @@
 				font-weight: bold;
 			}
 
+				.search-results-course-data-name-link {				
+					color: rgb(207, 204, 19);
+					font-size: 20px;
+					font-weight: bold;
+					padding: 0px;
+				}
+
 			.search-results-course-data-short-provider-instructors {
 				color: rgb(243, 242, 166);
 				font-size: 12pt;
