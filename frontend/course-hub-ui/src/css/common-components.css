@@ -114,10 +114,17 @@
 	text-align: left;
 	font: normal 16px sans-serif;
 
-	padding: 20px 50px;
+	width: 100%;
+	height: 10%;
+	text-align: left;
+	font: normal 16px sans-serif;
+	float: left;
+	padding: 2% 3%;
+
+	/* padding: 20px 50px;
 	position: fixed;
 	left:0px;
-	bottom:0px;
+	bottom:0px; */
 }
 
 .footer-distributed .footer-left p{
@@ -145,8 +152,8 @@
 
 .footer-distributed .footer-right{
 	float: right;
-	margin-top: 6px;
-	max-width: 180px;
+	/* margin-top: 6px;
+	max-width: 180px; */
 }
 
 .footer-distributed .footer-right a{
@@ -162,6 +169,10 @@
 	line-height: 35px;
 
 	margin-left: 3px;
+}
+
+.footer-distributed .footer-right a:hover {	
+	background-color:  #5d5e5f;
 }
 
 /* If you don't want the footer to be responsive, remove these media queries */
