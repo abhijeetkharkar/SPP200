@@ -98,4 +98,4 @@ const updateUser = async (_id, payload) => {
 }
 
 
-export {addUser, searchUser, getUserDetails, updateUser, getCourseDetail};
+export {addUser, searchUser, getUserDetails, updateUser};
