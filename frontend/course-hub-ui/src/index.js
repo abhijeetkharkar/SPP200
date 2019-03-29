@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import CHSearch from './js/CHSearch';
+import CHDeals from './js/CHDeals';
 import * as serviceWorker from './serviceWorker';
 import 'babel-polyfill';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
@@ -13,6 +14,7 @@ ReactDOM.render(
 		<Switch>
 			<Route exact path="/" component={App}/>
 			<Route path="/search" component={CHSearch}/>
+			<Route path="/deals" component={CHDeals}/>
 		</Switch>
     </BrowserRouter>, 
 	document.getElementById('root'));

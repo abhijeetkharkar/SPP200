@@ -90,6 +90,9 @@ class CHSearchContent extends Component {
             while(pageList.length < 10 && pageList.length <= pages) {
                 --i;
                 ++j;
+                if (i<0 && j>=pages){
+                    break;
+                }
                 if(i>=0 && j<pages) {
                     pageList.push(i);
                     pageList.push(j);
