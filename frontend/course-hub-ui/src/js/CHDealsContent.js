@@ -85,33 +85,34 @@ class CHDealsContent extends Component{
                             this.state.deals.map((item, index) => {
                                 return (
                                     <div className={"deals-landing-"+(index+1)}>
-                                        <DealsCard title={item.title} provider={item.provider} description={item.description} datePosted={item.datePosted}/>
+                                        <DealsCard title={item.title} provider={item.provider} description={item.description} datePosted={item.datePosted} originalPrice={item.originalPrice} discountedPrice={item.discountedPrice} imageLink={item.imageLink} thumbsUp={item.thumbsUp} />
                                     </div>);
                             }) :
                             []
                     }
                 </div>
-                <div className="deals-pagination">
+
+                <div id="deals-pagination">
                     <tfoot>
                         <tr>
-                            <td colSpan="2" className="search-results-table-footer">
-                                <Pagination className="search-results-table-footer-paginator">
-                                    <Pagination.First id="search-results-table-footer-paginator-first" onClick={() => this.props.updatePage(this.props.searchString, 0)}/>
-                                    {this.props.pageNumber <= 0 && <Pagination.Prev id="search-results-table-footer-paginator-prev"  disabled />}
-                                    {this.props.pageNumber > 0 && <Pagination.Prev id="search-results-table-footer-paginator-prev"  onClick={() => this.props.updatePage(this.props.searchString, this.props.pageNumber-1)}/>}
+                            <td colSpan="2" >
+                                <Pagination >
+                                    <Pagination.First  onClick={() => this.props.updatePage(this.props.searchString, 0)}/>
+                                    {this.props.pageNumber <= 0 && <Pagination.Prev disabled />}
+                                    {this.props.pageNumber > 0 && <Pagination.Prev onClick={() => this.props.updatePage(this.props.searchString, this.props.pageNumber-1)}/>}
 
                                     {
                                         this.state.pageList.map(page => {
                                             if(page === this.props.pageNumber)
-                                                return <Pagination.Item key={page} id={"search-results-table-footer-paginator-item-" + page} active onClick={() => this.props.updatePage(this.props.searchString, page)}>{page+1}</Pagination.Item>;
+                                                return <Pagination.Item key={page} active onClick={() => this.props.updatePage(this.props.searchString, page)}>{page+1}</Pagination.Item>;
                                             else
-                                                return <Pagination.Item key={page} id={"search-results-table-footer-paginator-item-" + page} onClick={() => this.props.updatePage(this.props.searchString, page)}>{page+1}</Pagination.Item>;
+                                                return <Pagination.Item key={page} onClick={() => this.props.updatePage(this.props.searchString, page)}>{page+1}</Pagination.Item>;
                                         })
                                     }
 
-                                    {this.props.pageNumber >= this.state.totalPages-1 && <Pagination.Next id="search-results-table-footer-paginator-next" disabled />}
-                                    {this.props.pageNumber < this.state.totalPages-1 && <Pagination.Next id="search-results-table-footer-paginator-next" onClick={() => this.props.updatePage(this.props.searchString, this.props.pageNumber+1)}/>}
-                                    <Pagination.Last id="search-results-table-footer-paginator-last" onClick={() => this.props.updatePage(this.props.searchString, this.state.totalPages-1)}/>
+                                    {this.props.pageNumber >= this.state.totalPages-1 && <Pagination.Next disabled />}
+                                    {this.props.pageNumber < this.state.totalPages-1 && <Pagination.Next onClick={() => this.props.updatePage(this.props.searchString, this.props.pageNumber+1)}/>}
+                                    <Pagination.Last onClick={() => this.props.updatePage(this.props.searchString, this.state.totalPages-1)}/>
                                 </Pagination>
                             </td>
                         </tr>

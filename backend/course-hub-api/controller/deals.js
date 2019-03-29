@@ -12,79 +12,23 @@ exports.courseDeals = function(request, response){
     }else{
         console.log("Search Query Received is ", request.query.category);
         var result = [{
-            provider: 'Udemy',
-            link: 'http://www.dummylink.com',
-            originalPrice: 50,
-            discountedPrice: 20,
+            title: 'Big Discount on Udemy AI course',
             description: 'This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.',
-            datePosted: 'December 17, 2018 03:24:00',
-            title: 'Big Discount on Udemy AI course'
-        },
-        {
-            provider: 'Udemy',
             link: 'http://www.dummylink.com',
-            originalPrice: 50,
-            discountedPrice: 20,
-            description: 'This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.',
+            imageLink: 'https://firebasestorage.googleapis.com/v0/b/course-hub-73ea7.appspot.com/o/images%2F276*180px.svg?alt=media&token=0d8e5d9d-9087-4135-944b-fe9b87b96fb0',
+            originalPrice: 20,
+            discountedPrice: 10,
+            thumbsUp: 4,
             datePosted: 'December 17, 2018 03:24:00',
-            title: 'Big Discount on Udemy AI course'
-        },{
+            user: 'user-id',
+            userName: 'Dummy User',
             provider: 'Udemy',
-            link: 'http://www.dummylink.com',
-            originalPrice: 50,
-            discountedPrice: 20,
-            description: 'This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.',
-            datePosted: 'December 17, 2018 03:24:00',
-            title: 'Big Discount on Udemy AI course'
-        },
-        {
-            provider: 'Udemy',
-            link: 'http://www.dummylink.com',
-            originalPrice: 50,
-            discountedPrice: 20,
-            description: 'This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.',
-            datePosted: 'December 17, 2018 03:24:00',
-            title: 'Big Discount on Udemy AI course'
-        },{
-            provider: 'Udemy',
-            link: 'http://www.dummylink.com',
-            originalPrice: 50,
-            discountedPrice: 20,
-            description: 'This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.',
-            datePosted: 'December 17, 2018 03:24:00',
-            title: 'Big Discount on Udemy AI course'
-        },
-        {
-            provider: 'Udemy',
-            link: 'http://www.dummylink.com',
-            originalPrice: 50,
-            discountedPrice: 20,
-            description: 'This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.',
-            datePosted: 'December 17, 2018 03:24:00',
-            title: 'Big Discount on Udemy AI course'
-        },{
-            provider: 'Udemy',
-            link: 'http://www.dummylink.com',
-            originalPrice: 50,
-            discountedPrice: 20,
-            description: 'This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.',
-            datePosted: 'December 17, 2018 03:24:00',
-            title: 'Big Discount on Udemy AI course'
-        },
-        {
-            provider: 'Udemy',
-            link: 'http://www.dummylink.com',
-            originalPrice: 50,
-            discountedPrice: 20,
-            description: 'This is a wider card with supporting text below as a natural lead-in to additional content. This content is a little bit longer.',
-            datePosted: 'December 17, 2018 03:24:00',
-            title: 'Big Discount on Udemy AI course'
         }];
         response.json({
-            total_deals: 9,
-            number_of_pages: 2,
-            current_page: 1,
+            total_deals: 1,
+            number_of_pages: 1,
+            current_page: 0,
             deals: result
         });
-    }    
+    }
 }
