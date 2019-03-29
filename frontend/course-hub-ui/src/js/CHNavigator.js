@@ -21,6 +21,7 @@ class CHNavigator extends Component {
             searched: false,
             showResults: false
         };
+        
     }
 
     componentWillReceiveProps() {
