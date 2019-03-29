@@ -97,4 +97,5 @@ const updateUser = async (_id, payload) => {
     return response;
 }
 
+
 export {addUser, searchUser, getUserDetails, updateUser};

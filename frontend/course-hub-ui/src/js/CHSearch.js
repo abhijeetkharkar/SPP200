@@ -95,6 +95,7 @@ class CHSearch extends Component {
 		// this.forceUpdate();
 	}
 
+
 	render() {
 		const choice = this.state.choice;
 		const firstName = this.state.firstName;
@@ -172,6 +173,9 @@ class CHSearch extends Component {
 						<CHAdvertisements updateContent={this.handleClick} />
 					</div>,
 					<CHFooter key="keyFooterSearch" />]
+				}
+				{
+					choice === "coursedetails" && this.props.history.push('/course?courseId=' + this.state.queryString )
 				}
 			</div>
 		);

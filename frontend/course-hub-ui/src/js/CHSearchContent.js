@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../App.css';
 import '../css/common-components.css';
 import '../css/search.css';
-import { Table, Image, Pagination } from 'react-bootstrap';
+import { Table, Image, Pagination,Button } from 'react-bootstrap';
 import StarRatingComponent from 'react-star-rating-component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const fetch = require('node-fetch');
@@ -18,8 +18,8 @@ class CHSearchContent extends Component {
             totalCourses: 0,
             pageList: []
         }
-
         this.createPageList = this.createPageList.bind(this);
+        //this.handleCourseClick=this.handleCourseClick.bind(this);
     }
 
     componentDidMount() {
@@ -107,6 +107,7 @@ class CHSearchContent extends Component {
         return pageList;
     }
 
+
     render() {
         // console.log("In CHSearchContent, inside render, pageNumber props:", this.props.pageNumber);
         var customStyle = {
@@ -133,7 +134,8 @@ class CHSearchContent extends Component {
                                             </td>
                                             <td className="search-results-course-data">
                                                 <p className="search-results-course-data-type">{"Course"}</p>                                                
-                                                <p className="search-results-course-data-name">{item.Title}</p>                                                    
+                                                {/* <p className="search-results-course-data-name">{item.Title}</p>    */}
+                                                <p className="search-results-course-data-name"><Button className="search-results-course-data-name-link" variant="link" onClick={ () => this.props.updateContent('coursedetails',null,null,item.CourseId)}>{item.Title}</Button></p>
                                                 <p className="search-results-course-data-short-provider-instructors">{"Provider: " +  item.CourseProvider + " | Taught By: " + (item.Instructors? item.Instructors.map(item => item.InstructorName).toString(): "")}</p>
                                                 {/* <p className="search-results-course-data-short-description">{item.Description}</p> */}
                                                 <span>
@@ -148,6 +150,7 @@ class CHSearchContent extends Component {
                                                             value={item.Rating + 1}
                                                             editing={false}
                                                             emptyStarColor={"#5e5d25"}
+                                                            style = {{position: "inherit !important"}}
                                                             />
                                                     </span>
                                                 </span>
