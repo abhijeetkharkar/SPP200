@@ -94,7 +94,7 @@ class CHCourseTile extends Component {
                             <br></br>
                         </span>
                         <OverlayTrigger placement="top" overlay={<Tooltip id="tooltip"><strong>Visit Page</strong></Tooltip>}>
-                        <Badge pill variant="info" style={{fontSize:"15pt"}} className='course-website' href={this.state.URL} target="_blank"><FontAwesomeIcon className="redirect-button-font" icon={['fa', 'external-link-alt']} /> </Badge></OverlayTrigger>
+                        <Badge pill variant="info" style={{fontSize:"15pt"}} className='course-website'><a href={this.state.URL} target="_blank"><FontAwesomeIcon className="redirect-button-font" icon={['fa', 'external-link-alt']} /></a></Badge></OverlayTrigger>
 
                         {this.state.Price > 0 && <Badge pill variant="info" style={{fontSize:"13pt"}} className='course-price' ><FontAwesomeIcon className="price-button-font" icon={['fa', 'money-check-alt']} color='rgb(207, 204, 19)' />&nbsp;${this.state.Price}</Badge>}
                         {this.state.Price === 0 && <Badge pill variant="info" style={{fontSize:"13pt"}} className='course-price' ><FontAwesomeIcon className="price-button-font" icon={['fa', 'money-check-alt']} color='rgb(207, 204, 19)' />&nbsp;$0</Badge>}
