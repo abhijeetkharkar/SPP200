@@ -16,41 +16,82 @@ class CHDealsContent extends Component{
         super(props, context);
         this.state = {
             totalPages: 1,
-            currentPage: 1,
+            currentPage: 0,
             deals: [],
             pageList: []
         }
+        this.createPageList = this.createPageList.bind(this);
+    }
+
+    componentDidMount() {
+        // console.log("In CHSearchContent, componentDidMount");
+        const payload = {
+            "category": "general",
+            "page_number": this.props.pageNumber || 0
+        }
+
+        fetch(process.env.REACT_APP_GET_DEALS, {
+            method: 'POST',
+            body: JSON.stringify(payload),
+            headers: { 'Content-Type': 'application/json' }
+        }).then(response => {
+            return response.json();
+        }).then(dealsData => {
+            console.log("DATA IS ", dealsData);
+            this.setState({ deals: dealsData.deals, totalPages: dealsData.number_of_pages, currentPage: dealsData.current_page, totalCourses: dealsData.total_deals, pageList: this.createPageList(dealsData.current_page, dealsData.number_of_pages) });
+        }).catch(error => {
+            console.log("Error in searchquery backend ", error);
+        });
+    }
+
+    createPageList = (page, total) => {
+        var pageList = [];
+        var curr = page;
+        var pages = total;
+        if(curr>-1) {
+            pageList.push(curr);
+            var i=curr, j=curr;
+            // console.log("Entered, curr: ", curr, ", pageList: ", pageList);
+            while(pageList.length < 10 && pageList.length <= pages) {
+                console.log("PAGE LIST length IS ", pageList.length, i, j);
+                --i;
+                ++j;
+                if (i<0 && j>=pages){
+                    break;
+                }
+                if(i>=0 && j<pages) {
+                    pageList.push(i);
+                    pageList.push(j);
+                } else if(i<0 && j<pages) {
+                    pageList.push(j);
+                } else if(i>=0 && j>=pages) {
+                    pageList.push(i);
+                }
+            }
+            pageList.sort((a, b) => {return a-b});
+        }
+        console.log("PAGE LIST IS ", pageList);
+        return pageList;
     }
 
     render() {
+
         return (
             <div className="my-content-landing">
                 <div className="dealsPage">
-                    <CHDealsFilter updateContent={this.handleClick} updateFilter={this.handleFilter} />,
-                    <div className="deals-landing-1">
-                        <DealsCard />
-                    </div>,
-                    <div className="deals-landing-2">
-                        <DealsCard />
-                    </div>,
-                    <div className="deals-landing-3">
-                        <DealsCard />
-                    </div>,
-                    <div className="deals-landing-4">
-                        <DealsCard />
-                    </div>,
-                    <div className="deals-landing-5">
-                        <DealsCard />
-                    </div>,
-                    <div className="deals-landing-6">
-                        <DealsCard />
-                    </div>,
-                    <div className="deals-landing-7">
-                        <DealsCard />
-                    </div>,
-                    <div className="deals-landing-8">
-                        <DealsCard />
-                    </div>,
+                    <CHDealsFilter updateContent={this.handleClick} updateFilter={this.handleFilter} />
+                    {
+                        this.state.deals.length > 0 ?
+                            this.state.deals.map((item, index) => {
+                                return (
+                                    <div className={"deals-landing-"+(index+1)}>
+                                        <DealsCard title={item.title} provider={item.provider} description={item.description} datePosted={item.datePosted}/>
+                                    </div>);
+                            }) :
+                            []
+                    }
+                </div>
+                <div className="deals-pagination">
                     <tfoot>
                         <tr>
                             <td colSpan="2" className="search-results-table-footer">

@@ -71,3 +71,9 @@
 .dealsPage{
     margin-bottom: 150px;
 }
+
+.deals-pagination{
+    margin-bottom: 120px;
+    position: relative;
+    align-content: center;
+}
