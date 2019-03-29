@@ -15,6 +15,7 @@ var autosuggestRouter = require('./routes/search');
 var signupRouter = require('./routes/signup');
 var profileRouter = require('./routes/profile');
 var searchQueryRouter = require('./routes/searchquery');
+var dealsQueryRouter = require('./routes/deals');
 
 var app = express();
 app.use(function(req, res, next) {
@@ -37,6 +38,7 @@ app.get('/', indexRouter);
 app.get('/profile:id', profileRouter);
 app.post('/signup', signupRouter);
 app.post('/searchquery', searchQueryRouter);
+app.post('/deals', dealsQueryRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
