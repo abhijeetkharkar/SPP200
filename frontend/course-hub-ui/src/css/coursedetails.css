@@ -1,0 +1,24 @@
+.course-tile{
+    margin-left: 20%;
+    width: 60%;
+}
+
+    .course-tile-card{
+        position: inherit !important;
+    }
+
+        .course-data-rating {
+            float: right;
+        }
+
+            .card-title {
+                margin-bottom: 0px;
+            }
+
+.course-rating-span {
+        float: right;
+}
+
+.course-details{
+    text-align: left
+}

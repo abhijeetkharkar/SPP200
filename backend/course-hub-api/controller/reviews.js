@@ -13,7 +13,7 @@ exports.submitcomments = function(request, response){
     }
     else {
         var searchterm = request.query.term
-        const url = config.elasticsearch.endpoint + 'courses/_search'
+        const url = config.elasticsearch.endpoint + 'reviews/_search'
         const searchquery = {
             query: {
                 multi_match: {
