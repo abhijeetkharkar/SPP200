@@ -73,6 +73,8 @@ class App extends Component {
     
     const mainContainerStyle = {height: window.outerHeight};
 
+    console.log("APP, height:");
+
     return (
       <div className="App container-fluid" style={mainContainerStyle}>
         {choice === "home" &&

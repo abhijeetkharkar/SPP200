@@ -1,12 +1,16 @@
 html {
   background: #02111D;  /* fallback for old browsers */
-	background-color: white;
+  background-color: white;
+  margin: 0px;
+  padding: 0px;
 }
 
   body{
       font-size: 1rem;
       font-weight: 200;
       line-height: 0.8;
+      margin: 0px;
+      padding: 0px;
   }
 
     .App {
