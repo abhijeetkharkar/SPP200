@@ -14,7 +14,7 @@ class CHNavigator extends Component {
 					<a href="#"><FontAwesomeIcon icon={['fab', 'facebook-f']} color='rgb(207, 204, 19)' /></a>
 					<a href="#"><FontAwesomeIcon icon={['fab', 'twitter']} color='rgb(207, 204, 19)' /></a>
 					<a href="#"><FontAwesomeIcon icon={['fab', 'linkedin']} color='rgb(207, 204, 19)' /></a>
-					<a href="#"><FontAwesomeIcon icon={['fab', 'github']} color='rgb(207, 204, 19)' /></a>
+					<a href="https://github.com/UIOWA5830SP19/SPP200" target="_blank"><FontAwesomeIcon icon={['fab', 'github']} color='rgb(207, 204, 19)' /></a>
 
 				</div>
 
