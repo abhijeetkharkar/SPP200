@@ -128,6 +128,10 @@ class App extends Component {
 
         {choice === "searchResults" &&
           this.props.history.push('/search?searchString=' + optional3 + "&pageNumber=0")}
+
+        {choice === "deals" &&
+          this.props.history.push('/deals')}
+
       </div>
     );
   }

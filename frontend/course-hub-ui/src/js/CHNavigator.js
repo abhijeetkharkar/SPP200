@@ -15,6 +15,7 @@ class CHNavigator extends Component {
         this.handleOnclick = this.handleOnclick.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
         this.state = {
+            choice: "",
             searchString: "",
             suggestions: "",
             searched: false,
@@ -78,7 +79,12 @@ class CHNavigator extends Component {
         this.props.updatePage(this.state.searchString, 0);
     }
 
+    handleDealsOnclick = event => {
+        this.props.updateContent("deals", null, null, null);
+    }
+
     render() {
+        // console.log("Caller:", this.props.caller);
         const resultTableStyle = {display: this.state.showResults? "table": "none"};
         const logoStyle = {
             float: this.props.caller === "app"? "inherit": "left",
@@ -88,13 +94,14 @@ class CHNavigator extends Component {
         };
         const headerHeightStyle = {height: window.outerHeight * 0.1}
         return (
+            
             <div id="homeHeader" style={headerHeightStyle}>
                 <a href='/'>
                     {/* <h1 className="website-name">Course-Hub</h1> */}
                     <Image style={logoStyle} className="website-logo" src="https://firebasestorage.googleapis.com/v0/b/course-hub-73ea7.appspot.com/o/Course_Hub_Transparent_Background.png?alt=media&token=7932c4fe-54d6-4802-9ab6-8e12fc359cb9"/>
                 </a>
-                {
-                    this.props.caller !== "app" &&                    
+                
+                {   this.props.caller === "search" &&
                     <Form className="search-results-search-form" onSubmit={e => this.handleSearch(e)}>
                         <input className="search-results-search-box" placeholder="Search courses" value={this.state.searchString} onChange={this.handleSearchStringChange} type="text" />
                         <Button className="search-results-search-button" type="submit"><FontAwesomeIcon className="search-results-search-button-font" icon={['fa', 'search']} size='sm' /></Button>
@@ -109,9 +116,9 @@ class CHNavigator extends Component {
                                 }
                             </tbody>
                         </table>
-                    </Form>
-                    
+                    </Form> 
                 }
+
                 <div id="website-navigators-container">
                     {!this.props.signedIn &&
                         <Button id="loginButtonNavigator" className="my-nav-tabs" onClick={(e) => this.props.updateContent("loginScreen", null, null, null)}>
@@ -132,7 +139,7 @@ class CHNavigator extends Component {
                             </Dropdown.Menu>
                         </Dropdown>
                     }
-                    <Button className="my-nav-tabs">Deals</Button>
+                    <Button className="my-nav-tabs" onClick={this.handleDealsOnclick}>Deals</Button>
                 </div>
             </div>
         );
