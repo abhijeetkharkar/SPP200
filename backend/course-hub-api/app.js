@@ -34,7 +34,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 app.get('/', indexRouter);
 app.get('/autosuggest', autosuggestRouter);
 
-app.get('/', indexRouter);
 app.get('/profile:id', profileRouter);
 app.post('/signup', signupRouter);
 app.post('/searchquery', searchQueryRouter);
