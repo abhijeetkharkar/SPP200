@@ -3,6 +3,7 @@ import React from "react";
 import ProfilePage from "../js/CHProfile";
 import {configure} from "enzyme";
 import Adapter from 'enzyme-adapter-react-16';
+import {doDeleteProfilePicture, doFirebaseDeleteUser, doGetProfilePicture} from "../FirebaseUtils";
 
 
 const firebase = require('../FirebaseUtils');
@@ -307,5 +308,21 @@ describe('Testing Profile', () => {
             instance.handlePasswordSubmit();
 
         });
+
+        test('Testing User Account Delete - Happy Path', async () => {
+            const handleClick = jest.fn();
+            elastic.elasticDeleteUser.mockImplementationOnce(() => {{return Promise.resolve(true)}});
+            firebase.doGetProfilePicture.mockImplementationOnce(() => {return Promise.resolve("url")});
+            firebase.doDeleteProfilePicture.mockImplementationOnce(() => {return Promise.resolve(true)});
+            firebase.doFirebaseDeleteUser.mockImplementationOnce(() => {return Promise.resolve(true)});
+
+            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+            const instance = wrapper.instance();
+
+            await instance.handleDeleteAccount();
+            expect(instance.state.elastic_message).toBe("Successfully deleted user data");
+        });
+
+
     });
 });
