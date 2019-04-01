@@ -96,20 +96,28 @@ const doGetProfilePicture = async () =>{
       console.log(error);
       return null;
   });
-    console.log(url);
     return url;
 }
 
-const doDeleteUser = async () => {
-  // var user = firebaseInitialization.auth().currentUser;
-  // console.log("In Delete, user: ");
-  // const response = await user.delete().then(function() {
+const doDeleteProfilePicture = async () =>{
+  var user = firebase.auth().currentUser;
+  var path = '/images/' + user.email.split('@')[0] + '_profile.txt';
+  var image = firebase.storage().ref().child(path);
+  return await image.delete().then(response => {
+    return true;
+  }).catch(function (error) {
+    console.log(error.message)
+    return false;
+  })
+};
+
+const doFirebaseDeleteUser = async () => {
   const response = await firebaseInitialization.auth().currentUser.delete().then(function() {
     return true;
   }).catch(error => {
     return false;
   });
-  // console.log("In Delete, response: ", response);
+  console.log("In Delete, response: ", response);
   return response;
 }
 
@@ -123,7 +131,8 @@ export {
   //isUserSignedIn,
   doPasswordReset,
   doPasswordUpdate,
-  doDeleteUser,
+  doFirebaseDeleteUser,
   doUploadProfilePicture,
-  doGetProfilePicture
+  doGetProfilePicture,
+  doDeleteProfilePicture
 };
