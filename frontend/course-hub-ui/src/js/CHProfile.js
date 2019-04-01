@@ -234,7 +234,6 @@ class ProfilePage extends Component {
                 term : { Email : this.state.email }
             }
         };
-        var url = await doGetProfilePicture();
         const response = await elasticDeleteUser(payload).then(async response => {
             if (response === true){
                 console.log('Deleted from elastic search');
@@ -246,10 +245,6 @@ class ProfilePage extends Component {
                 return await doFirebaseDeleteUser().then(async response => {
                     console.log('Deleted firebase session');
                     return response
-                }).catch(error => {
-                    console.log('Error in deleting firebase records...');
-                    console.log(error.message);
-                    return true;
                 });
             }
         }).catch(error => {
@@ -258,11 +253,13 @@ class ProfilePage extends Component {
             return false;
         });
         if(response === true){
+            this.setState({ elastic_message: "Successfully deleted user data" });
             console.log('Time to signout');
         }
         else{
             console.log(response);
-            console.log("Couldn't delete account... Try again later");
+            this.setState({ elastic_message: "Couldn't delete elastic search data" });
+            alert("Couldn't delete account... Try again later");
         }
     };
 
