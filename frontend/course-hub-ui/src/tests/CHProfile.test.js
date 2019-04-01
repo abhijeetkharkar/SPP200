@@ -334,6 +334,18 @@ describe('Testing Profile', () => {
             expect(instance.state.elastic_message).toBe("Couldn't delete elastic search data");
         });
 
+        test('Testing User Account Delete - Exception', async () => {
+            const handleClick = jest.fn();
+            elastic.elasticDeleteUser.mockImplementationOnce(() => {{return Promise.resolve(true)}});
+            firebase.doGetProfilePicture.mockImplementationOnce(() => {return Promise.resolve("url")});
+            firebase.doDeleteProfilePicture.mockImplementationOnce(() => {return Promise.resolve(true)});
+            firebase.doFirebaseDeleteUser.mockImplementationOnce(() => {throw new Error('Delete exception encountered')});
 
+            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+            const instance = wrapper.instance();
+
+            await instance.handleDeleteAccount();
+            expect(instance.state.serverErrorMsg).toBe('Delete exception encountered');
+        });
     });
 });
