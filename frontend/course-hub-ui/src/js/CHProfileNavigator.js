@@ -9,13 +9,17 @@ class ProfileNavigator extends Component {
 
     constructor(props, context) {
         super(props, context);
+        var e1 = document.createElement("DIV");
+        var e2 = document.createElement("DIV");
+        var e3 = document.createElement("DIV");
+
         this.state = {
-            edit_profile_tag: null,
-            courses_tag: null,
-            reviews_tag: null,
-            profile_nav_item: null,
-            courses_nav_item: null,
-            reviews_nav_item: null,
+            edit_profile_tag: e1,
+            courses_tag: e2,
+            reviews_tag: e3,
+            profile_nav_item: e1,
+            courses_nav_item: e2,
+            reviews_nav_item: e3,
         }
     }
 
