@@ -323,6 +323,17 @@ describe('Testing Profile', () => {
             expect(instance.state.elastic_message).toBe("Successfully deleted user data");
         });
 
+        test('Testing User Account Delete - Fail to delete elastic search data', async () => {
+            const handleClick = jest.fn();
+            elastic.elasticDeleteUser.mockImplementationOnce(() => {{return Promise.resolve(false)}});
+
+            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+            const instance = wrapper.instance();
+
+            await instance.handleDeleteAccount();
+            expect(instance.state.elastic_message).toBe("Couldn't delete elastic search data");
+        });
+
 
     });
 });
