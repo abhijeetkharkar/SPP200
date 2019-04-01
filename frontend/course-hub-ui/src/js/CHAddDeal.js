@@ -44,45 +44,43 @@ class CHAddDeal extends Component {
 
   handleDescriptionChange(event) {
       this.setState({
-          description: event.target.description
+          description: event.target.value
       });
-      console.log("descrioption is ", event.target.description);
-      console.log("description state is ", this.state.description);
   }
 
   handleLinkChange(event) {
         this.setState({
-            link: event.target.link
+            link: event.target.value
         });
   }
 
   handleImageLinkChange(event){
       this.setState({
-          imageLink: event.target.imageLink
+          imageLink: event.target.value
       });
   }
 
   handleOriginalPriceChange(event){
       this.setState({
-          originalPrice: event.target.originalPrice
+          originalPrice: event.target.value
       });
   }
 
   handleDiscountedPriceChange(event){
     this.setState({
-        discountedPrice: event.target.discountedPrice
+        discountedPrice: event.target.value
     });
   }
 
   handleDealExpiryChange(event){
       this.setState({
-          dealExpiry: event.target.dealExpiry
+          dealExpiry: event.target.value
       });
   }
 
   handleProviderChange(event){
       this.setState({
-          provider: event.target.provider
+          provider: event.target.value
       });
   }
 
@@ -107,17 +105,16 @@ class CHAddDeal extends Component {
             "provider" : this.state.provider
         };
         console.log("DEAL IS ", deal);
-        // addDeal(deal)
-        // .then(response => {
-        //     console.log("RESPONSE RETURNING BAXK IS ", response);
-        //     if (response == true){
-        //         console.log("Deal Successfully added");
-        //         this.props.updatePage(response);
-        //     }else{
-        //         console.log("Cannot Add Deal");
-        //         this.props.updatePage(response);
-        //     }
-        // })
+        addDeal(deal)
+        .then(response => {
+            if (response == true){
+                console.log("Deal Successfully added");
+                this.props.updatePage(response);
+            }else{
+                console.log("Cannot Add Deal");
+                this.props.updatePage(response);
+            }
+        })
       }catch(error){
           console.log("Error found is ", error);
       }
