@@ -74,8 +74,12 @@ class CHDeals extends Component {
 		this.setState({ choice: choice, firstName: firstName, email: email, queryString: queryString});
 	}
 
-	handleFilter = () =>{
-		
+	handleSignUp = () => {
+		console.log("UPDATE FUNCTION CALLED in CHDEALS");
+		// this.props.history.push('/deals?deals=addnewdeal');
+		this.setState({
+			choice: 'addnewdeal'
+		})
 	}
 
 	render() {
@@ -89,7 +93,14 @@ class CHDeals extends Component {
 			<div className="App container-fluid">
 				{choice === "home" &&
 					[<CHNavigator updateContent={this.handleClick} updatePage={this.handlePagination} signedIn={false} caller={"deals"} firstName={firstName} email={email} key="keyNavigatorSearch" />,
-					<CHDealsContent updateContent={this.handleClick} updatePage={this.handlePagination} firstName={firstName} email={email} pageNumber={pageNumber}/>,
+					<CHDealsContent updateContent={this.handleClick} updatePage={this.handlePagination} firstName={firstName} email={email} pageNumber={pageNumber} handleSignUp={this.handleSignUp} pageType='deals'/>,
+					
+					<CHFooter key="keyFooterSearch" />]
+				}
+
+				{choice === "addnewdeal" &&
+					[<CHNavigator updateContent={this.handleClick} updatePage={this.handlePagination} signedIn={false} caller={"deals"} firstName={firstName} email={email} key="keyNavigatorSearch" />,
+					<CHDealsContent updateContent={this.handleClick} updatePage={this.handlePagination} firstName={firstName} email={email} pageNumber={pageNumber} handleSignUp={this.handleSignUp} pageType='addnewdeal'/>,
 					
 					<CHFooter key="keyFooterSearch" />]
 				}
