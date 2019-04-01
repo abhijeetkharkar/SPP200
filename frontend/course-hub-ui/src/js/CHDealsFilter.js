@@ -57,6 +57,7 @@ class CHDealsFilters extends Component {
             <div className="left-lane" style={customStyle} >
                 <div className="left_lane_deals"  >
                     <b style={headingstyle}>Category</b><br />
+                    <hr />
                     <a href="#" style={left_lane_deals}>General</a><br />
                     <a href="#" style={left_lane_deals}>Computer Science</a><br />
                     <a href="#" style={left_lane_deals}>Business</a><br />

@@ -1,21 +1,28 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Button, Form, Col } from 'react-bootstrap';
 import { withStyles } from '@material-ui/core/styles';
 import classnames from 'classnames';
 import '../css/card.css';
+import {addDeal, addUser} from '../elasticSearch';
 
-
-class CHAddDeal extends React.Component {
-
+class CHAddDeal extends Component {
   constructor(props, context){
     super(props, context);
+    this.handleTitleChange = this.handleTitleChange.bind(this);
+    this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
+    this.handleLinkChange = this.handleLinkChange.bind(this);
+    this.handleImageLinkChange = this.handleImageLinkChange.bind(this);
+    this.handleOriginalPriceChange = this.handleOriginalPriceChange.bind(this);
+    this.handleDiscountedPriceChange = this.handleDiscountedPriceChange.bind(this);
+    this.handleDealExpiryChange = this.handleDealExpiryChange.bind(this);
+    this.handleProviderChange = this.handleProviderChange.bind(this);
+
     this.state = {
-        show: false,
         validated: false,
         title: "",
         description : "",
         link: "",
-        imageLink: "",
+        imageLink: "https://firebasestorage.googleapis.com/v0/b/course-hub-73ea7.appspot.com/o/images%2F276*180px.svg?alt=media&token=0d8e5d9d-9087-4135-944b-fe9b87b96fb0",
         originalPrice: "",
         discountedPrice: "",
         thumbsUp: 0, 
@@ -25,14 +32,6 @@ class CHAddDeal extends React.Component {
         provider: "",
         serverErrorMsg: ''
     }
-    this.handleTitleChange = this.handleTitleChange.bind(this);
-    this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
-    this.handleLinkChange = this.handleLinkChange.bind(this);
-    this.handleImageLinkChange = this.handleImageLinkChange.bind(this);
-    this.handleOriginalPriceChange = this.handleOriginalPriceChange.bind(this);
-    this.handleDiscountedPriceChange = this.handleDiscountedPriceChange.bind(this);
-    this.handleDealExpiryChange = this.handleDealExpiryChange.bind(this);
-    this.handleProviderChange = this.handleProviderChange.bind(this);
 
     console.log("DATE POSTED  ",this.state.datePosted);
   }
@@ -46,50 +45,82 @@ class CHAddDeal extends React.Component {
   handleDescriptionChange(event) {
       this.setState({
           description: event.target.description
-      })
+      });
+      console.log("descrioption is ", event.target.description);
+      console.log("description state is ", this.state.description);
   }
 
   handleLinkChange(event) {
         this.setState({
             link: event.target.link
-        })
+        });
   }
 
   handleImageLinkChange(event){
       this.setState({
           imageLink: event.target.imageLink
-      })
+      });
   }
 
   handleOriginalPriceChange(event){
       this.setState({
           originalPrice: event.target.originalPrice
-      })
+      });
   }
 
   handleDiscountedPriceChange(event){
     this.setState({
         discountedPrice: event.target.discountedPrice
-    })
+    });
   }
 
   handleDealExpiryChange(event){
       this.setState({
           dealExpiry: event.target.dealExpiry
-      })
+      });
   }
 
   handleProviderChange(event){
       this.setState({
           provider: event.target.provider
-      })
+      });
   }
 
-  handleSubmit(event) {
+  handleSubmit = async event => {
       event.preventDefault();
       console.log("HANDLE SUBMIT FUNCTION CALLED");
       console.log("Event Generated is ", event);
-      
+      console.log("STATE IS ", this.state);
+
+      try{
+        const deal = {
+            "title" : this.state.title,
+            "description" : this.state.description,
+            "link" : this.state.link,
+            "imageLink" : this.state.imageLink,
+            "originalPrice" : this.state.originalPrice,
+            "discountedPrice" : this.state.discountedPrice,
+            "thumbsUp" : 0,
+            "datePosted" : this.state.datePosted,
+            "dealExpiry" : this.state.dealExpiry,
+            "user" : "dummyUser",
+            "provider" : this.state.provider
+        };
+        console.log("DEAL IS ", deal);
+        // addDeal(deal)
+        // .then(response => {
+        //     console.log("RESPONSE RETURNING BAXK IS ", response);
+        //     if (response == true){
+        //         console.log("Deal Successfully added");
+        //         this.props.updatePage(response);
+        //     }else{
+        //         console.log("Cannot Add Deal");
+        //         this.props.updatePage(response);
+        //     }
+        // })
+      }catch(error){
+          console.log("Error found is ", error);
+      }
   }
 
   render() {
@@ -114,7 +145,6 @@ class CHAddDeal extends React.Component {
                 </Form.Row>
                 <Form.Row>
                 <Form.Group as={Col} controlId="formGridDescription">
-                    {/* <Form.Control required value={this.state.description} onChange={this.handleDescriptionChange} type="text" placeholder="Description" /> */}
                     <Form.Control required value={this.state.description} onChange={this.handleDescriptionChange} as="textarea" rows="4" minlength='50' maxlength='1000' placeholder="Description" />                
                     <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                 </Form.Group>

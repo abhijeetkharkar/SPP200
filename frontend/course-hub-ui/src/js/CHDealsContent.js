@@ -12,6 +12,7 @@ import CHDealsCard from './CHDealsCard';
 import CHAddDeal from './CHAddDeal';
 import CHDealsFilter from './CHDealsFilter';
 import { Table, Image, Pagination } from 'react-bootstrap';
+import Alert from 'react-bootstrap/Alert';
 import StarRatingComponent from 'react-star-rating-component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CHFooter from './CHFooter';
@@ -29,12 +30,6 @@ class CHDealsContent extends Component{
             deals: [],
             pageList: []
         }
-        // if (this.props.location && this.props.location.deals){
-        //     this.setState({
-        //         currentLayout: this.props.location.deal
-        //         }
-        //     )
-        // };
         this.createPageList = this.createPageList.bind(this);
         console.log("CURRENT LAYOUT IS ", this.state.currentLayout);
     }
@@ -92,6 +87,9 @@ class CHDealsContent extends Component{
 
     render() {
         var choice = this.state.currentLayout;
+        var floatLeft = {
+            'float': 'left'
+        };
 
         return (
             <div className="my-content-landing">
@@ -116,7 +114,41 @@ class CHDealsContent extends Component{
                 {   choice === "addnewdeal" && 
                     [<div className="dealsPage">
                         <CHDealsFilter updateContent={this.handleClick} updateFilter={this.handleFilter} signUp={this.updateClick}/>
-                        <CHAddDeal />
+                        <CHAddDeal updatePage={this.props.handleAddDeal}/>
+                    </div>]
+                }
+
+                {   choice === "adddealsuccessfull" && 
+                    [<div className="dealsPage">
+                        <CHDealsFilter updateContent={this.handleClick} updateFilter={this.handleFilter} signUp={this.updateClick}/>
+                        <div className="deal_success_alert">
+                            <Alert show={true} variant="success">
+                                <Alert.Heading style={floatLeft}>SUCCESS!!!</Alert.Heading>
+                                <br /><br />
+                                <p style={floatLeft}>
+                                    Deal Added Successfully in the Database.
+                                </p>
+                                <br />
+                                <hr />
+                            </Alert>
+                        </div>
+                    </div>]
+                }
+
+                {   choice === "adddealunsuccessfull" && 
+                    [<div className="dealsPage">
+                        <CHDealsFilter updateContent={this.handleClick} updateFilter={this.handleFilter} signUp={this.updateClick}/>
+                        <div className="deal_success_alert">
+                            <Alert show={true} variant="danger">
+                                <Alert.Heading style={floatLeft}>Oh snap! You got an error!</Alert.Heading>
+                                <br /><br />
+                                <p style={floatLeft}>
+                                    Cannot Add Deal in the Database.
+                                </p>
+                                <br />
+                                <hr />
+                            </Alert>
+                        </div>
                     </div>]
                 }
 
