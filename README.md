@@ -4,6 +4,4 @@
 
 ## Getting started
 > git clone https://github.com/UIOWA5830SP19/SPP200.git <br>
-> docker-compose up
-
-Go to http://localhost to load the app
+> See Project Deployment Wiki
