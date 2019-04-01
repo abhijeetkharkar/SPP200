@@ -1,27 +1,26 @@
 import React from 'react';
-// import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import classnames from 'classnames';
 import '../css/card.css';
 
 
-class DealsCard extends React.Component {
+class CHDealsCard extends React.Component {
 
   constructor(props, context){
     super(props, context);
     this.state = {
-      title: this.props.title,
-      description: this.props.description,
-      imageLink: this.props.imageLink,
-      originalPrice: this.props.originalPrice,
-      discountedPrice: this.props.discountedPrice,
-      thumbsUp: this.props.thumbsUp,
-      datePosted: this.props.datePosted,
-      provider: this.props.provider,
+      title: this.props.title || "Title",
+      description: this.props.description || "Description",
+      imageLink: this.props.imageLink || "https://firebasestorage.googleapis.com/v0/b/course-hub-73ea7.appspot.com/o/images%2F276*180px.svg?alt=media&token=0d8e5d9d-9087-4135-944b-fe9b87b96fb0",
+      originalPrice: this.props.originalPrice || 0,
+      discountedPrice: this.props.discountedPrice || 0,
+      thumbsUp: this.props.thumbsUp || 0,
+      datePosted: this.props.datePosted || "None",
+      provider: this.props.provider || "None",
     }
   }
 
-  state = { expanded: false };
+  // state = { expanded: false };
 
   render() {
     const { classes } = this.props;
@@ -48,9 +47,8 @@ class DealsCard extends React.Component {
             <div class="deal-strike-through">${this.state.originalPrice}</div>
             &nbsp;&nbsp;&nbsp;
             <div class="deal-notstrike-through" style={discountedPrice}>${this.state.discountedPrice}</div>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <i style={discountedPrice} >&#128077; </i> +{this.state.thumbsUp}
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <i>&#128077; +{this.state.thumbsUp}</i> 
           </div>
         </div>
       </div>
@@ -58,4 +56,4 @@ class DealsCard extends React.Component {
   }
 }
 
-export default DealsCard;
+export default CHDealsCard;

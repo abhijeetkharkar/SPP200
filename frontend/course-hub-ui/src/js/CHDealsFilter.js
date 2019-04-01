@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import '../css/bootstrap.min.css';
 import '../css/search.css';
-import { Modal, Button, Form, Col, Badge } from 'react-bootstrap';
-//const Range = Slider.Range;
+import { Modal, Button, Form, Col, Badge, ButtonToolbar } from 'react-bootstrap';
+
 
 class CHDealsFilters extends Component {
 
@@ -36,10 +36,9 @@ class CHDealsFilters extends Component {
         //this.setState({pageNumber: pageNumber});
         //this.props.history.push('/search?searchString=' + searchString + "&pageNumber=" + pageNumber);
         this.props.updateFilter(this.state)
-	}
+    }
  
     render() {
-        // console.log("Height",window.innerHeight)
         var customStyle = {
             height: "75vh",
             marginTop: window.outerHeight * 0.11,
@@ -73,6 +72,12 @@ class CHDealsFilters extends Component {
                     <a href="#" style={left_lane_deals}>Social Science</a><br />
                     <a href="#" style={left_lane_deals}>Personal Development</a><br />
                     <a href="#" style={left_lane_deals}>Education & Teaching</a><br />
+                </div>
+                <br /><br />
+                <div className="add-course-deals">
+                    <ButtonToolbar>
+                        <Button variant="light" onClick={(e) => this.props.updatePage('addnewdeal')}>Add Course Deals</Button>
+                    </ButtonToolbar>
                 </div>
             </div>
         );

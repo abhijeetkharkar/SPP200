@@ -91,3 +91,9 @@
 .deal-notstrike-through{
     display: inline;
 }
+
+.add-deals{
+    padding-top: 8%;
+    width: 50%;
+    margin-left: 18%;
+}
