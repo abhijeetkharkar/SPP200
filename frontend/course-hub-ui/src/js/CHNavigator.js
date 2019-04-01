@@ -41,11 +41,6 @@ class CHNavigator extends Component {
         this.props.updateContent("profile", this.props.firstName, this.props.email, null);
     }
 
-
-    handleViewSettings = e => {
-        this.props.updateContent("settings", this.props.firstName, this.props.email, null);
-    }
-
     handleOnclick = event => {
         event.preventDefault();
         this.setState({searchString: event.target.innerText, showResults: false});
@@ -132,7 +127,6 @@ class CHNavigator extends Component {
 
                             <Dropdown.Menu>
                                 <Dropdown.Item onClick={this.handleViewProfile}>View Profile</Dropdown.Item>
-                                <Dropdown.Item onClick={this.handleViewSettings}>Settings</Dropdown.Item>
                                 <Dropdown.Item onClick={this.handleSignOut}>Logout</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
