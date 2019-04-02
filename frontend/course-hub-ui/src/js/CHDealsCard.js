@@ -10,8 +10,8 @@ class CHDealsCard extends React.Component {
     super(props, context);
     this.state = {
       title: this.props.title || "Title",
-      description: this.props.description || "Description",
-      imageLink: this.props.imageLink || "https://firebasestorage.googleapis.com/v0/b/course-hub-73ea7.appspot.com/o/images%2F276*180px.svg?alt=media&token=0d8e5d9d-9087-4135-944b-fe9b87b96fb0",
+      description: (this.props.description.substring(0, 50) + '...') || "Description",
+      imageLink: this.props.imageLink || "https://firebasestorage.googleapis.com/v0/b/course-hub-73ea7.appspot.com/o/images%2Fpluralsight.png?alt=media&token=08635c9a-5b85-4bfb-8334-0fe6fc9dfd97",
       originalPrice: this.props.originalPrice || 0,
       discountedPrice: this.props.discountedPrice || 0,
       thumbsUp: this.props.thumbsUp || 0,

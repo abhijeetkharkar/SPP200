@@ -97,5 +97,28 @@ const updateUser = async (_id, payload) => {
     return response;
 }
 
+const addDeal = async(payload) => {
+    console.log("ADD DEAL IN ELASTIC SEARCH API");
+    const response = await fetch(process.env.REACT_APP_AWS_ELASTIC_ADD_DEAL_URL,
+        {
+            method: 'POST',
+            body: JSON.stringify(payload),
+            headers: { 'Content-Type': 'application/json'}
+        }).then(response => {
+            return response.json();
+        }).then(elasticData => {
+            if (elasticData['result'].trim() === 'created'){
+                return true;
+            }else{
+                return false;
+            }
+        }).catch(error => {
+            console.log("Error in Adding Deals to Elastic Search database");
+            console.log("Error : ",error);
+            return false;
+        });
+    return response;
+}
 
-export {addUser, searchUser, getUserDetails, updateUser};
+
+export {addUser, searchUser, getUserDetails, updateUser, addDeal};
