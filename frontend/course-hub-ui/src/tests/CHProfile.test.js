@@ -3,7 +3,7 @@ import React from "react";
 import ProfilePage from "../js/CHProfile";
 import {configure} from "enzyme";
 import Adapter from 'enzyme-adapter-react-16';
-import {doDeleteProfilePicture, doFirebaseDeleteUser, doGetProfilePicture} from "../FirebaseUtils";
+import {doDeleteProfilePicture, doDeleteUser, doGetProfilePicture} from "../FirebaseUtils";
 
 
 const firebase = require('../FirebaseUtils');
@@ -314,7 +314,7 @@ describe('Testing Profile', () => {
             elastic.elasticDeleteUser.mockImplementationOnce(() => {{return Promise.resolve(true)}});
             firebase.doGetProfilePicture.mockImplementationOnce(() => {return Promise.resolve("url")});
             firebase.doDeleteProfilePicture.mockImplementationOnce(() => {return Promise.resolve(true)});
-            firebase.doFirebaseDeleteUser.mockImplementationOnce(() => {return Promise.resolve(true)});
+            firebase.doDeleteUser.mockImplementationOnce(() => {return Promise.resolve(true)});
 
             const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
             const instance = wrapper.instance();
@@ -339,7 +339,7 @@ describe('Testing Profile', () => {
             elastic.elasticDeleteUser.mockImplementationOnce(() => {{return Promise.resolve(true)}});
             firebase.doGetProfilePicture.mockImplementationOnce(() => {return Promise.resolve("url")});
             firebase.doDeleteProfilePicture.mockImplementationOnce(() => {return Promise.resolve(true)});
-            firebase.doFirebaseDeleteUser.mockImplementationOnce(() => {throw new Error('Delete exception encountered')});
+            firebase.doDeleteUser.mockImplementationOnce(() => {throw new Error('Delete exception encountered')});
 
             const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
             const instance = wrapper.instance();

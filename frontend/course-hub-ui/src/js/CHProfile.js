@@ -13,7 +13,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser  } from '@fortawesome/free-solid-svg-icons'
 import {
     doDeleteProfilePicture,
-    doFirebaseDeleteUser,
+    doDeleteUser,
     doGetProfilePicture,
     doPasswordUpdate,
     doUploadProfilePicture
@@ -242,7 +242,7 @@ class ProfilePage extends Component {
                     await doDeleteProfilePicture();
                     console.log('Deleted profile picture');
                 }
-                return await doFirebaseDeleteUser().then(async response => {
+                return await doDeleteUser().then(async response => {
                     console.log('Deleted firebase session');
                     return response
                 });
