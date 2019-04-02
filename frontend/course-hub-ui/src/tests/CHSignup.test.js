@@ -55,25 +55,25 @@ describe('Testing SignUp', () => {
         expect(true).toBe(true);
     });
 
-    test('Testing User Sign-Up - Sad Path', () => {
-        const handleClick = jest.fn();
-        
-        firebase.doSignInWithEmailAndPassword.mockImplementationOnce(() => {return Promise.resolve({user: {email: "test1@test.com"}})});
-        firebase.doCreateUserWithEmailAndPassword.mockImplementationOnce(() => {return Promise.resolve({user: {email: "test1@test.com"}})});
-        elastic.addUser.mockImplementationOnce(() => { return Promise.resolve(false)});
-        firebase.doDeleteUser.mockImplementationOnce(() => {return Promise.resolve(true)});
-        elastic.searchUser.mockImplementationOnce(() => {return Promise.resolve(null)});
-
-        const wrapper = shallow(<CHSignup updateContent={handleClick}/>);
-        const instance = wrapper.instance();
-
-        const event = {
-            preventDefault() {},
-        };
-
-        instance.handleSubmit(event);
-        expect(true).toBe(true);
-    });
+    // test('Testing User Sign-Up - Sad Path', () => {
+    //     const handleClick = jest.fn();
+    //
+    //     firebase.doSignInWithEmailAndPassword.mockImplementationOnce(() => {return Promise.resolve({user: {email: "test1@test.com"}})});
+    //     firebase.doCreateUserWithEmailAndPassword.mockImplementationOnce(() => {return Promise.resolve({user: {email: "test1@test.com"}})});
+    //     elastic.addUser.mockImplementationOnce(() => { return Promise.resolve(false)});
+    //     firebase.doDeleteUser.mockImplementationOnce(() => {return Promise.resolve(true)});
+    //     elastic.searchUser.mockImplementationOnce(() => {return Promise.resolve(null)});
+    //
+    //     const wrapper = shallow(<CHSignup updateContent={handleClick}/>);
+    //     const instance = wrapper.instance();
+    //
+    //     const event = {
+    //         preventDefault() {},
+    //     };
+    //
+    //     instance.handleSubmit(event);
+    //     expect(true).toBe(true);
+    // });
 
     test('Testing Search User Error', () => {
         const handleClick = jest.fn();

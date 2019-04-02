@@ -102,29 +102,29 @@ describe('Testing SignUp', () => {
         // expect(instance.state.loggedIn).toBe(true);
     });
 
-    test('Testing handleGoogleSignin - Sad 2 - User not added in Elastic Search', () => {
-        firebase.doSignInWithGoogle.mockImplementationOnce(() => {return Promise.resolve({credential: {accessToken: "testToken"}, additionalUserInfo: {profile: {email: "test1@test.com", given_name: "Test1", family_name: "Tester", gender: "Trans", picture: "url://my_picture"}}})});
-        elastic.searchUser.mockImplementationOnce(() => {return Promise.resolve(null)});
-        elastic.addUser.mockImplementationOnce(() => {return Promise.resolve(false)});
-        firebase.doDeleteUser.mockImplementationOnce(() => {return Promise.resolve(true)});
-        const handleClick = jest.fn();
-        const wrapper = shallow(<LoginPage updateContent={handleClick}/>);
-        const instance = wrapper.instance();
-        instance.handleGoogleSignin();
-        // expect(instance.state.loggedIn).toBe(true);
-    });
+    // test('Testing handleGoogleSignin - Sad 2 - User not added in Elastic Search', () => {
+    //     firebase.doSignInWithGoogle.mockImplementationOnce(() => {return Promise.resolve({credential: {accessToken: "testToken"}, additionalUserInfo: {profile: {email: "test1@test.com", given_name: "Test1", family_name: "Tester", gender: "Trans", picture: "url://my_picture"}}})});
+    //     elastic.searchUser.mockImplementationOnce(() => {return Promise.resolve(null)});
+    //     elastic.addUser.mockImplementationOnce(() => {return Promise.resolve(false)});
+    //     firebase.doDeleteUser.mockImplementationOnce(() => {return Promise.resolve(true)});
+    //     const handleClick = jest.fn();
+    //     const wrapper = shallow(<LoginPage updateContent={handleClick}/>);
+    //     const instance = wrapper.instance();
+    //     instance.handleGoogleSignin();
+    //     // expect(instance.state.loggedIn).toBe(true);
+    // });
 
-    test('Testing handleGoogleSignin - Sad 3 - Delete User Failed', () => {
-        firebase.doSignInWithGoogle.mockImplementationOnce(() => {return Promise.resolve({credential: {accessToken: "testToken"}, additionalUserInfo: {profile: {email: "test1@test.com", given_name: "Test1", family_name: "Tester", gender: "Trans", picture: "url://my_picture"}}})});
-        elastic.searchUser.mockImplementationOnce(() => {return Promise.resolve(null)});
-        elastic.addUser.mockImplementationOnce(() => {return Promise.resolve(false)});
-        firebase.doDeleteUser.mockImplementationOnce(() => {return Promise.reject(true)});
-        const handleClick = jest.fn();
-        const wrapper = shallow(<LoginPage updateContent={handleClick}/>);
-        const instance = wrapper.instance();
-        instance.handleGoogleSignin();
-        // expect(instance.state.loggedIn).toBe(true);
-    });
+    // test('Testing handleGoogleSignin - Sad 3 - Delete User Failed', () => {
+    //     firebase.doSignInWithGoogle.mockImplementationOnce(() => {return Promise.resolve({credential: {accessToken: "testToken"}, additionalUserInfo: {profile: {email: "test1@test.com", given_name: "Test1", family_name: "Tester", gender: "Trans", picture: "url://my_picture"}}})});
+    //     elastic.searchUser.mockImplementationOnce(() => {return Promise.resolve(null)});
+    //     elastic.addUser.mockImplementationOnce(() => {return Promise.resolve(false)});
+    //     firebase.doDeleteUser.mockImplementationOnce(() => {return Promise.reject(true)});
+    //     const handleClick = jest.fn();
+    //     const wrapper = shallow(<LoginPage updateContent={handleClick}/>);
+    //     const instance = wrapper.instance();
+    //     instance.handleGoogleSignin();
+    //     // expect(instance.state.loggedIn).toBe(true);
+    // });
 
     test('Testing handleGoogleSignin - Sad 4', () => {
         firebase.doSignInWithGoogle.mockImplementationOnce(() => {return Promise.resolve({credential: {accessToken: "testToken"}, additionalUserInfo: {profile: {email: "test1@test.com", given_name: "Test1", family_name: "Tester", gender: "Trans", picture: "url://my_picture"}}})});
