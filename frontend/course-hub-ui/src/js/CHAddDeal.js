@@ -11,7 +11,6 @@ class CHAddDeal extends Component {
     this.handleTitleChange = this.handleTitleChange.bind(this);
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
     this.handleLinkChange = this.handleLinkChange.bind(this);
-    this.handleImageLinkChange = this.handleImageLinkChange.bind(this);
     this.handleOriginalPriceChange = this.handleOriginalPriceChange.bind(this);
     this.handleDiscountedPriceChange = this.handleDiscountedPriceChange.bind(this);
     this.handleDealExpiryChange = this.handleDealExpiryChange.bind(this);
@@ -22,14 +21,14 @@ class CHAddDeal extends Component {
         title: "",
         description : "",
         link: "",
-        imageLink: "https://firebasestorage.googleapis.com/v0/b/course-hub-73ea7.appspot.com/o/images%2F276*180px.svg?alt=media&token=0d8e5d9d-9087-4135-944b-fe9b87b96fb0",
+        imageLink: "https://firebasestorage.googleapis.com/v0/b/course-hub-73ea7.appspot.com/o/images%2Fudemy.png?alt=media&token=0baa8ef1-3f79-4be9-b96e-20fccd7934c8",
         originalPrice: "",
         discountedPrice: "",
         thumbsUp: 0, 
         datePosted: (new Date().getFullYear() + '-' + ('0' + (new Date().getMonth() + 1)).slice(-2) + '-' + ('0' + new Date().getDate()).slice(-2)),
         dealExpiry: ((new Date().getFullYear() + 1) + '-' + ('0' + (new Date().getMonth() + 1)).slice(-2) + '-' + ('0' + new Date().getDate()).slice(-2)),
         user: "",
-        provider: "",
+        provider: "Udemy",
         serverErrorMsg: ''
     }
 
@@ -54,12 +53,6 @@ class CHAddDeal extends Component {
         });
   }
 
-  handleImageLinkChange(event){
-      this.setState({
-          imageLink: event.target.value
-      });
-  }
-
   handleOriginalPriceChange(event){
       this.setState({
           originalPrice: event.target.value
@@ -82,6 +75,23 @@ class CHAddDeal extends Component {
       this.setState({
           provider: event.target.value
       });
+      if (event.target.value == "PluralSight"){
+          this.setState({ imageLink: "https://firebasestorage.googleapis.com/v0/b/course-hub-73ea7.appspot.com/o/images%2Fpluralsight.png?alt=media&token=08635c9a-5b85-4bfb-8334-0fe6fc9dfd97"});
+      }else if(event.target.value == "Udemy"){
+          this.setState({ imageLink: "https://firebasestorage.googleapis.com/v0/b/course-hub-73ea7.appspot.com/o/images%2Fudemy.png?alt=media&token=0baa8ef1-3f79-4be9-b96e-20fccd7934c8"});
+      }else if(event.target.value == "EDX"){
+          this.setState({ imageLink: "https://firebasestorage.googleapis.com/v0/b/course-hub-73ea7.appspot.com/o/images%2Fedx.jpg?alt=media&token=713c5220-222a-402a-b8d3-d7ba9db15991"});
+      }else if(event.target.value == "Coursera"){
+        this.setState({ imageLink: "https://firebasestorage.googleapis.com/v0/b/course-hub-73ea7.appspot.com/o/images%2Fcoursera.png?alt=media&token=42504f25-018c-4084-b3ed-b556a0d8c400"});
+      }else if(event.target.value == "Udacity"){
+        this.setState({ imageLink: "https://firebasestorage.googleapis.com/v0/b/course-hub-73ea7.appspot.com/o/images%2Fudacity.jpg?alt=media&token=fbfe7041-eb87-4bde-bfd5-181e0c9a1487"});
+      }else if(event.target.value == "Iversity"){
+        this.setState({ imageLink: "https://firebasestorage.googleapis.com/v0/b/course-hub-73ea7.appspot.com/o/images%2Fiversity.png?alt=media&token=a08c29dd-cf68-43c5-8207-5566f55b4207"});
+      }else if(event.target.value == "Open Learning"){
+        this.setState({ imageLink: "https://firebasestorage.googleapis.com/v0/b/course-hub-73ea7.appspot.com/o/images%2FOpenLearning.png?alt=media&token=8afe1c0c-677b-437c-a6bc-c66c01590340"});
+      }else{
+        this.setState({ imageLink: "https://firebasestorage.googleapis.com/v0/b/course-hub-73ea7.appspot.com/o/images%2F276*180px.svg?alt=media&token=0d8e5d9d-9087-4135-944b-fe9b87b96fb0"});
+      }
   }
 
   handleSubmit = async event => {
@@ -114,7 +124,7 @@ class CHAddDeal extends Component {
                 console.log("Cannot Add Deal");
                 this.props.updatePage(response);
             }
-        })
+        });
       }catch(error){
           console.log("Error found is ", error);
       }
@@ -156,15 +166,6 @@ class CHAddDeal extends Component {
                 </Form.Group>
                 </Form.Row>
                 <Form.Row>
-                <Form.Group as={Col} controlId="formGridImageLink">
-                    <Form.Control required value={this.state.imageLink} onChange={this.handleImageLinkChange} type="url" placeholder="Image-Link" />
-                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                    <Form.Text className="text-muted" style={add_deals}>
-                    Enter Complete link in the form http://www.course-hub/deals
-                    </Form.Text>
-                </Form.Group>
-                </Form.Row>
-                <Form.Row>
                 <Form.Group as={Col} controlId="formGridOriginalPrice">
                     <Form.Control required value={this.state.originalPrice} onChange={this.handleOriginalPriceChange} type="number" min='1' max='10000' placeholder="Original Price" />
                     <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
@@ -186,7 +187,7 @@ class CHAddDeal extends Component {
                 <Form.Row>
                 <Form.Group as={Col} controlId="formGridProvider">
                     <Form.Label style={add_deals}>Course Provider</Form.Label>
-                        <Form.Control required value={this.state.provider} onChange={this.handleProviderChange} as="select">
+                    <Form.Control required value={this.state.provider} onChange={this.handleProviderChange} as="select">
                         <option>Udemy</option>
                         <option>EDX</option>
                         <option>Coursera</option>

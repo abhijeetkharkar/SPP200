@@ -106,7 +106,7 @@ class CHDealsContent extends Component{
                                             </div>);
                                     }) :
                                     []
-                            } 
+                            }
                         </div>
                     ]
                 }
