@@ -153,6 +153,9 @@ class CHSearchContent extends Component {
                                                             style = {{position: "inherit !important"}}
                                                             />
                                                     </span>
+                                                    <button className="add-to-compare-button">
+                                                        Add to Compare
+                                                    </button>
                                                 </span>
                                             </td>
                                         </tr>

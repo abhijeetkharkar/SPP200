@@ -120,6 +120,18 @@
 				float: left;
 			}
 
+			.add-to-compare-button{
+				float: right;
+				border-radius: 5px;
+				border: transparent;
+				height: 21px;
+				width: 110px;
+				font-size: 12px;
+				background-image: linear-gradient(rgba(255, 164, 0, 0.81), rgba(255, 211, 0, 0.6));
+				color: black;
+				font-weight: bold;
+			}
+
 			.search-results-course-data-difficulty {
 				color: rgb(207, 204, 19);
 				font-size: 12pt;
