@@ -1,24 +1,164 @@
-.course-tile{
-    margin-left: 20%;
-    width: 60%;
-}
+            .course-tile{
+                margin-left: 20%;
+                width: 60%;
+            }
 
-    .course-tile-card{
-        position: inherit !important;
-    }
+            .course-title{
+                float: left;
+                width:100%;
+                padding-top: 1%;
+            }
 
-        .course-data-rating {
-            float: right;
-        }
+            .course-tile-card{
+                position: inherit !important;
+            }
+
+            .course-image-div{
+                width: 65%;
+                float: left;
+            }
+
+            .course-image{
+                width: 100%;
+            }
+
+            .course-features {
+                float: right;
+                width: 35%;
+                text-align: left;
+                padding-left: 1%;
+                background-color: white; 
+                padding-top: 1%;
+                padding-right: 1%;
+            }
+
+            .rating-div{
+                position: inherit;
+            }
+
+            .star-ratings{
+                position: inherit !important;
+            }
+
+            .price-span{
+                display: inline;
+                flex-direction: row
+            }
+
+            .price-button-font{
+                padding-top: 8pt;
+            }
+
+            .price-tag{
+                padding-left: 1%;
+                font-size: 15pt;
+            }
+
+            .duration-span {
+                padding-left: 1%;
+                display: inline;
+                flex-direction: row;
+            }
+
+            .duration-button-font{
+                padding-top: 8pt;
+            }
+
+            .duration-tag{
+                font-size: 15pt;
+                display: inline;
+                padding-left: 1%;
+            }            
+
+            .course-difficulty{
+                font-size: 15pt;
+                display: inline;
+                flex-direction: row
+            }
+
+            .gauge-icon {
+                float: left !important;
+            }
+
+            .diff-text{
+                padding-left: 14%;
+                font-size: 15pt;
+                padding-top: 1.5%;
+                margin-bottom: 1%;
+            }
+
+            .course-pace{
+                font-size: 15pt;
+                text-align: left;
+            }
+            .pace-span{
+                font-size: 15pt;
+                padding-left: 5%;
+            }
+            .pace-text{
+                vertical-align: middle;
+                size: 10pt;
+                padding-left: 5%;
+            }
+
+            .pace-icon{
+                padding-left: 0%;
+            }
+
+            .calendar-span{
+                font-size: 15pt;
+                padding-left: 5%;
+            }
+
+            .calendar-text{
+                padding-left: 4%;
+            }
+            
+            .course-posted{
+                font-size: 15pt;
+                text-align: left;
+                padding-top: 1%;
+            }
+
+            .course-visit {
+                float: left;
+                padding-left: 4%;
+                margin-top: 18%;
+            }
+            .redirect-button{
+                font-size: 15pt;
+                color:rgb(0,0,0);
+                border-Color:rgb(241, 239, 108);
+                background-Color:rgb(241, 239, 108);
+                margin-bottom: 0%;
+            }
+
+            .course-tile-body {
+                float: left;
+                background-color: white;
+                padding-left: 1%;
+                padding-top: 1%;
+                width: 100%;
+            }
+        
+            .author-image-div{
+                float: left;
+                text-align: left;
+            }
+
+            .author-span{
+                padding-right: 2%;
+            }
+            .author-image{
+                width: 8%;
+            }
 
             .card-title {
                 margin-bottom: 0px;
             }
 
-.course-rating-span {
-        float: right;
-}
+            .course-details{
+                text-align: left;
+            }
 
-.course-details{
-    text-align: left
-}
+            

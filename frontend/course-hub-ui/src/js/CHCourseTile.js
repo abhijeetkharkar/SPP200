@@ -3,10 +3,12 @@ import '../App.css';
 import '../css/common-components.css';
 import '../css/search.css';
 import '../css/coursedetails.css'
-import { Table, Button, Card, Tooltip, OverlayTrigger, Badge } from 'react-bootstrap';
+import { Table, Button, Image, Card, Tooltip, OverlayTrigger, Badge } from 'react-bootstrap';
 import StarRatingComponent from 'react-star-rating-component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import StarRatings from 'react-star-ratings';
 import { getCourseDetail } from '../elasticSearch';
+import Gauge from 'react-radial-gauge';
 const fetch = require('node-fetch');
 
 class CHCourseTile extends Component {
@@ -29,10 +31,20 @@ class CHCourseTile extends Component {
             StartDate: null,
             URL: null,
             last_updated: null,
-            Difficulty: ''
+            Difficulty: '',
+            imgHeight: 0,
+            imgWidth: 0
         }
+        this.onImageLoad = this.onImageLoad.bind(this);
+    }
+    onImageLoad({ target: img }) {
+        this.setState({ imgHeight: img.offsetHeight, imgWidth: img.offsetWidth });
     }
 
+    getWidthAndHeight() {
+        console.log("'" + this.name + "' is " + this.width + " by " + this.height + " pixels in size.");
+        return true;
+    }
     componentDidMount() {
         // console.log("In CHSearchContent, componentDidMount");
         console.log('course tile: ', this.props.courseId)
@@ -69,46 +81,81 @@ class CHCourseTile extends Component {
     }
 
     render() {
+        console.log("render method called");
         var customStyle = {
             marginTop: window.outerHeight * 0.11
         }
         return (
             <div className='course-tile' style={customStyle}>
-                <Card className='course-tile-card'>
-                    <Card.Img variant="top" src={this.state.CourseImage || 'https://increasify.com.au/wp-content/uploads/2016/08/default-image.png'} />
-                    <Card.Body className="course-tile-body">
-                        <span className="course-title-rating">
-                            <Card.Title style={{float: "left"}}>{this.state.Title}</Card.Title>
-                            <span className="course-rating-span">
-                                <StarRatingComponent 
-                                        name={"course-rating"} 
-                                        starCount={5} 
-                                        value={1} 
-                                        editing={true} 
-                                        emptyStarColor={"#5e5d25"} 
-                                        size='2x'/>
-                            </span>
+                <div className='course-tile-card'>
+                    <div className="course-image-div">
+                        <img className="course-image" onLoad={this.onImageLoad} src={this.state.CourseImage || 'https://increasify.com.au/wp-content/uploads/2016/08/default-image.png'} />
+                    </div>
+                    <div className="course-features" style={{ height: this.state.imgHeight }}>
+                        <span className='rating-div' >
+                        <StarRatings rating={this.state.Rating} starRatedColor="#CCCC00" starHoverColor="#CCCC00" starEmptyColor="grey" changeRating={true} numberOfStars={5} name='rating' starDimension="30px" starSpacing="4px" />
+                        <Badge pill variant="info" style={{display:"inline", float:"right",paddingRight:"3%",fontSize:"20px",color:"white",backgroundColor:"black"}}>{this.state.Rating}/5.0</Badge>
+                        </span>
+                        <div className="course-price-details">
+                            {this.state.Price > 0 && <span className='price-span'><FontAwesomeIcon className="price-button-font" icon={['fa', 'money-check-alt']} size='2x' color='rgb(0, 0, 0)' /><text className='price-tag'>{this.state.Price}</text></span>}
+                            {this.state.Price === 0 && <span className='price-span'><FontAwesomeIcon className="price-button-font" icon={['fa', 'money-check-alt']} size='2x' color='rgb(0, 0, 0)' /><text className='price-tag'>Free</text></span>}
+                        </div>
+                        <div className="course-duration">
+                            {this.state.CourseDuration &&
+                                <span className='duration-span'>
+                                    <FontAwesomeIcon className="duration-button-font" icon={['fa', 'clock']} size='2x' color='rgb(0, 0, 0)' />
+                                    <p className='duration-tag'>&nbsp;{this.state.CourseDuration.Value}&nbsp;{this.state.CourseDuration.Unit}</p>
+                                </span>
+                            }
+                        </div>
+                        <div className="course-difficulty">
+                            {(this.state.Difficulty.toLowerCase() === "advanced" || this.state.Difficulty.toLowerCase() === "hard") && <OverlayTrigger className="redirect-badge" placement="top" overlay={<Tooltip id="tooltip-difficulty" className="course-tooltip"><strong>Course Difficulty</strong></Tooltip>}><span> <Gauge className="gauge-icon" currentValue={100} size={37} progressColor="red" /><p className="diff-text">Advanced</p></span></OverlayTrigger>}
+                            {(this.state.Difficulty.toLowerCase() === "intermediate" || this.state.Difficulty.toLowerCase() === "medium") && <OverlayTrigger className="redirect-badge" placement="top" overlay={<Tooltip id="tooltip-difficulty" className="course-tooltip"><strong>Course Difficulty</strong></Tooltip>}><span> <Gauge className="gauge-icon" currentValue={100} size={37} progressColor="#CCCC00" /><p className="diff-text">Intermediate</p></span></OverlayTrigger>}
+                            {(this.state.Difficulty.toLowerCase() === "easy" || this.state.Difficulty.toLowerCase() === "introductory") && <OverlayTrigger className="redirect-badge" placement="top" overlay={<Tooltip id="tooltip-difficulty" className="course-tooltip"><strong>Course Difficulty</strong></Tooltip>}><span> <Gauge className="gauge-icon" currentValue={100} size={37} progressColor="green" /><p className="diff-text">Introductory</p></span></OverlayTrigger>}
+
+                        </div>
+                        <div className="course-pace">
+                            {this.state.SelfPaced &&<OverlayTrigger className="redirect-badge" placement="right" overlay={<Tooltip id="tooltip-pace" className="course-tooltip"><strong>Course Pace</strong></Tooltip>}><span className="pace-span" ><FontAwesomeIcon className="pace-icon" icon={['fa', 'walking']} size='1x' color='rgb(0, 0, 0)' /><text className="pace-text">Self Paced</text></span></OverlayTrigger>}
+                            {!this.state.SelfPaced && <OverlayTrigger className="redirect-badge" placement="right" overlay={<Tooltip id="tooltip-pace" className="course-tooltip"><strong>Course Pace</strong></Tooltip>}><span className="pace-span" ><FontAwesomeIcon className="pace-icon" icon={['fa', 'walking']} size='1x' color='rgb(0, 0, 0)' /><text className="pace-text">Supervised</text></span></OverlayTrigger>}
+                        
+
+                        </div>
+                        <div className="course-posted">
+                            {
+                                !this.state.last_updated &&<OverlayTrigger className="redirect-badge" placement="right" overlay={<Tooltip id="tooltip-calendar" className="course-tooltip"><strong>Date Posted</strong></Tooltip>}>
+                            <span className="calendar-span" ><FontAwesomeIcon className="calendar-icon" icon={['fa', 'calendar']} size='1x' color='rgb(0, 0, 0)' /><text className="calendar-text">03-27-2019</text></span></OverlayTrigger>
+                        }
+                        </div>
+                         <div className="course-visit">
+                            <OverlayTrigger className="redirect-badge" placement="top" overlay={<Tooltip id="tooltip" className="course-tooltip"><strong>Visit Course</strong></Tooltip>}>
+                            <Button className='redirect-button' href={this.state.URL} target="_blank">Visit Course&nbsp;<FontAwesomeIcon className="redirect-icon" icon={['fa', 'external-link-alt']} size='1x' color='rgb(0, 0, 0)' /></Button></OverlayTrigger>
+                          </div>
+
+                    </div>
+                    <div className="course-tile-body">
+                        <div className="author-image-div">
+                            <text style={{fontSize:"16px"}}><strong >Authors:</strong></text>
+                            {(this.state.Instructors != null && this.state.Instructors.length > 0) ?
+                                this.state.Instructors.map(item => {
+                                    return (
+                                        <span className="author-span"> <Image className="author-image" roundedCircle src={item.ProfilePic
+                                            || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3vYRkfHteVj3g5Vd_-tRnHhSgLSJHL2IUDU0pOQCFDyWk7_9seQ'} />&nbsp;&nbsp;<strong>{item.InstructorName}</strong></span>
+
+                                    );
+                                }) : []
+                            }
+                        </div>
+                        <br></br>
+                        <span className="course-title">
+                            <Card.Title>{this.state.Title}</Card.Title>
                         </span>
                         <span className="course-desc-span">
-                            <Card.Text style={{marginTop:"4%"}} className="course-details"><strong>Description: </strong>{this.state.Description}</Card.Text>
+                            <Card.Text style={{ marginTop: "5%" }} className="course-details"><div dangerouslySetInnerHTML={{ __html: this.state.Description }} /></Card.Text>
                             <br></br>
                         </span>
-                        <OverlayTrigger placement="top" overlay={<Tooltip id="tooltip"><strong>Visit Page</strong></Tooltip>}>
-                        <Badge pill variant="info" style={{fontSize:"15pt"}} className='course-website'><a href={this.state.URL} target="_blank"><FontAwesomeIcon className="redirect-button-font" icon={['fa', 'external-link-alt']} /></a></Badge></OverlayTrigger>
 
-                        {this.state.Price > 0 && <Badge pill variant="info" style={{fontSize:"13pt"}} className='course-price' ><FontAwesomeIcon className="price-button-font" icon={['fa', 'money-check-alt']} color='rgb(207, 204, 19)' />&nbsp;${this.state.Price}</Badge>}
-                        {this.state.Price === 0 && <Badge pill variant="info" style={{fontSize:"13pt"}} className='course-price' ><FontAwesomeIcon className="price-button-font" icon={['fa', 'money-check-alt']} color='rgb(207, 204, 19)' />&nbsp;$0</Badge>}
-
-                        {this.state.CourseDuration && <Badge pill variant="info" style={{fontSize:"13pt"}} className='course-duration' ><FontAwesomeIcon className="duration-button-font" icon={['fa', 'clock']} color='rgb(207, 204, 19)' />
-                            &nbsp;{this.state.CourseDuration.Value} {this.state.CourseDuration.Unit}</Badge>}
-
-                        <Badge pill variant="info" style={{fontSize:"13pt"}} className='course-difficulty' >Level: {this.state.Difficulty}</Badge>
-                        {this.state.last_updated && <Badge pill variant="info" style={{fontSize:"13pt"}} className='course-posted'>Posted On: {this.state.last_updated}</Badge>}
-                        {this.state.SelfPaced && <Badge pill variant="info" style={{fontSize:"13pt"}} className='course-selfpaced'>Self Paced</Badge>}
-                        {!this.state.SelfPaced && <Badge pill variant="info" style={{fontSize:"13pt"}} className='course-selfpaced'>SuperVised</Badge>}
-                        
-                    </Card.Body>
-                </Card>;
+                    </div>
+                </div>
             </div>
         );
     }
