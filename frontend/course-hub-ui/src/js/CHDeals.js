@@ -82,6 +82,19 @@ class CHDeals extends Component {
 		})
 	}
 
+	handleAddDeal = (response) => {
+		console.log("HANDLE ADD DEAL CALLED IN MAIN PAGE ");
+		if (response === true){
+			this.setState({
+				choice: 'adddealsuccessfull'
+			})
+		}else{
+			this.setState({
+				choice: 'adddealunsuccessfull'
+			})
+		}
+	}
+
 	render() {
 		const choice = this.state.choice;
 		const firstName = this.state.firstName;
@@ -100,7 +113,21 @@ class CHDeals extends Component {
 
 				{choice === "addnewdeal" &&
 					[<CHNavigator updateContent={this.handleClick} updatePage={this.handlePagination} signedIn={false} caller={"deals"} firstName={firstName} email={email} key="keyNavigatorSearch" />,
-					<CHDealsContent updateContent={this.handleClick} updatePage={this.handlePagination} firstName={firstName} email={email} pageNumber={pageNumber} handleSignUp={this.handleSignUp} pageType='addnewdeal'/>,
+					<CHDealsContent updateContent={this.handleClick} updatePage={this.handlePagination} firstName={firstName} email={email} pageNumber={pageNumber} handleSignUp={this.handleSignUp} pageType='addnewdeal' handleAddDeal={this.handleAddDeal}/>,
+					
+					<CHFooter key="keyFooterSearch" />]
+				}
+
+				{choice === "adddealsuccessfull" &&
+					[<CHNavigator updateContent={this.handleClick} updatePage={this.handlePagination} signedIn={false} caller={"deals"} firstName={firstName} email={email} key="keyNavigatorSearch" />,
+					<CHDealsContent updateContent={this.handleClick} updatePage={this.handlePagination} firstName={firstName} email={email} pageNumber={pageNumber} handleSignUp={this.handleSignUp} pageType='adddealsuccessfull' handleAddDeal={this.handleAddDeal}/>,
+					
+					<CHFooter key="keyFooterSearch" />]
+				}
+
+				{choice === "adddealunsuccessfull" &&
+					[<CHNavigator updateContent={this.handleClick} updatePage={this.handlePagination} signedIn={false} caller={"deals"} firstName={firstName} email={email} key="keyNavigatorSearch" />,
+					<CHDealsContent updateContent={this.handleClick} updatePage={this.handlePagination} firstName={firstName} email={email} pageNumber={pageNumber} handleSignUp={this.handleSignUp} pageType='adddealunsuccessfull' handleAddDeal={this.handleAddDeal}/>,
 					
 					<CHFooter key="keyFooterSearch" />]
 				}
