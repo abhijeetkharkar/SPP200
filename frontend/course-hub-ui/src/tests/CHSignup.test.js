@@ -57,7 +57,7 @@ describe('Testing SignUp', () => {
 
     test('Testing User Sign-Up - Sad Path', () => {
         const handleClick = jest.fn();
-        
+
         firebase.doSignInWithEmailAndPassword.mockImplementationOnce(() => {return Promise.resolve({user: {email: "test1@test.com"}})});
         firebase.doCreateUserWithEmailAndPassword.mockImplementationOnce(() => {return Promise.resolve({user: {email: "test1@test.com"}})});
         elastic.addUser.mockImplementationOnce(() => { return Promise.resolve(false)});
