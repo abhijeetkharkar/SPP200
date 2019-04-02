@@ -141,8 +141,8 @@ class CHSearchContent extends Component {
                             X
                         </Button>
                     </Modal.Header>
-                    <Modal.Body>
-                        <Table striped hover id="search-results-table">
+                    <Modal.Body className="compare-list-model-body">
+                        <Table id="search-results-table">
                             <tbody>
                             {
                                 this.state.compareList.map(item => {
