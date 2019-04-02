@@ -8,13 +8,13 @@ import SignupPage from './js/CHSignup';
 import ForgotPasswordPage from './js/CHForgotPassword';
 import CHFooter from './js/CHFooter';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faEnvelope, faKey, faSignInAlt, faSearch, faAngleDown, faClock, faAt,faExternalLinkAlt,faMoneyCheckAlt,faWalking,faCalendar } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope, faKey, faSignInAlt, faSearch, faAngleDown, faClock, faAt,faExternalLinkAlt,faMoneyCheckAlt,faWalking,faCalendar,faEye } from '@fortawesome/free-solid-svg-icons';
 import { faFacebookF, faGithub, faTwitter, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import firebaseInitialization from './FirebaseUtils';
 import ProfilePage from "./js/CHProfile";
 import { searchUser } from './elasticSearch';
 
-library.add(faEnvelope, faKey, faFacebookF, faGithub, faTwitter, faLinkedin, faSignInAlt, faSearch, faAngleDown, faClock, faAt,faExternalLinkAlt,faMoneyCheckAlt,faWalking,faCalendar);
+library.add(faEnvelope, faKey, faFacebookF, faGithub, faTwitter, faLinkedin, faSignInAlt, faSearch, faAngleDown, faClock, faAt,faExternalLinkAlt,faMoneyCheckAlt,faWalking,faCalendar,faEye);
 
 class App extends Component {
 

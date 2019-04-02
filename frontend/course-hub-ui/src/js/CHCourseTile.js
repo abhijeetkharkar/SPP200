@@ -109,50 +109,49 @@ class CHCourseTile extends Component {
                             }
                         </div>
                         <div className="course-difficulty">
-                            {(this.state.Difficulty.toLowerCase() === "advanced" || this.state.Difficulty.toLowerCase() === "hard") && <OverlayTrigger className="redirect-badge" placement="top" overlay={<Tooltip id="tooltip-difficulty" className="course-tooltip"><strong>Course Difficulty</strong></Tooltip>}><span> <Gauge className="gauge-icon" currentValue={100} size={37} progressColor="red" /><p className="diff-text">Advanced</p></span></OverlayTrigger>}
-                            {(this.state.Difficulty.toLowerCase() === "intermediate" || this.state.Difficulty.toLowerCase() === "medium") && <OverlayTrigger className="redirect-badge" placement="top" overlay={<Tooltip id="tooltip-difficulty" className="course-tooltip"><strong>Course Difficulty</strong></Tooltip>}><span> <Gauge className="gauge-icon" currentValue={100} size={37} progressColor="#CCCC00" /><p className="diff-text">Intermediate</p></span></OverlayTrigger>}
-                            {(this.state.Difficulty.toLowerCase() === "easy" || this.state.Difficulty.toLowerCase() === "introductory") && <OverlayTrigger className="redirect-badge" placement="top" overlay={<Tooltip id="tooltip-difficulty" className="course-tooltip"><strong>Course Difficulty</strong></Tooltip>}><span> <Gauge className="gauge-icon" currentValue={100} size={37} progressColor="green" /><p className="diff-text">Introductory</p></span></OverlayTrigger>}
+                            {(this.state.Difficulty.toLowerCase() === "advanced" || this.state.Difficulty.toLowerCase() === "hard") && <OverlayTrigger className="redirect-badge" placement="top" overlay={<Tooltip id="tooltip-difficulty" className="course-tooltip" style={{opacity:"0.6"}}><strong>Course Difficulty</strong></Tooltip>}><span> <Gauge className="gauge-icon" currentValue={100} size={37} progressColor="red" /><p className="diff-text">Advanced</p></span></OverlayTrigger>}
+                            {(this.state.Difficulty.toLowerCase() === "intermediate" || this.state.Difficulty.toLowerCase() === "medium") && <OverlayTrigger className="redirect-badge" placement="top" overlay={<Tooltip id="tooltip-difficulty" className="course-tooltip" style={{opacity:"0.6"}}><strong>Course Difficulty</strong></Tooltip>}><span> <Gauge className="gauge-icon" currentValue={100} size={37} progressColor="#CCCC00" /><p className="diff-text">Intermediate</p></span></OverlayTrigger>}
+                            {(this.state.Difficulty.toLowerCase() === "easy" || this.state.Difficulty.toLowerCase() === "introductory") && <OverlayTrigger className="redirect-badge" placement="top" overlay={<Tooltip id="tooltip-difficulty" className="course-tooltip" style={{opacity:"0.6"}}><strong>Course Difficulty</strong></Tooltip>}><span> <Gauge className="gauge-icon" currentValue={100} size={37} progressColor="green" /><p className="diff-text">Introductory</p></span></OverlayTrigger>}
 
                         </div>
                         <div className="course-pace">
-                            {this.state.SelfPaced &&<OverlayTrigger className="redirect-badge" placement="right" overlay={<Tooltip id="tooltip-pace" className="course-tooltip"><strong>Course Pace</strong></Tooltip>}><span className="pace-span" ><FontAwesomeIcon className="pace-icon" icon={['fa', 'walking']} size='1x' color='rgb(0, 0, 0)' /><text className="pace-text">Self Paced</text></span></OverlayTrigger>}
-                            {!this.state.SelfPaced && <OverlayTrigger className="redirect-badge" placement="right" overlay={<Tooltip id="tooltip-pace" className="course-tooltip"><strong>Course Pace</strong></Tooltip>}><span className="pace-span" ><FontAwesomeIcon className="pace-icon" icon={['fa', 'walking']} size='1x' color='rgb(0, 0, 0)' /><text className="pace-text">Supervised</text></span></OverlayTrigger>}
+                            {this.state.SelfPaced &&<OverlayTrigger className="redirect-badge" placement="right" overlay={<Tooltip id="tooltip-pace" className="course-tooltip" style={{opacity:"0.6"}}><strong>Course Pace</strong></Tooltip>}><span className="pace-span" ><FontAwesomeIcon className="pace-icon" icon={['fa', 'walking']} size='1x' color='rgb(0, 0, 0)' /><text className="pace-text">Self Paced</text></span></OverlayTrigger>}
+                            {!this.state.SelfPaced && <OverlayTrigger className="redirect-badge" placement="right" overlay={<Tooltip id="tooltip-pace" className="course-tooltip" style={{opacity:"0.6"}}><strong>Course Pace</strong></Tooltip>}><span className="pace-span" ><FontAwesomeIcon className="pace-icon" icon={['fa', 'walking']} size='1x' color='rgb(0, 0, 0)' /><text className="pace-text">Supervised</text></span></OverlayTrigger>}
                         
 
                         </div>
                         <div className="course-posted">
                             {
-                                !this.state.last_updated &&<OverlayTrigger className="redirect-badge" placement="right" overlay={<Tooltip id="tooltip-calendar" className="course-tooltip"><strong>Date Posted</strong></Tooltip>}>
+                                !this.state.last_updated &&<OverlayTrigger className="redirect-badge" placement="right" overlay={<Tooltip id="tooltip-calendar" className="course-tooltip" style={{opacity:"0.6"}}><strong>Date Posted</strong></Tooltip>}>
                             <span className="calendar-span" ><FontAwesomeIcon className="calendar-icon" icon={['fa', 'calendar']} size='1x' color='rgb(0, 0, 0)' /><text className="calendar-text">03-27-2019</text></span></OverlayTrigger>
                         }
                         </div>
-                         <div className="course-visit">
-                            <OverlayTrigger className="redirect-badge" placement="top" overlay={<Tooltip id="tooltip" className="course-tooltip"><strong>Visit Course</strong></Tooltip>}>
-                            <Button className='redirect-button' href={this.state.URL} target="_blank">Visit Course&nbsp;<FontAwesomeIcon className="redirect-icon" icon={['fa', 'external-link-alt']} size='1x' color='rgb(0, 0, 0)' /></Button></OverlayTrigger>
-                          </div>
 
                     </div>
                     <div className="course-tile-body">
                         <div className="author-image-div">
-                            <text style={{fontSize:"16px"}}><strong >Authors:</strong></text>
+                            <text style={{fontSize:"12px"}}><strong >Authors:</strong></text>
                             {(this.state.Instructors != null && this.state.Instructors.length > 0) ?
                                 this.state.Instructors.map(item => {
                                     return (
-                                        <span className="author-span"> <Image className="author-image" roundedCircle src={item.ProfilePic
-                                            || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3vYRkfHteVj3g5Vd_-tRnHhSgLSJHL2IUDU0pOQCFDyWk7_9seQ'} />&nbsp;&nbsp;<strong>{item.InstructorName}</strong></span>
+                                        <span className="author-span" style={{fontSize:"12px"}} > <Image className="author-image" roundedCircle src={item.ProfilePic
+                                            || 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ3vYRkfHteVj3g5Vd_-tRnHhSgLSJHL2IUDU0pOQCFDyWk7_9seQ'} fluid={true} />&nbsp;&nbsp;<strong>{item.InstructorName}</strong></span>
 
                                     );
                                 }) : []
                             }
                         </div>
                         <br></br>
+                        <OverlayTrigger className="redirect-badge" placement="left" overlay={<Tooltip id="tooltip" className="course-tooltip" style={{opacity:"0.6"}}><strong>Visit Course</strong></Tooltip>}>
                         <span className="course-title">
-                            <Card.Title>{this.state.Title}</Card.Title>
+                            <a style={{float:"left",fontSize:"20pt",color:"blue"}} href={this.state.URL} target="_blank">{this.state.Title}</a>
                         </span>
+                        </OverlayTrigger>
                         <span className="course-desc-span">
-                            <Card.Text style={{ marginTop: "5%" }} className="course-details"><div dangerouslySetInnerHTML={{ __html: this.state.Description }} /></Card.Text>
+                            <p style={{ marginTop: "5%" }} className="course-details"><div dangerouslySetInnerHTML={{ __html: this.state.Description }} /></p>
                             <br></br>
                         </span>
+                       
 
                     </div>
                 </div>
