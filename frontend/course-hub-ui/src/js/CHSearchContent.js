@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../App.css';
 import '../css/common-components.css';
 import '../css/search.css';
-import { Table, Image, Pagination,Button } from 'react-bootstrap';
+import {Table, Image, Pagination, Button, Modal} from 'react-bootstrap';
 import StarRatingComponent from 'react-star-rating-component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const fetch = require('node-fetch');
@@ -16,7 +16,9 @@ class CHSearchContent extends Component {
             totalPages: 1,
             currentPage: -1,
             totalCourses: 0,
-            pageList: []
+            pageList: [],
+            compareList: [],
+            isOpen: false,
         }
         this.createPageList = this.createPageList.bind(this);
         //this.handleCourseClick=this.handleCourseClick.bind(this);
@@ -107,6 +109,23 @@ class CHSearchContent extends Component {
         return pageList;
     }
 
+    toggleModal = () => {
+        this.setState({
+            isOpen: !this.state.isOpen
+        });
+        console.log(this.state.compareList)
+    }
+
+    addCourseToCompare(item) {
+        this.setState({isOpen: false});
+        this.state.compareList.push(item);
+    }
+
+    removeCourseFromCompare(item) {
+        this.setState({isOpen: false});
+        var idx = this.state.compareList.indexOf(item);
+        this.state.compareList.splice(idx, 1);
+    }
 
     render() {
         // console.log("In CHSearchContent, inside render, pageNumber props:", this.props.pageNumber);
@@ -115,11 +134,15 @@ class CHSearchContent extends Component {
         }
         return (
             <div id="search-results-div" style={customStyle}>
+
                 <Table striped hover id="search-results-table">
                     <thead>
                         <tr>
                             <th colSpan="2">
                                 <p className="search-results-table-header">{this.state.totalCourses + " results for '" + this.props.searchString + "'"}</p>
+                                <Button variant="success" className="add-to-compare-button" onClick={this.toggleModal}>
+                                    Compare
+                                </Button>
                             </th>
                         </tr>
                     </thead>
@@ -153,9 +176,15 @@ class CHSearchContent extends Component {
                                                             style = {{position: "inherit !important"}}
                                                             />
                                                     </span>
-                                                    <button className="add-to-compare-button">
-                                                        Add to Compare
-                                                    </button>
+                                                    {this.state.compareList.includes(item) ? (
+                                                        <Button className="btn btn-danger add-to-compare-button" onClick={() => {this.removeCourseFromCompare(item)}}>
+                                                            Remove from Compare
+                                                        </Button>
+                                                    ) : (
+                                                        <Button className="btn btn-warning add-to-compare-button" onClick={() => {this.addCourseToCompare(item)}}>
+                                                            Add to Compare
+                                                        </Button>
+                                                    )}
                                                 </span>
                                             </td>
                                         </tr>
