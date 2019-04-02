@@ -134,7 +134,40 @@ class CHSearchContent extends Component {
         }
         return (
             <div id="search-results-div" style={customStyle}>
-
+                <Modal show={this.state.isOpen}>
+                    <Modal.Header>
+                        List of Courses
+                        <Button variant="danger" onClick={this.toggleModal}>
+                            X
+                        </Button>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <Table striped hover id="search-results-table">
+                            <tbody>
+                            {
+                                this.state.compareList.map(item => {
+                                    return (
+                                        <tr key={item.CourseId}>
+                                            <td className="search-results-course-image">
+                                                <Image src={item.CourseImage || 'https://increasify.com.au/wp-content/uploads/2016/08/default-image.png'} fluid />;
+                                            </td>
+                                            <td className="search-results-course-data">
+                                                <p className="search-results-course-data-name"><Button className="search-results-course-data-name-link" variant="link" onClick={ () => this.props.updateContent('coursedetails',null,null,item.CourseId)}>{item.Title}</Button></p>
+                                                <p className="search-results-course-data-short-provider-instructors">{"Provider: " +  item.CourseProvider + " | Taught By: " + (item.Instructors? item.Instructors.map(item => item.InstructorName).toString(): "")}</p>
+                                            </td>
+                                        </tr>
+                                    );
+                                })
+                            }
+                            </tbody>
+                        </Table>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button variant="success" style={{float: "right"}} >
+                            Compare
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
                 <Table striped hover id="search-results-table">
                     <thead>
                         <tr>
