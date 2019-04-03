@@ -95,7 +95,7 @@
 				font-weight: bold;
 			}
 
-				.search-results-course-data-name-link {				
+				.search-results-course-data-name-link {
 					color: rgb(207, 204, 19);
 					font-size: 20px;
 					font-weight: bold;
@@ -129,14 +129,32 @@
 				font-weight: bold;
 			}
 
-            .compare-list-model-body{
-                position: relative;
-                display: table; /* This is important */
-                overflow-y: auto;
-                overflow-x: auto;
-                width: auto;
-                min-width: 300px;
-            }
+			.compare-list-model-header{
+				background-color: #292c2f;
+				color: rgb(207, 204, 19);
+				font-size: 20px;
+				font-weight: bold;
+			}
+
+			.compare-list-model-body{
+				background-color: #292c2f;
+				color: white;
+			}
+
+				.modal-course-image {
+					max-width: 100px;
+					max-height: 100px;
+				}
+
+
+				.search-course-modal-link a{
+					font-weight: bold;
+					color: rgb(207, 204, 19);
+				}
+
+			.compare-list-model-footer{
+				background-color: #292c2f;
+			}
 
 			.search-results-course-data-difficulty {
 				color: rgb(207, 204, 19);
