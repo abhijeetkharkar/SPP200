@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../App.css';
 import '../css/common-components.css';
 import '../css/search.css';
-import {Table, Image, Pagination, Button, Modal} from 'react-bootstrap';
+import {Table, Image, Pagination, Button, Modal, Row, Col} from 'react-bootstrap';
 import StarRatingComponent from 'react-star-rating-component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const fetch = require('node-fetch');
@@ -134,35 +134,44 @@ class CHSearchContent extends Component {
         }
         return (
             <div id="search-results-div" style={customStyle}>
-                <Modal show={this.state.isOpen}>
-                    <Modal.Header>
+                <Modal show={this.state.isOpen} >
+                    <Modal.Header className="compare-list-model-header">
                         List of Courses
                         <Button variant="danger" onClick={this.toggleModal}>
                             X
                         </Button>
                     </Modal.Header>
                     <Modal.Body className="compare-list-model-body">
-                        <Table id="search-results-table">
-                            <tbody>
                             {
                                 this.state.compareList.map(item => {
                                     return (
-                                        <tr key={item.CourseId}>
-                                            <td className="search-results-course-image">
-                                                <Image src={item.CourseImage || 'https://increasify.com.au/wp-content/uploads/2016/08/default-image.png'} fluid />;
-                                            </td>
-                                            <td className="search-results-course-data">
-                                                <p className="search-results-course-data-name"><Button className="search-results-course-data-name-link" variant="link" onClick={ () => this.props.updateContent('coursedetails',null,null,item.CourseId)}>{item.Title}</Button></p>
-                                                <p className="search-results-course-data-short-provider-instructors">{"Provider: " +  item.CourseProvider + " | Taught By: " + (item.Instructors? item.Instructors.map(item => item.InstructorName).toString(): "")}</p>
-                                            </td>
-                                        </tr>
+                                        <div>
+                                            <Row key={item.CourseId} className="modal-body-row">
+
+                                                <Col md={3} >
+                                                    <Image className="modal-course-image" src={item.CourseImage || 'https://increasify.com.au/wp-content/uploads/2016/08/default-image.png'} />
+                                                </Col>
+                                                <Col md={9}>
+                                                    <Row className="search-course-modal-link">
+                                                        <a href="" onClick={ () => this.props.updateContent('coursedetails',null,null,item.CourseId)}>{item.Title}</a>
+                                                    </Row>
+                                                    <Row>
+                                                        {"Provider: " +  item.CourseProvider + " | Taught By: " + (item.Instructors? item.Instructors.map(item => item.InstructorName).toString(): "")}
+                                                        <hr/>
+                                                    </Row>
+
+                                                </Col>
+                                            </Row>
+                                            {(this.state.compareList.indexOf(item) !== (this.state.compareList.length - 1)) ? (
+                                                <hr style={{background: "rgb(207, 204, 19)"}}/>
+                                            ) : ([])}
+
+                                        </div>
                                     );
                                 })
                             }
-                            </tbody>
-                        </Table>
                     </Modal.Body>
-                    <Modal.Footer>
+                    <Modal.Footer className="compare-list-model-footer">
                         <Button variant="success" style={{float: "right"}} >
                             Compare
                         </Button>
