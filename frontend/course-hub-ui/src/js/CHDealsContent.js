@@ -28,16 +28,19 @@ class CHDealsContent extends Component{
             totalPages: 1,
             currentPage: 0,
             deals: [],
-            pageList: []
+            pageList: [],
+            category: "all",
         }
         this.createPageList = this.createPageList.bind(this);
         console.log("CURRENT LAYOUT IS ", this.state.currentLayout);
+        console.log("CURRENT CATEGORY IS ", this.state.category);
     }
 
-    componentDidMount() {
-        // console.log("In CHSearchContent, componentDidMount");
+    componentWillReceiveProps(nextProps){
+        // this.setState({category: nextProps.dealCategory});
+        console.log("UPDATED CATEGORY IN CHDEALSCONTENT IS : ", nextProps.dealCategory);
         const payload = {
-            "category": "general",
+            "category": nextProps.dealCategory,
             "page_number": this.props.pageNumber || 0
         }
 
@@ -48,7 +51,28 @@ class CHDealsContent extends Component{
         }).then(response => {
             return response.json();
         }).then(dealsData => {
-            console.log("DATA IS ", dealsData);
+            console.log("DATA IS RECEIVE PROPS ", dealsData);
+            this.setState({ deals: dealsData.deals, totalPages: dealsData.number_of_pages, currentPage: dealsData.current_page, totalCourses: dealsData.total_deals, pageList: this.createPageList(dealsData.current_page, dealsData.number_of_pages) });
+        }).catch(error => {
+            console.log("Error in searchquery backend ", error);
+        });
+    }
+
+    componentDidMount() {
+        // console.log("In CHSearchContent, componentDidMount");
+        const payload = {
+            "category": this.state.category,
+            "page_number": this.props.pageNumber || 0
+        }
+
+        fetch(process.env.REACT_APP_GET_DEALS, {
+            method: 'POST',
+            body: JSON.stringify(payload),
+            headers: { 'Content-Type': 'application/json' }
+        }).then(response => {
+            return response.json();
+        }).then(dealsData => {
+            console.log("DATA IS DID MOUNT", dealsData);
             this.setState({ deals: dealsData.deals, totalPages: dealsData.number_of_pages, currentPage: dealsData.current_page, totalCourses: dealsData.total_deals, pageList: this.createPageList(dealsData.current_page, dealsData.number_of_pages) });
         }).catch(error => {
             console.log("Error in searchquery backend ", error);
@@ -85,6 +109,10 @@ class CHDealsContent extends Component{
         return pageList;
     }
 
+    showCompleteDeal = () => {
+        console.log("SHOW COMPLETE FUNCRTUON IS CALLED ");
+    }
+
     render() {
         var choice = this.state.currentLayout;
         var floatLeft = {
@@ -96,16 +124,29 @@ class CHDealsContent extends Component{
                 { choice === "deals" && 
                     [
                         <div className="dealsPage">
-                            <CHDealsFilter updateContent={this.handleClick} updateFilter={this.handleFilter} updatePage={this.props.handleSignUp}/>
+                            <CHDealsFilter updatePage={this.props.handlePageUpdate} key='keyDealsFilter' updateDeals={this.props.updateDealCategory}/>
                             {
                                 this.state.deals.length > 0 ?
                                     this.state.deals.map((item, index) => {
                                         return (
-                                            <div className={"deals-landing-"+(index+1)}>
-                                                <CHDealsCard title={item.title} provider={item.provider} description={item.description} datePosted={item.datePosted} originalPrice={item.originalPrice} discountedPrice={item.discountedPrice} imageLink={item.imageLink} thumbsUp={item.thumbsUp} />
+                                            <div key={'keyDealsCard'+(index+1)} className={"deals-landing-"+(index+1)}>
+                                                <CHDealsCard title={item.title} provider={item.provider} description={item.description} datePosted={item.datePosted} originalPrice={item.originalPrice} discountedPrice={item.discountedPrice} imageLink={item.imageLink} thumbsUp={item.thumbsUp} id={item.id} showCompleteDeal={this.showCompleteDeal} key={'keyDealsCard'+(index+10)} />
                                             </div>);
                                     }) :
                                     []
+                            },
+                            { this.state.deals.length == 0 &&
+                                <div className="deal_success_alert">
+                                    <Alert variant="danger">
+                                        <Alert.Heading style={floatLeft}>Oh snap! No new Deals!!!</Alert.Heading>
+                                        <br /><br />
+                                        <p style={floatLeft}>
+                                            All the Deals are expired!!!
+                                        </p>
+                                        <br />
+                                        <hr />
+                                    </Alert>
+                                </div>
                             }
                         </div>
                     ]
@@ -113,16 +154,16 @@ class CHDealsContent extends Component{
 
                 {   choice === "addnewdeal" && 
                     [<div className="dealsPage">
-                        <CHDealsFilter updateContent={this.handleClick} updateFilter={this.handleFilter} signUp={this.updateClick}/>
-                        <CHAddDeal updatePage={this.props.handleAddDeal}/>
+                        <CHDealsFilter updatePage={this.props.handlePageUpdate} key='keyDealsFilter' updateDeals={this.props.updateDealCategory}/>
+                        <CHAddDeal updatePage={this.props.handleAddDeal}  key='keyAddDeals' />
                     </div>]
                 }
 
                 {   choice === "adddealsuccessfull" && 
                     [<div className="dealsPage">
-                        <CHDealsFilter updateContent={this.handleClick} updateFilter={this.handleFilter} signUp={this.updateClick}/>
+                        <CHDealsFilter updatePage={this.props.handlePageUpdate} key='keyDealsFilter' updateDeals={this.props.updateDealCategory}/>
                         <div className="deal_success_alert">
-                            <Alert show={true} variant="success">
+                            <Alert variant="success">
                                 <Alert.Heading style={floatLeft}>SUCCESS!!!</Alert.Heading>
                                 <br /><br />
                                 <p style={floatLeft}>
@@ -137,9 +178,9 @@ class CHDealsContent extends Component{
 
                 {   choice === "adddealunsuccessfull" && 
                     [<div className="dealsPage">
-                        <CHDealsFilter updateContent={this.handleClick} updateFilter={this.handleFilter} signUp={this.updateClick}/>
+                        <CHDealsFilter updatePage={this.props.handlePageUpdate} key='keyDealsFilter' updateDeals={this.props.updateDealCategory} />
                         <div className="deal_success_alert">
-                            <Alert show={true} variant="danger">
+                            <Alert variant="danger">
                                 <Alert.Heading style={floatLeft}>Oh snap! You got an error!</Alert.Heading>
                                 <br /><br />
                                 <p style={floatLeft}>

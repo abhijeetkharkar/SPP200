@@ -24,11 +24,13 @@ class CHDeals extends Component {
 			firstName: null,
 			email: null,
 			pagenumber: 0,
+			dealCategory: 'all'
 		};
 
 		this.handleClick = this.handleClick.bind(this);
 		this.handlePagination = this.handlePagination.bind(this);
 		this.handleAuthStateChange = this.handleAuthStateChange.bind(this);
+		this.updateDealCategory = this.updateDealCategory.bind(this);
 	}
 
 	componentWillMount() {
@@ -53,14 +55,14 @@ class CHDeals extends Component {
 			});
 		} else {
 			this.setState({
-				choice: "home"
+				choice: "deals"
 			});
 		}
 	}
 
-	handleClick = (choice, firstName, email) => {
-		this.setState({ choice: choice, firstName: firstName, email: email});
-	}
+	// handleClick = (choice, firstName, email) => {
+	// 	this.setState({ choice: choice, firstName: firstName, email: email});
+	// }
 
     //TODO: Update pagination as per deals API
 	handlePagination = (searchString, pageNumber) => {
@@ -71,12 +73,14 @@ class CHDeals extends Component {
 	}
 
 	handleClick = (choice, firstName, email, queryString) => {
-		this.setState({ choice: choice, firstName: firstName, email: email, queryString: queryString});
+		if (choice == 'home'){
+			choice = 'deals';
+		}
+		this.setState({ choice: choice, dealCategory: 'all', firstName: firstName, email: email, queryString: queryString});
 	}
 
-	handleSignUp = () => {
+	handlePageUpdate = () => {
 		console.log("UPDATE FUNCTION CALLED in CHDEALS");
-		// this.props.history.push('/deals?deals=addnewdeal');
 		this.setState({
 			choice: 'addnewdeal'
 		})
@@ -95,72 +99,78 @@ class CHDeals extends Component {
 		}
 	}
 
+	updateDealCategory = (updatedCategory) => {
+		this.setState({
+			dealCategory : updatedCategory,
+			choice: 'deals'
+		});
+	}
+
 	render() {
 		const choice = this.state.choice;
 		const firstName = this.state.firstName;
 		const email = this.state.email;
 		const pageNumber = this.state.pagenumber;
 
-		// console.log("In CHSearch, render called, pagenumber:", pageNumber, ", choice:", choice, ", searchString:", searchString);
 		return (
 			<div className="App container-fluid">
-				{choice === "home" &&
-					[<CHNavigator updateContent={this.handleClick} updatePage={this.handlePagination} signedIn={false} caller={"deals"} firstName={firstName} email={email} key="keyNavigatorSearch" />,
-					<CHDealsContent updateContent={this.handleClick} updatePage={this.handlePagination} firstName={firstName} email={email} pageNumber={pageNumber} handleSignUp={this.handleSignUp} pageType='deals'/>,
+				{choice === "deals" &&
+					[<CHNavigator updateContent={this.handleClick} signedIn={false} caller={"deals"} firstName={firstName} email={email} key="keyNavigatorSearch" />,
+					<CHDealsContent updateContent={this.handleClick} updatePage={this.handlePagination} firstName={firstName} email={email} pageNumber={pageNumber} handlePageUpdate={this.handlePageUpdate} pageType='deals' key='keyDealsContent' updateDealCategory={this.updateDealCategory} dealCategory={this.state.dealCategory} />,
 					
 					<CHFooter key="keyFooterSearch" />]
 				}
 
 				{choice === "addnewdeal" &&
-					[<CHNavigator updateContent={this.handleClick} updatePage={this.handlePagination} signedIn={false} caller={"deals"} firstName={firstName} email={email} key="keyNavigatorSearch" />,
-					<CHDealsContent updateContent={this.handleClick} updatePage={this.handlePagination} firstName={firstName} email={email} pageNumber={pageNumber} handleSignUp={this.handleSignUp} pageType='addnewdeal' handleAddDeal={this.handleAddDeal}/>,
+					[<CHNavigator updateContent={this.handleClick} signedIn={false} caller={"deals"} firstName={firstName} email={email} key="keyNavigatorSearch" />,
+					<CHDealsContent updateContent={this.handleClick} updatePage={this.handlePagination} firstName={firstName} email={email} pageNumber={pageNumber} handleSignUp={this.handleSignUp} pageType='addnewdeal' handleAddDeal={this.handleAddDeal} key='keyDealsContent' updateDealCategory={this.updateDealCategory} dealCategory={this.state.dealCategory} />,
 					
 					<CHFooter key="keyFooterSearch" />]
 				}
 
 				{choice === "adddealsuccessfull" &&
-					[<CHNavigator updateContent={this.handleClick} updatePage={this.handlePagination} signedIn={false} caller={"deals"} firstName={firstName} email={email} key="keyNavigatorSearch" />,
-					<CHDealsContent updateContent={this.handleClick} updatePage={this.handlePagination} firstName={firstName} email={email} pageNumber={pageNumber} handleSignUp={this.handleSignUp} pageType='adddealsuccessfull' handleAddDeal={this.handleAddDeal}/>,
+					[<CHNavigator updateContent={this.handleClick} signedIn={false} caller={"deals"} firstName={firstName} email={email} key="keyNavigatorSearch" />,
+					<CHDealsContent updateContent={this.handleClick} updatePage={this.handlePagination} firstName={firstName} email={email} pageNumber={pageNumber} handleSignUp={this.handleSignUp} pageType='adddealsuccessfull' handleAddDeal={this.handleAddDeal} key='keyDealsContent' updateDealCategory={this.updateDealCategory} dealCategory={this.state.dealCategory}  updateDealCategory={this.updateDealCategory} dealCategory={this.state.dealCategory} />,
 					
 					<CHFooter key="keyFooterSearch" />]
 				}
 
 				{choice === "adddealunsuccessfull" &&
-					[<CHNavigator updateContent={this.handleClick} updatePage={this.handlePagination} signedIn={false} caller={"deals"} firstName={firstName} email={email} key="keyNavigatorSearch" />,
-					<CHDealsContent updateContent={this.handleClick} updatePage={this.handlePagination} firstName={firstName} email={email} pageNumber={pageNumber} handleSignUp={this.handleSignUp} pageType='adddealunsuccessfull' handleAddDeal={this.handleAddDeal}/>,
+					[<CHNavigator updateContent={this.handleClick} signedIn={false} caller={"deals"} firstName={firstName} email={email} key="keyNavigatorSearch" />,
+					<CHDealsContent updateContent={this.handleClick} updatePage={this.handlePagination} firstName={firstName} email={email} pageNumber={pageNumber} handleSignUp={this.handleSignUp} pageType='adddealunsuccessfull' handleAddDeal={this.handleAddDeal} key='keyDealsContent' updateDealCategory={this.updateDealCategory} dealCategory={this.state.dealCategory} />,
 					
 					<CHFooter key="keyFooterSearch" />]
 				}
 
 				{choice === "loginScreen" &&
-					[<LoginPage updateContent={this.handleClick} key="keyLoginOverlayOnSearch" searchString={searchString}/>,
-					<CHNavigator updateContent={this.handleClick} updatePage={this.handlePagination} signedIn={false} caller={"deals"} key="keyNavigatorLoginOverlayOnSearch" />,
-
+					[<LoginPage updateContent={this.handleClick} key="keyLoginOverlayOnSearch" searchString=""/>,
+					<CHNavigator updateContent={this.handleClick} signedIn={false} caller={"deals"} key="keyNavigatorLoginOverlayOnSearch" />,
+					<CHDealsContent updateContent={this.handleClick} updatePage={this.handlePagination} firstName={firstName} email={email} pageNumber={pageNumber} handleSignUp={this.handleSignUp} pageType='deals' key='keyDealsContent' updateDealCategory={this.updateDealCategory} dealCategory={this.state.dealCategory} />,
 					<CHFooter key="keyFooterLoginOverlayOnSearch" />]
 				}
 
 				{choice === "signupScreen" &&
-					[<SignupPage updateContent={this.handleClick} key="keySignUpOverlayOnSearch" searchString={searchString} />,
-					<CHNavigator updateContent={this.handleClick} updatePage={this.handlePagination} signedIn={false} caller={"deals"} key="keyNavigatorSignUpOverlayOnSearch" />,
-					
+					[<SignupPage updateContent={this.handleClick} key="keySignUpOverlayOnSearch" searchString="" />,
+					<CHNavigator updateContent={this.handleClick} signedIn={false} caller={"deals"} key="keyNavigatorSignUpOverlayOnSearch" />,
+					<CHDealsContent updateContent={this.handleClick} updatePage={this.handlePagination} firstName={firstName} email={email} pageNumber={pageNumber} handleSignUp={this.handleSignUp} pageType='deals' key='keyDealsContent' updateDealCategory={this.updateDealCategory} dealCategory={this.state.dealCategory} />,
 					<CHFooter key="keyFooterSignUpOverlayOnSearch" />]
 				}
 
 				{choice === "forgotPasswordScreen" &&
-					[<ForgotPasswordPage updateContent={this.handleClick} key="keyForgotPasswordOverlayOnSearch" searchString={searchString} />,
-					<CHNavigator updateContent={this.handleClick} updatePage={this.handlePagination} signedIn={false} caller={"deals"} key="keyNavigatorForgotPasswordOverlayOnSearch" />,
-					
+					[<ForgotPasswordPage updateContent={this.handleClick} key="keyForgotPasswordOverlayOnSearch" searchString="" />,
+					<CHNavigator updateContent={this.handleClick} signedIn={false} caller={"deals"} key="keyNavigatorForgotPasswordOverlayOnSearch" />,
+					<CHDealsContent updateContent={this.handleClick} updatePage={this.handlePagination} firstName={firstName} email={email} pageNumber={pageNumber} handleSignUp={this.handleSignUp} pageType='deals' key='keyDealsContent'  updateDealCategory={this.updateDealCategory} dealCategory={this.state.dealCategory} />,
 					<CHFooter key="keyFooterForgotPasswordOverlayOnSearch" />]
 				}
 
 				{choice === "profile" &&
-					[<CHNavigator updateContent={this.handleClick} updatePage={this.handlePagination} signedIn={true} caller={"deals"} firstName={firstName} email={email} key="keyNavigatorSearch" />,
+					[<CHNavigator updateContent={this.handleClick} signedIn={true} caller={"deals"} firstName={firstName} email={email} key="keyNavigatorSearch" />,
 					
 					<CHFooter key="keyFooterSearch" />]
 				}
 
 				{choice === "homeSignedIn" &&
-					[<CHNavigator updateContent={this.handleClick} updatePage={this.handlePagination} signedIn={firstName != null} caller={"deals"} firstName={firstName} email={email} key="keyNavigatorSearch" />,
+					[<CHNavigator updateContent={this.handleClick} signedIn={firstName != null} caller={"deals"} firstName={firstName} email={email} key="keyNavigatorSearch" />,
 					
 					<CHFooter key="keyFooterSearch" />]
 				}

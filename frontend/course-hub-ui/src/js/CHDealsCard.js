@@ -3,52 +3,68 @@ import { withStyles } from '@material-ui/core/styles';
 import classnames from 'classnames';
 import '../css/card.css';
 
-
 class CHDealsCard extends React.Component {
 
   constructor(props, context){
     super(props, context);
     this.state = {
-      title: this.props.title || "Title",
+      id: this.props.id,
+      title: (this.props.title.substring(0, 15) + '...') || "Title",
       description: (this.props.description.substring(0, 50) + '...') || "Description",
       imageLink: this.props.imageLink || "https://firebasestorage.googleapis.com/v0/b/course-hub-73ea7.appspot.com/o/images%2Fpluralsight.png?alt=media&token=08635c9a-5b85-4bfb-8334-0fe6fc9dfd97",
       originalPrice: this.props.originalPrice || 0,
       discountedPrice: this.props.discountedPrice || 0,
       thumbsUp: this.props.thumbsUp || 0,
+      thumbsDown: this.props.thumbsDown || 0,
       datePosted: this.props.datePosted || "None",
       provider: this.props.provider || "None",
     }
   }
 
-  // state = { expanded: false };
+  componentWillReceiveProps(nextProps){
+    this.setState({
+      id: nextProps.id,
+      title: (nextProps.title.substring(0, 15) + '...') || "Title",
+      description: (nextProps.description.substring(0, 50) + '...') || "Description",
+      imageLink: nextProps.imageLink || "https://firebasestorage.googleapis.com/v0/b/course-hub-73ea7.appspot.com/o/images%2Fpluralsight.png?alt=media&token=08635c9a-5b85-4bfb-8334-0fe6fc9dfd97",
+      originalPrice: nextProps.originalPrice || 0,
+      discountedPrice: nextProps.discountedPrice || 0,
+      thumbsUp: nextProps.thumbsUp || 0,
+      thumbsDown: nextProps.thumbsDown || 0,
+      datePosted: nextProps.datePosted || "None",
+      provider: nextProps.provider || "None",
+    })
+  }
 
   render() {
-    const { classes } = this.props;
+    // const { classes } = this.props;
     var customStyle = {
-      'text-align': 'left'
+      'textAlign': 'left'
     };
     var discountedPrice = {
-      'font-size' : '20px',
-      'font-weight': 'bold'
+      'fontSize' : '20px',
+      'fontWeight': 'bold'
     };
 
     return (
       <div style={customStyle}>
-        <div class="card">
-          <img class="card-img-top" src={this.state.imageLink} alt="Card image cap" width='276px' height='180px' />
-          <div class="card-body">
-            <h5 class="card-title"><a href="#">{this.state.title}</a></h5>
+        <div className="card">
+          <img className="card-img-top" src={this.state.imageLink} alt="Card image cap" width='276px' height='180px' />
+          <div className="card-body">
+            <h5 className="card-title"><a href="#" onClick={e => this.props.showCompleteDeal(this.state.id)}>{this.state.title}</a></h5>
             <b> {this.state.provider} </b>
-            <p class="card-text"> {this.state.description} </p>
+            <p className="card-text"> {this.state.description} </p>
           </div>
-          <div class="card-footer">
-            <small class="text-muted">Posted : <b>{this.state.datePosted}</b></small>
+          <div className="card-footer">
+            <small className="text-muted">Posted : <b>{this.state.datePosted}</b></small>
             <br />
-            <div class="deal-strike-through">${this.state.originalPrice}</div>
+            <div className="deal-strike-through">${this.state.originalPrice}</div>
             &nbsp;&nbsp;&nbsp;
-            <div class="deal-notstrike-through" style={discountedPrice}>${this.state.discountedPrice}</div>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-            <i>&#128077; +{this.state.thumbsUp}</i> 
+            <div className="deal-notstrike-through" style={discountedPrice}>${this.state.discountedPrice}</div>
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <i>&#128077;+{this.state.thumbsUp}</i>
+            &nbsp;&nbsp;&nbsp;
+            <i>👎 +{this.state.thumbsDown}</i>
           </div>
         </div>
       </div>
