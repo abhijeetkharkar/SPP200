@@ -13,6 +13,7 @@ import ProfilePage from "./CHProfile";
 import CHAdvertisements from './CHAdvertisements';
 import CHFooter from './CHFooter';
 import firebaseInitialization from '../FirebaseUtils';
+import { searchUser } from '../elasticSearch';
 
 class CHDeals extends Component {
 
@@ -48,10 +49,11 @@ class CHDeals extends Component {
 			}
 			searchUser(payloadSearch).then(first => {
 				this.setState({
-					choice: "homeSignedIn",
+					choice: "dealsSignedIn",
 					firstName: first,
 					email: email
 				});
+				console.log("IN HANDLE AUTH CHANGE CHDEALS 3", this.state);
 			});
 		} else {
 			this.setState({
@@ -60,16 +62,11 @@ class CHDeals extends Component {
 		}
 	}
 
-	// handleClick = (choice, firstName, email) => {
-	// 	this.setState({ choice: choice, firstName: firstName, email: email});
-	// }
-
     //TODO: Update pagination as per deals API
 	handlePagination = (searchString, pageNumber) => {
 		// console.log("In CHSearch, before history, searchString:", searchString, ", pageNumber:", pageNumber);
 		this.setState({pageNumber: pageNumber, searchString: searchString});
 		this.props.history.push('/search?searchString=' + searchString + "&pageNumber=" + pageNumber);
-		// this.forceUpdate();
 	}
 
 	handleClick = (choice, firstName, email, queryString) => {
@@ -169,9 +166,10 @@ class CHDeals extends Component {
 					<CHFooter key="keyFooterSearch" />]
 				}
 
-				{choice === "homeSignedIn" &&
+				{choice === "dealsSignedIn" &&
 					[<CHNavigator updateContent={this.handleClick} signedIn={firstName != null} caller={"deals"} firstName={firstName} email={email} key="keyNavigatorSearch" />,
-					
+					<CHNavigator updateContent={this.handleClick} signedIn={false} caller={"deals"} key="keyNavigatorSignUpOverlayOnSearch" />,
+					<CHDealsContent updateContent={this.handleClick} updatePage={this.handlePagination} firstName={firstName} email={email} pageNumber={pageNumber} handleSignUp={this.handleSignUp} pageType='deals' key='keyDealsContent' updateDealCategory={this.updateDealCategory} dealCategory={this.state.dealCategory} />,
 					<CHFooter key="keyFooterSearch" />]
 				}
 			</div>
