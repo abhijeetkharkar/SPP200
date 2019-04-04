@@ -3,6 +3,7 @@ import React from "react";
 import ProfilePage from "../js/CHProfile";
 import {configure} from "enzyme";
 import Adapter from 'enzyme-adapter-react-16';
+import {doDeleteProfilePicture, doDeleteUser, doGetProfilePicture} from "../FirebaseUtils";
 
 
 const firebase = require('../FirebaseUtils');
@@ -306,6 +307,45 @@ describe('Testing Profile', () => {
             const instance = wrapper.instance();
             instance.handlePasswordSubmit();
 
+        });
+
+        test('Testing User Account Delete - Happy Path', async () => {
+            const handleClick = jest.fn();
+            elastic.elasticDeleteUser.mockImplementationOnce(() => {{return Promise.resolve(true)}});
+            firebase.doGetProfilePicture.mockImplementationOnce(() => {return Promise.resolve("url")});
+            firebase.doDeleteProfilePicture.mockImplementationOnce(() => {return Promise.resolve(true)});
+            firebase.doDeleteUser.mockImplementationOnce(() => {return Promise.resolve(true)});
+
+            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+            const instance = wrapper.instance();
+
+            await instance.handleDeleteAccount();
+            expect(instance.state.elastic_message).toBe("Successfully deleted user data");
+        });
+
+        test('Testing User Account Delete - Fail to delete elastic search data', async () => {
+            const handleClick = jest.fn();
+            elastic.elasticDeleteUser.mockImplementationOnce(() => {{return Promise.resolve(false)}});
+
+            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+            const instance = wrapper.instance();
+
+            await instance.handleDeleteAccount();
+            expect(instance.state.elastic_message).toBe("Couldn't delete elastic search data");
+        });
+
+        test('Testing User Account Delete - Exception', async () => {
+            const handleClick = jest.fn();
+            elastic.elasticDeleteUser.mockImplementationOnce(() => {{return Promise.resolve(true)}});
+            firebase.doGetProfilePicture.mockImplementationOnce(() => {return Promise.resolve("url")});
+            firebase.doDeleteProfilePicture.mockImplementationOnce(() => {return Promise.resolve(true)});
+            firebase.doDeleteUser.mockImplementationOnce(() => {throw new Error('Delete exception encountered')});
+
+            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+            const instance = wrapper.instance();
+
+            await instance.handleDeleteAccount();
+            expect(instance.state.serverErrorMsg).toBe('Delete exception encountered');
         });
     });
 });

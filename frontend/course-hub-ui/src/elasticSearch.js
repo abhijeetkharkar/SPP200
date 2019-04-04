@@ -75,11 +75,11 @@ const getUserDetails = async payload => {
 const updateUser = async (_id, payload) => {
     // console.log("in update user");
     // console.log("payload is:", payload);
-    const response = await fetch(process.env.REACT_APP_AWS_ELASTIC_SEARCH_URL + "users/user/" + _id + '/_update',
+    return await fetch(process.env.REACT_APP_AWS_ELASTIC_SEARCH_URL + "users/user/" + _id + '/_update',
         {
             method: 'POST',
             body: JSON.stringify(payload),
-            headers: { 'Content-Type': 'application/json'}
+            headers: {'Content-Type': 'application/json'}
         }).then(response => {
         return response.json();
     }).then(elasticData => {
@@ -94,8 +94,48 @@ const updateUser = async (_id, payload) => {
         // console.log("Error in elastic search api is ", error)
         return false;
     });
-    return response;
 }
 
+const elasticDeleteUser = async payload => {
+    return await fetch(process.env.REACT_APP_AWS_ELASTIC_SEARCH_URL + "users/_delete_by_query",
+        {
+            method: 'POST',
+            body: JSON.stringify(payload),
+            headers: {'Content-Type': 'application/json'}
+        }).then(response => {
+        return response.json();
+    }).then(elasticData => {
+        if (elasticData.deleted >= 1) {
+            return true;
+        } else {
+            return false;
+        }
+    }).catch(error => {
+        return false;
+    });
+};
 
-export {addUser, searchUser, getUserDetails, updateUser};
+const addDeal = async(payload) => {
+    console.log("ADD DEAL IN ELASTIC SEARCH API");
+    const response = await fetch(process.env.REACT_APP_AWS_ELASTIC_ADD_DEAL_URL,
+        {
+            method: 'POST',
+            body: JSON.stringify(payload),
+            headers: { 'Content-Type': 'application/json'}
+        }).then(response => {
+            return response.json();
+        }).then(elasticData => {
+            if (elasticData['result'].trim() === 'created'){
+                return true;
+            }else{
+                return false;
+            }
+        }).catch(error => {
+            console.log("Error in Adding Deals to Elastic Search database");
+            console.log("Error : ",error);
+            return false;
+        });
+    return response;
+};
+
+export {addUser, searchUser, getUserDetails, updateUser, addDeal, elasticDeleteUser};

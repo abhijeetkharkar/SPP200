@@ -3,6 +3,7 @@
         "endpoint": "https://search-coursehub-mmrw23yio2a4ylx2cgmx34eiyy.us-east-2.es.amazonaws.com/"
     },
     "pagination_parameters" : {
-        "page_size" : 10
+        "page_size" : 10,
+        "deals_page_size" : 8
     }
 }

@@ -1,0 +1,53 @@
+{
+    "settings": {
+      "number_of_shards": 3,
+      "number_of_replicas": 2
+    },
+    "mappings": {
+      "deal": {
+        "properties": {
+          "title": {
+            "type": "text"
+          },
+          "description": {
+            "type": "text"
+          },
+          "link": {
+            "type": "text"
+          },
+          "imageLink": {
+            "type": "text"
+          },
+          "originalPrice": {
+            "type": "float"
+          },
+          "discountedPrice": {
+            "type": "float"
+          },
+          "thumbsUp": {
+            "type": "integer"
+          },
+          "thumbsDown": {
+            "type": "integer"
+          },
+          "datePosted": {
+            "type": "date",
+            "format": "yyyy-MM-dd"
+          },
+          "dealExpiry": {
+            "type": "date",
+            "format": "yyyy-MM-dd"
+          },
+          "user": {
+            "type": "text"
+          },
+          "category": {
+            "type" : "keyword"
+          },
+          "provider": {
+            "type": "text"
+          }
+        }
+      }
+    }
+  }

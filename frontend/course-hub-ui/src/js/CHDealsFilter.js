@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 import '../css/bootstrap.min.css';
 import '../css/search.css';
-import { Modal, Button, Form, Col, Badge } from 'react-bootstrap';
-//const Range = Slider.Range;
+import { Modal, Button, Form, Col, Badge, ButtonToolbar } from 'react-bootstrap';
+
 
 class CHDealsFilters extends Component {
 
@@ -14,61 +14,51 @@ class CHDealsFilters extends Component {
         this.state = {
             dealCategory: new Set([]),
         };
-        
-        this.handleCategoryChange = this.handleCategoryChange.bind(this);
-        this.applyfilter = this.applyfilter.bind(this);
     }
 
-    handleCategoryChange = e => {
-        if(this.selectedCategory.has(e.currentTarget.id)){
-            this.selectedCategory.delete(e.currentTarget.id)
-        }
-        else{
-            this.selectedproviders.add(e.currentTarget.id)
-        }
-        this.setState({courseproviders : this.selectedproviders});
-        console.log(this.state.courseproviders)
-    }
-
-    applyfilter = e => {
-		e.preventDefault();
-        e.stopPropagation();
-        //this.setState({pageNumber: pageNumber});
-        //this.props.history.push('/search?searchString=' + searchString + "&pageNumber=" + pageNumber);
-        this.props.updateFilter(this.state)
-	}
- 
     render() {
-        // console.log("Height",window.innerHeight)
         var customStyle = {
             height: "75vh",
-            marginTop: window.outerHeight * 0.11
+            marginTop: window.outerHeight * 0.11,
+            'backgroundColor': '#6b6d70',
+            'borderColor': '#5f6163'
+        }
+        var headingstyle = {
+            'fontSize': '20px',
+            'color': '#FFFFFF'
+        }
+        var left_lane_deals = {
+            'color': '#FFFFFF'
         }
 
         return (
             <div className="left-lane" style={customStyle} >
-                <Form className="filter-form" onSubmit={e => this.applyfilter(e)}>
-                    <Form.Row>
-                        <label className="provider">Deal Category: </label>
-                    </Form.Row>
-                    <Form.Row>
-                        <Form.Check className="company" label="General" id="General" onChange={this.handleCategoryChange} />
-                    </Form.Row>
-                    <Form.Row>
-                        <Form.Check className="company" label="Computer Science" id="Computer Science" onChange={this.handleCategoryChange} />
-                    </Form.Row>
-                    <Form.Row>
-                        <Form.Check className="company" label="Sociology" id="Sociology" onChange={this.handleCategoryChange} />
-                    </Form.Row>
-                    <Form.Row>
-                        <Form.Check className="company" label="AI" id="AI" onChange={this.handleCategoryChange} />
-                    </Form.Row>
-
-                    
-                    <br />
-                    <Form.Row><Button className="filter-button" size="sm"  type="submit">Filter</Button></Form.Row>
-
-                </Form>
+                <div className="left_lane_deals"  >
+                    <b style={headingstyle}>Category</b><br />
+                    <hr />
+                    <a href="#" style={left_lane_deals} onClick={e => this.props.updateDeals('all')}>All Deals</a><br />
+                    <a href="#" style={left_lane_deals} onClick={e => this.props.updateDeals('General')}>General</a><br />
+                    <a href="#" style={left_lane_deals} onClick={e => this.props.updateDeals('Computer Science')}>Computer Science</a><br />
+                    <a href="#" style={left_lane_deals} onClick={e => this.props.updateDeals('Business')}>Business</a><br />
+                    <a href="#" style={left_lane_deals} onClick={e => this.props.updateDeals('Humanities')}>Humanities</a><br />
+                    <a href="#" style={left_lane_deals} onClick={e => this.props.updateDeals('Data Science')}>Data Science</a><br />
+                    <a href="#" style={left_lane_deals} onClick={e => this.props.updateDeals('Personal Development')}>Personal Development</a><br />
+                    <a href="#" style={left_lane_deals} onClick={e => this.props.updateDeals('Art & Design')}>Art & Design</a><br />
+                    <a href="#" style={left_lane_deals} onClick={e => this.props.updateDeals('Programming')}>Programming</a><br />
+                    <a href="#" style={left_lane_deals} onClick={e => this.props.updateDeals('Engineering')}>Engineering</a><br />
+                    <a href="#" style={left_lane_deals} onClick={e => this.props.updateDeals('Health & Science')}>Health & Science</a><br />
+                    <a href="#" style={left_lane_deals} onClick={e => this.props.updateDeals('Mathematics')}>Mathematics</a><br />
+                    <a href="#" style={left_lane_deals} onClick={e => this.props.updateDeals('Science')}>Science</a><br />
+                    <a href="#" style={left_lane_deals} onClick={e => this.props.updateDeals('Social Science')}>Social Science</a><br />
+                    <a href="#" style={left_lane_deals} onClick={e => this.props.updateDeals('Personal Development')}>Personal Development</a><br />
+                    <a href="#" style={left_lane_deals} onClick={e => this.props.updateDeals('Education & Teaching')}>Education & Teaching</a><br />
+                </div>
+                <br /><br />
+                <div className="add-course-deals">
+                    <ButtonToolbar>
+                        <Button variant="light" onClick={(e) => this.props.updatePage('addnewdeal')}>Add Course Deals</Button>
+                    </ButtonToolbar>
+                </div>
             </div>
         );
     }

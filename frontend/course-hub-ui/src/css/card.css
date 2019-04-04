@@ -1,40 +1,42 @@
 .card{
     width : 100%;
     height: 100%;
-    font-size: 14px;
-    
+    font-size: 13px;
 }
 
 .deals-landing-1{
-    margin-top: 12%;
+    margin-top: 7%;
     margin-left: 3%;
     width : 18%;
     float: left;
-    display: inline-block
+    display: inline-block;
 }
 
 .deals-landing-2{
-    margin-top: 12%;
+    margin-top: 7%;
     margin-left: 1%;
     width : 18%;
     float: left;
     display: inline-block;
+    z-index: -1;
 }
 
 .deals-landing-3{
-    margin-top: 12%;
+    margin-top: 7%;
     margin-left: 1%;
     width : 18%;
     float: left;
     display: inline-block;
+    z-index: -1;
 }
 
 .deals-landing-4{
-    margin-top: 12%;
+    margin-top: 7%;
     margin-left: 1%;
     width : 18%;
     float: left;
     display: inline-block;
+    z-index: -1;
 }
 
 .deals-landing-5{
@@ -72,8 +74,31 @@
     margin-bottom: 150px;
 }
 
-.deals-pagination{
-    margin-bottom: 120px;
+#deals-pagination{
+    /* margin-bottom: 120px; */
     position: relative;
-    align-content: center;
+    margin-left: 20%;
+    padding-top: 1000px;
+    vertical-align: center;
+}
+
+.deal-strike-through{
+    text-decoration: line-through;
+    display: inline;
+}
+
+.deal-notstrike-through{
+    display: inline;
+}
+
+.add-deals{
+    padding-top: 8%;
+    width: 50%;
+    margin-left: 18%;
+}
+
+.deal_success_alert{
+    padding-top: 8%;
+    width: 70%;
+    margin-left: 18%;
 }
