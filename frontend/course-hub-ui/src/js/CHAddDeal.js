@@ -15,6 +15,7 @@ class CHAddDeal extends Component {
     this.handleDiscountedPriceChange = this.handleDiscountedPriceChange.bind(this);
     this.handleDealExpiryChange = this.handleDealExpiryChange.bind(this);
     this.handleProviderChange = this.handleProviderChange.bind(this);
+    this.handleCategoryChange = this.handleCategoryChange.bind(this);
 
     this.state = {
         validated: false,
@@ -24,10 +25,12 @@ class CHAddDeal extends Component {
         imageLink: "https://firebasestorage.googleapis.com/v0/b/course-hub-73ea7.appspot.com/o/images%2Fudemy.png?alt=media&token=0baa8ef1-3f79-4be9-b96e-20fccd7934c8",
         originalPrice: "",
         discountedPrice: "",
-        thumbsUp: 0, 
+        thumbsUp: 0,
+        thumbsDown: 0,
         datePosted: (new Date().getFullYear() + '-' + ('0' + (new Date().getMonth() + 1)).slice(-2) + '-' + ('0' + new Date().getDate()).slice(-2)),
         dealExpiry: ((new Date().getFullYear() + 1) + '-' + ('0' + (new Date().getMonth() + 1)).slice(-2) + '-' + ('0' + new Date().getDate()).slice(-2)),
         user: "",
+        category: "General",
         provider: "Udemy",
         serverErrorMsg: ''
     }
@@ -63,6 +66,12 @@ class CHAddDeal extends Component {
     this.setState({
         discountedPrice: event.target.value
     });
+  }
+
+  handleCategoryChange(event) {
+      this.setState({
+            category : event.target.value
+      });
   }
 
   handleDealExpiryChange(event){
@@ -112,6 +121,7 @@ class CHAddDeal extends Component {
             "datePosted" : this.state.datePosted,
             "dealExpiry" : this.state.dealExpiry,
             "user" : "dummyUser",
+            "category" : this.state.category,
             "provider" : this.state.provider
         };
         console.log("DEAL IS ", deal);
@@ -138,7 +148,7 @@ class CHAddDeal extends Component {
     const deals_heading = {
         'float' : 'left',
         'color' : '#505050'
-    }
+    };
     return (
         <div className="add-deals">
             <h4 style={deals_heading}> ADD NEW COURSE DEALS </h4>
@@ -182,6 +192,28 @@ class CHAddDeal extends Component {
                     <Form.Label style={add_deals}>Deal Expiry Date</Form.Label>
                     <Form.Control required value={this.state.dealExpiry} onChange={this.handleDealExpiryChange} type="date" placeholder='YYYY-MM-DD' min={this.state.datePosted} />
                     <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
+                </Form.Group>
+                </Form.Row>
+                <Form.Row>
+                <Form.Group as={Col} controlId="formGridProvider">
+                    <Form.Label style={add_deals}>Course Category</Form.Label>
+                    <Form.Control required value={this.state.category} onChange={this.handleCategoryChange} as="select">
+                        <option>General</option>
+                        <option>Computer Science</option>
+                        <option>Business</option>
+                        <option>Humanities</option>
+                        <option>Data Science</option>
+                        <option>Personal Development</option>
+                        <option>Art & Design</option>
+                        <option>Programming</option>
+                        <option>Engineering</option>
+                        <option>Health & Science</option>
+                        <option>Mathematics</option>
+                        <option>Science</option>
+                        <option>Social Science</option>
+                        <option>Personal Development</option>
+                        <option>Education & Teaching</option>
+                    </Form.Control>
                 </Form.Group>
                 </Form.Row>
                 <Form.Row>

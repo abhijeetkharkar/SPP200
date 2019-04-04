@@ -27,6 +27,9 @@
           "thumbsUp": {
             "type": "integer"
           },
+          "thumbsDown": {
+            "type": "integer"
+          },
           "datePosted": {
             "type": "date",
             "format": "yyyy-MM-dd"
@@ -37,6 +40,9 @@
           },
           "user": {
             "type": "text"
+          },
+          "category": {
+            "type" : "keyword"
           },
           "provider": {
             "type": "text"

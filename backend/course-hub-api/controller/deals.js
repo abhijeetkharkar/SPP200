@@ -7,7 +7,9 @@ function parseDeals(deals){
     var deal_array = [];
     for (i=0; i< deals.length; i++){
         if (deals[i]._source){
-            deal_array.push(deals[i]._source);
+            var dealData = deals[i]._source;
+            dealData['id'] = deals[i]._id;
+            deal_array.push(dealData);
         }
     }
     return deal_array;
@@ -24,13 +26,45 @@ exports.courseDeals = function(request, response){
         console.log("Search Query Received is ", request.query.category);
 
         page_number = request.body.page_number || 0;
-
-        var dealQuery = {
-            query: {
-                match_all : {}
-            },
-            from: page_number * deals_page_size,
-            size: deals_page_size
+        var currentDate = (new Date().getFullYear() + '-' + ('0' + (new Date().getMonth() + 1)).slice(-2) + '-' + ('0' + new Date().getDate()).slice(-2));
+        console.log("CURRENT DATE IS ", currentDate);
+        
+        var dealQuery = {};
+        if (request.body.category == "all"){
+            dealQuery = {
+                sort : {
+                    thumbsUp : "desc",
+                    thumbsDown : "asc"
+                },
+                query: {
+                    bool : {
+                        filter: [
+                        { range: { dealExpiry: { gte: currentDate }}}
+                        ]
+                    }
+                },
+                from: page_number * deals_page_size,
+                size: deals_page_size
+            }
+        }else{
+            dealQuery = {
+                sort : {
+                    thumbsUp : "desc",
+                    thumbsDown : "asc"
+                },
+                query: {
+                    bool : {
+                        must : {
+                           term : { category : request.body.category } 
+                        },
+                        filter: [ 
+                          { range: { dealExpiry: { gte: currentDate }}}
+                        ]
+                     }
+                },
+                from: page_number * deals_page_size,
+                size: deals_page_size
+            }
         }
 
         fetch(url, {
