@@ -1,0 +1,36 @@
+.reviews-card{
+margin-right: 2%;
+}
+.review-span{
+    display: inline;
+    text-align: left;
+    border:1pt;
+    border-color: black;
+    border-style: solid;
+    margin-right: 1%;
+    padding-left: 1%;
+    padding-top: 0.5%;
+}
+.user-dp{
+    height: 20pt;
+    width:20pt;
+}
+
+.review-posted{
+   float:right;
+   font-size: 10pt;
+   vertical-align: middle;
+   padding-right: 5%
+}
+
+.new-comment-area{
+    float:"left";
+    width:87%;
+    margin-top: 2%;
+}
+
+.new-comment-button{
+    vertical-align: middle;
+    width:13%;
+    margin-bottom: 15%;
+}

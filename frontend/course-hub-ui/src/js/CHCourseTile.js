@@ -8,6 +8,7 @@ import StarRatingComponent from 'react-star-rating-component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import StarRatings from 'react-star-ratings';
 import { getCourseDetail } from '../elasticSearch';
+import CHReview from './CHReviews'
 import Gauge from 'react-radial-gauge';
 const fetch = require('node-fetch');
 
@@ -33,7 +34,11 @@ class CHCourseTile extends Component {
             last_updated: null,
             Difficulty: '',
             imgHeight: 0,
-            imgWidth: 0
+            imgWidth: 0,
+            email:'',
+            signedIn:'',
+            firstName:'',
+            courseId:''
         }
         this.onImageLoad = this.onImageLoad.bind(this);
     }
@@ -149,10 +154,12 @@ class CHCourseTile extends Component {
                         </OverlayTrigger>
                         <span className="course-desc-span">
                             <p style={{ marginTop: "5%" }} className="course-details"><div dangerouslySetInnerHTML={{ __html: this.state.Description }} /></p>
-                            <br></br>
                         </span>
-                       
-
+                        <hr />
+                        <div className="reviews-div">
+                            {this.props.signedIn && <CHReview signedIn={true} courseId={this.props.courseId} firstName={this.props.firstName} email={this.props.email} key="courseReview"/>}
+                            {!this.props.signedIn && <CHReview signedIn={false} courseId={this.props.courseId} firstName={"Anonymus"} email={''} key="courseReview"/>}
+                        </div>
                     </div>
                 </div>
             </div>

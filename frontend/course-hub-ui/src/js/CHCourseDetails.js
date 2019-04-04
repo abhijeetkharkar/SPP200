@@ -8,7 +8,7 @@ import CHCourseTile from './CHCourseTile'
 import CHFooter from './CHFooter';
 import firebaseInitialization from '../FirebaseUtils';
 import { searchUser } from '../elasticSearch';
-
+import CHReview from './CHReviews'
 const fetch = require('node-fetch');
 
 class CHCourseDetails extends Component {
@@ -69,17 +69,18 @@ class CHCourseDetails extends Component {
         <div className="course_details">
             {choice === "home" &&
                 [<CHNavigator updateContent={this.handleClick} signedIn={false} caller={"search"} firstName={firstName} email={email} key="keyNavigatorSearch" />,
-                <div className="my-content-landing">
-                    <CHCourseTile updateCourseTile={this.handleCourseClick} courseId={courseId} key="courseTile"/>
+                <div className="my-content-landing" key="coursedetails">
+                <CHCourseTile updateCourseTile={this.handleCourseClick} courseId={courseId} signedIn={false} caller={"coursedesc"} firstName={firstName} email={email} key="courseTile"/>,
                 </div>,
                 <CHFooter key="keyFooterSearch" />]
             }
             {choice === "homeSignedIn" &&
                 [<CHNavigator updateContent={this.handleClick} signedIn={firstName != null} caller={"search"} firstName={firstName} email={email} key="keyNavigatorSearch" />,
-                <CHCourseTile updateCourseTile={this.handleCourseClick} courseId={courseId} key="courseTile"/>,
+                <div className="my-content-landing" key="coursedetails">
+                <CHCourseTile updateCourseTile={this.handleCourseClick} courseId={courseId} signedIn={firstName != null} caller={"coursedesc"} firstName={firstName} email={email} key="courseTile"/>,
+                </div>,
                 <CHFooter key="keyFooterSearch" />]
             }
-
         </div>
         );
     }

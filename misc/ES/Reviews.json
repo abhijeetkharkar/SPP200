@@ -12,8 +12,14 @@
               "ReviewId":{  
                   "type":"keyword"
               },
+              "ParentReviewId":{
+                  "type":"keyword"
+              },
               "UserId":{  
                    "type":"keyword"
+              },
+              "PostedBy":{
+                "type":"text"
               },
               "PostedByInstructor":{  
                   "type":"boolean"
@@ -27,12 +33,28 @@
               },
 
               "CommentedOn":{  
+                "properties":{
+                	"Date":{
                   "type":"date",
                   "format":"yyyy-MM-dd"
+                 },
+                "Time":{
+                    "type":"date",
+                    "format":"HH:mm:ss"
+                  }
+                 }
               },
               "EditedOn":{  
-                  "type":"date",
-                  "format":"yyyy-MM-dd"
+              	 "properties":{
+                "Date":{
+                    "type":"date",
+                    "format":"yyyy-MM-dd"
+                },
+                "Time":{
+                      "type":"date",
+                	   "format":"HH:mm:ss"
+                }
+              	 }
               }
            }
        }
