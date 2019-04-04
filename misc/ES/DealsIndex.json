@@ -42,7 +42,7 @@
             "type": "text"
           },
           "category": {
-            "type" : "text"
+            "type" : "keyword"
           },
           "provider": {
             "type": "text"

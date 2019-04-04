@@ -54,13 +54,13 @@ exports.courseDeals = function(request, response){
                 },
                 query: {
                     bool : {
-                        must : [
-                            { "match" : { "category" : request.body.category } }
-                         ],
+                        must : {
+                           term : { category : request.body.category } 
+                        },
                         filter: [ 
-                            { range: { dealExpiry: { "gte": currentDate }}} 
+                          { range: { dealExpiry: { gte: currentDate }}}
                         ]
-                      }
+                     }
                 },
                 from: page_number * deals_page_size,
                 size: deals_page_size
