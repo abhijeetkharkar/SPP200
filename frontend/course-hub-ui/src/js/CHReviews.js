@@ -80,7 +80,8 @@ class CHReviews extends Component{
 
         var payload={
             "ReviewId":ReviewId,"CourseId":CourseId,"Description":Description,"UserId":UserId,"ParentReviewId":ParentReviewId,
-            "Edited":Edited,"PostedByInstructor":PostedByInstructor,"CommentedOn":CommentedOn,"EditedOn":EditedOn,"PostedBy":PostedBy
+            "Edited":Edited,"PostedByInstructor":PostedByInstructor,"CommentedOn":CommentedOn,"EditedOn":EditedOn,"PostedBy":PostedBy,
+            "NoofLikes":0,"NoofdisLikes":0
         }
 
         console.log(JSON.stringify(payload));

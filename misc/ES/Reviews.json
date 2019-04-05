@@ -31,7 +31,12 @@
               "Edited":{  
                   "type":"boolean"
               },
-
+              "NoofLikes":{
+                  "type":"integer"
+              },
+              "NoofdisLikes":{
+                "type":"integer"
+            },
               "CommentedOn":{  
                 "properties":{
                 	"Date":{
