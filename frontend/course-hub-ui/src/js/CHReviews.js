@@ -128,7 +128,7 @@ class CHReviews extends Component{
                             }
                     <span className='new-comment' style={{display:"inline"}}>
                     <textarea className='new-comment-area' rows="5" onChange={this.getComment}/>
-                    <Button variant="info" onClick={()=>this.insertNewComment()} size="lg" className="new-comment-button">Comment</Button>
+                    <Button variant="info" onClick={()=>this.insertNewComment()} size="lg" className="new-comment-button">Review</Button>
                     </span>
                 </div>
         );

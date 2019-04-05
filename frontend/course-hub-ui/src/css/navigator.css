@@ -1,6 +1,6 @@
 /*HEADER*/
 #homeHeader {
-    position: relative;
+    position: fixed;
     width: 100%;
 	background-color: #292c2f;
 	z-index: 10 !important;
