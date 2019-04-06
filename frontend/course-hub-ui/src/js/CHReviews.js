@@ -69,7 +69,6 @@ class CHReviews extends Component{
         var Description=this.state.newComment;
         var UserId=this.props.email;
         var PostedBy = this.props.firstName;
-        var Edited=false;
         var PostedByInstructor=false;
         var CommentedOn={Date:'',Time:''};
         CommentedOn.Date=date;
@@ -77,11 +76,12 @@ class CHReviews extends Component{
         var EditedOn={Date:'',Time:''};
         EditedOn.Date=date;
         EditedOn.Time=time;
+        Replies=[]
 
         var payload={
             "ReviewId":ReviewId,"CourseId":CourseId,"Description":Description,"UserId":UserId,"ParentReviewId":ParentReviewId,
-            "Edited":Edited,"PostedByInstructor":PostedByInstructor,"CommentedOn":CommentedOn,"EditedOn":EditedOn,"PostedBy":PostedBy,
-            "NoofLikes":0,"NoofdisLikes":0
+            "PostedByInstructor":PostedByInstructor,"CommentedOn":CommentedOn,"EditedOn":EditedOn,"PostedBy":PostedBy,
+            "NoofLikes":0,"NoofdisLikes":0,"Rating":0,"Reply":Replies
         }
 
         console.log(JSON.stringify(payload));
