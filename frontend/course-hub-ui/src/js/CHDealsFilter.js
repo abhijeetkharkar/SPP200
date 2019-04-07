@@ -18,7 +18,7 @@ class CHDealsFilters extends Component {
 
     render() {
         var customStyle = {
-            height: "75vh",
+            // height: "75vh",
             marginTop: window.outerHeight * 0.11,
             'backgroundColor': '#6b6d70',
             'borderColor': '#5f6163'
@@ -33,7 +33,7 @@ class CHDealsFilters extends Component {
 
         return (
             <div className="left-lane" style={customStyle} >
-                <div className="left_lane_deals"  >
+                <div className="left_lane_deals">
                     <b style={headingstyle}>Category</b><br />
                     <hr />
                     <a href="#" style={left_lane_deals} onClick={e => this.props.updateDeals('all')}>All Deals</a><br />
@@ -52,12 +52,12 @@ class CHDealsFilters extends Component {
                     <a href="#" style={left_lane_deals} onClick={e => this.props.updateDeals('Social Science')}>Social Science</a><br />
                     <a href="#" style={left_lane_deals} onClick={e => this.props.updateDeals('Personal Development')}>Personal Development</a><br />
                     <a href="#" style={left_lane_deals} onClick={e => this.props.updateDeals('Education & Teaching')}>Education & Teaching</a><br />
-                </div>
-                <br /><br />
-                <div className="add-course-deals">
-                    <ButtonToolbar>
-                        <Button variant="light" onClick={(e) => this.props.updatePage('addnewdeal')}>Add Course Deals</Button>
-                    </ButtonToolbar>
+                    <br /><br />
+                    <div className="add-course-deals">
+                        <ButtonToolbar>
+                            <Button variant="light" onClick={(e) => this.props.updatePage('addnewdeal')}>Add Course Deals</Button>
+                        </ButtonToolbar>
+                    </div>
                 </div>
             </div>
         );

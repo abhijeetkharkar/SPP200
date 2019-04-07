@@ -19,6 +19,8 @@ class CHDealsCard extends React.Component {
       datePosted: this.props.datePosted || "None",
       provider: this.props.provider || "None",
     }
+    console.log("THis props are ", this.props);
+    this.loadModal = this.loadModal.bind(this);
   }
 
   componentWillReceiveProps(nextProps){
@@ -36,6 +38,10 @@ class CHDealsCard extends React.Component {
     })
   }
 
+  loadModal = (id) => {
+    this.props.showDeal(id);
+  }
+
   render() {
     // const { classes } = this.props;
     var customStyle = {
@@ -51,7 +57,7 @@ class CHDealsCard extends React.Component {
         <div className="card">
           <img className="card-img-top" src={this.state.imageLink} alt="Card image cap" width='276px' height='180px' />
           <div className="card-body">
-            <h5 className="card-title"><a href="#" onClick={e => this.props.showCompleteDeal(this.state.id)}>{this.state.title}</a></h5>
+            <h5 className="card-title"><a href="javascript:void(0);" onClick={e => this.loadModal(this.state.id)}>{this.state.title}</a></h5>
             <b> {this.state.provider} </b>
             <p className="card-text"> {this.state.description} </p>
           </div>

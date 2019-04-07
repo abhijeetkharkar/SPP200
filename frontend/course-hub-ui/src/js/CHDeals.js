@@ -25,13 +25,22 @@ class CHDeals extends Component {
 			firstName: null,
 			email: null,
 			pagenumber: 0,
-			dealCategory: 'all'
+			dealCategory: 'all',
+			courseID: "",
+			pageType: "deals",
 		};
 
 		this.handleClick = this.handleClick.bind(this);
 		this.handlePagination = this.handlePagination.bind(this);
 		this.handleAuthStateChange = this.handleAuthStateChange.bind(this);
 		this.updateDealCategory = this.updateDealCategory.bind(this);
+		this.showDealModal = this.showDealModal.bind(this);
+	}
+
+	handlePagination = (category, pageNumber) => {
+		console.log("page number is ", pageNumber);
+		this.setState({dealCategory: category, pagenumber: pageNumber});
+		// this.props.history.push('/search?searchString=' + searchString + "&pageNumber=" + pageNumber);
 	}
 
 	componentWillMount() {
@@ -62,12 +71,7 @@ class CHDeals extends Component {
 		}
 	}
 
-    //TODO: Update pagination as per deals API
-	handlePagination = (searchString, pageNumber) => {
-		// console.log("In CHSearch, before history, searchString:", searchString, ", pageNumber:", pageNumber);
-		this.setState({pageNumber: pageNumber, searchString: searchString});
-		this.props.history.push('/search?searchString=' + searchString + "&pageNumber=" + pageNumber);
-	}
+    
 
 	handleClick = (choice, firstName, email, queryString) => {
 		if (choice == 'home'){
@@ -88,11 +92,11 @@ class CHDeals extends Component {
 		if (response === true){
 			this.setState({
 				choice: 'adddealsuccessfull'
-			})
+			});
 		}else{
 			this.setState({
 				choice: 'adddealunsuccessfull'
-			})
+			});
 		}
 	}
 
@@ -102,6 +106,18 @@ class CHDeals extends Component {
 			choice: 'deals'
 		});
 	}
+
+	showDealModal = (courseID) => {
+        console.log("Show Deal Modal function call");
+        console.log("Deal id is ", courseID);
+        this.setState({
+			pageType : "showCompleteDeal",
+			courseID: courseID
+        });
+        // Create a fetch Request to download data from Elastic Search
+        // Setting up dummy values for now
+        console.log("This state is ", this.state);
+    }
 
 	render() {
 		const choice = this.state.choice;
@@ -113,7 +129,7 @@ class CHDeals extends Component {
 			<div className="App container-fluid">
 				{choice === "deals" &&
 					[<CHNavigator updateContent={this.handleClick} signedIn={false} caller={"deals"} firstName={firstName} email={email} key="keyNavigatorSearch" />,
-					<CHDealsContent updateContent={this.handleClick} updatePage={this.handlePagination} firstName={firstName} email={email} pageNumber={pageNumber} handlePageUpdate={this.handlePageUpdate} pageType='deals' key='keyDealsContent' updateDealCategory={this.updateDealCategory} dealCategory={this.state.dealCategory} />,
+					<CHDealsContent showDealModal={this.showDealModal} updateContent={this.handleClick} updatePage={this.handlePagination} firstName={firstName} email={email} pageNumber={pageNumber} handlePageUpdate={this.handlePageUpdate} pageType='deals' courseID={this.state.courseID} key='keyDealsContent' updateDealCategory={this.updateDealCategory} dealCategory={this.state.dealCategory} />,
 					
 					<CHFooter key="keyFooterSearch" />]
 				}
@@ -169,7 +185,7 @@ class CHDeals extends Component {
 				{choice === "dealsSignedIn" &&
 					[<CHNavigator updateContent={this.handleClick} signedIn={firstName != null} caller={"deals"} firstName={firstName} email={email} key="keyNavigatorSearch" />,
 					<CHNavigator updateContent={this.handleClick} signedIn={false} caller={"deals"} key="keyNavigatorSignUpOverlayOnSearch" />,
-					<CHDealsContent updateContent={this.handleClick} updatePage={this.handlePagination} firstName={firstName} email={email} pageNumber={pageNumber} handlePageUpdate={this.handlePageUpdate} handleSignUp={this.handleSignUp} pageType='deals' key='keyDealsContent' updateDealCategory={this.updateDealCategory} dealCategory={this.state.dealCategory} />,
+					<CHDealsContent showDealModal={this.showDealModal} updateContent={this.handleClick} updatePage={this.handlePagination} firstName={firstName} email={email} pageNumber={pageNumber} handlePageUpdate={this.handlePageUpdate} handleSignUp={this.handleSignUp} pageType='deals' key='keyDealsContent' updateDealCategory={this.updateDealCategory} dealCategory={this.state.dealCategory} />,
 					<CHFooter key="keyFooterSearch" />]
 				}
 			</div>
