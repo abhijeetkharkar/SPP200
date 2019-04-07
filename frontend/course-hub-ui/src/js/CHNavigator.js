@@ -119,14 +119,19 @@ class CHNavigator extends Component {
                             </table>
                         </Form>
                         {(sessionStorage.getItem("compareList") && (JSON.parse(sessionStorage.getItem("compareList")).length !== 0)) ? (
-                            <Button className="compare-button" variant="success" onClick={this.props.navCallBack}>
-                                <span>
-                                    Compare
-                                </span>
-                                <span className="compare-button-number">
+                            <div className="btn-group" role="group" aria-label="Basic example">
+                                <Button className="compare-button" variant="success" onClick={this.props.navCallBack}>
+                                    {/*<span>*/}
+                                        Compare
+                                    {/*</span>*/}
+                                    {/*<span className="compare-button-number">*/}
+                                        {/*{JSON.parse(sessionStorage.getItem("compareList")).length}*/}
+                                    {/*</span>*/}
+                                </Button>
+                                <Button className="compare-number" variant="danger" onClick={this.props.navCallBack}>
                                     {JSON.parse(sessionStorage.getItem("compareList")).length}
-                                </span>
-                            </Button>
+                                </Button>
+                            </div>
                         ) : ([])}
 
                     </div>

@@ -140,6 +140,17 @@
                 z-index: 1;
             }
 
+			.compare-number{
+				border-radius: 12px;
+				border: transparent;
+				height: 28px;
+				font-size: 12px;
+				font-weight: bold;
+				margin-top: 28px;
+				position: relative;
+				z-index: 1;
+			}
+
 			.compare-button-number{
 				margin-left: 8px;
 				background-color: red;
@@ -147,6 +158,19 @@
 				font-size: 9px;
 				padding: 4px;
 			}
+
+			.compare-button:active, .compare-button:focus, .compare-button:hover {
+				background-color: #1ea538 !important;
+				box-shadow: none !important;
+				outline: none !important;
+			}
+			.compare-number:active, .compare-number:focus, .compare-number:hover {
+				background-color: #e4303d !important;
+				box-shadow: none !important;
+				outline: none !important;
+			}
+
+
 
 			.compare-list-model-header{
 				background-color: #292c2f;
