@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../css/common-components.css';
 import '../css/navigator.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Dropdown, Image, Form } from 'react-bootstrap';
+import {Button, Dropdown, Image, Form, Row, Col} from 'react-bootstrap';
 import {doSignOut} from '../FirebaseUtils';
 
 class CHNavigator extends Component {
@@ -92,7 +92,7 @@ class CHNavigator extends Component {
             marginTop: this.props.caller === "app"? "auto": "1%",
             maxWidth: "100%"
         };
-        const headerHeightStyle = {height: window.outerHeight * 0.1}
+        const headerHeightStyle = {height: window.outerHeight * 0.1};
         return (
             
             <div id="homeHeader" style={headerHeightStyle}>
@@ -102,21 +102,34 @@ class CHNavigator extends Component {
                 </a>
                 
                 {   this.props.caller === "search" &&
-                    <Form className="search-results-search-form" onSubmit={e => this.handleSearch(e)}>
-                        <input className="search-results-search-box" placeholder="Search courses" value={this.state.searchString} onChange={this.handleSearchStringChange} type="text" />
-                        <Button className="search-results-search-button" type="submit"><FontAwesomeIcon className="search-results-search-button-font" icon={['fa', 'search']} size='sm' /></Button>
-                        <table className="search-results-suggestions-table" style={resultTableStyle}>
-                            <tbody>
+                    <div>
+                        <Form className="search-results-search-form" onSubmit={e => this.handleSearch(e)}>
+                            <input className="search-results-search-box" placeholder="Search courses" value={this.state.searchString} onChange={this.handleSearchStringChange} type="text" />
+                            <Button className="search-results-search-button" type="submit"><FontAwesomeIcon className="search-results-search-button-font" icon={['fa', 'search']} size='sm' /></Button>
+                            <table className="search-results-suggestions-table" style={resultTableStyle}>
+                                <tbody>
                                 {
-                                    this.state.suggestions.length > 0 ? 
-                                    this.state.suggestions.map((item, index) => {
-                                        return (<tr key={index}><td className="search-results-suggestions-table-data" onClick={this.handleOnclick}>{item}</td></tr>);
-                                    }):
-                                    []
+                                    this.state.suggestions.length > 0 ?
+                                        this.state.suggestions.map((item, index) => {
+                                            return (<tr key={index}><td className="search-results-suggestions-table-data" onClick={this.handleOnclick}>{item}</td></tr>);
+                                        }):
+                                        []
                                 }
-                            </tbody>
-                        </table>
-                    </Form> 
+                                </tbody>
+                            </table>
+                        </Form>
+                        {(sessionStorage.getItem("compareList") && (JSON.parse(sessionStorage.getItem("compareList")).length !== 0)) ? (
+                            <Button className="compare-button" variant="success" onClick={this.props.navCallBack}>
+                                <span>
+                                    Compare
+                                </span>
+                                <span className="compare-button-number">
+                                    {JSON.parse(sessionStorage.getItem("compareList")).length}
+                                </span>
+                            </Button>
+                        ) : ([])}
+
+                    </div>
                 }
 
                 <div id="website-navigators-container">
