@@ -46,7 +46,7 @@
     "test": "jest -u --coverage",
     "eject": "react-scripts eject",
     "dev": "webpack --env.ENVIRONMENT=development --config webpack.config.js",
-    "start-dev": "webpack-dev-server --open --config webpack.config.dev.js",
+    "start-dev": "webpack-dev-server --open --hot --config webpack.config.dev.js",
     "build-prod": "webpack --config webpack.config.prod.js"
   },
   "eslintConfig": {

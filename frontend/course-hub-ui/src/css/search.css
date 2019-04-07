@@ -129,6 +129,25 @@
 				font-weight: bold;
 			}
 
+            .compare-button{
+                border-radius: 12px;
+                border: transparent;
+                height: 28px;
+                font-size: 12px;
+                font-weight: bold;
+                margin-top: 28px;
+                position: relative;
+                z-index: 1;
+            }
+
+			.compare-button-number{
+				margin-left: 8px;
+				background-color: red;
+				border-radius: 50%;
+				font-size: 9px;
+				padding: 4px;
+			}
+
 			.compare-list-model-header{
 				background-color: #292c2f;
 				color: rgb(207, 204, 19);
@@ -151,6 +170,19 @@
 					font-weight: bold;
 					color: rgb(207, 204, 19);
 				}
+
+                .remove-course-modal-button{
+                    background-color: #1d2124;
+                    color: white;
+                    text-decoration: none;
+                }
+
+                .remove-course-modal-button:hover{
+                    color: white;
+                    text-decoration: none;
+                    background-color: #1d2124;
+                }
+
 
 			.compare-list-model-footer{
 				background-color: #292c2f;
