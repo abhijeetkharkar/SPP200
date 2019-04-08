@@ -6,10 +6,6 @@ class CHCompareModal extends Component {
 
     constructor(props, context) {
         super(props, context);
-        this.state = {
-
-        }
-
     }
 
     removeItemFromModal(item){
@@ -18,6 +14,10 @@ class CHCompareModal extends Component {
             parent_div.parentElement.removeChild(parent_div);
         }
         this.props.removeFromModal(item);
+        if (this.props.modalCompareList.length <= 1){
+            document.getElementById("compare-button").disabled = true;
+        }
+
     }
 
     render() {
@@ -63,7 +63,7 @@ class CHCompareModal extends Component {
                     }
                 </Modal.Body>
                 <Modal.Footer className="compare-list-model-footer">
-                    <Button variant="success" style={{float: "right"}} >
+                    <Button id="compare-button" disabled={this.props.modalCompareList.length <= 1} variant="primary" style={{float: "right"}} onClick={() => this.props.updateContent('compareCourses',null, null, null)} >
                         Compare
                     </Button>
                 </Modal.Footer>
