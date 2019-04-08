@@ -1,12 +1,11 @@
 .card{
     width : 100%;
     height: 100%;
-    font-size: 14px;
-    
+    font-size: 13px;
 }
 
 .deals-landing-1{
-    margin-top: 7%;
+    margin-top: 6.5em;
     margin-left: 3%;
     width : 18%;
     float: left;
@@ -14,7 +13,7 @@
 }
 
 .deals-landing-2{
-    margin-top: 7%;
+    margin-top: 6.5em;
     margin-left: 1%;
     width : 18%;
     float: left;
@@ -23,7 +22,7 @@
 }
 
 .deals-landing-3{
-    margin-top: 7%;
+    margin-top: 6.5em;
     margin-left: 1%;
     width : 18%;
     float: left;
@@ -32,7 +31,7 @@
 }
 
 .deals-landing-4{
-    margin-top: 7%;
+    margin-top: 6.5em;
     margin-left: 1%;
     width : 18%;
     float: left;
@@ -41,14 +40,15 @@
 }
 
 .deals-landing-5{
-    margin-top: 4%;
+    margin-top: 1em;
     margin-left: 3%;
     width : 18%;
     float: left;
     display: inline-block;
 }
+
 .deals-landing-6{
-    margin-top: 4%;
+    margin-top: 1em;
     margin-left: 1%;
     width : 18%;
     float: left;
@@ -56,7 +56,7 @@
 }
 
 .deals-landing-7{
-    margin-top: 4%;
+    margin-top: 1em;
     margin-left: 1%;
     width : 18%;
     float: left;
@@ -64,22 +64,22 @@
 }
 
 .deals-landing-8{
-    margin-top: 4%;
+    margin-top: 1em;
     margin-left: 1%;
     width : 18%;
     float: left;
     display: inline-block;
 }
 
-.dealsPage{
+/* .dealsPage{
     margin-bottom: 150px;
-}
+} */
 
 #deals-pagination{
     /* margin-bottom: 120px; */
     position: relative;
     margin-left: 20%;
-    padding-top: 1000px;
+    margin-top: 58em;
     vertical-align: center;
 }
 
@@ -95,5 +95,11 @@
 .add-deals{
     padding-top: 8%;
     width: 50%;
+    margin-left: 18%;
+}
+
+.deal_success_alert{
+    padding-top: 8%;
+    width: 70%;
     margin-left: 18%;
 }

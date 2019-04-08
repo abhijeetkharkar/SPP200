@@ -111,7 +111,7 @@ const doDeleteProfilePicture = async () =>{
   })
 };
 
-const doFirebaseDeleteUser = async () => {
+const doDeleteUser = async () => {
   const response = await firebaseInitialization.auth().currentUser.delete().then(function() {
     return true;
   }).catch(error => {
@@ -131,7 +131,7 @@ export {
   //isUserSignedIn,
   doPasswordReset,
   doPasswordUpdate,
-  doFirebaseDeleteUser,
+  doDeleteUser,
   doUploadProfilePicture,
   doGetProfilePicture,
   doDeleteProfilePicture

@@ -23,7 +23,6 @@ class CHSearchContent extends Component {
     }
 
     componentDidMount() {
-        // console.log("In CHSearchContent, componentDidMount");
         const payload = {
             "term": this.props.searchString,
             "page_number": this.props.pageNumber || 0

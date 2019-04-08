@@ -1,38 +1,39 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { Button, Form, Col } from 'react-bootstrap';
 import { withStyles } from '@material-ui/core/styles';
 import classnames from 'classnames';
 import '../css/card.css';
+import {addDeal, addUser} from '../elasticSearch';
 
-
-class CHAddDeal extends React.Component {
-
+class CHAddDeal extends Component {
   constructor(props, context){
     super(props, context);
-    this.state = {
-        show: false,
-        validated: false,
-        title: "",
-        description : "",
-        link: "",
-        imageLink: "",
-        originalPrice: "",
-        discountedPrice: "",
-        thumbsUp: 0, 
-        datePosted: (new Date().getFullYear() + '-' + ('0' + (new Date().getMonth() + 1)).slice(-2) + '-' + ('0' + new Date().getDate()).slice(-2)),
-        dealExpiry: ((new Date().getFullYear() + 1) + '-' + ('0' + (new Date().getMonth() + 1)).slice(-2) + '-' + ('0' + new Date().getDate()).slice(-2)),
-        user: "",
-        provider: "",
-        serverErrorMsg: ''
-    }
     this.handleTitleChange = this.handleTitleChange.bind(this);
     this.handleDescriptionChange = this.handleDescriptionChange.bind(this);
     this.handleLinkChange = this.handleLinkChange.bind(this);
-    this.handleImageLinkChange = this.handleImageLinkChange.bind(this);
     this.handleOriginalPriceChange = this.handleOriginalPriceChange.bind(this);
     this.handleDiscountedPriceChange = this.handleDiscountedPriceChange.bind(this);
     this.handleDealExpiryChange = this.handleDealExpiryChange.bind(this);
     this.handleProviderChange = this.handleProviderChange.bind(this);
+    this.handleCategoryChange = this.handleCategoryChange.bind(this);
+
+    this.state = {
+        validated: false,
+        title: "",
+        description : "",
+        link: "",
+        imageLink: "https://firebasestorage.googleapis.com/v0/b/course-hub-73ea7.appspot.com/o/images%2Fudemy.png?alt=media&token=0baa8ef1-3f79-4be9-b96e-20fccd7934c8",
+        originalPrice: "",
+        discountedPrice: "",
+        thumbsUp: 0,
+        thumbsDown: 0,
+        datePosted: (new Date().getFullYear() + '-' + ('0' + (new Date().getMonth() + 1)).slice(-2) + '-' + ('0' + new Date().getDate()).slice(-2)),
+        dealExpiry: ((new Date().getFullYear() + 1) + '-' + ('0' + (new Date().getMonth() + 1)).slice(-2) + '-' + ('0' + new Date().getDate()).slice(-2)),
+        user: "",
+        category: "General",
+        provider: "Udemy",
+        serverErrorMsg: ''
+    }
 
     console.log("DATE POSTED  ",this.state.datePosted);
   }
@@ -45,51 +46,99 @@ class CHAddDeal extends React.Component {
 
   handleDescriptionChange(event) {
       this.setState({
-          description: event.target.description
-      })
+          description: event.target.value
+      });
   }
 
   handleLinkChange(event) {
         this.setState({
-            link: event.target.link
-        })
-  }
-
-  handleImageLinkChange(event){
-      this.setState({
-          imageLink: event.target.imageLink
-      })
+            link: event.target.value
+        });
   }
 
   handleOriginalPriceChange(event){
       this.setState({
-          originalPrice: event.target.originalPrice
-      })
+          originalPrice: event.target.value
+      });
   }
 
   handleDiscountedPriceChange(event){
     this.setState({
-        discountedPrice: event.target.discountedPrice
-    })
+        discountedPrice: event.target.value
+    });
+  }
+
+  handleCategoryChange(event) {
+      this.setState({
+            category : event.target.value
+      });
   }
 
   handleDealExpiryChange(event){
       this.setState({
-          dealExpiry: event.target.dealExpiry
-      })
+          dealExpiry: event.target.value
+      });
   }
 
   handleProviderChange(event){
       this.setState({
-          provider: event.target.provider
-      })
+          provider: event.target.value
+      });
+      if (event.target.value == "PluralSight"){
+          this.setState({ imageLink: "https://firebasestorage.googleapis.com/v0/b/course-hub-73ea7.appspot.com/o/images%2Fpluralsight.png?alt=media&token=08635c9a-5b85-4bfb-8334-0fe6fc9dfd97"});
+      }else if(event.target.value == "Udemy"){
+          this.setState({ imageLink: "https://firebasestorage.googleapis.com/v0/b/course-hub-73ea7.appspot.com/o/images%2Fudemy.png?alt=media&token=0baa8ef1-3f79-4be9-b96e-20fccd7934c8"});
+      }else if(event.target.value == "EDX"){
+          this.setState({ imageLink: "https://firebasestorage.googleapis.com/v0/b/course-hub-73ea7.appspot.com/o/images%2Fedx.jpg?alt=media&token=713c5220-222a-402a-b8d3-d7ba9db15991"});
+      }else if(event.target.value == "Coursera"){
+        this.setState({ imageLink: "https://firebasestorage.googleapis.com/v0/b/course-hub-73ea7.appspot.com/o/images%2Fcoursera.png?alt=media&token=42504f25-018c-4084-b3ed-b556a0d8c400"});
+      }else if(event.target.value == "Udacity"){
+        this.setState({ imageLink: "https://firebasestorage.googleapis.com/v0/b/course-hub-73ea7.appspot.com/o/images%2Fudacity.jpg?alt=media&token=fbfe7041-eb87-4bde-bfd5-181e0c9a1487"});
+      }else if(event.target.value == "Iversity"){
+        this.setState({ imageLink: "https://firebasestorage.googleapis.com/v0/b/course-hub-73ea7.appspot.com/o/images%2Fiversity.png?alt=media&token=a08c29dd-cf68-43c5-8207-5566f55b4207"});
+      }else if(event.target.value == "Open Learning"){
+        this.setState({ imageLink: "https://firebasestorage.googleapis.com/v0/b/course-hub-73ea7.appspot.com/o/images%2FOpenLearning.png?alt=media&token=8afe1c0c-677b-437c-a6bc-c66c01590340"});
+      }else{
+        this.setState({ imageLink: "https://firebasestorage.googleapis.com/v0/b/course-hub-73ea7.appspot.com/o/images%2F276*180px.svg?alt=media&token=0d8e5d9d-9087-4135-944b-fe9b87b96fb0"});
+      }
   }
 
-  handleSubmit(event) {
+  handleSubmit = async event => {
       event.preventDefault();
       console.log("HANDLE SUBMIT FUNCTION CALLED");
       console.log("Event Generated is ", event);
-      
+      console.log("STATE IS ", this.state);
+
+      try{
+        const deal = {
+            "title" : this.state.title,
+            "description" : this.state.description,
+            "link" : this.state.link,
+            "imageLink" : this.state.imageLink,
+            "originalPrice" : this.state.originalPrice,
+            "discountedPrice" : this.state.discountedPrice,
+            "thumbsUp" : 0,
+            "thumbsDown" : 0,
+            "datePosted" : this.state.datePosted,
+            "dealExpiry" : this.state.dealExpiry,
+            "user" : "dummyUser",
+            "category" : this.state.category,
+            "provider" : this.state.provider
+        };
+        console.log("DEAL IS ", deal);
+        addDeal(deal)
+        .then(response => {
+            if (response == true){
+                console.log("Deal Successfully added");
+                this.props.updatePage(response);
+            }else{
+                console.log("Cannot Add Deal");
+                this.props.updatePage(response);
+            }
+        });
+      }catch(error){
+          console.log("Error found is ", error);
+      }
   }
 
   render() {
@@ -100,7 +149,7 @@ class CHAddDeal extends React.Component {
     const deals_heading = {
         'float' : 'left',
         'color' : '#505050'
-    }
+    };
     return (
         <div className="add-deals">
             <h4 style={deals_heading}> ADD NEW COURSE DEALS </h4>
@@ -114,7 +163,6 @@ class CHAddDeal extends React.Component {
                 </Form.Row>
                 <Form.Row>
                 <Form.Group as={Col} controlId="formGridDescription">
-                    {/* <Form.Control required value={this.state.description} onChange={this.handleDescriptionChange} type="text" placeholder="Description" /> */}
                     <Form.Control required value={this.state.description} onChange={this.handleDescriptionChange} as="textarea" rows="4" minlength='50' maxlength='1000' placeholder="Description" />                
                     <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                 </Form.Group>
@@ -122,15 +170,6 @@ class CHAddDeal extends React.Component {
                 <Form.Row>
                 <Form.Group as={Col} controlId="formGridLink">
                     <Form.Control required value={this.state.link} onChange={this.handleLinkChange} type="url" placeholder="Deal Web-Link" />
-                    <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-                    <Form.Text className="text-muted" style={add_deals}>
-                    Enter Complete link in the form http://www.course-hub/deals
-                    </Form.Text>
-                </Form.Group>
-                </Form.Row>
-                <Form.Row>
-                <Form.Group as={Col} controlId="formGridImageLink">
-                    <Form.Control required value={this.state.imageLink} onChange={this.handleImageLinkChange} type="url" placeholder="Image-Link" />
                     <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                     <Form.Text className="text-muted" style={add_deals}>
                     Enter Complete link in the form http://www.course-hub/deals
@@ -158,8 +197,30 @@ class CHAddDeal extends React.Component {
                 </Form.Row>
                 <Form.Row>
                 <Form.Group as={Col} controlId="formGridProvider">
+                    <Form.Label style={add_deals}>Course Category</Form.Label>
+                    <Form.Control required value={this.state.category} onChange={this.handleCategoryChange} as="select">
+                        <option>General</option>
+                        <option>Computer Science</option>
+                        <option>Business</option>
+                        <option>Humanities</option>
+                        <option>Data Science</option>
+                        <option>Personal Development</option>
+                        <option>Art & Design</option>
+                        <option>Programming</option>
+                        <option>Engineering</option>
+                        <option>Health & Science</option>
+                        <option>Mathematics</option>
+                        <option>Science</option>
+                        <option>Social Science</option>
+                        <option>Personal Development</option>
+                        <option>Education & Teaching</option>
+                    </Form.Control>
+                </Form.Group>
+                </Form.Row>
+                <Form.Row>
+                <Form.Group as={Col} controlId="formGridProvider">
                     <Form.Label style={add_deals}>Course Provider</Form.Label>
-                        <Form.Control required value={this.state.provider} onChange={this.handleProviderChange} as="select">
+                    <Form.Control required value={this.state.provider} onChange={this.handleProviderChange} as="select">
                         <option>Udemy</option>
                         <option>EDX</option>
                         <option>Coursera</option>

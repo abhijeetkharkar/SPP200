@@ -39,8 +39,13 @@
     "react-select": "^2.0.0",
     "react-social-login-buttons": "^2.3.0",
     "react-star-rating-component": "^1.4.1",
-    "suggestion-react-input-search": "^1.2.1"
-  },
+    "react-star-ratings": "^2.3.0",
+    "suggestion-react-input-search": "^1.2.1",
+    "react-native-vector-icons": "^6.4.2",
+    "react-svg-gauge": "^1.0.10",
+    "react-radial-gauge": "^0.1.1",
+    "read-more-react": "^1.0.9"
+    },
   "scripts": {
     "start": "webpack-dev-server --mode development --open --hot",
     "build": "webpack --env.development --config webpack.config.js",

@@ -12,8 +12,15 @@
               "ReviewId":{  
                   "type":"keyword"
               },
+              
               "UserId":{  
                    "type":"keyword"
+              },
+               "URL":{
+                 "type":"text"
+               },
+              "PostedBy":{
+                "type":"text"
               },
               "PostedByInstructor":{  
                   "type":"boolean"
@@ -22,18 +29,90 @@
                   "type":"text",
                   "analyzer":"standard"
               },
-              "Edited":{  
-                  "type":"boolean"
+              "NoofLikes":{
+                  "type":"integer"
               },
-
+              "NoofdisLikes":{
+                "type":"integer"
+            },
+            "Rating":{
+                "type":"float"
+            },
               "CommentedOn":{  
+                "properties":{
+                	"Date":{
                   "type":"date",
                   "format":"yyyy-MM-dd"
+                 },
+                "Time":{
+                    "type":"date",
+                    "format":"HH:mm:ss"
+                  }
+                 }
               },
               "EditedOn":{  
-                  "type":"date",
-                  "format":"yyyy-MM-dd"
-              }
+              	 "properties":{
+                "Date":{
+                    "type":"date",
+                    "format":"yyyy-MM-dd"
+                },
+                "Time":{
+                      "type":"date",
+                	   "format":"HH:mm:ss"
+                }
+              	 }
+              },
+            "Reply":{
+                "properties":{
+                    "CourseId":{  
+                        "type":"keyword"
+                    },
+                   "ReplyId":{  
+                       "type":"keyword"
+                   },
+                   
+                   "UserId":{  
+                        "type":"keyword"
+                   },
+                      "URL":{
+                 "type":"text"
+               },
+                   "PostedBy":{
+                     "type":"text"
+                   },
+                   "PostedByInstructor":{  
+                       "type":"boolean"
+                    },
+                   "Description":{  
+                       "type":"text",
+                       "analyzer":"standard"
+                   } ,
+                   "CommentedOn":{  
+                    "properties":{
+                        "Date":{
+                      "type":"date",
+                      "format":"yyyy-MM-dd"
+                     },
+                    "Time":{
+                        "type":"date",
+                        "format":"HH:mm:ss"
+                      }
+                     }
+                  },
+                  "EditedOn":{  
+                       "properties":{
+                    "Date":{
+                        "type":"date",
+                        "format":"yyyy-MM-dd"
+                    },
+                    "Time":{
+                          "type":"date",
+                           "format":"HH:mm:ss"
+                    }
+                       }
+                  }
+                }
+            }
            }
        }
    }
