@@ -101,7 +101,8 @@ class CHDeals extends Component {
 	updateDealCategory = (updatedCategory) => {
 		this.setState({
 			dealCategory : updatedCategory,
-			choice: 'deals'
+			choice: 'deals',
+			pagenumber: 0
 		});
 	}
 
@@ -127,7 +128,7 @@ class CHDeals extends Component {
 			<div className="App container-fluid">
 				{choice === "deals" &&
 					[<CHNavigator updateContent={this.handleClick} signedIn={firstName} caller={"deals"} firstName={firstName} email={email} key="keyNavigatorSearch" />,
-					<CHDealsContent updatePage={this.handlePagination} firstName={firstName} email={email} pageNumber={pageNumber} handlePageUpdate={this.handlePageUpdate} pageType='deals' courseID={this.state.courseID} key='keyDealsContent' updateDealCategory={this.updateDealCategory} dealCategory={this.state.dealCategory} />,
+					<CHDealsContent updatePage={this.handlePagination} firstName={firstName} email={email} pageNumber={pageNumber} handlePageUpdate={this.handlePageUpdate} pageType='deals' courseID={this.state.courseID} key='keyDealsContent' updateDealCategory={this.updateDealCategory} dealCategory={this.state.dealCategory}/>,
 					
 					<CHFooter key="keyFooterSearch" />]
 				}

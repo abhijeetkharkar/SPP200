@@ -26,7 +26,7 @@ class CHDealsContent extends Component{
         this.state = {
             currentLayout: this.props.pageType,
             totalPages: 1,
-            currentPage: 0,
+            currentPage: this.props.pageNumber,
             deals: [],
             pageList: [],
             category: this.props.dealCategory,
@@ -46,7 +46,7 @@ class CHDealsContent extends Component{
     componentWillReceiveProps(nextProps){
         console.log("UPDATED CATEGORY IN CHDEALSCONTENT IS : ", nextProps.dealCategory, nextProps.pageNumber);
         if (nextProps.pageType == 'addnewdeal'){
-            this.setState({currentLayout: nextProps.pageType});
+            this.setState({currentLayout: nextProps.pageType, currentPage: nextProps.pageNumber});
         }else{
             this.setState({category: nextProps.dealCategory, currentPage: nextProps.pageNumber});
             const payload = {
