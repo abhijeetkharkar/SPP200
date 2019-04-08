@@ -8,13 +8,14 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import StarRatings from 'react-star-ratings';
 import CHReview from './CHReviews'
 import Gauge from 'react-radial-gauge';
-const fetch = require('node-fetch');
+import {getCourseDetails} from '../elasticSearch';
 
 class CHCourseTile extends Component {
 
     constructor(props, context) {
         super(props, context);
         this.state = {
+            elasticId: -1,
             Title: '',
             Description: '',
             Category: null,
@@ -59,26 +60,17 @@ class CHCourseTile extends Component {
             "query": {
                 "term": { "CourseId": this.props.courseId }
             }
-        }
+        };
         // console.log(JSON.stringify(payload))
-        fetch(process.env.REACT_APP_AWS_ELASTIC_SEARCH_URL + "courses/_search/",
-        {
-            method: 'POST',
-            body: JSON.stringify(payload),
-            headers: { 'Content-Type': 'application/json' }
-        }).then(response => {
-            return response.json();
-        }).then(coursees => {
-            var coursehits = coursees.hits.hits;
-            var courseInfo = {};
-            if (coursehits.length > 0) {
-                courseInfo = coursehits[0]._source;
+        getCourseDetails(payload).then(courseInfo => {
+            if (courseInfo != null) {
+                console.log(JSON.stringify(courseInfo.id));
                 this.setState({
-                    Title: courseInfo.Title, Description: courseInfo.Description, Category: courseInfo.Category,
-                    CourseDuration: courseInfo.CourseDuration, CourseImage: courseInfo.CourseImage, 
-                    CourseProvider: courseInfo.CourseProvider, Instructors: courseInfo.Instructors, 
-                    Paid: courseInfo.Paid, Price: courseInfo.Price, PriceCurrency: courseInfo.PriceCurrency,
-                    Rating: courseInfo.Rating, SelfPaced: courseInfo.SelfPaced, StartDate: courseInfo.StartDate, 
+                    elasticId: courseInfo.id, Title: courseInfo.Title, Description: courseInfo.Description, 
+                    Category: courseInfo.Category, CourseDuration: courseInfo.CourseDuration, CourseImage: courseInfo.CourseImage, 
+                    CourseProvider: courseInfo.CourseProvider, Instructors: courseInfo.Instructors, Paid: courseInfo.Paid, 
+                    Price: courseInfo.Price, PriceCurrency: courseInfo.PriceCurrency, SelfPaced: courseInfo.SelfPaced, 
+                    Rating: courseInfo.Rating, numberOfRatings: courseInfo.NoofRatings, StartDate: courseInfo.StartDate, 
                     URL: courseInfo.URL, last_updated: courseInfo.last_updated, Difficulty: courseInfo.Difficulty
                 });
             }
@@ -97,7 +89,7 @@ class CHCourseTile extends Component {
     }
 
     render() {
-        console.log("In CHCourseTile, render method called");
+        console.log("In CHCourseTile, render method called, elasticId: ", this.state.elasticId);
         var customStyle = {
             marginTop: window.outerHeight * 0.11
         }
@@ -110,7 +102,7 @@ class CHCourseTile extends Component {
 
                 <div className="course-features" style={{ height: this.state.imgHeight }}>
                     <span className='rating-div' >
-                    <StarRatings rating={this.state.Rating!=0?this.state.Rating:1.5} starRatedColor="#CCCC00" starHoverColor="#CCCC00" starEmptyColor="grey" numberOfStars={5} name='rating' starDimension="30px" starSpacing="4px" />
+                    <StarRatings rating={this.state.Rating} starRatedColor="#CCCC00" starHoverColor="#CCCC00" starEmptyColor="grey" numberOfStars={5} name='rating' starDimension="30px" starSpacing="4px" />
                     {/* <Badge pill variant="info" style={{display:"inline", float:"right",paddingRight:"3%",fontSize:"20px",color:"white",backgroundColor:"black"}}>{this.state.Rating}/5.0</Badge> */}
                     </span>
                     <div className="course-price-details">
@@ -171,7 +163,11 @@ class CHCourseTile extends Component {
                     </Button>
                 </div>
                 
-                <CHReview updateContent={this.props.updateContent} courseId={this.props.courseId} writeReview={this.state.writeReview} signedIn={this.props.signedIn} firstName={this.props.firstName} email={this.props.email} key="courseReview"/>
+                <CHReview updateContent={this.props.updateContent} elasticId={this.state.elasticId} 
+                            courseId={this.props.courseId} rating={this.state.Rating} 
+                            numberOfRatings={this.state.numberOfRatings} writeReview={this.state.writeReview} 
+                            signedIn={this.props.signedIn} firstName={this.props.firstName} 
+                            email={this.props.email} key="courseReview"/>
                 
             </div>            
         );

@@ -211,7 +211,7 @@ class CHSearchContent extends Component {
                                                         <StarRatingComponent 
                                                             name={"search-results-course-rating"}
                                                             starCount={5}
-                                                            value={item.Rating + 1}
+                                                            value={item.Rating}
                                                             editing={false}
                                                             emptyStarColor={"#5e5d25"}
                                                             style = {{position: "inherit !important"}}

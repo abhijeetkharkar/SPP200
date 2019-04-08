@@ -118,18 +118,20 @@
 
                 .review-up-down-vote {
                     float: right;
-                    width: 20%;
+                    width: 30%;
                     margin-top: 3%;
                 }
 
                     .review-thumbs-up {
                         float: left;
                         background-color: white !important;
+                        color: black !important;
                         border: 0px;
                     }
 
                     .review-thumbs-down {
                         float: right;
                         background-color: white !important;
+                        color: black !important;
                         border: 0px;
                     }
