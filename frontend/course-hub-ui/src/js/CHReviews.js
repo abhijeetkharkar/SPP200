@@ -1,35 +1,42 @@
-import React,{ Component } from "react";
-import CHNavigator from './CHNavigator';
-import CHCourseTile from './CHCourseTile'
-import CHFooter from './CHFooter';
-import firebaseInitialization from '../FirebaseUtils';
-import { Form, Button, Image, Card, Tooltip, OverlayTrigger, FormControl } from 'react-bootstrap';
+import React, { Component } from "react";
+import {doGetProfilePicture} from '../FirebaseUtils';
+import { Form, Button, Image, Modal, Overlay, Tooltip } from 'react-bootstrap';
 import '../App.css';
 import '../css/common-components.css';
-import '../css/coursedetails.css';
-import '../css/coursereviews.css';
+import '../css/course-details.css';
+import '../css/course-reviews.css';
 import ReadMoreReact from 'read-more-react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import StarRatingComponent from 'react-star-rating-component';
 
-class CHReviews extends Component{
+class CHReviews extends Component {
     constructor(props, context) {
-        super(props, context); 
+        super(props, context);
         this.state = {
-            reviews:null,
-            newComment:''
+            show: false,
+            reviews: null,
+            newComment: '',
+            userRating: 0,
+            serverErrorMsg: '',
+            showMessage: false
         }
-        this.insertNewComment = this.insertNewComment.bind(this);
-        this.getComment = this.getComment.bind(this);
+        this.attachRef = target => this.setState({ target });
+        this.handleReviewSubmit = this.handleReviewSubmit.bind(this);
+        this.handleCommentChange = this.handleCommentChange.bind(this);
+        this.handleUserRatingChange = this.handleUserRatingChange.bind(this);
+        this.handleShow = this.handleShow.bind(this);
+        this.handleHide = this.handleHide.bind(this);
     }
 
-    componentDidMount() {
-        // console.log("In CHSearchContent, componentDidMount");
+    /* componentDidMount() {
+        console.log("In CHReviews, componentDidMount");
         console.log('course tile: ', this.props.courseId)
         var payload = {
             "query": {
                 "term": { "CourseId": this.props.courseId }
             }
         }
-        console.log("review payload",JSON.stringify(payload))
+        
         fetch(process.env.REACT_APP_AWS_ELASTIC_SEARCH_URL + "reviews/_search/",
             {
                 method: 'POST',
@@ -39,99 +46,256 @@ class CHReviews extends Component{
                 return response.json();
             }).then(allreviews => {
                 var reviewhits = allreviews.hits.hits
-                var reviewjson=[]
-                for (let i=0;i<reviewhits.length;i++) {
+                var reviewjson = []
+                for (let i = 0; i < reviewhits.length; i++) {
                     reviewjson.push(reviewhits[i]._source)
-                } 
-                console.log("Reviews:",reviewjson);
-                this.setState({reviews: reviewjson});
+                }
+                // console.log("Reviews:", reviewjson);
+                this.setState({ reviews: reviewjson });
             }).catch(error => {
-                console.log("Error in elastic search api is ", error)
-                return false;
+                console.log("CHReviews, componentDidMount, elasticsearch error: ", error)
             });
-    }
+    } */
 
-    getComment(event){
-        this.setState({newComment:event.target.value});
-    }
-
-    insertNewComment(){
-        console.log('email: ',this.props.email,' course id: ',this.props.courseId);
-        console.log('new comment: ',this.state.newComment);
-        if(this.state.newComment==null || this.state.newComment.length==0) return
-        var today = new Date();
-        var date = today.getFullYear()+'-'+(today.getMonth()+1)+'-'+today.getDate();
-        var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-        var dateTime = date+' '+time;
-        var ReviewId = this.props.email+'$'+date+'$'+time;
-        var ParentReviewId=ReviewId;
-        var CourseId=this.props.courseId;
-        var Description=this.state.newComment;
-        var UserId=this.props.email;
-        var PostedBy = this.props.firstName;
-        var Edited=false;
-        var PostedByInstructor=false;
-        var CommentedOn={Date:'',Time:''};
-        CommentedOn.Date=date;
-        CommentedOn.Time=time;
-        var EditedOn={Date:'',Time:''};
-        EditedOn.Date=date;
-        EditedOn.Time=time;
-
-        var payload={
-            "ReviewId":ReviewId,"CourseId":CourseId,"Description":Description,"UserId":UserId,"ParentReviewId":ParentReviewId,
-            "Edited":Edited,"PostedByInstructor":PostedByInstructor,"CommentedOn":CommentedOn,"EditedOn":EditedOn,"PostedBy":PostedBy,
-            "NoofLikes":0,"NoofdisLikes":0
-        }
-
-        console.log(JSON.stringify(payload));
-         const response = fetch(process.env.REACT_APP_AWS_ELASTIC_SEARCH_URL + "reviews/review",
-			{ 
-				method: 'POST',
-				body: JSON.stringify(payload),
-				headers: { 'Content-Type': 'application/json'}
+    componentWillReceiveProps(nextProps) {
+        console.log("In CHReviews, componentWillReceiveProps", nextProps.courseId, ", writeReview: ", nextProps.writeReview);
+        
+        if(nextProps.writeReview) {
+            this.handleShow();
+        } else {
+        
+            var payload = {
+                "query": {
+                    "term": { "CourseId": nextProps.courseId }
+                }
+            }
+            
+            fetch(process.env.REACT_APP_AWS_ELASTIC_SEARCH_URL + "reviews/_search/",
+            {
+                method: 'POST',
+                body: JSON.stringify(payload),
+                headers: { 'Content-Type': 'application/json' }
             }).then(response => {
                 return response.json();
             }).then(elasticData => {
-                // console.log("JSON OBJECT IS ")
-                console.log("log is ", elasticData)
-                if (elasticData.result === "created") {
-                    return true;
-                } else {
-                    return false;
-                }
+                var reviewHits = elasticData.hits.hits;
+                //var reviewjson = [];
+                var reviews =reviewHits.map(review => review._source);
+                // for (let i = 0; i < reviewhits.length; i++) {
+                //     reviewjson.push(reviewhits[i]._source)
+                // }
+                console.log("#Reviews:", reviews.length);
+                console.log("Reviews:", reviews);
+                // this.setState({ reviews: reviewjson });
+                this.setState({ show: false, showMessage: false, newComment: "", userRating: 0, reviews: reviews });
             }).catch(error => {
-                // console.log("Error in elastic search api is ", error)
-                return false;
+                console.log("CHReviews, componentWillReceiveProps, elasticsearch error: ", error)
             });
-	    return response;
+        }
+    }
+
+    handleShow = () => {
+        this.setState({ show: true, showMessage: false });
+    };
+
+    handleHide = () => {
+        // console.log("Called");
+        this.setState({ show: false, showMessage: false, newComment: "", userRating: 0 });
+        // this.props.updateContent("home", null, null, this.props.searchString != undefined? this.props.searchString: null);
+    };
+
+    handleCommentChange = e => {
+        this.setState({ newComment: e.target.value });
+    }
+
+    handleUserRatingChange = (userRating, name) => {
+        // console.log("Rating:", userRating);
+        this.setState({ userRating: userRating });
+    }
+
+    handleReviewSubmit = e => {
+        e.preventDefault();
+        // console.log('email: ', this.props.email, ' course id: ', this.props.courseId);
+        // console.log('new comment: ', this.state.newComment, ", rating:", this.state.userRating);
+        if(!this.props.signedIn) {
+            // console.log("CHReviews, not signed in");
+            this.setState({ serverErrorMsg: "Please sign-in to write a review", showMessage: true, newComment: "", userRating: 0 });
+        } else {
+            if(this.state.userRating === 0) {
+                this.setState({ serverErrorMsg: "Rating should be from 1-5", showMessage: true });
+            } else if(this.state.newComment.length < 50) {
+                this.setState({ serverErrorMsg: "Review should be at least 50 characters in length", showMessage: true });
+            } else {
+                var today = new Date();
+                var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+                var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+                var reviewId = this.props.email + '$' + date + '$' + time;
+                var parentReviewId = reviewId;
+                var courseId = this.props.courseId;
+                var description = this.state.newComment;
+                var rating = this.state.userRating;
+                var userId = this.props.email;
+                var postedBy = this.props.firstName;
+                var edited = false;
+                var postedByInstructor = false;
+                var commentedOn = { Date: '', Time: '' };
+                commentedOn.Date = date;
+                commentedOn.Time = time;
+                var editedOn = { Date: '', Time: '' };
+                editedOn.Date = date;
+                editedOn.Time = time;
+
+                doGetProfilePicture().then(url => {
+                    // console.log("In CHReview, handleSubmitReview, imageURL: ", url);
+                    var payload = {
+                        "ReviewId": reviewId, "CourseId": courseId, "Description": description, "Rating": rating, "UserId": userId, "ParentReviewId": parentReviewId,
+                        "Edited": edited, "PostedByInstructor": postedByInstructor, "CommentedOn": commentedOn, "EditedOn": editedOn, "PostedBy": postedBy,
+                        "NoofLikes": 0, "NoofdisLikes": 0, "URL": url
+                    };
+                    return fetch(process.env.REACT_APP_AWS_ELASTIC_SEARCH_URL + "reviews/review", 
+                                {
+                                    method: 'POST', 
+                                    body: JSON.stringify(payload), 
+                                    headers: { 'Content-Type': 'application/json' }
+                                });
+                }).then(response => {
+                    return response.json();
+                }).then(elasticData => {
+                    // console.log("JSON OBJECT IS ")
+                    // console.log("log is ", elasticData);
+                    if (elasticData.result === "created") {
+                        console.log("Inside elastic data");
+                        this.setState({ show: false, newComment: "", userRating: 0, serverErrorMsg: "", showMessage: false },
+                            this.props.updateContent(this.props.signedIn?"homeSignedIn":"home", 
+                                                        this.props.firstName, 
+                                                        this.props.email, 
+                                                        null, 
+                                                        this.props.courseId));
+                    } else {
+                        this.setState({ serverErrorMsg: "Your review could not be submitted at the moment. Please try again later.", 
+                                        showMessage: true });
+                    }
+                }).catch((error) => {
+                    console.log("CHReviews, handleReviewSubmit, error: ", error);
+                    this.setState({ serverErrorMsg: "Your review could not be submitted at the moment. Please try again later.", 
+                                    showMessage: true });
+                });
+            }
+        }
     }
 
     render() {
-		return(
-                <div className="course-reviews">
-                    {(this.state.reviews != null && this.state.reviews.length > 0) ?
-                                this.state.reviews.map(item => {
-                                    return (
-                                        <Card rows="4" cols="50" className="review-card">
-                                        <span className="review-span" > <Image className="user-dp" thumbnail src={'https://increasify.com.au/wp-content/uploads/2016/08/default-image.png'} fluid={true} />
-                                            &nbsp;&nbsp;<strong>{item.PostedBy}</strong>
-                                        <text className="review-posted" ><strong>Posted On:</strong>{item.CommentedOn.Date} {item.CommentedOn.Time} </text>
-                                        <ReadMoreReact text={item.Description}
-                                        min={100}
-                                        ideal={200}
-                                        max={500}
-                                        readMoreText="read more"/>
-                                        </span> 
-                                    </Card>
-                                    );
-                                }) : []
-                            }
-                    <span className='new-comment' style={{display:"inline"}}>
-                    <textarea className='new-comment-area' rows="5" onChange={this.getComment}/>
-                    <Button variant="info" onClick={()=>this.insertNewComment()} size="lg" className="new-comment-button">Review</Button>
-                    </span>
-                </div>
+        const { serverErrorMsg, showMessage, target, userRating } = this.state;
+        // console.log("Write Review:", this.props.writeReview, ", Show:", this.state.show);
+        console.log("In CHReviews, render method, errorMessage: ", serverErrorMsg, ", showMessage: ", showMessage, ", rating: ", userRating);
+        return (
+            <div className="course-reviews">
+                {this.props.writeReview &&
+                    <Modal
+                        show={this.state.show}
+                        onHide={this.handleHide}
+                        dialogClassName="modal-90w"
+                        aria-labelledby="example-custom-modal-styling-title">
+
+                        <Modal.Header>
+                            <Modal.Title size="lg">Write a Review</Modal.Title>
+                            <Button id="writeReviewCloseButton" variant="danger" onClick={this.handleHide}>
+                                X
+                            </Button>
+                        </Modal.Header>
+
+                        <Modal.Body>
+                            <Form noValidate onSubmit={this.handleReviewSubmit}>
+                                <Form.Row>
+                                    <Form.Label>How would you rate this course?</Form.Label>
+                                </Form.Row>
+                                <Form.Row>
+                                    <StarRatingComponent
+                                        name={"review-course-user-editable-rating"}
+                                        className="submit-review-rating"
+                                        starCount={5}
+                                        value={this.state.userRating}
+                                        editing={true}
+                                        emptyStarColor={"#5e5d25"}
+                                        style={{ position: "inherit !important" }}
+                                        onStarClick={this.handleUserRatingChange}
+                                    />
+                                </Form.Row>
+                                <Form.Row>
+                                    <Form.Label>Your Review</Form.Label>
+                                </Form.Row>
+                                <Form.Row>
+                                    <Form.Control as="textarea" className='review-area' rows="5" required value={this.state.newComment} onChange={this.handleCommentChange} />
+                                </Form.Row>
+                                <Form.Row>
+                                    <Button ref={this.attachRef} className="submit-review-button" variant="success" type="submit">Submit Review</Button>
+                                    <Overlay target={target} show={showMessage} placement="top">
+                                        {props => (
+                                            <Tooltip id="passwordResetOverlay" {...props}>
+                                            {serverErrorMsg}
+                                            </Tooltip>
+                                        )}
+                                    </Overlay>
+                                </Form.Row>
+                            </Form>
+                        </Modal.Body>
+                    </Modal>
+                }
+
+                <table className="review-table">
+                    <tbody>
+                        {(this.state.reviews != null && this.state.reviews.length > 0) ?
+                            this.state.reviews.map((item, index) => {
+                                return (
+                                    
+                                    <tr className="review-table-row" key={"review-table-row-" + index}>
+
+                                        <td className="review-user-lane">
+                                            <Image className="review-user-dp" roundedCircle 
+                                                src={item.URL || 'https://increasify.com.au/wp-content/uploads/2016/08/default-image.png'} />
+                                            <p className="review-div-user-name">{item.PostedBy}</p>
+                                        </td>
+
+                                        <td className="review-details-lane">
+                                            {/* <div className="review-details-lane"> */}
+                                                <div className="review-details-header">
+                                                    <StarRatingComponent
+                                                        className="review-rating"
+                                                        name={"review-course-user-rating"}
+                                                        starCount={5}
+                                                        value={item.Rating || 1}
+                                                        editing={false}
+                                                        emptyStarColor={"#5e5d25"}
+                                                        style={{ position: "inherit !important", float: "left" }}
+                                                    />
+                                                    <p className="review-posted-on">Last Edited:&nbsp;{item.CommentedOn.Date + " " + item.CommentedOn.Time}</p>
+                                                </div>
+                                                <div className="review-details-body">
+                                                    <ReadMoreReact text={item.Description}
+                                                        min={100}
+                                                        ideal={200}
+                                                        max={500}
+                                                        readMoreText="Read more v" />
+                                                </div>
+                                                <div className="review-details-footer">
+                                                    <div className="review-helpful">
+                                                        <p className="review-likes-number">{item.NoofLikes}</p>
+                                                        <p className="review-likes-text">people found this review helpful</p>
+                                                    </div>
+                                                    <div className="review-up-down-vote">
+                                                        <Button className="review-thumbs-up"><FontAwesomeIcon icon={['fa', 'thumbs-up']} size='lg' color='rgb(0, 0, 0)' /></Button>
+                                                        <Button className="review-thumbs-down"><FontAwesomeIcon icon={['fa', 'thumbs-down']} size='lg' color='rgb(0, 0, 0)' /></Button>
+                                                    </div>
+                                                </div>
+                                            {/* </div> */}
+                                        </td>
+                                    </tr>
+                                );
+                            }) : []
+                        }                
+                    </tbody>
+                </table>
+            </div>
         );
     }
 }

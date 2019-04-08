@@ -30,7 +30,7 @@ class CHLandingContent extends Component {
             this.setState({ searchquery: event.target.value, showResults: true });
             const url = process.env.REACT_APP_AUTOCOMPLETE_EP + searchterm
 
-            console.log("URL IS ", url);
+            // console.log("URL IS ", url);
             fetch(url, {
                 method: 'GET',
                 headers: {

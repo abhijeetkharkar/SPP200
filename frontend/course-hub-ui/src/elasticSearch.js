@@ -138,4 +138,52 @@ const addDeal = async(payload) => {
     return response;
 };
 
-export {addUser, searchUser, getUserDetails, updateUser, addDeal, elasticDeleteUser};
+const updateReview = async (_id, payload) => {
+    // console.log("in update user");
+    // console.log("payload is:", payload);
+    return await fetch(process.env.REACT_APP_AWS_ELASTIC_SEARCH_URL + "reviews/review/" + _id + '/_update',
+        {
+            method: 'POST',
+            body: JSON.stringify(payload),
+            headers: {'Content-Type': 'application/json'}
+        }).then(response => {
+        return response.json();
+    }).then(elasticData => {
+        // console.log("Update User JSON OBJECT IS ")
+        // console.log("log is ", elasticData)
+        if (elasticData.result === "updated" || elasticData.result === "noop") {
+            return true;
+        } else {
+            return false;
+        }
+    }).catch(error => {
+        // console.log("Error in elastic search api is ", error)
+        return false;
+    });
+}
+
+const updateCourse = async (_id, payload) => {
+    // console.log("in update user");
+    // console.log("payload is:", payload);
+    return await fetch(process.env.REACT_APP_AWS_ELASTIC_SEARCH_URL + "courses/course/" + _id + '/_update',
+        {
+            method: 'POST',
+            body: JSON.stringify(payload),
+            headers: {'Content-Type': 'application/json'}
+        }).then(response => {
+        return response.json();
+    }).then(elasticData => {
+        // console.log("Update User JSON OBJECT IS ")
+        // console.log("log is ", elasticData)
+        if (elasticData.result === "updated" || elasticData.result === "noop") {
+            return true;
+        } else {
+            return false;
+        }
+    }).catch(() => {
+        // console.log("Error in elastic search api is ", error)
+        return false;
+    });
+}
+
+export {addUser, searchUser, getUserDetails, updateUser, addDeal, elasticDeleteUser, updateReview, updateCourse};

@@ -6,15 +6,18 @@ import CHLandingContent from './js/CHLandingContent';
 import LoginPage from './js/CHLogin';
 import SignupPage from './js/CHSignup';
 import ForgotPasswordPage from './js/CHForgotPassword';
+import ProfilePage from "./js/CHProfile";
 import CHFooter from './js/CHFooter';
 import { library } from '@fortawesome/fontawesome-svg-core';
-import { faEnvelope, faKey, faSignInAlt, faSearch, faAngleDown, faClock, faAt,faExternalLinkAlt,faMoneyCheckAlt,faWalking,faCalendar,faEye } from '@fortawesome/free-solid-svg-icons';
+import { faEnvelope, faKey, faSignInAlt, faSearch, faAngleDown, faClock, faAt, faExternalLinkAlt } from '@fortawesome/free-solid-svg-icons';
+import { faMoneyCheckAlt, faWalking, faCalendar, faEye, faPencilAlt, faThumbsUp, faThumbsDown } from '@fortawesome/free-solid-svg-icons';
 import { faFacebookF, faGithub, faTwitter, faLinkedin } from '@fortawesome/free-brands-svg-icons';
 import firebaseInitialization from './FirebaseUtils';
-import ProfilePage from "./js/CHProfile";
 import { searchUser } from './elasticSearch';
 
-library.add(faEnvelope, faKey, faFacebookF, faGithub, faTwitter, faLinkedin, faSignInAlt, faSearch, faAngleDown, faClock, faAt,faExternalLinkAlt,faMoneyCheckAlt,faWalking,faCalendar,faEye);
+library.add(faEnvelope, faKey, faFacebookF, faGithub, faTwitter, faLinkedin,
+  faSignInAlt, faSearch, faAngleDown, faClock, faAt, faExternalLinkAlt,
+  faMoneyCheckAlt, faWalking, faCalendar, faEye, faPencilAlt, faThumbsUp, faThumbsDown);
 
 class App extends Component {
 
@@ -70,8 +73,8 @@ class App extends Component {
     const optional1 = this.state.optional1
     const optional2 = this.state.optional2
     const optional3 = this.state.optional3
-    
-    const mainContainerStyle = {height: window.outerHeight};
+
+    const mainContainerStyle = { height: window.outerHeight };
 
     return (
       <div className="App container-fluid" style={mainContainerStyle}>
