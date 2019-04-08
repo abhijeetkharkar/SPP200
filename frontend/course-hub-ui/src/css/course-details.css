@@ -1,0 +1,144 @@
+.course-tile-card{
+    position: inherit !important;
+    margin-left: 20%;
+    width: 60%;
+}
+
+    .course-image-div{
+        width: 65%;
+        float: left;
+    }
+
+        .course-image{
+            width: 100%;
+        }
+
+    .course-features {
+        float: right;
+        width: 35%;
+        text-align: left;
+        padding-left: 1%;
+        background-color: white; 
+        padding-top: 1%;
+        padding-right: 1%;
+    }
+
+    .rating-div{
+        position: inherit;
+    }
+
+    .star-ratings{
+        position: inherit !important;
+    }
+
+    .price-span{
+        padding-left: 1%;
+        line-height: 2em;
+    }
+
+        .price-button-font{
+            padding-top: 8pt;
+        }
+
+            .price-tag{
+                padding-left: 1%;
+                font-size: 15pt;
+                display: inline;
+            }
+
+    .duration-span {
+        padding-left: 1%;
+        line-height: 2em;
+    }
+
+        .duration-button-font{
+            padding-top: 8pt;
+        }
+
+            .duration-tag{
+                font-size: 15pt;
+                display: inline;
+                padding-left: 1%;
+            }            
+
+    .course-difficulty{
+        display: inline;
+    }
+
+        .difficulty-span {
+            padding-left: 1%;
+            line-height: 2em;
+        }
+
+            .gauge-icon {
+                float: left !important;
+            }
+
+            .diff-text{
+                font-size: 15pt;
+                display: inline;
+            }
+
+    .course-pace{
+        padding-left: 2%;
+        margin-top: 2%;
+    }
+        .pace-span{
+            font-size: 15pt;
+            padding-left: 1%;
+        }
+        
+            .pace-text{
+                vertical-align: middle;
+                size: 10pt;
+                padding-left: 7%;
+                display: inline;
+            }
+
+    .course-posted{
+        padding-left: 1%;
+        padding-top: 2%;
+    }
+
+        .calendar-span{
+            font-size: 15pt;
+            padding-left: 1%;
+        }
+
+            .calendar-text{
+                padding-left: 4%;
+                display: inline;
+            }
+
+    .course-tile-body {
+        float: left;
+        background-color: white;
+        padding: 1% 2%;
+        width: 100%;
+    }
+
+        .author-image-div{
+            float: left;
+            text-align: left;
+        }
+
+            .author-span{
+                padding-right: 2%;
+            }
+                .author-image{
+                    width: 8%;
+                }
+
+        .course-title{
+            float: left;
+            width:100%;
+            padding-top: 1%;
+        }
+
+        .course-details{
+            text-align: left;
+        }
+    
+    .write-review {
+        margin-top: 2%;
+    }

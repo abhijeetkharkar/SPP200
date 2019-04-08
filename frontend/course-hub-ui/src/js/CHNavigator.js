@@ -31,7 +31,7 @@ class CHNavigator extends Component {
     handleSignOut = e => {
         const self = this;
         doSignOut().then( () => {
-            self.props.updateContent("home", null, null, null);
+            self.props.updateContent("home", null, null, null, this.props.courseId || null);
         }).catch(function (error) {
             // TODO Deal with this. Have an alert sent to some system to assist user.
             console.log(error);
@@ -39,7 +39,7 @@ class CHNavigator extends Component {
     }
 
     handleViewProfile = e => {
-        this.props.updateContent("profile", this.props.firstName, this.props.email, null);
+        this.props.updateContent("profile", this.props.firstName, this.props.email, null, this.props.courseId || null);
     }
 
     handleOnclick = event => {
@@ -79,7 +79,7 @@ class CHNavigator extends Component {
     }
 
     handleDealsOnclick = event => {
-        this.props.updateContent("deals", null, null, null);
+        this.props.updateContent("deals", null, null, null, this.props.courseId || null);
     }
 
     render() {
@@ -133,7 +133,7 @@ class CHNavigator extends Component {
 
                 <div id="website-navigators-container">
                     {!this.props.signedIn &&
-                        <Button id="loginButtonNavigator" className="my-nav-tabs" onClick={(e) => this.props.updateContent("loginScreen", null, null, null)}>
+                        <Button id="loginButtonNavigator" className="my-nav-tabs" onClick={(e) => this.props.updateContent("loginScreen", null, null, null, this.props.courseId || null)}>
                             <FontAwesomeIcon icon="sign-in-alt" />
                             &nbsp;&nbsp;Login/Signup
                         </Button>
