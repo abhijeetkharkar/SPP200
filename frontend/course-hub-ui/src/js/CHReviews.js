@@ -139,9 +139,12 @@ class CHReviews extends Component {
                     }
                 }; */
 
+                console.log("In CHReview, handleReviewSubmit, New Rating: ", (((this.props.rating * this.props.numberOfRatings) + rating)/(this.props.numberOfRatings+1)));
+                console.log("In CHReview, handleReviewSubmit, New Number of Rating: ", (this.props.numberOfRatings+1));
+
                 var payloadCourse = {
                     "doc": {
-                        "Ratings": (((this.props.rating * this.props.numberOfRatings) + rating)/(this.props.numberOfRatings+1)),
+                        "Rating": (((this.props.rating * this.props.numberOfRatings) + rating)/(this.props.numberOfRatings+1)),
                         "NoofRatings":(this.props.numberOfRatings+1) 
                     }
                 };
@@ -210,7 +213,7 @@ class CHReviews extends Component {
     handleThumbsDown = async (dislikes, reviewId) => {
         var payloadReview = {
             "doc": {
-                "NoofLikes": dislikes
+                "NoofdisLikes": dislikes
             }
         };
 
