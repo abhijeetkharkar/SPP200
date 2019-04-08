@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../App.css';
 import '../css/common-components.css';
 import '../css/compare.css';
-import {Image, Button, Col, Row} from 'react-bootstrap';
+import {Image, Col, Row} from 'react-bootstrap';
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import StarRatingComponent from 'react-star-rating-component';
 
@@ -14,9 +14,6 @@ class CHCompareContent extends Component {
             compareList: (JSON.parse(sessionStorage.getItem("compareList"))) ?
                 JSON.parse(sessionStorage.getItem("compareList")) : [],
         };
-    }
-
-    componentDidMount() {
     }
 
     render() {

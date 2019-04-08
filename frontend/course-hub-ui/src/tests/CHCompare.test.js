@@ -3,6 +3,7 @@ import Adapter from "enzyme-adapter-react-16/build";
 import React from "react";
 import CHCompare from "../js/CHCompare";
 import firebaseInitialization from "../FirebaseUtils";
+import CHCompareContent from "../js/CHCompareContent";
 
 configure({ adapter: new Adapter() });
 
@@ -59,4 +60,13 @@ describe('Testing Compare', () => {
         expect(instance.state.firstName).toBe("test");
         expect(instance.state.email).toBe("test@test.edu");
     })
+
+    test('Testing Loading of Compare content component', () => {
+        const handleClick = jest.fn();
+        sessionStorage.setItem("compareList", JSON.stringify([{"CourseId": "1", "CourseProvider": "idx",
+            "Category": "abc", "Price": 1}]));
+        const wrapper = shallow(<CHCompareContent updateContent={handleClick}/>);
+        expect(wrapper.exists()).toBe(true);
+        sessionStorage.clear()
+    });
 });
