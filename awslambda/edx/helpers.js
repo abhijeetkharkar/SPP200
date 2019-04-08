@@ -29,12 +29,14 @@ var doRecursiveRequest = (url, token, courses) =>
 					"Instructors": (typeof course.course_runs[0].staff === 'undefined' || course.course_runs[0].staff.length === 0) ? [] : course.course_runs[0].staff.map(staff => ({ InstructorId: staff.uuid, InstructorName: staff.given_name + " " + staff.family_name, ProfilePic: staff.profile_image_url })),
 					"URL": typeof course.course_runs[0].marketing_url === 'undefined' ? null : course.course_runs[0].marketing_url,
 					"Rating": 0.0,
+					"NoofRatings": 0,
 					"Description": typeof course.course_runs[0].full_description === 'undefined' ? null : course.course_runs[0].full_description,
 					"CourseImage": (typeof course.course_runs[0].image === 'undefined' || typeof course.course_runs[0].image.src === 'undefined') ? null : course.course_runs[0].image.src,
 					"StartDate": (typeof course.course_runs[0].start === 'undefined' || course.course_runs[0].start === null) ? null : (isNaN(Date.parse(course.course_runs[0].start)) ? null : new Date(Date.parse(course.course_runs[0].start)).getFullYear() + "-" + (parseInt(new Date(Date.parse(course.course_runs[0].start)).getMonth()) + 1) + "-" + new Date(Date.parse(course.course_runs[0].start)).getDate()),
 					"EndDate": (typeof course.course_runs[0].end === 'undefined' || course.course_runs[0].end === null) ? null : (isNaN(Date.parse(course.course_runs[0].end)) ? null : new Date(Date.parse(course.course_runs[0].end)).getFullYear() + "-" + (parseInt(new Date(Date.parse(course.course_runs[0].end)).getMonth()) + 1) + "-" + new Date(Date.parse(course.course_runs[0].end)).getDate()),
 					"SelfPaced": (typeof course.course_runs[0].pacing_type === 'undefined' || course.course_runs[0].pacing_type === null || course.course_runs[0].pacing_type !== 'self_paced') ? false : true,
-					"Difficulty": typeof course.course_runs[0].level_type === 'undefined' ? null : course.course_runs[0].level_type
+					"Difficulty": typeof course.course_runs[0].level_type === 'undefined' ? null : course.course_runs[0].level_type,
+					"last_updated": null
 				}));
 			courses = courses.concat(temp);
 			console.log("Length: ", courses.length, " :: Next: ", catalogData.next);
