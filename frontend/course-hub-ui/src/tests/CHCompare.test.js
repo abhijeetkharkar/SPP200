@@ -4,11 +4,10 @@ import React from "react";
 import CHCompare from "../js/CHCompare";
 import firebaseInitialization from "../FirebaseUtils";
 import CHCompareContent from "../js/CHCompareContent";
+import CHCompareModal from "../js/CHCompareModal";
 
 configure({ adapter: new Adapter() });
 
-
-const firebase = require('../FirebaseUtils');
 const elastic = require('../elasticSearch');
 
 jest.mock('../elasticSearch');
@@ -40,7 +39,6 @@ describe('Testing Compare', () => {
     });
 
     test('Testing handleAuthStateChange', async () => {
-        const location = { search: { searchString: "testString", firstName: "Test1", email: "test1@test.com" } }
         const wrapper = shallow(<CHCompare />);
         const instance = wrapper.instance();
         elastic.searchUser.mockImplementationOnce(() => { return Promise.resolve("Test1") });
@@ -59,14 +57,26 @@ describe('Testing Compare', () => {
         expect(instance.state.choice).toBe("Compare");
         expect(instance.state.firstName).toBe("test");
         expect(instance.state.email).toBe("test@test.edu");
-    })
+    });
 
     test('Testing Loading of Compare content component', () => {
         const handleClick = jest.fn();
-        sessionStorage.setItem("compareList", JSON.stringify([{"CourseId": "1", "CourseProvider": "idx",
-            "Category": "abc", "Price": 1}]));
+        sessionStorage.setItem("compareList", JSON.stringify([{"CourseId": "1", "CourseProvider": "idx", "Title": "xyz",
+            "Category": "abc", "Price": 1, "Instructors": [{"InstructorName": "ins"}]}]));
+
         const wrapper = shallow(<CHCompareContent updateContent={handleClick}/>);
         expect(wrapper.exists()).toBe(true);
         sessionStorage.clear()
     });
+
+    test('Testing Loading of Compare Modal component', () => {
+        const handleClick = jest.fn();
+        var compareList = [{"CourseId": "1", "Title": "xyz", "CourseProvider": "idx", "Category": "abc", "Price": 1,
+            "Instructors": [{"InstructorName": "ins"}]}];
+
+        const wrapper = shallow(<CHCompareModal updateContent={handleClick} modalCompareList={compareList}/>);
+        expect(wrapper.exists()).toBe(true);
+    });
+
+
 });
