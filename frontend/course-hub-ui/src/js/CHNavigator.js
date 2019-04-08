@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../css/common-components.css';
 import '../css/navigator.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {Button, Dropdown, Image, Form, Row, Col} from 'react-bootstrap';
+import {Button, Dropdown, Image, Form} from 'react-bootstrap';
 import {doSignOut} from '../FirebaseUtils';
 
 class CHNavigator extends Component {
@@ -118,17 +118,12 @@ class CHNavigator extends Component {
                                 </tbody>
                             </table>
                         </Form>
-                        {(sessionStorage.getItem("compareList") && (JSON.parse(sessionStorage.getItem("compareList")).length !== 0)) ? (
+                        {(sessionStorage.getItem("compareList") && (this.props.navCallBack) && (JSON.parse(sessionStorage.getItem("compareList")).length !== 0)) ? (
                             <div className="btn-group" role="group" aria-label="Basic example">
-                                <Button className="compare-button" variant="success" onClick={this.props.navCallBack}>
-                                    {/*<span>*/}
-                                        Compare
-                                    {/*</span>*/}
-                                    {/*<span className="compare-button-number">*/}
-                                        {/*{JSON.parse(sessionStorage.getItem("compareList")).length}*/}
-                                    {/*</span>*/}
+                                <Button className="compare-button" variant="primary" onClick={this.props.navCallBack}>
+                                    Compare
                                 </Button>
-                                <Button className="compare-number" variant="danger" onClick={this.props.navCallBack}>
+                                <Button className="compare-number" variant="info" onClick={this.props.navCallBack}>
                                     {JSON.parse(sessionStorage.getItem("compareList")).length}
                                 </Button>
                             </div>
