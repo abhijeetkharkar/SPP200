@@ -8,6 +8,7 @@ import CHDeals from './js/CHDeals';
 import * as serviceWorker from './serviceWorker';
 import 'babel-polyfill';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import CHCompare from "./js/CHCompare";
 
 ReactDOM.render(
 	<BrowserRouter>
@@ -16,6 +17,7 @@ ReactDOM.render(
 			<Route path="/search" component={CHSearch}/>
 			<Route path="/course" component={CHCourseDetails}/>
 			<Route path="/deals" component={CHDeals}/>
+			<Route path="/compare" component={CHCompare}/>
 		</Switch>
     </BrowserRouter>, 
 	document.getElementById('root'));

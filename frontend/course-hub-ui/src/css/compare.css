@@ -1,0 +1,138 @@
+.add-to-compare-button{
+    float: right;
+    border-radius: 8px;
+    border: transparent;
+    height: 28px;
+    font-size: 12px;
+    font-weight: bold;
+}
+
+.compare-button{
+    border-radius: 12px;
+    border: transparent;
+    height: 28px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-top: 28px;
+    position: relative;
+    z-index: 1;
+}
+
+.compare-number{
+    border-radius: 12px;
+    border: transparent;
+    height: 28px;
+    font-size: 12px;
+    font-weight: bold;
+    margin-top: 28px;
+    position: relative;
+    z-index: 1;
+}
+
+.compare-button:active, .compare-button:focus, .compare-button:hover {
+    background-color: #007bff !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+.compare-number:active, .compare-number:focus, .compare-number:hover {
+    background-color: #17a2b8 !important;
+    box-shadow: none !important;
+    outline: none !important;
+}
+
+
+
+.compare-list-model-header{
+    background-color: #292c2f;
+    color: rgb(207, 204, 19);
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.compare-list-model-body{
+    background-color: #292c2f;
+    color: white;
+}
+
+.modal-course-image {
+    max-width: 100px;
+    max-height: 100px;
+}
+
+
+.search-course-modal-link a{
+    font-weight: bold;
+    color: rgb(207, 204, 19);
+}
+
+.remove-course-modal-button{
+    background-color: #1d2124;
+    color: white;
+    text-decoration: none;
+}
+
+.remove-course-modal-button:hover{
+    color: white;
+    text-decoration: none;
+    background-color: #1d2124;
+}
+
+
+.compare-list-model-footer{
+    background-color: #292c2f;
+}
+
+.compare-main-table{
+    background-color: #1d2124;
+    color: white;
+    padding-top: 6%;
+}
+    .compare-table-heading{
+        border-radius: 10px;
+        width: 100%;
+        text-align: center;
+        margin-top: 10px;
+        margin-right: 10%;
+        background-color: #16181b;
+    }
+
+    .compare-table-row{
+        margin-left: 10px;
+        margin-right: 10px;
+        margin-top: 10px;
+    }
+
+    .compare-table-row-heading{
+        float: right;
+    }
+
+    .compare-table-col{
+        text-align: center;
+        background-color: #16181b;
+        border: 3px solid #5c666c;
+        border-radius: 10px;
+    }
+
+    .compare-table-course-image{
+        border: 3px solid grey;
+        display: inline-block;
+        margin-top: 5%;
+        margin-left: 10%;
+    }
+
+    .compare-table-course-summary{
+        display: inline-block;
+    }
+
+    .compare-table-course-title{
+        margin-top: 10px;
+        color: rgb(207, 204, 19);
+        font-size: 20px;
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .compare-table-course-text{
+        color: white;
+        font-weight: bold;
+    }

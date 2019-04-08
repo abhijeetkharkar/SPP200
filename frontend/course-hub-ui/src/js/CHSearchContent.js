@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../App.css';
 import '../css/common-components.css';
 import '../css/search.css';
-import {Table, Image, Pagination, Button, Modal, Row, Col} from 'react-bootstrap';
+import {Table, Image, Pagination, Button} from 'react-bootstrap';
 import StarRatingComponent from 'react-star-rating-component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 const fetch = require('node-fetch');
@@ -17,9 +17,7 @@ class CHSearchContent extends Component {
             currentPage: -1,
             totalCourses: 0,
             pageList: [],
-            compareList: [],
-            isOpen: false,
-        }
+        };
         this.createPageList = this.createPageList.bind(this);
         //this.handleCourseClick=this.handleCourseClick.bind(this);
     }
@@ -105,26 +103,9 @@ class CHSearchContent extends Component {
             }
             pageList.sort((a, b) => {return a-b});
         }
+
         return pageList;
-    }
-
-    toggleModal = () => {
-        this.setState({
-            isOpen: !this.state.isOpen
-        });
-        console.log(this.state.compareList)
-    }
-
-    addCourseToCompare(item) {
-        this.setState({isOpen: false});
-        this.state.compareList.push(item);
-    }
-
-    removeCourseFromCompare(item) {
-        this.setState({isOpen: false});
-        var idx = this.state.compareList.indexOf(item);
-        this.state.compareList.splice(idx, 1);
-    }
+    };
 
     render() {
         // console.log("In CHSearchContent, inside render, pageNumber props:", this.props.pageNumber);
@@ -133,57 +114,11 @@ class CHSearchContent extends Component {
         }
         return (
             <div id="search-results-div" style={customStyle}>
-                <Modal show={this.state.isOpen} >
-                    <Modal.Header className="compare-list-model-header">
-                        List of Courses
-                        <Button variant="danger" onClick={this.toggleModal}>
-                            X
-                        </Button>
-                    </Modal.Header>
-                    <Modal.Body className="compare-list-model-body">
-                            {
-                                this.state.compareList.map(item => {
-                                    return (
-                                        <div>
-                                            <Row key={item.CourseId} className="modal-body-row">
-
-                                                <Col md={3} >
-                                                    <Image className="modal-course-image" src={item.CourseImage || 'https://increasify.com.au/wp-content/uploads/2016/08/default-image.png'} />
-                                                </Col>
-                                                <Col md={9}>
-                                                    <Row className="search-course-modal-link">
-                                                        <a href="" onClick={ () => this.props.updateContent('coursedetails',null,null,item.CourseId)}>{item.Title}</a>
-                                                    </Row>
-                                                    <Row>
-                                                        {"Provider: " +  item.CourseProvider + " | Taught By: " + (item.Instructors? item.Instructors.map(item => item.InstructorName).toString(): "")}
-                                                        <hr/>
-                                                    </Row>
-
-                                                </Col>
-                                            </Row>
-                                            {(this.state.compareList.indexOf(item) !== (this.state.compareList.length - 1)) ? (
-                                                <hr style={{background: "rgb(207, 204, 19)"}}/>
-                                            ) : ([])}
-
-                                        </div>
-                                    );
-                                })
-                            }
-                    </Modal.Body>
-                    <Modal.Footer className="compare-list-model-footer">
-                        <Button variant="success" style={{float: "right"}} >
-                            Compare
-                        </Button>
-                    </Modal.Footer>
-                </Modal>
                 <Table striped hover id="search-results-table">
                     <thead>
                         <tr>
                             <th colSpan="2">
                                 <p className="search-results-table-header">{this.state.totalCourses + " results for '" + this.props.searchString + "'"}</p>
-                                <Button variant="success" className="add-to-compare-button" onClick={this.toggleModal}>
-                                    Compare
-                                </Button>
                             </th>
                         </tr>
                     </thead>
@@ -197,7 +132,7 @@ class CHSearchContent extends Component {
                                                 <Image src={item.CourseImage || 'https://increasify.com.au/wp-content/uploads/2016/08/default-image.png'} fluid />;
                                             </td>
                                             <td className="search-results-course-data">
-                                                <p className="search-results-course-data-type">{"Course"}</p>                                                
+                                                <p className="search-results-course-data-type">{"Course"}</p>
                                                 {/* <p className="search-results-course-data-name">{item.Title}</p>    */}
                                                 <p className="search-results-course-data-name"><Button className="search-results-course-data-name-link" variant="link" onClick={ () => this.props.updateContent('coursedetails',null,null,item.CourseId)}>{item.Title}</Button></p>
                                                 <p className="search-results-course-data-short-provider-instructors">{"Provider: " +  item.CourseProvider + " | Taught By: " + (item.Instructors? item.Instructors.map(item => item.InstructorName).toString(): "")}</p>
@@ -208,7 +143,7 @@ class CHSearchContent extends Component {
                                                     </p>
                                                     <p className="search-results-course-data-difficulty">{item.Difficulty ? item.Difficulty.toUpperCase(): ""}</p>
                                                     <span className="search-results-course-data-rating">
-                                                        <StarRatingComponent 
+                                                        <StarRatingComponent
                                                             name={"search-results-course-rating"}
                                                             starCount={5}
                                                             value={item.Rating + 1}
@@ -217,12 +152,13 @@ class CHSearchContent extends Component {
                                                             style = {{position: "inherit !important"}}
                                                             />
                                                     </span>
-                                                    {this.state.compareList.includes(item) ? (
-                                                        <Button className="btn btn-danger add-to-compare-button" onClick={() => {this.removeCourseFromCompare(item)}}>
+                                                    {(this.props.searchCompareList.map(function(obj){ return obj.CourseId }).includes(item.CourseId)) ? (
+                                                        <Button className="btn btn-danger add-to-compare-button" onClick={() => {this.props.removeFromCompare(item)}}>
                                                             Remove from Compare
                                                         </Button>
                                                     ) : (
-                                                        <Button className="btn btn-warning add-to-compare-button" onClick={() => {this.addCourseToCompare(item)}}>
+                                                        <Button disabled={this.props.searchCompareList.length === 3} className="btn btn-warning add-to-compare-button"
+                                                                onClick={() => {this.props.addToCompare(item)}}>
                                                             Add to Compare
                                                         </Button>
                                                     )}

@@ -30,6 +30,7 @@
     "react-autosuggest": "^9.4.3",
     "react-bootstrap": "^1.0.0-beta.5",
     "react-bootstrap-date-picker": "^5.1.0",
+    "react-bootstrap-star-rating": "^3.5.5-alpha.0.3",
     "react-dom": "^16.7.0",
     "react-google-login": "^5.0.2",
     "react-native-elements": "^1.1.0",
@@ -51,7 +52,7 @@
     "test": "jest -u --coverage",
     "eject": "react-scripts eject",
     "dev": "webpack --env.ENVIRONMENT=development --config webpack.config.js",
-    "start-dev": "webpack-dev-server --open --config webpack.config.dev.js",
+    "start-dev": "webpack-dev-server --open --hot --config webpack.config.dev.js",
     "build-prod": "webpack --config webpack.config.prod.js"
   },
   "eslintConfig": {
