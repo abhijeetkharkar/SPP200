@@ -19,7 +19,7 @@ class CHDealsCard extends React.Component {
       datePosted: this.props.datePosted || "None",
       provider: this.props.provider || "None",
     }
-    console.log("THis props are ", this.props);
+    // console.log("THis props are ", this.props);
     this.loadModal = this.loadModal.bind(this);
   }
 

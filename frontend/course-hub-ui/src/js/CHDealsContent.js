@@ -45,55 +45,61 @@ class CHDealsContent extends Component{
 
     componentWillReceiveProps(nextProps){
         console.log("UPDATED CATEGORY IN CHDEALSCONTENT IS : ", nextProps.dealCategory, nextProps.pageNumber);
-        this.setState({category: nextProps.dealCategory, currentPage: nextProps.pageNumber});
-        const payload = {
-            "category": nextProps.dealCategory,
-            "page_number": nextProps.pageNumber || 0
-        }
-
-        fetch(process.env.REACT_APP_GET_DEALS, {
-            method: 'POST',
-            body: JSON.stringify(payload),
-            headers: { 'Content-Type': 'application/json' }
-        }).then(response => {
-            return response.json();
-        }).then(dealsData => {
-            this.setState({ deals: dealsData.deals, totalPages: dealsData.number_of_pages, currentPage: dealsData.current_page, totalCourses: dealsData.total_deals, pageList: this.createPageList(dealsData.current_page, dealsData.number_of_pages) });
-            if (dealsData.deals.length == 0){
-                this.setState({currentLayout : "nodeal"});
-            }else{
-                this.setState({currentLayout : "deals"});
+        if (nextProps.pageType == 'addnewdeal'){
+            this.setState({currentLayout: nextProps.pageType});
+        }else{
+            this.setState({category: nextProps.dealCategory, currentPage: nextProps.pageNumber});
+            const payload = {
+                "category": nextProps.dealCategory,
+                "page_number": nextProps.pageNumber || 0
             }
-        }).catch(error => {
-            console.log("Error in searchquery backend ", error);
-        });
+    
+            fetch(process.env.REACT_APP_GET_DEALS, {
+                method: 'POST',
+                body: JSON.stringify(payload),
+                headers: { 'Content-Type': 'application/json' }
+            }).then(response => {
+                return response.json();
+            }).then(dealsData => {
+                this.setState({ deals: dealsData.deals, totalPages: dealsData.number_of_pages, currentPage: dealsData.current_page, totalCourses: dealsData.total_deals, pageList: this.createPageList(dealsData.current_page, dealsData.number_of_pages) });
+                if (dealsData.deals.length == 0){
+                    this.setState({currentLayout : "nodeal"});
+                }else{
+                    this.setState({currentLayout : "deals"});
+                }
+            }).catch(error => {
+                console.log("Error in searchquery backend ", error);
+            });
+        }
     }
 
     componentDidMount() {
         // console.log("In CHSearchContent, componentDidMount");
-        const payload = {
-            "category": this.state.category,
-            "page_number": this.props.pageNumber || 0
-        }
-        console.log("payload is ", payload);
-
-        fetch(process.env.REACT_APP_GET_DEALS, {
-            method: 'POST',
-            body: JSON.stringify(payload),
-            headers: { 'Content-Type': 'application/json' }
-        }).then(response => {
-            return response.json();
-        }).then(dealsData => {
-            console.log("DATA IS DID MOUNT", dealsData);
-            this.setState({ deals: dealsData.deals, totalPages: dealsData.number_of_pages, currentPage: dealsData.current_page, totalCourses: dealsData.total_deals, pageList: this.createPageList(dealsData.current_page, dealsData.number_of_pages) });
-            if (dealsData.deals.length == 0){
-                this.setState({currentLayout : "nodeal"});
-            }else{
-                this.setState({currentLayout : "deals"});
+        if (this.state.currentLayout != 'addnewdeal'){
+            const payload = {
+                "category": this.state.category,
+                "page_number": this.props.pageNumber || 0
             }
-        }).catch(error => {
-            console.log("Error in searchquery backend ", error);
-        });
+            console.log("payload is ", payload);
+    
+            fetch(process.env.REACT_APP_GET_DEALS, {
+                method: 'POST',
+                body: JSON.stringify(payload),
+                headers: { 'Content-Type': 'application/json' }
+            }).then(response => {
+                return response.json();
+            }).then(dealsData => {
+                // console.log("DATA IS DID MOUNT", dealsData);
+                this.setState({ deals: dealsData.deals, totalPages: dealsData.number_of_pages, currentPage: dealsData.current_page, totalCourses: dealsData.total_deals, pageList: this.createPageList(dealsData.current_page, dealsData.number_of_pages) });
+                if (dealsData.deals.length == 0){
+                    this.setState({currentLayout : "nodeal"});
+                }else{
+                    this.setState({currentLayout : "deals"});
+                }
+            }).catch(error => {
+                console.log("Error in searchquery backend ", error);
+            });
+        }
     }
 
     createPageList = (page, total) => {
@@ -105,7 +111,7 @@ class CHDealsContent extends Component{
             var i=curr, j=curr;
             // console.log("Entered, curr: ", curr, ", pageList: ", pageList);
             while(pageList.length < 10 && pageList.length <= pages) {
-                console.log("PAGE LIST length IS ", pageList.length, i, j);
+                // console.log("PAGE LIST length IS ", pageList.length, i, j);
                 --i;
                 ++j;
                 if (i<0 && j>=pages){
@@ -122,7 +128,7 @@ class CHDealsContent extends Component{
             }
             pageList.sort((a, b) => {return a-b});
         }
-        console.log("PAGE LIST IS ", pageList);
+        // console.log("PAGE LIST IS ", pageList);
         return pageList;
     }
 
