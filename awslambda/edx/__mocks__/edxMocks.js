@@ -199,12 +199,14 @@ const courseList = [
 		"Instructors": [{ InstructorId: "Staff1", InstructorName: "Ruth Cobos Pérez", ProfilePic: "Some profile Image 1" }, { InstructorId: "Staff2", InstructorName: "Álvaro Ortigosa", ProfilePic: "Some profile Image 2" }],
 		"URL": "someUrl11",
 		"Rating": 0.0,
+		"NoofRatings": 0,
 		"Description": "Some Description11",
 		"CourseImage": "someImage11.png",
 		"StartDate": "2019-2-5",
 		"EndDate": "2019-3-25",
 		"SelfPaced": false,
-		"Difficulty": "Introductory"
+		"Difficulty": "Introductory",
+		"last_updated": "2019-2-8"
 	},
 	{
 		"CourseId": "EDX-A2", //id
@@ -218,12 +220,14 @@ const courseList = [
 		"Instructors": [{ InstructorId: "Staff3", InstructorName: "Some Name3", ProfilePic: "Some profile Image 3" }],
 		"URL": "someUrl21",
 		"Rating": 0.0,
+		"NoofRatings": 0,
 		"Description": "Some Description21",
 		"CourseImage": "someImage21.png",
 		"StartDate": "2019-5-5",
 		"EndDate": "2019-6-25",
 		"SelfPaced": true,
-		"Difficulty": "Introductory"
+		"Difficulty": "Introductory",
+		"last_updated": "2019-2-8"
 	}
 ];
 

@@ -36,7 +36,7 @@ var doRecursiveRequest = (url, token, courses) =>
 					"EndDate": (typeof course.course_runs[0].end === 'undefined' || course.course_runs[0].end === null) ? null : (isNaN(Date.parse(course.course_runs[0].end)) ? null : new Date(Date.parse(course.course_runs[0].end)).getFullYear() + "-" + (parseInt(new Date(Date.parse(course.course_runs[0].end)).getMonth()) + 1) + "-" + new Date(Date.parse(course.course_runs[0].end)).getDate()),
 					"SelfPaced": (typeof course.course_runs[0].pacing_type === 'undefined' || course.course_runs[0].pacing_type === null || course.course_runs[0].pacing_type !== 'self_paced') ? false : true,
 					"Difficulty": typeof course.course_runs[0].level_type === 'undefined' ? null : course.course_runs[0].level_type,
-					"last_updated": null
+					"last_updated": (typeof course.course_runs[0].start === 'undefined' || course.modified === null) ? null : (isNaN(Date.parse(course.modified)) ? null : new Date(Date.parse(course.modified)).getFullYear() + "-" + (parseInt(new Date(Date.parse(course.modified)).getMonth()) + 1) + "-" + new Date(Date.parse(course.modified)).getDate())
 				}));
 			courses = courses.concat(temp);
 			console.log("Length: ", courses.length, " :: Next: ", catalogData.next);
