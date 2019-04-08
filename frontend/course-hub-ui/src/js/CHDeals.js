@@ -65,17 +65,23 @@ class CHDeals extends Component {
 			});
 		} else {
 			this.setState({
-				choice: "deals"
+				choice: "deals",
+				firstName: false,
+				email: null
 			});
 		}
 	}
 
 	handleClick = (choice, firstName, email, queryString) => {
+		console.log("Handle Click called", choice);
 		if (choice === 'home' || choice === 'homeSignedIn'){
 			choice = 'deals';
 		}
-		console.log
-		this.setState({ choice: choice, dealCategory: 'all', firstName: firstName, email: email});
+		if (choice != 'loginScreen' && choice != 'profile' && choice != 'signupScreen'){
+			firebaseInitialization.auth().onAuthStateChanged(user => this.handleAuthStateChange(user));
+		}
+		this.setState({ choice: choice, dealCategory: 'all'});
+		console.log("THIS STATE IS ", this.state);
 	}
 
 	handlePageUpdate = () => {
