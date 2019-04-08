@@ -51,11 +51,14 @@ class CHDealsCard extends React.Component {
       'fontSize' : '20px',
       'fontWeight': 'bold'
     };
+    var imageStyle = {
+      'padding' : '2%'
+    }
 
     return (
       <div style={customStyle}>
         <div className="card">
-          <img className="card-img-top" src={this.state.imageLink} alt="Card image cap" width='276px' height='180px' />
+          <img style={imageStyle} className="card-img-top" src={this.state.imageLink} alt="Card image cap" width='276px' height='180px' />
           <div className="card-body">
             <h5 className="card-title"><a href="javascript:void(0);" onClick={e => this.loadModal(this.state.id)}>{this.state.title}</a></h5>
             <b> {this.state.provider} </b>

@@ -58,8 +58,12 @@ class CHDealsContent extends Component{
         }).then(response => {
             return response.json();
         }).then(dealsData => {
-            console.log("DATA IS RECEIVE PROPS ", dealsData);
             this.setState({ deals: dealsData.deals, totalPages: dealsData.number_of_pages, currentPage: dealsData.current_page, totalCourses: dealsData.total_deals, pageList: this.createPageList(dealsData.current_page, dealsData.number_of_pages) });
+            if (dealsData.deals.length == 0){
+                this.setState({currentLayout : "nodeal"});
+            }else{
+                this.setState({currentLayout : "deals"});
+            }
         }).catch(error => {
             console.log("Error in searchquery backend ", error);
         });
@@ -82,6 +86,11 @@ class CHDealsContent extends Component{
         }).then(dealsData => {
             console.log("DATA IS DID MOUNT", dealsData);
             this.setState({ deals: dealsData.deals, totalPages: dealsData.number_of_pages, currentPage: dealsData.current_page, totalCourses: dealsData.total_deals, pageList: this.createPageList(dealsData.current_page, dealsData.number_of_pages) });
+            if (dealsData.deals.length == 0){
+                this.setState({currentLayout : "nodeal"});
+            }else{
+                this.setState({currentLayout : "deals"});
+            }
         }).catch(error => {
             console.log("Error in searchquery backend ", error);
         });
@@ -181,19 +190,7 @@ class CHDealsContent extends Component{
                                     }) :
                                     []
                             },
-                            { this.state.deals.length == 0 &&
-                                <div className="deal_success_alert">
-                                    <Alert variant="danger">
-                                        <Alert.Heading style={floatLeft}>Oh snap! No new Deals!!!</Alert.Heading>
-                                        <br /><br />
-                                        <p style={floatLeft}>
-                                            All the Deals are expired!!!
-                                        </p>
-                                        <br />
-                                        <hr />
-                                    </Alert>
-                                </div>
-                            }
+                            
                             { subChoice === "showCompleteDeal" &&
                                 [<div className="dealsPage">
                                         <Modal
@@ -233,6 +230,22 @@ class CHDealsContent extends Component{
                             ]}
                         </div>
                     ]
+                }
+
+                {   choice === "nodeal" &&
+                    [
+                        <CHDealsFilter updatePage={this.props.handlePageUpdate} key='keyDealsFilter' updateDeals={this.props.updateDealCategory}/>,
+                            <div className="deal_success_alert">
+                            <Alert variant="danger">
+                                <Alert.Heading style={floatLeft}>Oh snap! No new Deals!!!</Alert.Heading>
+                                <br /><br />
+                                <p style={floatLeft}>
+                                    All the Deals are expired!!!
+                                </p>
+                                <br />
+                                <hr />
+                            </Alert>
+                        </div>]
                 }
 
                 {   choice === "addnewdeal" && 
