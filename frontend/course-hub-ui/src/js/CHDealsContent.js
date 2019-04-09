@@ -136,8 +136,7 @@ class CHDealsContent extends Component{
                 term : { _id : courseID }
             }
         }
-        
-        
+        var user = firebaseInitialization.auth().currentUser;
         fetch(process.env.REACT_APP_SEARCH_DEALS, {
             method: 'POST',
             body: JSON.stringify(payload),
@@ -145,12 +144,61 @@ class CHDealsContent extends Component{
         }).then(response => {
             return response.json();
         }).then(dealData => {
+            console.log("Course id is ", courseID);
+            var payload = 
             this.setState({
                 subChoice: "showCompleteDeal",
                 showCompleteDealID : courseID,
                 completeDealData : {
                     data : dealData['hits']['hits'][0]['_source']
                 }
+            }, () => {
+                var payload = {
+                    query : {
+                         bool : {
+                            must : [
+                                {
+                                     match : { 
+                                       dealid : this.state.showCompleteDealID
+                                     }
+                                },
+                                {
+                                     match : {
+                                         email : user.email
+                                     }   
+                                }
+                             ]
+                         }
+                    }
+                 };
+                fetch(process.env.REACT_APP_SEARCH_DEAL_VOTE, {
+                    method: 'POST',
+                    body: JSON.stringify(payload),
+                    headers: { 'Content-Type': 'application/json' }
+                }).then(response => {
+                    return response.json();
+                }).then(data => {
+                    if (data.hits.total == 1){
+                        if (data.hits.hits[0]._source.vote == 1){
+                            this.setState({
+                                upVoteVariant: "warning",
+                                downVoteVariant: "light"
+                            });
+                        }else{
+                            this.setState({
+                                upVoteVariant: "light",
+                                downVoteVariant: "warning"
+                            });
+                        }
+                    }else{
+                        this.setState({
+                            upVoteVariant: "light",
+                            downVoteVariant: "light"
+                        });
+                    }
+                }).catch(error => {
+                    console.log("Error in searchquery backend ", error);
+                });
             });
         }).catch(error => {
             console.log("Error in searchquery backend ", error);
@@ -167,10 +215,93 @@ class CHDealsContent extends Component{
     }
 
     upVote = (e) => {
-        if (firebaseInitialization.auth().currentUser){
-            this.setState({
-                upVoteVariant: "warning",
-                downVoteVariant: "light"
+        console.log("USER IS ",firebaseInitialization.auth().currentUser);
+        var user = firebaseInitialization.auth().currentUser;
+        if (user){
+            var payload = {
+                query : {
+                     bool : {
+                        must : [
+                            {
+                                 match : { 
+                                   dealid : this.state.showCompleteDealID
+                                 }
+                            },
+                            {
+                                 match : {
+                                     email : user.email
+                                 }   
+                            }
+                         ]
+                     }
+                }
+             }
+            fetch(process.env.REACT_APP_SEARCH_DEAL_VOTE, {
+                method: 'POST',
+                body: JSON.stringify(payload),
+                headers: { 'Content-Type': 'application/json' }
+            }).then(response => {
+                return response.json();
+            }).then(dealVoteData => {
+                if (dealVoteData.hits.total == 1){
+                    if (dealVoteData.hits.hits[0]._source.vote == 1){
+                        // Do Nothing
+                        this.setState({
+                            upVoteVariant: "warning",
+                            downVoteVariant: "light"
+                        });
+                    }else{
+                        // Update value to 1
+                        var voteID = dealVoteData.hits.hits[0]._id;
+                        var payload = {
+                            doc : {
+                                vote : 1
+                            }
+                        };
+                        var url = process.env.REACT_APP_UPDATE_DEAL_VOTE + voteID + '/_update';
+                        fetch(url, {
+                            method: 'POST',
+                            body: JSON.stringify(payload),
+                            headers: { 'Content-Type': 'application/json' }
+                        }).then(response => {
+                            return response.json();
+                        }).then(updateData => {
+                            if (updateData._shards.successful == 1){
+                                this.setState({
+                                    upVoteVariant: "warning",
+                                    downVoteVariant: "light"
+                                });
+                            }
+                        }).catch(error => {
+                            console.log("Error in searchquery backend ", error);
+                        })
+                    }
+                }else{
+                    // Add a record if there isn't any record
+                    var payload = {
+                        dealid : this.state.showCompleteDealID,
+                        email : user.email,
+                        vote : 1
+                    };
+                    fetch(process.env.REACT_APP_ADD_DEAL_VOTE, {
+                        method: 'POST',
+                        body: JSON.stringify(payload),
+                        headers: { 'Content-Type': 'application/json' }
+                    }).then(response => {
+                        return response.json();
+                    }).then(addData => {
+                        if (addData._shards.successful == 1){
+                            this.setState({
+                                upVoteVariant: "warning",
+                                downVoteVariant: "light"
+                            });   
+                        }
+                    }).catch(error => {
+                        console.log("Error in searchquery backend ", error);
+                    });
+                }
+            }).catch(error => {
+                console.log("Error in searchquery backend ", error);
             });
         }else{
             alert("You should be logged in to UpVote a Deal");
@@ -178,11 +309,95 @@ class CHDealsContent extends Component{
     }
 
     downVote = (e) => {
-        if (firebaseInitialization.auth().currentUser){
-            this.setState({
-                upVoteVariant: "light",
-                downVoteVariant: "warning"
+        var user = firebaseInitialization.auth().currentUser;
+        if (user){
+            var payload = {
+                query : {
+                     bool : {
+                        must : [
+                            {
+                                 match : { 
+                                   dealid : this.state.showCompleteDealID
+                                 }
+                            },
+                            {
+                                 match : {
+                                     email : user.email
+                                 }   
+                            }
+                         ]
+                     }
+                }
+             }
+            fetch(process.env.REACT_APP_SEARCH_DEAL_VOTE, {
+                method: 'POST',
+                body: JSON.stringify(payload),
+                headers: { 'Content-Type': 'application/json' }
+            }).then(response => {
+                return response.json();
+            }).then(dealVoteData => {
+                if (dealVoteData.hits.total == 1){
+                    if (dealVoteData.hits.hits[0]._source.vote == -1){
+                        // Do Nothing
+                        this.setState({
+                            upVoteVariant: "light",
+                            downVoteVariant: "warning"
+                        });
+                    }else{
+                        // Update value to -1
+                        var voteID = dealVoteData.hits.hits[0]._id;
+                        var payload = {
+                            doc : {
+                                vote : -1
+                            }
+                        };
+                        var url = process.env.REACT_APP_UPDATE_DEAL_VOTE + voteID + '/_update';
+                        fetch(url, {
+                            method: 'POST',
+                            body: JSON.stringify(payload),
+                            headers: { 'Content-Type': 'application/json' }
+                        }).then(response => {
+                            return response.json();
+                        }).then(updateData => {
+                            if (updateData._shards.successful == 1){
+                                this.setState({
+                                    upVoteVariant: "light",
+                                    downVoteVariant: "warning"
+                                });
+                            }
+                        }).catch(error => {
+                            console.log("Error in searchquery backend ", error);
+                        })
+                    }
+                }else{
+                    // Add a record if there isn't any record
+                    var payload = {
+                        dealid : this.state.showCompleteDealID,
+                        email : user.email,
+                        vote : -1
+                    }
+                    fetch(process.env.REACT_APP_ADD_DEAL_VOTE, {
+                        method: 'POST',
+                        body: JSON.stringify(payload),
+                        headers: { 'Content-Type': 'application/json' }
+                    }).then(response => {
+                        return response.json();
+                    }).then(addData => {
+                        if (addData._shards.successful == 1){
+                            this.setState({
+                                upVoteVariant: "light",
+                                downVoteVariant: "warning"
+                            });
+                        }
+                    }).catch(error => {
+                        console.log("Error in searchquery backend ", error);
+                    });
+                }
+            }).catch(error => {
+                console.log("Error in searchquery backend ", error);
             });
+
+
         }else{
             alert("You should be logged in to UpVote a Deal");
         }

@@ -4,13 +4,16 @@
       "number_of_replicas": 2
     },
     "mappings": {
-      "dealVotes": {
+      "dealvote": {
         "properties": {
           "email": {
             "type": "text"
           },
           "dealid": {
             "type": "text"
+          },
+          "vote": {
+            "type": "integer"
           }
         }
       }
