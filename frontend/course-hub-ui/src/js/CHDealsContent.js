@@ -272,6 +272,35 @@ class CHDealsContent extends Component{
                                     downVoteVariant: "light"
                                 });
                             }
+                        }).then(data => {
+                            // Update data in deals id
+                            var thumbsDownVal = 0;
+                            if ((this.state.completeDealData.data.thumbsDown-1) < 0){
+                                thumbsDownVal = 0;
+                            }
+                            else{
+                                thumbsDownVal = this.state.completeDealData.data.thumbsDown-1;
+                            }
+                            var payload = {
+                                doc : {
+                                    thumbsUp : this.state.completeDealData.data.thumbsUp+1,
+                                    thumbsDown : thumbsDownVal,
+                                }
+                            };
+                            var url = process.env.REACT_APP_UPDATE_DEALS + this.state.showCompleteDealID + '/_update';
+                            fetch(url, {
+                                method: 'POST',
+                                body: JSON.stringify(payload),
+                                headers: { 'Content-Type': 'application/json' }
+                            }).then(response => {
+                                return response.json();
+                            }).then(data => {
+                                if (data._shards.successful == 1){
+                                    console.log("DATABASE UPDATED WITH NEW VALUE");
+                                }
+                            }).catch(error => {
+                                console.log("Error in searchquery backend ", error);
+                            });
                         }).catch(error => {
                             console.log("Error in searchquery backend ", error);
                         })
@@ -296,6 +325,26 @@ class CHDealsContent extends Component{
                                 downVoteVariant: "light"
                             });   
                         }
+                    }).then(data => {
+                        var payload = {
+                            doc : {
+                                thumbsUp : this.state.completeDealData.data.thumbsUp+1,
+                            }
+                        };
+                        var url = process.env.REACT_APP_UPDATE_DEALS + this.state.showCompleteDealID + '/_update';
+                        fetch(url, {
+                            method: 'POST',
+                            body: JSON.stringify(payload),
+                            headers: { 'Content-Type': 'application/json' }
+                        }).then(response => {
+                            return response.json();
+                        }).then(data => {
+                            if (data._shards.successful == 1){
+                                console.log("DATABASE UPDATED WITH NEW VALUE");
+                            }
+                        }).catch(error => {
+                            console.log("Error in searchquery backend ", error);
+                        });
                     }).catch(error => {
                         console.log("Error in searchquery backend ", error);
                     });
@@ -365,6 +414,34 @@ class CHDealsContent extends Component{
                                     downVoteVariant: "warning"
                                 });
                             }
+                        }).then(data => {
+                            var thumbsUpVal = 0;
+                            if ((this.state.completeDealData.data.thumbsUp-1) < 0){
+                                thumbsUpVal = 0;
+                            }
+                            else{
+                                thumbsUpVal = this.state.completeDealData.data.thumbsUp-1;
+                            }
+                            var payload = {
+                                doc : {
+                                    thumbsUp : thumbsUpVal,
+                                    thumbsDown :  this.state.completeDealData.data.thumbsDown+1
+                                }
+                            };
+                            var url = process.env.REACT_APP_UPDATE_DEALS + this.state.showCompleteDealID + '/_update';
+                            fetch(url, {
+                                method: 'POST',
+                                body: JSON.stringify(payload),
+                                headers: { 'Content-Type': 'application/json' }
+                            }).then(response => {
+                                return response.json();
+                            }).then(data => {
+                                if (data._shards.successful == 1){
+                                    console.log("DATABASE UPDATED WITH NEW VALUE");
+                                }
+                            }).catch(error => {
+                                console.log("Error in searchquery backend ", error);
+                            });
                         }).catch(error => {
                             console.log("Error in searchquery backend ", error);
                         })
@@ -389,6 +466,26 @@ class CHDealsContent extends Component{
                                 downVoteVariant: "warning"
                             });
                         }
+                    }).then(data => {
+                        var payload = {
+                            doc : {
+                                thumbsDown : this.state.completeDealData.data.thumbsDown+1,
+                            }
+                        };
+                        var url = process.env.REACT_APP_UPDATE_DEALS + this.state.showCompleteDealID + '/_update';
+                        fetch(url, {
+                            method: 'POST',
+                            body: JSON.stringify(payload),
+                            headers: { 'Content-Type': 'application/json' }
+                        }).then(response => {
+                            return response.json();
+                        }).then(data => {
+                            if (data._shards.successful == 1){
+                                console.log("DATABASE UPDATED WITH NEW VALUE");
+                            }
+                        }).catch(error => {
+                            console.log("Error in searchquery backend ", error);
+                        });
                     }).catch(error => {
                         console.log("Error in searchquery backend ", error);
                     });

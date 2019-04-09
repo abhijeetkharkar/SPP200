@@ -2,7 +2,7 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import classnames from 'classnames';
 import '../css/card.css';
-import firebaseInitialization from '../FirebaseUtils';
+
 
 class CHDealsCard extends React.Component {
 
@@ -71,10 +71,10 @@ class CHDealsCard extends React.Component {
             <div className="deal-strike-through">${this.state.originalPrice}</div>
             &nbsp;&nbsp;&nbsp;
             <div className="deal-notstrike-through" style={discountedPrice}>${this.state.discountedPrice}</div>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <i>&#128077;+{this.state.thumbsUp}</i>
             &nbsp;&nbsp;&nbsp;
-            <i>👎 +{this.state.thumbsDown}</i>
+            <i>👎 -{this.state.thumbsDown}</i>
           </div>
         </div>
       </div>
