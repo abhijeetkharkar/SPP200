@@ -137,6 +137,7 @@ class CHDealsContent extends Component{
             }
         }
         
+        
         fetch(process.env.REACT_APP_SEARCH_DEALS, {
             method: 'POST',
             body: JSON.stringify(payload),
