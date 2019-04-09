@@ -166,19 +166,25 @@ class CHDealsContent extends Component{
     }
 
     upVote = (e) => {
-        console.log("Upvote function called ");
-        this.setState({
-            upVoteVariant: "warning",
-            downVoteVariant: "light"
-        });
+        if (firebaseInitialization.auth().currentUser){
+            this.setState({
+                upVoteVariant: "warning",
+                downVoteVariant: "light"
+            });
+        }else{
+            alert("You should be logged in to UpVote a Deal");
+        }
     }
 
     downVote = (e) => {
-        console.log("Downvote function called ");
-        this.setState({
-            upVoteVariant: "light",
-            downVoteVariant: "warning"
-        });
+        if (firebaseInitialization.auth().currentUser){
+            this.setState({
+                upVoteVariant: "light",
+                downVoteVariant: "warning"
+            });
+        }else{
+            alert("You should be logged in to UpVote a Deal");
+        }
     }
 
     render() {

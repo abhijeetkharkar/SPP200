@@ -2,6 +2,7 @@ import React from 'react';
 import { withStyles } from '@material-ui/core/styles';
 import classnames from 'classnames';
 import '../css/card.css';
+import firebaseInitialization from '../FirebaseUtils';
 
 class CHDealsCard extends React.Component {
 
