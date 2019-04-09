@@ -153,52 +153,60 @@ class CHDealsContent extends Component{
                     data : dealData['hits']['hits'][0]['_source']
                 }
             }, () => {
-                var payload = {
-                    query : {
-                         bool : {
-                            must : [
-                                {
-                                     match : { 
-                                       dealid : this.state.showCompleteDealID
-                                     }
-                                },
-                                {
-                                     match : {
-                                         email : user.email
-                                     }   
-                                }
-                             ]
-                         }
-                    }
-                 };
-                fetch(process.env.REACT_APP_SEARCH_DEAL_VOTE, {
-                    method: 'POST',
-                    body: JSON.stringify(payload),
-                    headers: { 'Content-Type': 'application/json' }
-                }).then(response => {
-                    return response.json();
-                }).then(data => {
-                    if (data.hits.total == 1){
-                        if (data.hits.hits[0]._source.vote == 1){
-                            this.setState({
-                                upVoteVariant: "warning",
-                                downVoteVariant: "light"
-                            });
+                if (user){
+                    var payload = {
+                        query : {
+                             bool : {
+                                must : [
+                                    {
+                                         match : { 
+                                           dealid : this.state.showCompleteDealID
+                                         }
+                                    },
+                                    {
+                                         match : {
+                                             email : user.email
+                                         }   
+                                    }
+                                 ]
+                             }
+                        }
+                     };
+                    fetch(process.env.REACT_APP_SEARCH_DEAL_VOTE, {
+                        method: 'POST',
+                        body: JSON.stringify(payload),
+                        headers: { 'Content-Type': 'application/json' }
+                    }).then(response => {
+                        return response.json();
+                    }).then(data => {
+                        if (data.hits.total == 1){
+                            if (data.hits.hits[0]._source.vote == 1){
+                                this.setState({
+                                    upVoteVariant: "warning",
+                                    downVoteVariant: "light"
+                                });
+                            }else{
+                                this.setState({
+                                    upVoteVariant: "light",
+                                    downVoteVariant: "warning"
+                                });
+                            }
                         }else{
                             this.setState({
                                 upVoteVariant: "light",
-                                downVoteVariant: "warning"
+                                downVoteVariant: "light"
                             });
                         }
-                    }else{
-                        this.setState({
-                            upVoteVariant: "light",
-                            downVoteVariant: "light"
-                        });
-                    }
-                }).catch(error => {
-                    console.log("Error in searchquery backend ", error);
-                });
+                    }).catch(error => {
+                        console.log("Error in searchquery backend ", error);
+                    });
+                }else{
+                    this.setState({
+                        upVoteVariant: "light",
+                        downVoteVariant: "light"
+                    });
+                }
+                
             });
         }).catch(error => {
             console.log("Error in searchquery backend ", error);
