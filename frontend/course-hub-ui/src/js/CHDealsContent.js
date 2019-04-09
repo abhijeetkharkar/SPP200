@@ -32,7 +32,9 @@ class CHDealsContent extends Component{
             category: this.props.dealCategory,
             showCompleteDealID : "",
             completeDealData : {},
-            subChoice: ""
+            subChoice: "",
+            upVoteVariant: "light",
+            downVoteVariant: "light"
         };
 
         this.showDealModal = this.showDealModal.bind(this);
@@ -163,12 +165,31 @@ class CHDealsContent extends Component{
         });
     }
 
+    upVote = (e) => {
+        console.log("Upvote function called ");
+        this.setState({
+            upVoteVariant: "warning",
+            downVoteVariant: "light"
+        });
+    }
+
+    downVote = (e) => {
+        console.log("Downvote function called ");
+        this.setState({
+            upVoteVariant: "light",
+            downVoteVariant: "warning"
+        });
+    }
+
     render() {
         var choice = this.state.currentLayout;
         var subChoice = this.state.subChoice;
         var floatLeft = {
             'float': 'left'
         };
+        var voteStyle = {
+            'font-size' : '10px'
+        }
 
         return (
             <div className="my-content-landing">
@@ -207,6 +228,12 @@ class CHDealsContent extends Component{
                                                 <br />
                                                 <br />
                                                 <Button href={this.state.completeDealData.data.link} target="_blank" variant="info"> Get Deal </Button>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <Button style={voteStyle} onClick={this.upVote} target="_blank" variant={this.state.upVoteVariant}> &#128077;UpVote </Button>
+                                                &nbsp;
+                                                <Button style={voteStyle} onClick={this.downVote} target="_blank" variant={this.state.downVoteVariant}> 👎DownVote </Button>
                                                 <hr />
                                                 <small className="text-muted">Posted : <b>{this.state.completeDealData.data.datePosted}</b></small>
                                                 <br />
