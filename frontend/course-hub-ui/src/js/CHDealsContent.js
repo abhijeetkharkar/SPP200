@@ -38,13 +38,9 @@ class CHDealsContent extends Component{
         this.showDealModal = this.showDealModal.bind(this);
         this.hideCompleteDeal = this.hideCompleteDeal.bind(this);
         this.createPageList = this.createPageList.bind(this);
-        console.log("CURRENT LAYOUT IS ", this.state.currentLayout);
-        console.log("CURRENT CATEGORY IS ", this.state.category);
-        console.log("Current PROPS ARE ", this.props);
     }
 
     componentWillReceiveProps(nextProps){
-        console.log("UPDATED CATEGORY IN CHDEALSCONTENT IS : ", nextProps.dealCategory, nextProps.pageNumber);
         if (nextProps.pageType == 'addnewdeal'){
             this.setState({currentLayout: nextProps.pageType, currentPage: nextProps.pageNumber});
         }else{
@@ -74,7 +70,6 @@ class CHDealsContent extends Component{
     }
 
     componentDidMount() {
-        // console.log("In CHSearchContent, componentDidMount");
         if (this.state.currentLayout != 'addnewdeal'){
             const payload = {
                 "category": this.state.category,
@@ -147,16 +142,12 @@ class CHDealsContent extends Component{
         }).then(response => {
             return response.json();
         }).then(dealData => {
-            console.log("deal complete data is", dealData);
-            console.log("course data ", dealData['hits']['hits'][0]['_source']);
             this.setState({
                 subChoice: "showCompleteDeal",
                 showCompleteDealID : courseID,
                 completeDealData : {
                     data : dealData['hits']['hits'][0]['_source']
                 }
-            }, () => {
-                console.log('THIS.STATE IS ',this.state);
             });
         }).catch(error => {
             console.log("Error in searchquery backend ", error);
@@ -165,7 +156,6 @@ class CHDealsContent extends Component{
 
     // Hiding Deal
     hideCompleteDeal = (e) => {
-        console.log("Hide complete deal called ");
         this.setState({
             subChoice: "",
             showCompleteDealID : "",

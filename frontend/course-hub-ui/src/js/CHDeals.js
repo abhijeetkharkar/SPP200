@@ -38,7 +38,6 @@ class CHDeals extends Component {
 	}
 
 	handlePagination = (category, pageNumber) => {
-		console.log("page number is ", pageNumber);
 		this.setState({dealCategory: category, pagenumber: pageNumber});
 	}
 
@@ -61,7 +60,6 @@ class CHDeals extends Component {
 					firstName: first,
 					email: email
 				});
-				console.log("IN HANDLE AUTH CHANGE CHDEALS 3", this.state);
 			});
 		} else {
 			this.setState({
@@ -73,7 +71,6 @@ class CHDeals extends Component {
 	}
 
 	handleClick = (choice, firstName, email, queryString) => {
-		console.log("Handle Click called", choice);
 		if (choice === 'home' || choice === 'homeSignedIn'){
 			choice = 'deals';
 		}
@@ -81,18 +78,15 @@ class CHDeals extends Component {
 			firebaseInitialization.auth().onAuthStateChanged(user => this.handleAuthStateChange(user));
 		}
 		this.setState({ choice: choice, dealCategory: 'all'});
-		console.log("THIS STATE IS ", this.state);
 	}
 
 	handlePageUpdate = () => {
-		console.log("UPDATE FUNCTION CALLED in CHDEALS");
 		this.setState({
 			choice: 'addnewdeal'
 		})
 	}
 
 	handleAddDeal = (response) => {
-		console.log("HANDLE ADD DEAL CALLED IN MAIN PAGE ");
 		if (response === true){
 			this.setState({
 				choice: 'adddealsuccessfull'
@@ -113,15 +107,10 @@ class CHDeals extends Component {
 	}
 
 	showDealModal = (courseID) => {
-        console.log("Show Deal Modal function call");
-        console.log("Deal id is ", courseID);
         this.setState({
 			pageType : "showCompleteDeal",
 			courseID: courseID
         });
-        // Create a fetch Request to download data from Elastic Search
-        // Setting up dummy values for now
-        console.log("This state is ", this.state);
     }
 
 	render() {
