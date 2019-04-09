@@ -81,9 +81,13 @@ class CHDeals extends Component {
 	}
 
 	handlePageUpdate = () => {
-		this.setState({
-			choice: 'addnewdeal'
-		})
+		if (this.state.firstName){
+			this.setState({
+				choice: 'addnewdeal'
+			});
+		}else{
+			alert("You should be logged in to Submit Deal");
+		}	
 	}
 
 	handleAddDeal = (response) => {
