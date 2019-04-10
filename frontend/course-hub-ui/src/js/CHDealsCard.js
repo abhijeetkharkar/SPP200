@@ -3,6 +3,7 @@ import { withStyles } from '@material-ui/core/styles';
 import classnames from 'classnames';
 import '../css/card.css';
 
+
 class CHDealsCard extends React.Component {
 
   constructor(props, context){
@@ -19,7 +20,7 @@ class CHDealsCard extends React.Component {
       datePosted: this.props.datePosted || "None",
       provider: this.props.provider || "None",
     }
-    console.log("THis props are ", this.props);
+    // console.log("THis props are ", this.props);
     this.loadModal = this.loadModal.bind(this);
   }
 
@@ -70,10 +71,10 @@ class CHDealsCard extends React.Component {
             <div className="deal-strike-through">${this.state.originalPrice}</div>
             &nbsp;&nbsp;&nbsp;
             <div className="deal-notstrike-through" style={discountedPrice}>${this.state.discountedPrice}</div>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <i>&#128077;+{this.state.thumbsUp}</i>
             &nbsp;&nbsp;&nbsp;
-            <i>👎 +{this.state.thumbsDown}</i>
+            <i>👎 -{this.state.thumbsDown}</i>
           </div>
         </div>
       </div>

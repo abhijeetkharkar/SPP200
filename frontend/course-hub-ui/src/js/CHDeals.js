@@ -38,7 +38,6 @@ class CHDeals extends Component {
 	}
 
 	handlePagination = (category, pageNumber) => {
-		console.log("page number is ", pageNumber);
 		this.setState({dealCategory: category, pagenumber: pageNumber});
 	}
 
@@ -61,11 +60,12 @@ class CHDeals extends Component {
 					firstName: first,
 					email: email
 				});
-				console.log("IN HANDLE AUTH CHANGE CHDEALS 3", this.state);
 			});
 		} else {
 			this.setState({
-				choice: "deals"
+				choice: "deals",
+				firstName: false,
+				email: null
 			});
 		}
 	}
@@ -74,19 +74,23 @@ class CHDeals extends Component {
 		if (choice === 'home' || choice === 'homeSignedIn'){
 			choice = 'deals';
 		}
-		console.log
-		this.setState({ choice: choice, dealCategory: 'all', firstName: firstName, email: email});
+		if (choice != 'loginScreen' && choice != 'profile' && choice != 'signupScreen'){
+			firebaseInitialization.auth().onAuthStateChanged(user => this.handleAuthStateChange(user));
+		}
+		this.setState({ choice: choice, dealCategory: 'all'});
 	}
 
 	handlePageUpdate = () => {
-		console.log("UPDATE FUNCTION CALLED in CHDEALS");
-		this.setState({
-			choice: 'addnewdeal'
-		})
+		if (this.state.firstName){
+			this.setState({
+				choice: 'addnewdeal'
+			});
+		}else{
+			alert("You should be logged in to Submit Deal");
+		}	
 	}
 
 	handleAddDeal = (response) => {
-		console.log("HANDLE ADD DEAL CALLED IN MAIN PAGE ");
 		if (response === true){
 			this.setState({
 				choice: 'adddealsuccessfull'
@@ -101,20 +105,16 @@ class CHDeals extends Component {
 	updateDealCategory = (updatedCategory) => {
 		this.setState({
 			dealCategory : updatedCategory,
-			choice: 'deals'
+			choice: 'deals',
+			pagenumber: 0
 		});
 	}
 
 	showDealModal = (courseID) => {
-        console.log("Show Deal Modal function call");
-        console.log("Deal id is ", courseID);
         this.setState({
 			pageType : "showCompleteDeal",
 			courseID: courseID
         });
-        // Create a fetch Request to download data from Elastic Search
-        // Setting up dummy values for now
-        console.log("This state is ", this.state);
     }
 
 	render() {
@@ -127,7 +127,7 @@ class CHDeals extends Component {
 			<div className="App container-fluid">
 				{choice === "deals" &&
 					[<CHNavigator updateContent={this.handleClick} signedIn={firstName} caller={"deals"} firstName={firstName} email={email} key="keyNavigatorSearch" />,
-					<CHDealsContent updatePage={this.handlePagination} firstName={firstName} email={email} pageNumber={pageNumber} handlePageUpdate={this.handlePageUpdate} pageType='deals' courseID={this.state.courseID} key='keyDealsContent' updateDealCategory={this.updateDealCategory} dealCategory={this.state.dealCategory} />,
+					<CHDealsContent updatePage={this.handlePagination} firstName={firstName} email={email} pageNumber={pageNumber} handlePageUpdate={this.handlePageUpdate} pageType='deals' courseID={this.state.courseID} key='keyDealsContent' updateDealCategory={this.updateDealCategory} dealCategory={this.state.dealCategory}/>,
 					
 					<CHFooter key="keyFooterSearch" />]
 				}

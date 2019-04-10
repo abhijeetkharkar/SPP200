@@ -1,0 +1,21 @@
+{
+    "settings": {
+      "number_of_shards": 3,
+      "number_of_replicas": 2
+    },
+    "mappings": {
+      "dealvote": {
+        "properties": {
+          "email": {
+            "type": "text"
+          },
+          "dealid": {
+            "type": "text"
+          },
+          "vote": {
+            "type": "integer"
+          }
+        }
+      }
+    }
+  }

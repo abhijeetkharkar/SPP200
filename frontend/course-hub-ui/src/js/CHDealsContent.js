@@ -26,74 +26,77 @@ class CHDealsContent extends Component{
         this.state = {
             currentLayout: this.props.pageType,
             totalPages: 1,
-            currentPage: 0,
+            currentPage: this.props.pageNumber,
             deals: [],
             pageList: [],
             category: this.props.dealCategory,
             showCompleteDealID : "",
             completeDealData : {},
-            subChoice: ""
+            subChoice: "",
+            upVoteVariant: "light",
+            downVoteVariant: "light"
         };
 
         this.showDealModal = this.showDealModal.bind(this);
         this.hideCompleteDeal = this.hideCompleteDeal.bind(this);
         this.createPageList = this.createPageList.bind(this);
-        console.log("CURRENT LAYOUT IS ", this.state.currentLayout);
-        console.log("CURRENT CATEGORY IS ", this.state.category);
-        console.log("Current PROPS ARE ", this.props);
     }
 
     componentWillReceiveProps(nextProps){
-        console.log("UPDATED CATEGORY IN CHDEALSCONTENT IS : ", nextProps.dealCategory, nextProps.pageNumber);
-        this.setState({category: nextProps.dealCategory, currentPage: nextProps.pageNumber});
-        const payload = {
-            "category": nextProps.dealCategory,
-            "page_number": nextProps.pageNumber || 0
-        }
-
-        fetch(process.env.REACT_APP_GET_DEALS, {
-            method: 'POST',
-            body: JSON.stringify(payload),
-            headers: { 'Content-Type': 'application/json' }
-        }).then(response => {
-            return response.json();
-        }).then(dealsData => {
-            this.setState({ deals: dealsData.deals, totalPages: dealsData.number_of_pages, currentPage: dealsData.current_page, totalCourses: dealsData.total_deals, pageList: this.createPageList(dealsData.current_page, dealsData.number_of_pages) });
-            if (dealsData.deals.length == 0){
-                this.setState({currentLayout : "nodeal"});
-            }else{
-                this.setState({currentLayout : "deals"});
+        if (nextProps.pageType == 'addnewdeal'){
+            this.setState({currentLayout: nextProps.pageType, currentPage: nextProps.pageNumber});
+        }else{
+            this.setState({category: nextProps.dealCategory, currentPage: nextProps.pageNumber});
+            const payload = {
+                "category": nextProps.dealCategory,
+                "page_number": nextProps.pageNumber || 0
             }
-        }).catch(error => {
-            console.log("Error in searchquery backend ", error);
-        });
+    
+            fetch(process.env.REACT_APP_GET_DEALS, {
+                method: 'POST',
+                body: JSON.stringify(payload),
+                headers: { 'Content-Type': 'application/json' }
+            }).then(response => {
+                return response.json();
+            }).then(dealsData => {
+                this.setState({ deals: dealsData.deals, totalPages: dealsData.number_of_pages, currentPage: dealsData.current_page, totalCourses: dealsData.total_deals, pageList: this.createPageList(dealsData.current_page, dealsData.number_of_pages) });
+                if (dealsData.deals.length == 0){
+                    this.setState({currentLayout : "nodeal"});
+                }else{
+                    this.setState({currentLayout : "deals"});
+                }
+            }).catch(error => {
+                console.log("Error in searchquery backend ", error);
+            });
+        }
     }
 
     componentDidMount() {
-        // console.log("In CHSearchContent, componentDidMount");
-        const payload = {
-            "category": this.state.category,
-            "page_number": this.props.pageNumber || 0
-        }
-        console.log("payload is ", payload);
-
-        fetch(process.env.REACT_APP_GET_DEALS, {
-            method: 'POST',
-            body: JSON.stringify(payload),
-            headers: { 'Content-Type': 'application/json' }
-        }).then(response => {
-            return response.json();
-        }).then(dealsData => {
-            console.log("DATA IS DID MOUNT", dealsData);
-            this.setState({ deals: dealsData.deals, totalPages: dealsData.number_of_pages, currentPage: dealsData.current_page, totalCourses: dealsData.total_deals, pageList: this.createPageList(dealsData.current_page, dealsData.number_of_pages) });
-            if (dealsData.deals.length == 0){
-                this.setState({currentLayout : "nodeal"});
-            }else{
-                this.setState({currentLayout : "deals"});
+        if (this.state.currentLayout != 'addnewdeal'){
+            const payload = {
+                "category": this.state.category,
+                "page_number": this.props.pageNumber || 0
             }
-        }).catch(error => {
-            console.log("Error in searchquery backend ", error);
-        });
+            console.log("payload is ", payload);
+    
+            fetch(process.env.REACT_APP_GET_DEALS, {
+                method: 'POST',
+                body: JSON.stringify(payload),
+                headers: { 'Content-Type': 'application/json' }
+            }).then(response => {
+                return response.json();
+            }).then(dealsData => {
+                // console.log("DATA IS DID MOUNT", dealsData);
+                this.setState({ deals: dealsData.deals, totalPages: dealsData.number_of_pages, currentPage: dealsData.current_page, totalCourses: dealsData.total_deals, pageList: this.createPageList(dealsData.current_page, dealsData.number_of_pages) });
+                if (dealsData.deals.length == 0){
+                    this.setState({currentLayout : "nodeal"});
+                }else{
+                    this.setState({currentLayout : "deals"});
+                }
+            }).catch(error => {
+                console.log("Error in searchquery backend ", error);
+            });
+        }
     }
 
     createPageList = (page, total) => {
@@ -105,7 +108,7 @@ class CHDealsContent extends Component{
             var i=curr, j=curr;
             // console.log("Entered, curr: ", curr, ", pageList: ", pageList);
             while(pageList.length < 10 && pageList.length <= pages) {
-                console.log("PAGE LIST length IS ", pageList.length, i, j);
+                // console.log("PAGE LIST length IS ", pageList.length, i, j);
                 --i;
                 ++j;
                 if (i<0 && j>=pages){
@@ -122,7 +125,7 @@ class CHDealsContent extends Component{
             }
             pageList.sort((a, b) => {return a-b});
         }
-        console.log("PAGE LIST IS ", pageList);
+        // console.log("PAGE LIST IS ", pageList);
         return pageList;
     }
 
@@ -133,7 +136,7 @@ class CHDealsContent extends Component{
                 term : { _id : courseID }
             }
         }
-        
+        var user = firebaseInitialization.auth().currentUser;
         fetch(process.env.REACT_APP_SEARCH_DEALS, {
             method: 'POST',
             body: JSON.stringify(payload),
@@ -141,8 +144,8 @@ class CHDealsContent extends Component{
         }).then(response => {
             return response.json();
         }).then(dealData => {
-            console.log("deal complete data is", dealData);
-            console.log("course data ", dealData['hits']['hits'][0]['_source']);
+            console.log("Course id is ", courseID);
+            var payload = 
             this.setState({
                 subChoice: "showCompleteDeal",
                 showCompleteDealID : courseID,
@@ -150,7 +153,60 @@ class CHDealsContent extends Component{
                     data : dealData['hits']['hits'][0]['_source']
                 }
             }, () => {
-                console.log('THIS.STATE IS ',this.state);
+                if (user){
+                    var payload = {
+                        query : {
+                             bool : {
+                                must : [
+                                    {
+                                         match : { 
+                                           dealid : this.state.showCompleteDealID
+                                         }
+                                    },
+                                    {
+                                         match : {
+                                             email : user.email
+                                         }   
+                                    }
+                                 ]
+                             }
+                        }
+                     };
+                    fetch(process.env.REACT_APP_SEARCH_DEAL_VOTE, {
+                        method: 'POST',
+                        body: JSON.stringify(payload),
+                        headers: { 'Content-Type': 'application/json' }
+                    }).then(response => {
+                        return response.json();
+                    }).then(data => {
+                        if (data.hits.total == 1){
+                            if (data.hits.hits[0]._source.vote == 1){
+                                this.setState({
+                                    upVoteVariant: "warning",
+                                    downVoteVariant: "light"
+                                });
+                            }else{
+                                this.setState({
+                                    upVoteVariant: "light",
+                                    downVoteVariant: "warning"
+                                });
+                            }
+                        }else{
+                            this.setState({
+                                upVoteVariant: "light",
+                                downVoteVariant: "light"
+                            });
+                        }
+                    }).catch(error => {
+                        console.log("Error in searchquery backend ", error);
+                    });
+                }else{
+                    this.setState({
+                        upVoteVariant: "light",
+                        downVoteVariant: "light"
+                    });
+                }
+                
             });
         }).catch(error => {
             console.log("Error in searchquery backend ", error);
@@ -159,12 +215,297 @@ class CHDealsContent extends Component{
 
     // Hiding Deal
     hideCompleteDeal = (e) => {
-        console.log("Hide complete deal called ");
         this.setState({
             subChoice: "",
             showCompleteDealID : "",
             completeDealData : {}
         });
+    }
+
+    upVote = (e) => {
+        console.log("USER IS ",firebaseInitialization.auth().currentUser);
+        var user = firebaseInitialization.auth().currentUser;
+        if (user){
+            var payload = {
+                query : {
+                     bool : {
+                        must : [
+                            {
+                                 match : { 
+                                   dealid : this.state.showCompleteDealID
+                                 }
+                            },
+                            {
+                                 match : {
+                                     email : user.email
+                                 }   
+                            }
+                         ]
+                     }
+                }
+             }
+            fetch(process.env.REACT_APP_SEARCH_DEAL_VOTE, {
+                method: 'POST',
+                body: JSON.stringify(payload),
+                headers: { 'Content-Type': 'application/json' }
+            }).then(response => {
+                return response.json();
+            }).then(dealVoteData => {
+                if (dealVoteData.hits.total == 1){
+                    if (dealVoteData.hits.hits[0]._source.vote == 1){
+                        // Do Nothing
+                        this.setState({
+                            upVoteVariant: "warning",
+                            downVoteVariant: "light"
+                        });
+                    }else{
+                        // Update value to 1
+                        var voteID = dealVoteData.hits.hits[0]._id;
+                        var payload = {
+                            doc : {
+                                vote : 1
+                            }
+                        };
+                        var url = process.env.REACT_APP_UPDATE_DEAL_VOTE + voteID + '/_update';
+                        fetch(url, {
+                            method: 'POST',
+                            body: JSON.stringify(payload),
+                            headers: { 'Content-Type': 'application/json' }
+                        }).then(response => {
+                            return response.json();
+                        }).then(updateData => {
+                            if (updateData._shards.successful == 1){
+                                this.setState({
+                                    upVoteVariant: "warning",
+                                    downVoteVariant: "light"
+                                });
+                            }
+                        }).then(data => {
+                            // Update data in deals id
+                            var thumbsDownVal = 0;
+                            if ((this.state.completeDealData.data.thumbsDown-1) < 0){
+                                thumbsDownVal = 0;
+                            }
+                            else{
+                                thumbsDownVal = this.state.completeDealData.data.thumbsDown-1;
+                            }
+                            var payload = {
+                                doc : {
+                                    thumbsUp : this.state.completeDealData.data.thumbsUp+1,
+                                    thumbsDown : thumbsDownVal,
+                                }
+                            };
+                            var url = process.env.REACT_APP_UPDATE_DEALS + this.state.showCompleteDealID + '/_update';
+                            fetch(url, {
+                                method: 'POST',
+                                body: JSON.stringify(payload),
+                                headers: { 'Content-Type': 'application/json' }
+                            }).then(response => {
+                                return response.json();
+                            }).then(data => {
+                                if (data._shards.successful == 1){
+                                    console.log("DATABASE UPDATED WITH NEW VALUE");
+                                }
+                            }).catch(error => {
+                                console.log("Error in searchquery backend ", error);
+                            });
+                        }).catch(error => {
+                            console.log("Error in searchquery backend ", error);
+                        })
+                    }
+                }else{
+                    // Add a record if there isn't any record
+                    var payload = {
+                        dealid : this.state.showCompleteDealID,
+                        email : user.email,
+                        vote : 1
+                    };
+                    fetch(process.env.REACT_APP_ADD_DEAL_VOTE, {
+                        method: 'POST',
+                        body: JSON.stringify(payload),
+                        headers: { 'Content-Type': 'application/json' }
+                    }).then(response => {
+                        return response.json();
+                    }).then(addData => {
+                        if (addData._shards.successful == 1){
+                            this.setState({
+                                upVoteVariant: "warning",
+                                downVoteVariant: "light"
+                            });   
+                        }
+                    }).then(data => {
+                        var payload = {
+                            doc : {
+                                thumbsUp : this.state.completeDealData.data.thumbsUp+1,
+                            }
+                        };
+                        var url = process.env.REACT_APP_UPDATE_DEALS + this.state.showCompleteDealID + '/_update';
+                        fetch(url, {
+                            method: 'POST',
+                            body: JSON.stringify(payload),
+                            headers: { 'Content-Type': 'application/json' }
+                        }).then(response => {
+                            return response.json();
+                        }).then(data => {
+                            if (data._shards.successful == 1){
+                                console.log("DATABASE UPDATED WITH NEW VALUE");
+                            }
+                        }).catch(error => {
+                            console.log("Error in searchquery backend ", error);
+                        });
+                    }).catch(error => {
+                        console.log("Error in searchquery backend ", error);
+                    });
+                }
+            }).catch(error => {
+                console.log("Error in searchquery backend ", error);
+            });
+        }else{
+            alert("You should be logged in to UpVote a Deal");
+        }
+    }
+
+    downVote = (e) => {
+        var user = firebaseInitialization.auth().currentUser;
+        if (user){
+            var payload = {
+                query : {
+                     bool : {
+                        must : [
+                            {
+                                 match : { 
+                                   dealid : this.state.showCompleteDealID
+                                 }
+                            },
+                            {
+                                 match : {
+                                     email : user.email
+                                 }   
+                            }
+                         ]
+                     }
+                }
+             }
+            fetch(process.env.REACT_APP_SEARCH_DEAL_VOTE, {
+                method: 'POST',
+                body: JSON.stringify(payload),
+                headers: { 'Content-Type': 'application/json' }
+            }).then(response => {
+                return response.json();
+            }).then(dealVoteData => {
+                if (dealVoteData.hits.total == 1){
+                    if (dealVoteData.hits.hits[0]._source.vote == -1){
+                        // Do Nothing
+                        this.setState({
+                            upVoteVariant: "light",
+                            downVoteVariant: "warning"
+                        });
+                    }else{
+                        // Update value to -1
+                        var voteID = dealVoteData.hits.hits[0]._id;
+                        var payload = {
+                            doc : {
+                                vote : -1
+                            }
+                        };
+                        var url = process.env.REACT_APP_UPDATE_DEAL_VOTE + voteID + '/_update';
+                        fetch(url, {
+                            method: 'POST',
+                            body: JSON.stringify(payload),
+                            headers: { 'Content-Type': 'application/json' }
+                        }).then(response => {
+                            return response.json();
+                        }).then(updateData => {
+                            if (updateData._shards.successful == 1){
+                                this.setState({
+                                    upVoteVariant: "light",
+                                    downVoteVariant: "warning"
+                                });
+                            }
+                        }).then(data => {
+                            var thumbsUpVal = 0;
+                            if ((this.state.completeDealData.data.thumbsUp-1) < 0){
+                                thumbsUpVal = 0;
+                            }
+                            else{
+                                thumbsUpVal = this.state.completeDealData.data.thumbsUp-1;
+                            }
+                            var payload = {
+                                doc : {
+                                    thumbsUp : thumbsUpVal,
+                                    thumbsDown :  this.state.completeDealData.data.thumbsDown+1
+                                }
+                            };
+                            var url = process.env.REACT_APP_UPDATE_DEALS + this.state.showCompleteDealID + '/_update';
+                            fetch(url, {
+                                method: 'POST',
+                                body: JSON.stringify(payload),
+                                headers: { 'Content-Type': 'application/json' }
+                            }).then(response => {
+                                return response.json();
+                            }).then(data => {
+                                if (data._shards.successful == 1){
+                                    console.log("DATABASE UPDATED WITH NEW VALUE");
+                                }
+                            }).catch(error => {
+                                console.log("Error in searchquery backend ", error);
+                            });
+                        }).catch(error => {
+                            console.log("Error in searchquery backend ", error);
+                        })
+                    }
+                }else{
+                    // Add a record if there isn't any record
+                    var payload = {
+                        dealid : this.state.showCompleteDealID,
+                        email : user.email,
+                        vote : -1
+                    }
+                    fetch(process.env.REACT_APP_ADD_DEAL_VOTE, {
+                        method: 'POST',
+                        body: JSON.stringify(payload),
+                        headers: { 'Content-Type': 'application/json' }
+                    }).then(response => {
+                        return response.json();
+                    }).then(addData => {
+                        if (addData._shards.successful == 1){
+                            this.setState({
+                                upVoteVariant: "light",
+                                downVoteVariant: "warning"
+                            });
+                        }
+                    }).then(data => {
+                        var payload = {
+                            doc : {
+                                thumbsDown : this.state.completeDealData.data.thumbsDown+1,
+                            }
+                        };
+                        var url = process.env.REACT_APP_UPDATE_DEALS + this.state.showCompleteDealID + '/_update';
+                        fetch(url, {
+                            method: 'POST',
+                            body: JSON.stringify(payload),
+                            headers: { 'Content-Type': 'application/json' }
+                        }).then(response => {
+                            return response.json();
+                        }).then(data => {
+                            if (data._shards.successful == 1){
+                                console.log("DATABASE UPDATED WITH NEW VALUE");
+                            }
+                        }).catch(error => {
+                            console.log("Error in searchquery backend ", error);
+                        });
+                    }).catch(error => {
+                        console.log("Error in searchquery backend ", error);
+                    });
+                }
+            }).catch(error => {
+                console.log("Error in searchquery backend ", error);
+            });
+
+
+        }else{
+            alert("You should be logged in to UpVote a Deal");
+        }
     }
 
     render() {
@@ -173,6 +514,9 @@ class CHDealsContent extends Component{
         var floatLeft = {
             'float': 'left'
         };
+        var voteStyle = {
+            'font-size' : '10px'
+        }
 
         return (
             <div className="my-content-landing">
@@ -211,6 +555,12 @@ class CHDealsContent extends Component{
                                                 <br />
                                                 <br />
                                                 <Button href={this.state.completeDealData.data.link} target="_blank" variant="info"> Get Deal </Button>
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                <Button style={voteStyle} onClick={this.upVote} target="_blank" variant={this.state.upVoteVariant}> &#128077;UpVote </Button>
+                                                &nbsp;
+                                                <Button style={voteStyle} onClick={this.downVote} target="_blank" variant={this.state.downVoteVariant}> 👎DownVote </Button>
                                                 <hr />
                                                 <small className="text-muted">Posted : <b>{this.state.completeDealData.data.datePosted}</b></small>
                                                 <br />
