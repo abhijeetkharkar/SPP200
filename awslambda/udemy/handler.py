@@ -94,9 +94,17 @@ def parse_json(json_data):
             else None        
         course_object['StartDate'] = None
         course_object['EndDate'] = None
-        course_object['Difficulty'] = course_level \
-            if course_level != "all" \
-            else ["beginnner", "intermediate", "expert"]
+        if course_level != "all":
+            if course_level == "beginnner":
+                course_object['Difficulty'] = "Introductory"
+            elif course_level == "intermediate":
+                course_object['Difficulty'] = "Intermediate"
+            elif course_level == "expert":
+                course_object['Difficulty'] = "Advanced"
+            else:
+                course_object['Difficulty'] = None
+        else:
+            course_object['Difficulty'] = "all"
         course_object['Description'] = extra_data["description"] \
             if extra_data != None \
             else None        
