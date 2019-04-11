@@ -3,6 +3,7 @@ import { withStyles } from '@material-ui/core/styles';
 import classnames from 'classnames';
 import '../css/card.css';
 
+
 class CHDealsCard extends React.Component {
 
   constructor(props, context){
@@ -19,6 +20,8 @@ class CHDealsCard extends React.Component {
       datePosted: this.props.datePosted || "None",
       provider: this.props.provider || "None",
     }
+    // console.log("THis props are ", this.props);
+    this.loadModal = this.loadModal.bind(this);
   }
 
   componentWillReceiveProps(nextProps){
@@ -36,6 +39,10 @@ class CHDealsCard extends React.Component {
     })
   }
 
+  loadModal = (id) => {
+    this.props.showDeal(id);
+  }
+
   render() {
     // const { classes } = this.props;
     var customStyle = {
@@ -45,13 +52,16 @@ class CHDealsCard extends React.Component {
       'fontSize' : '20px',
       'fontWeight': 'bold'
     };
+    var imageStyle = {
+      'padding' : '2%'
+    }
 
     return (
       <div style={customStyle}>
         <div className="card">
-          <img className="card-img-top" src={this.state.imageLink} alt="Card image cap" width='276px' height='180px' />
+          <img style={imageStyle} className="card-img-top" src={this.state.imageLink} alt="Card image cap" width='276px' height='180px' />
           <div className="card-body">
-            <h5 className="card-title"><a href="#" onClick={e => this.props.showCompleteDeal(this.state.id)}>{this.state.title}</a></h5>
+            <h5 className="card-title"><a href="javascript:void(0);" onClick={e => this.loadModal(this.state.id)}>{this.state.title}</a></h5>
             <b> {this.state.provider} </b>
             <p className="card-text"> {this.state.description} </p>
           </div>
@@ -61,10 +71,10 @@ class CHDealsCard extends React.Component {
             <div className="deal-strike-through">${this.state.originalPrice}</div>
             &nbsp;&nbsp;&nbsp;
             <div className="deal-notstrike-through" style={discountedPrice}>${this.state.discountedPrice}</div>
-            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
             <i>&#128077;+{this.state.thumbsUp}</i>
             &nbsp;&nbsp;&nbsp;
-            <i>👎 +{this.state.thumbsDown}</i>
+            <i>👎 -{this.state.thumbsDown}</i>
           </div>
         </div>
       </div>

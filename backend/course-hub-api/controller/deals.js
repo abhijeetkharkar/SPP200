@@ -87,7 +87,7 @@ exports.courseDeals = function(request, response){
             if (body.hits){
                 var search_response = {};
                 search_response['total'] = body.hits.total;
-                search_response['number_of_pages'] = Math.floor(body.hits.total / deals_page_size) + 1;
+                search_response['number_of_pages'] = Math.ceil(body.hits.total / deals_page_size);
                 search_response['current_page'] = page_number;
                 search_response['deals'] = parseDeals(body.hits.hits);
                 console.log("Response is ", search_response);

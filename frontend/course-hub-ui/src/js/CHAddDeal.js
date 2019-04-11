@@ -118,6 +118,7 @@ class CHAddDeal extends Component {
             "originalPrice" : this.state.originalPrice,
             "discountedPrice" : this.state.discountedPrice,
             "thumbsUp" : 0,
+            "thumbsDown" : 0,
             "datePosted" : this.state.datePosted,
             "dealExpiry" : this.state.dealExpiry,
             "user" : "dummyUser",

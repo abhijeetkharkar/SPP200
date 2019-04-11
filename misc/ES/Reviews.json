@@ -1,113 +1,117 @@
-{  
-    "settings":{  
-        "number_of_shards":3,
-        "number_of_replicas":2
+{
+    "settings": {
+        "number_of_shards": 3,
+        "number_of_replicas": 2
     },
-   "mappings":{  
-       "review":{  
-           "properties":{  
-               "CourseId":{  
-                   "type":"keyword"
-               },
-              "ReviewId":{  
-                  "type":"keyword"
-              },
-              
-              "UserId":{  
-                   "type":"keyword"
-              },
-              "PostedBy":{
-                "type":"text"
-              },
-              "PostedByInstructor":{  
-                  "type":"boolean"
-               },
-              "Description":{  
-                  "type":"text",
-                  "analyzer":"standard"
-              },
-              "NoofLikes":{
-                  "type":"integer"
-              },
-              "NoofdisLikes":{
-                "type":"integer"
-            },
-            "Rating":{
-                "type":"float"
-            },
-              "CommentedOn":{  
-                "properties":{
-                	"Date":{
-                  "type":"date",
-                  "format":"yyyy-MM-dd"
-                 },
-                "Time":{
-                    "type":"date",
-                    "format":"HH:mm:ss"
-                  }
-                 }
-              },
-              "EditedOn":{  
-              	 "properties":{
-                "Date":{
-                    "type":"date",
-                    "format":"yyyy-MM-dd"
+    "mappings": {
+        "review": {
+            "properties": {
+                "CourseId": {
+                    "type": "keyword"
                 },
-                "Time":{
-                      "type":"date",
-                	   "format":"HH:mm:ss"
-                }
-              	 }
-              },
-            "Reply":{
-                "properties":{
-                    "CourseId":{  
-                        "type":"keyword"
-                    },
-                   "ReplyId":{  
-                       "type":"keyword"
-                   },
-                   
-                   "UserId":{  
-                        "type":"keyword"
-                   },
-                   "PostedBy":{
-                     "type":"text"
-                   },
-                   "PostedByInstructor":{  
-                       "type":"boolean"
-                    },
-                   "Description":{  
-                       "type":"text",
-                       "analyzer":"standard"
-                   } ,
-                   "CommentedOn":{  
-                    "properties":{
-                        "Date":{
-                      "type":"date",
-                      "format":"yyyy-MM-dd"
-                     },
-                    "Time":{
-                        "type":"date",
-                        "format":"HH:mm:ss"
-                      }
-                     }
-                  },
-                  "EditedOn":{  
-                       "properties":{
-                    "Date":{
-                        "type":"date",
-                        "format":"yyyy-MM-dd"
-                    },
-                    "Time":{
-                          "type":"date",
-                           "format":"HH:mm:ss"
+                "ReviewId": {
+                    "type": "keyword"
+                },
+                "UserId": {
+                    "type": "keyword"
+                },
+                "URL": {
+                    "type": "text"
+                },
+                "PostedBy": {
+                    "type": "text"
+                },
+                "PostedByInstructor": {
+                    "type": "boolean"
+                },
+                "Description": {
+                    "type": "text",
+                    "analyzer": "standard"
+                },
+                "NoofLikes": {
+                    "type": "integer"
+                },
+                "NoofdisLikes": {
+                    "type": "integer"
+                },
+                "Rating": {
+                    "type": "float"
+                },
+                "CommentedOn": {
+                    "properties": {
+                        "Date": {
+                            "type": "date",
+                            "format": "yyyy-MM-dd"
+                        },
+                        "Time": {
+                            "type": "date",
+                            "format": "HH:mm:ss"
+                        }
                     }
-                       }
-                  }
+                },
+                "EditedOn": {
+                    "properties": {
+                        "Date": {
+                            "type": "date",
+                            "format": "yyyy-MM-dd"
+                        },
+                        "Time": {
+                            "type": "date",
+                            "format": "HH:mm:ss"
+                        }
+                    }
+                },
+                "Reply": {
+                    "properties": {
+                        "CourseId": {
+                            "type": "keyword"
+                        },
+                        "ReplyId": {
+                            "type": "keyword"
+                        },
+                        "UserId": {
+                            "type": "keyword"
+                        },
+                        "URL": {
+                            "type": "text"
+                        },
+                        "PostedBy": {
+                            "type": "text"
+                        },
+                        "PostedByInstructor": {
+                            "type": "boolean"
+                        },
+                        "Description": {
+                            "type": "text",
+                            "analyzer": "standard"
+                        },
+                        "CommentedOn": {
+                            "properties": {
+                                "Date": {
+                                    "type": "date",
+                                    "format": "yyyy-MM-dd"
+                                },
+                                "Time": {
+                                    "type": "date",
+                                    "format": "HH:mm:ss"
+                                }
+                            }
+                        },
+                        "EditedOn": {
+                            "properties": {
+                                "Date": {
+                                    "type": "date",
+                                    "format": "yyyy-MM-dd"
+                                },
+                                "Time": {
+                                    "type": "date",
+                                    "format": "HH:mm:ss"
+                                }
+                            }
+                        }
+                    }
                 }
             }
-           }
-       }
-   }
+        }
+    }
 }
