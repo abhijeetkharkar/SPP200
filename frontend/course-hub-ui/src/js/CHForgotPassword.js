@@ -31,7 +31,7 @@ class ForgotPasswordPage extends Component {
 
   handleHide = () => {
     this.setState({ show: false });
-    this.props.updateContent("home", null, null, this.props.searchString != undefined? this.props.searchString: null);
+    this.props.updateContent("home", null, null, this.props.searchString != undefined? this.props.searchString: null, this.props.courseId || '');
   };
 
   handleEmailChange = e => {
@@ -65,7 +65,7 @@ class ForgotPasswordPage extends Component {
           <Modal.Title size="lg" id="login-in-title">
             Forgot Password?
             </Modal.Title>
-          <Button id="forgotPasswordCloseButton" variant="danger" onClick={(e) => this.props.updateContent("home", null, null, this.props.searchString != undefined? this.props.searchString: null)}>
+          <Button id="forgotPasswordCloseButton" variant="danger" onClick={(e) => this.props.updateContent("home", null, null, this.props.searchString != undefined? this.props.searchString: null, this.props.courseId || '')}>
             X
           </Button>
         </Modal.Header>

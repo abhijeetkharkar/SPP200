@@ -74,14 +74,14 @@ class SignupPage extends Component {
             .then(response => {
               if (response) {
                 console.log("User successfully created ", response);
-                this.props.updateContent("homeSignedIn", this.state.firstName, null, this.props.searchString != undefined? this.props.searchString: null);
+                this.props.updateContent("homeSignedIn", this.state.firstName, null, this.props.searchString != undefined? this.props.searchString: null, this.props.courseId || '');
               } else {
                 // Deleting account in Firebase if Elastic Search Update fails
                 console.log("User successfully created 2");
                 doDeleteUser().then(deleteResponse => {
                   console.log("DELETE:", deleteResponse);
                   this.setState({ serverErrorMsg: "Unable to sign-up now." });
-                  this.props.updateContent("loginScreen", null, null, this.props.searchString != undefined? this.props.searchString: null);
+                  this.props.updateContent("loginScreen", null, null, this.props.searchString != undefined? this.props.searchString: null, this.props.courseId || '');
                   document.getElementById("invalidUsernamePwdFeedback").style.display = "block";
                 }).catch(error => {
                   console.log("erorr is ", error);
@@ -128,13 +128,14 @@ class SignupPage extends Component {
     return (
       <Modal
         show={this.state.show}
+        onHide={this.handleHide}
         dialogClassName="modal-90w"
         aria-labelledby="example-custom-modal-styling-title">
         <Modal.Header>
           <Modal.Title id="sign-up-title">
             SignUp
             </Modal.Title>
-          <Button variant="danger" onClick={(e) => this.props.updateContent("home", null, null, this.props.searchString != undefined? this.props.searchString: null)}>
+          <Button variant="danger" onClick={(e) => this.props.updateContent("home", null, null, this.props.searchString != undefined? this.props.searchString: null, this.props.courseId || '')}>
             X
             </Button>
         </Modal.Header>

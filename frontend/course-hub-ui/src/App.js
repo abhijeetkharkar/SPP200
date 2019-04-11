@@ -74,7 +74,7 @@ class App extends Component {
     const email = this.state.email
     const searchString = this.state.searchString
 
-    console.log("In App, render function, email: ", email);
+    // console.log("In App, render function, email: ", email);
 
     const mainContainerStyle = { height: window.outerHeight };
 
