@@ -57,12 +57,17 @@ class SignupPage extends Component {
             })
             .then(user => {
               // Creating User Profile in Elastic Search Database
+              var today = new Date();
+              var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
               return addUser({
                 "Email": this.state.email,
                 "UserName": {
                   "First": this.state.firstName,
                   "Last": this.state.lastName
-                }
+                },
+                "JoiningDate": date,
+                "CoursesTaken": [],
+                "FavouriteCourses": []
               })
             })
             .then(response => {
