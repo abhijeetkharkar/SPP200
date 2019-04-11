@@ -24,22 +24,22 @@ class CHCourseDetails extends Component {
             email: '',
 			searchString: '',
 			pageNumber: 0,
-			courseproviders: values.courseproviders || "",
+			/* courseproviders: values.courseproviders || "",
             minprice: values.minPrice ? parseInt(values.minPrice): 0,
             maxprice: values.maxPrice ? parseInt(values.maxPrice): 0,
             startdate: values.startDate || '',
 			enddate: values.endDate || '',
-			filtersApplied: values.courseproviders || values.minPrice || values.maxPrice || values.startDate || values.endDate,
-            courseId: values.courseId
+			filtersApplied: values.courseproviders || values.minPrice || values.maxPrice || values.startDate || values.endDate, */
+            courseId: values.courseId? values.courseId.replace(" ", "+"): ''
         }
         // console.log(query.courseId)
         this.handleAuthStateChange = this.handleAuthStateChange.bind(this);
         this.handleClick = this.handleClick.bind(this);
 		this.handlePagination = this.handlePagination.bind(this);
-		this.handleFilter = this.handleFilter.bind(this);
+		// this.handleFilter = this.handleFilter.bind(this);
     }
 
-    componentWillMount() {
+    componentDidMount() {
         const self = this;
         firebaseInitialization.auth().onAuthStateChanged(user => self.handleAuthStateChange(user));
     }
@@ -67,8 +67,7 @@ class CHCourseDetails extends Component {
     }
 
     handleClick = (choice, firstName, email, searchString, courseId) => {
-        console.log(choice, "::", firstName, "::", email, "::", searchString, "::", courseId);
-        this.setState({ choice: choice, firstName: firstName, email: email, searchString: searchString, courseId: courseId });
+        this.setState({ choice: choice, firstName: firstName, email: email, searchString: searchString, courseId: courseId? courseId.replace(" ", "+"): '' });
     }
 
 	handlePagination = (searchString, pageNumber) => {
@@ -78,7 +77,7 @@ class CHCourseDetails extends Component {
 		// this.forceUpdate();
 	}
 
-	handleFilter = (searchString,pageNumber,filters) =>{
+	/* handleFilter = (searchString,pageNumber,filters) =>{
 		this.setState({pageNumber: pageNumber});
 		this.setState({
 			courseproviders: filters.courseproviders, 
@@ -94,19 +93,21 @@ class CHCourseDetails extends Component {
 		"&maxPrice" + filters.maxprice +
 		"&startDate" + filters.startdate +
 		"&endDate" + filters.enddate);
-	}
+	} */
 
     render() {
         const choice = this.state.choice;
         const firstName = this.state.firstName;
         const email = this.state.email;
-        var courseId = this.state.courseId;
-        courseId = courseId.replace(" ", "+");
+        const searchString = this.state.searchString;
+        const courseId = this.state.courseId;
+        // courseId = courseId.replace(" ", "+");
         // console.log('In CHCourseDetails, render', courseId);
+        console.log('In CHCourseDetails, render, choice:', choice, "::first:", firstName, "::email:", email, "::search:", searchString, "::course:", courseId);
         return (
             <div>
                 {choice === "home" &&
-                    [<CHNavigator updateContent={this.handleClick} courseId={courseId} signedIn={false} caller={"search"} firstName={firstName} email={email} key="course-details-header"/>,
+                    [<CHNavigator updateContent={this.handleClick} updatePage={this.handlePagination} courseId={courseId} signedIn={false} caller={"search"} firstName={firstName} email={email} key="course-details-header"/>,
                     <div className="my-content-landing" key="course-details-content">
                         <CHCourseTile updateContent={this.handleClick} updatePage={this.handlePagination} courseId={courseId} signedIn={false} caller={"coursedesc"} firstName={firstName} email={email} dummy={Date.now()} />
                     </div>,
@@ -149,15 +150,15 @@ class CHCourseDetails extends Component {
                 }
 
                 {choice === "profile" &&
-                  [<CHNavigator updateContent={this.handleClick} updatePage={this.handlePagination} courseId={courseId} signedIn={true} caller={"app"} firstName={optional1} email={optional2} key="course-details-header" />,
+                  [<CHNavigator updateContent={this.handleClick} updatePage={this.handlePagination} courseId={courseId} signedIn={true} caller={"app"} firstName={firstName} email={email} key="course-details-header" />,
                   <div className="profile-content" key="course-details-content">
-                    <ProfilePage updateContent={this.handleClick} courseId={courseId} email={optional2} />
+                    <ProfilePage updateContent={this.handleClick} courseId={courseId} email={email} />
                   </div>,
                   <CHFooter key="course-details-footer"/>]
                 }
         
                 {choice === "searchResults" &&
-                  this.props.history.push('/search?searchString=' + optional3 + "&pageNumber=0")}
+                  this.props.history.push('/search?searchString=' + searchString + "&pageNumber=0")}
         
                 {choice === "deals" &&
                   this.props.history.push('/deals')}

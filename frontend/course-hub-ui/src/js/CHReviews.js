@@ -116,7 +116,7 @@ class CHReviews extends Component {
                 var today = new Date();
                 var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
                 var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-                var reviewId = this.props.email + '$' + date + '$' + time;
+                var reviewId = this.props.email + today;
                 var parentReviewId = reviewId;
                 var courseId = this.props.courseId;
                 var description = this.state.newComment;
@@ -125,22 +125,8 @@ class CHReviews extends Component {
                 var postedBy = this.props.firstName;
                 var edited = false;
                 var postedByInstructor = false;
-                var commentedOn = { Date: '', Time: '' };
-                commentedOn.Date = date;
-                commentedOn.Time = time;
-                var editedOn = { Date: '', Time: '' };
-                editedOn.Date = date;
-                editedOn.Time = time;
-                
-                /* var payloadCourse = {
-                    "script": {
-                        "source": "ctx._source.NoofRatings += 1; ctx._source.Ratings = " + (((this.props.rating * this.props.numberOfRatings) + rating)/(this.props.numberOfRatings+1)),
-                        "lang": "painless"
-                    }
-                }; */
-
-                console.log("In CHReview, handleReviewSubmit, New Rating: ", (((this.props.rating * this.props.numberOfRatings) + rating)/(this.props.numberOfRatings+1)));
-                console.log("In CHReview, handleReviewSubmit, New Number of Rating: ", (this.props.numberOfRatings+1));
+                var commentedOn = { Date: date, Time: time };
+                var editedOn = { Date: date, Time: time };
 
                 var payloadCourse = {
                     "doc": {
@@ -268,7 +254,7 @@ class CHReviews extends Component {
                                     <Form.Control as="textarea" className='review-area' rows="5" required value={this.state.newComment} onChange={this.handleCommentChange} />
                                 </Form.Row>
                                 <Form.Row>
-                                    <Button ref={this.attachRef} className="submit-review-button" variant="success" type="submit">Submit Review</Button>
+                                    <Button id="submit-review-button" ref={this.attachRef} className="submit-review-button" variant="success" type="submit">Submit Review</Button>
                                     <Overlay target={target} show={showMessage} placement="top">
                                         {props => (
                                             <Tooltip id="passwordResetOverlay" {...props}>
@@ -323,8 +309,8 @@ class CHReviews extends Component {
                                                     <p className="review-likes-text">people found this review helpful</p>
                                                 </div>
                                                 <div className="review-up-down-vote">
-                                                    <Button className="review-thumbs-up" onClick={() => this.handleThumbsUp(item.NoofLikes + 1, item.id)}><FontAwesomeIcon icon={['fa', 'thumbs-up']} size='lg' color='rgb(0, 0, 0)' />&nbsp;+{item.NoofLikes}</Button>
-                                                    <Button className="review-thumbs-down" onClick={() => this.handleThumbsDown(item.NoofdisLikes + 1, item.id)}><FontAwesomeIcon icon={['fa', 'thumbs-down']} size='lg' color='rgb(0, 0, 0)' />&nbsp;+{item.NoofdisLikes}</Button>
+                                                    <Button id={"review-thumbs-up-" + index} className="review-thumbs-up" onClick={() => this.handleThumbsUp(item.NoofLikes + 1, item.id)}><FontAwesomeIcon icon={['fa', 'thumbs-up']} size='lg' color='rgb(0, 0, 0)' />&nbsp;+{item.NoofLikes}</Button>
+                                                    <Button id={"review-thumbs-down-" + index} className="review-thumbs-down" onClick={() => this.handleThumbsDown(item.NoofdisLikes + 1, item.id)}><FontAwesomeIcon icon={['fa', 'thumbs-down']} size='lg' color='rgb(0, 0, 0)' />&nbsp;+{item.NoofdisLikes}</Button>
                                                 </div>
                                             </div>
                                             {/* </div> */}
