@@ -135,7 +135,7 @@ class CHReviews extends Component {
                     }
                 };
 
-                console.log("Inside", payloadCourse)
+                console.log("Inside", payloadCourse);
 
                 doGetProfilePicture().then(url => {
                     // console.log("In CHReview, handleSubmitReview, imageURL: ", url);
