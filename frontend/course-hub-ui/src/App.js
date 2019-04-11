@@ -25,16 +25,16 @@ class App extends Component {
     super();
     this.state = {
       choice: "",
-      optional1: "",
-      optional2: "",
-      optional3: ""
+      firstName: "",
+      email: "",
+      searchString: ""
     };
 
     this.handleClick = this.handleClick.bind(this);
     this.handleAuthStateChange = this.handleAuthStateChange.bind(this);
   }
 
-  componentWillMount() {
+  componentDidMount() {
     const self = this;
     firebaseInitialization.auth().onAuthStateChanged(user => self.handleAuthStateChange(user));
   }
@@ -50,8 +50,8 @@ class App extends Component {
       searchUser(payloadSearch).then(firstName => {
         this.setState({
           choice: "homeSignedIn",
-          optional1: firstName,
-          optional2: email
+          firstName: firstName,
+          email: email
         });
       });
     } else {
@@ -61,18 +61,20 @@ class App extends Component {
     }
   }
 
-  handleClick = (choice, optional1, optional2, optional3) => {
-    this.setState({ choice });
-    this.setState({ optional1 });
+  handleClick = (choice, firstName, email, searchString) => {
+    this.setState({ choice: choice,  firstName: firstName, email: email, searchString: searchString});
+    /* this.setState({ optional1 });
     this.setState({ optional2 });
-    this.setState({ optional3 });
+    this.setState({ optional3 }); */
   }
 
   render() {
     const choice = this.state.choice
-    const optional1 = this.state.optional1
-    const optional2 = this.state.optional2
-    const optional3 = this.state.optional3
+    const firstName = this.state.firstName
+    const email = this.state.email
+    const searchString = this.state.searchString
+
+    console.log("In App, render function, email: ", email);
 
     const mainContainerStyle = { height: window.outerHeight };
 
@@ -114,23 +116,23 @@ class App extends Component {
         }
 
         {choice === "homeSignedIn" &&
-          [<CHNavigator updateContent={this.handleClick} signedIn={true} caller={"app"} firstName={optional1} email={optional2} key="keyNavigatorLandingContent" />,
+          [<CHNavigator updateContent={this.handleClick} signedIn={true} caller={"app"} firstName={firstName} email={email} key="keyNavigatorLandingContent" />,
           <div className="my-content-landing" key="keyLandingContent">
-            <CHLandingContent updateContent={this.handleClick} signedIn={true} firstName={optional1} email={optional2} />
+            <CHLandingContent updateContent={this.handleClick} signedIn={true} firstName={firstName} email={email} />
           </div>,
           <CHFooter key="keyFooterLandingContent" />]
         }
 
         {choice === "profile" &&
-          [<CHNavigator updateContent={this.handleClick} signedIn={true} caller={"app"} firstName={optional1} email={optional2} key="keyNavigatorLandingContent" />,
+          [<CHNavigator updateContent={this.handleClick} signedIn={true} caller={"app"} firstName={firstName} email={email} key="keyNavigatorLandingContent" />,
           <div className="profile-content" key="keyLandingContent">
-            <ProfilePage updateContent={this.handleClick} email={optional2} />
+            <ProfilePage updateContent={this.handleClick} email={email} />
           </div>,
           <CHFooter key="keyFooterLandingContent" />]
         }
 
         {choice === "searchResults" &&
-          this.props.history.push('/search?searchString=' + optional3 + "&pageNumber=0")}
+          this.props.history.push('/search?searchString=' + searchString + "&pageNumber=0")}
 
         {choice === "deals" &&
           this.props.history.push('/deals')}

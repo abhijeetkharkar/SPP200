@@ -64,16 +64,15 @@ class LoginPage extends Component {
         }
         return searchUser(payloadSearch);
       }).then(elasticData => {
-        this.setState({ loggedIn: true });
-        this.setState({ validated: false });
-        // document.getElementById("invalidUsernamePwdFeedback").style.display = "none";
-        this.props.updateContent("homeSignedIn", elasticData, null, this.props.searchString != undefined? this.props.searchString: null, this.props.courseId || null);
+        this.setState({ loggedIn: true, validated: false }, 
+          this.props.updateContent("homeSignedIn", 
+                                    elasticData, 
+                                    null, 
+                                    this.props.searchString != undefined? this.props.searchString: null, 
+                                    this.props.courseId || null));
       }).catch(error => {
         // console.log("SIGN-IN ERROR:", error.message);
-        this.setState({ serverErrorMsg: error.message });
-        document.getElementById("formGridPassword").style.borderColor = "#dc3545";
-        document.getElementById("invalidUsernamePwdFeedback").style.display = "block";
-        this.setState({ validated: true });
+        this.setState({ serverErrorMsg: error.message, validated: true });
       });
     }
   }
@@ -150,6 +149,12 @@ class LoginPage extends Component {
 
   render() {
     const { validated } = this.state;
+
+    const feedbackStyle = {display: this.state.serverErrorMsg!=''?'block':'none'};
+    const passwordBoxStyle = {borderColor: this.state.serverErrorMsg!=''?'#dc3545':'#28a745', 
+                              /* boxShadow:this.state.serverErrorMsg!=''?'0 0 0 0.2rem rgba(220,53,69,.25)':'0 0 0 0.2rem rgba(40,167,69,.25)' */
+                            };
+
     return (
       <Modal
         className="loginModal"
@@ -176,14 +181,14 @@ class LoginPage extends Component {
               </Form.Group>
             </Form.Row>
             <Form.Row>
-              <Form.Group as={Col} controlId="formGridPassword">
+              <Form.Group as={Col} controlId="formGridPassword" style={passwordBoxStyle}>
                 <Form.Control type="password" placeholder="Enter your password" value={this.state.password} onChange={this.handlePasswordChange} />
-                <Form.Control.Feedback type="invalid" id="invalidUsernamePwdFeedback">{this.state.serverErrorMsg}</Form.Control.Feedback>
+                <Form.Control.Feedback type="invalid" id="invalidUsernamePwdFeedback" style={feedbackStyle}>{this.state.serverErrorMsg}</Form.Control.Feedback>
               </Form.Group>
             </Form.Row>
             <Form.Row>
               <Form.Group className="float-left" as={Col} controlId="formGridSignIn">
-                <Button size="lg" variant="success" type="submit">Login</Button>
+                <Button size="sm" variant="success" type="submit">Login</Button>
               </Form.Group>
               <Form.Group className="float-right text-right" as={Col} controlId="formGridForgot">
                 <Button variant="link" onClick={this.handleForgotPassword}>Forgot Password?</Button>
@@ -191,7 +196,7 @@ class LoginPage extends Component {
             </Form.Row>
             <Form.Row className="text-center">
               <Form.Group className="float-center" as={Col} controlId="formGridGoogleSignIn">
-                <h2><Badge pill variant="info">OR</Badge></h2>
+                <h3><Badge pill variant="secondary">Or</Badge></h3>
               </Form.Group>
             </Form.Row>
             <Form.Row>
