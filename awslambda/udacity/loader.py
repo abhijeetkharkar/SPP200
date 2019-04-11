@@ -91,6 +91,8 @@ def parse_json(json_data):
         course_object['last_updated'] = None
         course_object['Difficulty']=json_data['level']
         course_object['Rating']=0
+        course_object['NoofRatings']=0
+        course_object['hits']=0
     except KeyError:
         return {'error' : "something wrong with JSON object."}
     
