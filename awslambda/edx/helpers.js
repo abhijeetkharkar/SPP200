@@ -30,6 +30,7 @@ var doRecursiveRequest = (url, token, courses) =>
 					"URL": typeof course.course_runs[0].marketing_url === 'undefined' ? null : course.course_runs[0].marketing_url,
 					"Rating": 0.0,
 					"NoofRatings": 0,
+					"hits": 0,
 					"Description": typeof course.course_runs[0].full_description === 'undefined' ? null : course.course_runs[0].full_description,
 					"CourseImage": (typeof course.course_runs[0].image === 'undefined' || typeof course.course_runs[0].image.src === 'undefined') ? null : course.course_runs[0].image.src,
 					"StartDate": (typeof course.course_runs[0].start === 'undefined' || course.course_runs[0].start === null) ? null : (isNaN(Date.parse(course.course_runs[0].start)) ? null : new Date(Date.parse(course.course_runs[0].start)).getFullYear() + "-" + (parseInt(new Date(Date.parse(course.course_runs[0].start)).getMonth()) + 1) + "-" + new Date(Date.parse(course.course_runs[0].start)).getDate()),
