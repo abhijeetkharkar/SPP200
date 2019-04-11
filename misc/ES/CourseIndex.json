@@ -89,6 +89,12 @@
       "Rating": {
         "type": "float"
       },
+      "hits":{
+        "type":"integer"
+      },
+      "NoofRatings":{
+        "type":"integer"
+      },
       "SelfPaced": {
         "type": "boolean"
       },

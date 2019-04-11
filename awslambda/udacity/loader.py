@@ -83,7 +83,7 @@ def parse_json(json_data):
         
         course_object['PriceCurrency'] = None
         course_object['Instructors'] = instructers
-        course_object['URL'] = json_data['homepage']
+        course_object['URL'] ='https://www.udacity.com/'+json_data['slug']
         course_object['CourseImage'] = json_data['image']
         course_object['SelfPaced'] = True
         course_object['StartDate'] = None
@@ -91,6 +91,8 @@ def parse_json(json_data):
         course_object['last_updated'] = None
         course_object['Difficulty']=json_data['level']
         course_object['Rating']=0
+        course_object['NoofRatings']=0
+        course_object['hits']=0
     except KeyError:
         return {'error' : "something wrong with JSON object."}
     
@@ -98,7 +100,8 @@ def parse_json(json_data):
 
 
 def fetch_records_udacity(filename):
-    filename=(os.path.dirname(__file__))+'/'+filename
+    filename=(os.path.dirname(os.path.abspath(__file__)))+'/'+filename
+    print filename
     try:
         with open(filename) as f:
             content = f.readlines()

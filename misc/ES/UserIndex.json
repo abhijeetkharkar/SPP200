@@ -42,8 +42,28 @@
             "CourseId": {
               "type": "keyword"
             },
-            "WebsiteId": {
+            "CourseURL": {
               "type": "keyword"
+            },
+            "CourseTitle":{
+              "type":"text"
+            }
+          }
+        },
+        "FavouriteCourses": {
+          "properties": {
+            "CourseId": {
+              "type": "keyword"
+            },
+            "CourseURL": {
+              "type": "keyword"
+            },
+            "CourseTitle":{
+              "type":"text"
+            },
+            "DateVisited":{
+              "type": "date",
+              "format": "yyyy-MM-dd"
             }
           }
         },
