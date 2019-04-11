@@ -116,7 +116,7 @@ const elasticDeleteUser = async payload => {
 };
 
 const addDeal = async(payload) => {
-    console.log("ADD DEAL IN ELASTIC SEARCH API");
+    // console.log("ADD DEAL IN ELASTIC SEARCH API");
     const response = await fetch(process.env.REACT_APP_AWS_ELASTIC_ADD_DEAL_URL,
         {
             method: 'POST',
@@ -131,15 +131,15 @@ const addDeal = async(payload) => {
                 return false;
             }
         }).catch(error => {
-            console.log("Error in Adding Deals to Elastic Search database");
-            console.log("Error : ",error);
+            // console.log("Error in Adding Deals to Elastic Search database");
+            // console.log("Error : ",error);
             return false;
         });
     return response;
 };
 
 const addReview = async (payload) => {
-    console.log("ADD Review IN ELASTIC SEARCH API");
+    // console.log("ADD Review IN ELASTIC SEARCH API");
     const response = await fetch(process.env.REACT_APP_AWS_ELASTIC_SEARCH_URL + "reviews/review",
         {
             method: 'POST',
@@ -154,7 +154,7 @@ const addReview = async (payload) => {
                 return false;
             }
         }).catch(error => {
-            console.log("Error in Adding Review to Elastic Search database", error);
+            // console.log("Error in Adding Review to Elastic Search database", error);
             return false;
         });
     return response;

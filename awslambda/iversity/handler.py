@@ -42,7 +42,7 @@ def lambda_handler(event, context):
                              "Price": int(course["verifications"][0]['price'].split(" ")[0]) if 'verifications' in course and course["verifications"][0]["price"] is not None else None,
                              "PriceCurrency": "Euro", "Instructors": instructors,
                              "URL": course["url"] if 'url' in course else None,
-                             "Rating": 0, "Description": course["description"] if 'description' in course else None,
+                             "Rating": 0, "NoofRatings": 0, "hits": 0,"Description": course["description"] if 'description' in course else None,
                              "CourseImage": course["image"] if "image" in course else None,
                              "StartDate": datetime.strptime(course["start_date"].split('T')[0], '%Y-%m-%d').isoformat().split('T')[0]
                              if "start_date" in course and course["start_date"] is not None else None,

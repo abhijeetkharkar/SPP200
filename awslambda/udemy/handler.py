@@ -99,7 +99,10 @@ def parse_json(json_data):
             else ["beginnner", "intermediate", "expert"]
         course_object['Description'] = extra_data["description"] \
             if extra_data != None \
-            else None
+            else None        
+        course_object['Rating']=0
+        course_object['NoofRatings']=0
+        course_object['hits']=0
     except KeyError:
         print("\t Something wrong with parsing JSON object - parse_json(json_data)")
         return False
