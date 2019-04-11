@@ -59,6 +59,7 @@ class SignupPage extends Component {
               // Creating User Profile in Elastic Search Database
               var today = new Date();
               var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
+              
               return addUser({
                 "Email": this.state.email,
                 "UserName": {
