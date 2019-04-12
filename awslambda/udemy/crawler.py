@@ -27,13 +27,20 @@ def crawl(url):
     duration = tree.xpath('//span[@class="curriculum-header-length"]/text()')
     last_updated = tree.xpath('//div[@data-purpose="last-update-date"]/text()')
     category = tree.xpath('//meta[@property="udemy_com:category"]/@content')
-    description = tree.xpath('//meta[@name="description"]/@content')
+    # description = tree.xpath('//meta[@name="description"]/@content')
+    description = tree.xpath('//div[@class="js-simple-collapse-inner"][@data-purpose="collapse-description-text"]/*')
+    
+    print ("URL : ", url)
+    updatedDescription = ""
+    for elem in description:
+        if elem.text:
+            updatedDescription += elem.text.strip().replace('\n', ' ').replace(u'\xa0', u' ') + " <br /> "
 
     current_price = None if current_price == [] else float(current_price[1].strip()[1:])
     duration = None if duration == [] else duration[0].strip().split(":")[0]
     category = None if category == [] else [category[0]]
-    description = None if description == [] else description[0]
-        
+    # description = None if description == [] else description[0]
+    
     last_updated = None if last_updated == [] else \
         "{}-{}-{}".format(
                             datetime.strptime(last_updated[0].strip()[13:], "%m/%Y").year,
@@ -46,7 +53,7 @@ def crawl(url):
         "duration" : duration,
         "last_update" : last_updated,
         "category" : category,
-        "description" : description
+        "description" : updatedDescription
     }
 
 # time1 = time.time()

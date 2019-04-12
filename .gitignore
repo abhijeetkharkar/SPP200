@@ -159,3 +159,5 @@ TestUdemy.pyc
 jsconfig.json
 
 *.snap
+test.py
+crawled-file.html
