@@ -16,7 +16,7 @@ import {
     doDeleteUser,
     doGetProfilePicture,
     doPasswordUpdate,
-    doUploadProfilePicture
+    doUploadProfilePicture, reauthenticateWithCredential
 } from "../FirebaseUtils";
 import ProfileNavigator from "./CHProfileNavigator";
 
@@ -228,38 +228,47 @@ class ProfileContent extends Component {
     }
 
     handleDeleteAccount = async () => {
-        console.log('In delete');
-        var payload = {
-            query : {
-                term : { Email : this.state.email }
-            }
-        };
-        const response = await elasticDeleteUser(payload).then(async response => {
-            if (response === true){
-                console.log('Deleted from elastic search');
-                var url = await doGetProfilePicture();
-                if(url !== null){
-                    await doDeleteProfilePicture();
-                    console.log('Deleted profile picture');
+        const res = await reauthenticateWithCredential(this.state.new_password).then(async (response) => {
+            console.log('In delete');
+            var payload = {
+                query : {
+                    term : { Email : this.state.email }
                 }
-                return await doDeleteUser().then(async response => {
-                    console.log('Deleted firebase session');
-                    return response
-                });
+            };
+            const elastic_response = await elasticDeleteUser(payload).then(async response => {
+                if (response === true){
+                    console.log('Deleted from elastic search');
+                    var url = await doGetProfilePicture();
+                    if(url !== null){
+                        await doDeleteProfilePicture();
+                        console.log('Deleted profile picture');
+                    }
+                    return await doDeleteUser().then(async response => {
+                        console.log('Deleted firebase session');
+                        return response
+                    });
+                }
+            }).catch(error => {
+                this.setState({ serverErrorMsg: error.message });
+                console.log('Error in deleting elastic search data. Please try later...');
+                return false;
+            });
+            if(elastic_response === true){
+                this.setState({ elastic_message: "Successfully deleted user data" });
+                console.log('Time to signout');
             }
-        }).catch(error => {
-            this.setState({ serverErrorMsg: error.message });
-            console.log('Error in deleting elastic search data. Please try later...');
-            return false;
+            else{
+                console.log(elastic_response);
+                this.setState({ elastic_message: "Couldn't delete elastic search data" });
+                alert("Couldn't delete account... Try again later");
+            }
+        }).catch((error) => {
+            console.log(error);
+            return "INVALID";
         });
-        if(response === true){
-            this.setState({ elastic_message: "Successfully deleted user data" });
-            console.log('Time to signout');
-        }
-        else{
-            console.log(response);
-            this.setState({ elastic_message: "Couldn't delete elastic search data" });
-            alert("Couldn't delete account... Try again later");
+        if(res === "INVALID"){
+            this.setState({ serverErrorMsg: "Invalid password" });
+            document.getElementById("invalidUsernamePwdFeedback").style.display = "block";
         }
     };
 
@@ -306,14 +315,14 @@ class ProfileContent extends Component {
                             <Form className="profile-form" onSubmit={e => this.handlePasswordSubmit(e)}>
                                 <Form.Row>
                                     <Form.Group as={Col} controlId="formGridOldPassword">
-                                        <Form.Label>CURRENT PASSWORD</Form.Label>
+                                        <Form.Label>Current Password</Form.Label>
                                         <Form.Control className="password-form-control" required onChange={this.handleOldPasswordChange} type="password" placeholder="Enter Current Password" />
                                         <Form.Control.Feedback type="invalid" id="invalidCurrentPassword">{this.state.serverErrorMsg}</Form.Control.Feedback>
                                     </Form.Group>
                                 </Form.Row>
                                 <Form.Row>
                                     <Form.Group as={Col} controlId="formGridNewPassword">
-                                        <Form.Label>NEW PASSWORD</Form.Label>
+                                        <Form.Label>New Password</Form.Label>
                                         <Form.Control className="password-form-control" required onChange={this.handlePasswordChange} type="password" placeholder="Enter New Password" />
                                         <Form.Text className="text-muted">
                                             Minimum of 8 characters in length.
@@ -323,7 +332,7 @@ class ProfileContent extends Component {
                                 </Form.Row>
                                 <Form.Row>
                                     <Form.Group as={Col} controlId="formGridConfirmPassword">
-                                        <Form.Label>CONFIRM NEW PASSWORD</Form.Label>
+                                        <Form.Label>Confirm New Password</Form.Label>
                                         <Form.Control className="password-form-control" required onChange={this.handleConfirmPasswordChange} type="password" placeholder="Confirm New Password" />
                                         <Form.Control.Feedback type="invalid" id="invalidUsernamePwdFeedback">{this.state.serverErrorMsg}</Form.Control.Feedback>
                                     </Form.Group>
@@ -344,56 +353,57 @@ class ProfileContent extends Component {
                                     <Row>
                                         <Col md={9} className="update-profile-box">
                                             <Card className="profile-edit-card">
-                                                <Card.Title className="card-title">Edit Profile</Card.Title>
+                                                <div className="card-title">
+                                                    <h5>Edit Profile</h5>
+                                                </div>
                                                 <Form className="profile-form" onSubmit={e => this.handleSubmit(e)}>
-                                                    <Form.Control.Feedback type="error" id="fetchError">{this.state.serverErrorMsg}</Form.Control.Feedback>
                                                     <Form.Row>
                                                         <Form.Group as={Col} controlId="formGridfname">
-                                                            <Form.Label>FIRST NAME</Form.Label>
+                                                            <Form.Label>First Name</Form.Label>
                                                             <Form.Control className="profile-form-control" onChange={this.handleFirstNameChange} type="fname" value={this.state.firstName} placeholder="Enter first name" />
                                                         </Form.Group>
 
                                                         <Form.Group as={Col} controlId="formGridlname">
-                                                            <Form.Label>LAST NAME</Form.Label>
+                                                            <Form.Label>Last Name</Form.Label>
                                                             <Form.Control className="profile-form-control" onChange={this.handleLastNameChange} type="lname" value={this.state.lastName} placeholder="Enter last name" />
                                                         </Form.Group>
                                                     </Form.Row>
 
                                                     <Form.Row>
                                                         <Form.Group as={Col} controlId="formGridEmail">
-                                                            <Form.Label>EMAIL</Form.Label>
+                                                            <Form.Label>Email</Form.Label>
                                                             <Form.Control className="profile-form-control" type="email" value={this.state.email} disabled="true" />
                                                         </Form.Group>
 
                                                         <Form.Group as={Col} controlId="formGriddob">
-                                                            <Form.Label>DATE OF BIRTH</Form.Label>
+                                                            <Form.Label>Date of Birth</Form.Label>
                                                             <Form.Control className="profile-form-control" onChange={this.handleDobChange} type="dob" value={this.state.dob} placeholder="MM/DD/YYYY" />
                                                         </Form.Group>
 
                                                         <Form.Group as={Col} controlId="formGridphone">
-                                                            <Form.Label>PHONE NO.</Form.Label>
+                                                            <Form.Label>Phone No.</Form.Label>
                                                             <Form.Control className="profile-form-control" onChange={this.handlePhoneChange} type="phone" value={this.state.phone} placeholder="123-456-7890" />
                                                         </Form.Group>
                                                     </Form.Row>
 
                                                     <Form.Group controlId="formGridAddress">
-                                                        <Form.Label>ADDRESS</Form.Label>
+                                                        <Form.Label>Address</Form.Label>
                                                         <Form.Control as="textarea" rows="2" className="profile-form-text-area" onChange={this.handleAddressChange} type="address" value={this.state.address} />
                                                     </Form.Group>
 
                                                     <Form.Row>
                                                         <Form.Group as={Col} controlId="formGridCity">
-                                                            <Form.Label>CITY</Form.Label>
+                                                            <Form.Label>City</Form.Label>
                                                             <Form.Control className="profile-form-control" onChange={this.handleCityChange} value={this.state.city}/>
                                                         </Form.Group>
 
                                                         <Form.Group as={Col} controlId="formGridState">
-                                                            <Form.Label>STATE</Form.Label>
+                                                            <Form.Label>State</Form.Label>
                                                             <Form.Control className="profile-form-control" onChange={this.handleStateChange} value={this.state.state} />
                                                         </Form.Group>
 
                                                         <Form.Group as={Col} controlId="formGridZip">
-                                                            <Form.Label>ZIP</Form.Label>
+                                                            <Form.Label>Zip</Form.Label>
                                                             <Form.Control className="profile-form-control" onChange={this.handleZipChange} value={this.state.zip_code} />
                                                         </Form.Group>
                                                     </Form.Row>
@@ -406,9 +416,6 @@ class ProfileContent extends Component {
                                                         Change Password
                                                     </Button>
                                                 </Form>
-                                                <Button variant="danger" type="button" className="account-delete-button" onClick={this.handleDeleteAccount}>
-                                                    Delete Account
-                                                </Button>
                                             </Card>
                                         </Col>
                                         <Col md={3} className='profile-image-box'>
@@ -429,16 +436,31 @@ class ProfileContent extends Component {
                                         </Col>
                                     </Row>
                                 </div>
-                                <div className="reviews-content">
-                                    <Card className="reviews-card">
-                                        <Card.Title className="card-title">Reviews</Card.Title>
-                                        This is the reviews card
+                                <div className="deactivate-content">
+                                    <Card className="deactivate-card">
+                                        <Card.Title className="card-title">Deactivate Account</Card.Title>
+                                        <Card.Body>
+                                            <Form className="profile-form" onSubmit={this.handleDeleteAccount}>
+                                                <Form.Row>
+                                                    <Form.Group as={Col} controlId="formGridNewPassword">
+                                                        <Form.Label>Please enter your account password</Form.Label>
+                                                        <Form.Control className="password-form-control" required onChange={this.handlePasswordChange} style={{width: "50%"}} type="password" placeholder="Password" />
+                                                        <Form.Control.Feedback type="invalid" id="invalidUsernamePwdFeedback">{this.state.serverErrorMsg}</Form.Control.Feedback>
+                                                    </Form.Group>
+                                                </Form.Row>
+                                                <Button variant="danger" type="submit">
+                                                    Deactivate
+                                                </Button>
+                                            </Form>
+                                        </Card.Body>
                                     </Card>
                                 </div>
                                 <div className="courses-content">
                                     <Card className="courses-card">
                                         <Card.Title className="card-title">Courses</Card.Title>
-                                        This is the profile card
+                                        <Card.Body>
+
+                                        </Card.Body>
                                     </Card>
                                 </div>
                             </Col>

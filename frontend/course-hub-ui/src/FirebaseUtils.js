@@ -49,15 +49,14 @@ const doPasswordReset = async email => {
   return response;
 }
 
+const reauthenticateWithCredential = async (currentPassword) => {
+  var user = firebase.auth().currentUser;
+  var cred = firebase.auth.EmailAuthProvider.credential(user.email, currentPassword);
+  return user.reauthenticateAndRetrieveDataWithCredential(cred);
+};
+
 const doPasswordUpdate = async (currentPassword, newPassword) => {
   console.log('In password firebase');
-
-  function reauthenticateWithCredential(currentPassword) {
-    var user = firebase.auth().currentUser;
-    var cred = firebase.auth.EmailAuthProvider.credential(user.email, currentPassword);
-    return user.reauthenticateAndRetrieveDataWithCredential(cred);
-  }
-
   const response = await reauthenticateWithCredential(currentPassword).then(() => {
     var user = firebase.auth().currentUser;
     return user.updatePassword(newPassword).then(() => {
@@ -134,5 +133,6 @@ export {
   doDeleteUser,
   doUploadProfilePicture,
   doGetProfilePicture,
-  doDeleteProfilePicture
+  doDeleteProfilePicture,
+  reauthenticateWithCredential,
 };
