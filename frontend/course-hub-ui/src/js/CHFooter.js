@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 class CHNavigator extends Component {
 	render() {
 		return (
-			<footer className="footer-distributed">
+			<div className="footer-distributed">
 
 				<div className="footer-right">
 
@@ -35,7 +35,7 @@ class CHNavigator extends Component {
 					<p>Course-Hub &copy; 2019</p>
 				</div>
 
-			</footer>
+			</div>
 		);
 	}
 }

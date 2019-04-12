@@ -66,21 +66,29 @@ class ProfileNavigator extends Component {
 
     render() {
         return (
-            <div className="profile-navigator">
-                <ul className="nav flex-column">
-                    <li id="profile_nav_item" className="nav-item active">
-                        <a href="#" onClick={()=>{this.handleNavItemChange(1)}}>Profile</a>
-                    </li>
-                    <li id="reviews_nav_item" className="nav-item">
-                        <a href="#" onClick={()=>{this.handleNavItemChange(2)}}>Reviews</a>
-                    </li>
-                    <li id="courses_nav_item" className="nav-item">
-                        <a href="#" onClick={()=>{this.handleNavItemChange(3)}}>Courses</a>
-                    </li>
+            <div className="sidenav">
+                <ul>
+                    <li className="nav-item" id="profile_nav_item"><a href="#" onClick={()=>{this.handleNavItemChange(1)}}>Profile</a></li>
+                    <li className="nav-item" id="reviews_nav_item"><a href="#" onClick={()=>{this.handleNavItemChange(2)}}>Reviews</a></li>
+                    <li className="nav-item" id="courses_nav_item"><a href="#" onClick={()=>{this.handleNavItemChange(3)}}>Courses</a></li>
                 </ul>
             </div>
         );
     }
 }
+
+{/*<div className="profile-navigator">*/};
+{/*<ul className="nav flex-column">*/}
+{/*<li id="profile_nav_item" className="nav-item active">*/}
+{/*<a href="#" onClick={()=>{this.handleNavItemChange(1)}}>Profile</a>*/}
+{/*</li>*/}
+{/*<li id="reviews_nav_item" className="nav-item">*/}
+{/*<a href="#" onClick={()=>{this.handleNavItemChange(2)}}>Reviews</a>*/}
+{/*</li>*/}
+{/*<li id="courses_nav_item" className="nav-item">*/}
+{/*<a href="#" onClick={()=>{this.handleNavItemChange(3)}}>Courses</a>*/}
+{/*</li>*/}
+{/*</ul>*/}
+{/*</div>*/}
 
 export default ProfileNavigator;
