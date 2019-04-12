@@ -124,11 +124,7 @@ class App extends Component {
         }
 
         {choice === "profile" &&
-          [<CHNavigator updateContent={this.handleClick} signedIn={true} caller={"app"} firstName={firstName} email={email} key="keyNavigatorLandingContent" />,
-          <div className="profile-content" key="keyLandingContent">
-            <ProfilePage updateContent={this.handleClick} email={email} />
-          </div>,
-          <CHFooter key="keyFooterLandingContent" />]
+          this.props.history.push('/profile')
         }
 
         {choice === "searchResults" &&
@@ -136,6 +132,8 @@ class App extends Component {
 
         {choice === "deals" &&
           this.props.history.push('/deals')}
+
+
 
       </div>
     );

@@ -38,10 +38,6 @@ class CHNavigator extends Component {
         });
     }
 
-    handleViewProfile = e => {
-        this.props.updateContent("profile", this.props.firstName, this.props.email, null, this.props.courseId || null);
-    }
-
     handleOnclick = event => {
         event.preventDefault();
         this.setState({searchString: event.target.innerText, showResults: false});
@@ -81,6 +77,11 @@ class CHNavigator extends Component {
     handleDealsOnclick = event => {
         this.props.updateContent("deals", null, null, null, this.props.courseId || null);
     }
+
+    handleViewProfile = e => {
+        this.props.updateContent("profile", this.props.firstName, this.props.email, null, this.props.courseId || null);
+    }
+
 
     render() {
         // console.log("Caller:", this.props.caller);

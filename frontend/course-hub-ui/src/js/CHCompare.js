@@ -73,11 +73,7 @@ class CHCompare extends Component {
                 <CHFooter key="keyFooterSearch" />]
             }
             {choice === "profile" &&
-            [<CHNavigator updateContent={this.handleClick} signedIn={true} caller={"app"} firstName={firstName} email={email} key="keyNavigatorLandingContent" />,
-                <div className="profile-content" key="keyLandingContent">
-                    <ProfilePage updateContent={this.handleClick} email={email} />
-                </div>,
-                <CHFooter key="keyFooterLandingContent" />]
+                this.props.history.push('/profile')
             }
 
         </div>
