@@ -61,13 +61,18 @@ class CHProfile extends Component {
 
         return(
             <div className="profile">
+                {choice === "home" &&
+                    this.props.history.push('/')
+                }
+
                 {choice === "deals" &&
                     this.props.history.push('/deals')
                 }
+
                 {(choice === "profile" || choice === "homeSignedIn" ) &&
                     [
                         <CHNavigator updateContent={this.handleClick} signedIn={true} caller={"app"} firstName={firstName} email={email} key="keyNavigatorLandingContent" />,
-                        <div className="profile-content" key="keyLandingContent">
+                        <div className="profile-content" ke y="keyLandingContent">
                             <ProfileContent updateContent={this.handleClick} email={email} />
                         </div>,
                         <CHFooter key="keyFooterLandingContent" />,

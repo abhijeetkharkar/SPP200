@@ -111,6 +111,7 @@ const elasticDeleteUser = async payload => {
             return false;
         }
     }).catch(error => {
+        console.log(error);
         return false;
     });
 };

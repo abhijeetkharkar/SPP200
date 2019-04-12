@@ -4,6 +4,7 @@ import ProfilePage from "../js/CHProfile";
 import {configure} from "enzyme";
 import Adapter from 'enzyme-adapter-react-16';
 import {doDeleteProfilePicture, doDeleteUser, doGetProfilePicture} from "../FirebaseUtils";
+import CHDeactivateCard from "../js/CHDeactivateCard";
 
 
 const firebase = require('../FirebaseUtils');
@@ -302,7 +303,7 @@ describe('Testing Profile', () => {
             const handleClick = jest.fn();
             firebase.doPasswordUpdate.mockImplementationOnce(() => {return Promise.resolve("SUCCESS")});
 
-            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+            const wrapper = shallow(<CHDeactivateCard updateContent={handleClick}/>);
 
             const instance = wrapper.instance();
             instance.handlePasswordSubmit();
@@ -316,7 +317,7 @@ describe('Testing Profile', () => {
             firebase.doDeleteProfilePicture.mockImplementationOnce(() => {return Promise.resolve(true)});
             firebase.doDeleteUser.mockImplementationOnce(() => {return Promise.resolve(true)});
 
-            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+            const wrapper = shallow(<CHDeactivateCard updateContent={handleClick}/>);
             const instance = wrapper.instance();
 
             await instance.handleDeleteAccount();
@@ -327,7 +328,7 @@ describe('Testing Profile', () => {
             const handleClick = jest.fn();
             elastic.elasticDeleteUser.mockImplementationOnce(() => {{return Promise.resolve(false)}});
 
-            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+            const wrapper = shallow(<CHDeactivateCard updateContent={handleClick}/>);
             const instance = wrapper.instance();
 
             await instance.handleDeleteAccount();
@@ -341,7 +342,7 @@ describe('Testing Profile', () => {
             firebase.doDeleteProfilePicture.mockImplementationOnce(() => {return Promise.resolve(true)});
             firebase.doDeleteUser.mockImplementationOnce(() => {throw new Error('Delete exception encountered')});
 
-            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+            const wrapper = shallow(<CHDeactivateCard updateContent={handleClick}/>);
             const instance = wrapper.instance();
 
             await instance.handleDeleteAccount();

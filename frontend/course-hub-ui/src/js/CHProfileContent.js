@@ -19,6 +19,7 @@ import {
     doUploadProfilePicture, reauthenticateWithCredential
 } from "../FirebaseUtils";
 import ProfileNavigator from "./CHProfileNavigator";
+import CHDeactivateCard from "./CHDeactivateCard";
 
 var dateFormat = require('dateformat');
 class ProfileContent extends Component {
@@ -225,51 +226,6 @@ class ProfileContent extends Component {
 
     handleConfirmPasswordChange = (e) => {
         this.setState({ confirm_password: e.target.value });
-    }
-
-    handleDeleteAccount = async () => {
-        const res = await reauthenticateWithCredential(this.state.new_password).then(async (response) => {
-            console.log('In delete');
-            var payload = {
-                query : {
-                    term : { Email : this.state.email }
-                }
-            };
-            const elastic_response = await elasticDeleteUser(payload).then(async response => {
-                if (response === true){
-                    console.log('Deleted from elastic search');
-                    var url = await doGetProfilePicture();
-                    if(url !== null){
-                        await doDeleteProfilePicture();
-                        console.log('Deleted profile picture');
-                    }
-                    return await doDeleteUser().then(async response => {
-                        console.log('Deleted firebase session');
-                        return response
-                    });
-                }
-            }).catch(error => {
-                this.setState({ serverErrorMsg: error.message });
-                console.log('Error in deleting elastic search data. Please try later...');
-                return false;
-            });
-            if(elastic_response === true){
-                this.setState({ elastic_message: "Successfully deleted user data" });
-                console.log('Time to signout');
-            }
-            else{
-                console.log(elastic_response);
-                this.setState({ elastic_message: "Couldn't delete elastic search data" });
-                alert("Couldn't delete account... Try again later");
-            }
-        }).catch((error) => {
-            console.log(error);
-            return "INVALID";
-        });
-        if(res === "INVALID"){
-            this.setState({ serverErrorMsg: "Invalid password" });
-            document.getElementById("invalidUsernamePwdFeedback").style.display = "block";
-        }
     };
 
     handleImageChange = async () => {
@@ -297,7 +253,7 @@ class ProfileContent extends Component {
     render() {
         var customStyle = {
             marginTop: window.outerHeight * 0.11
-        }
+        };
         return (
             <div className="content" style={customStyle}>
                 <Container fluid>
@@ -353,9 +309,7 @@ class ProfileContent extends Component {
                                     <Row>
                                         <Col md={9} className="update-profile-box">
                                             <Card className="profile-edit-card">
-                                                <div className="card-title">
-                                                    <h5>Edit Profile</h5>
-                                                </div>
+                                                <Card.Title>Edit Profile</Card.Title>
                                                 <Form className="profile-form" onSubmit={e => this.handleSubmit(e)}>
                                                     <Form.Row>
                                                         <Form.Group as={Col} controlId="formGridfname">
@@ -420,6 +374,7 @@ class ProfileContent extends Component {
                                         </Col>
                                         <Col md={3} className='profile-image-box'>
                                             <Card className='profile-image-card'>
+                                                <Card.Title>Update Profile Picture</Card.Title>
                                                 <div className='profile-upload'>
                                                     <label htmlFor='single'>
                                                         <img id="profile-image" src="#" alt="your image" />
@@ -436,25 +391,6 @@ class ProfileContent extends Component {
                                         </Col>
                                     </Row>
                                 </div>
-                                <div className="deactivate-content">
-                                    <Card className="deactivate-card">
-                                        <Card.Title className="card-title">Deactivate Account</Card.Title>
-                                        <Card.Body>
-                                            <Form className="profile-form" onSubmit={this.handleDeleteAccount}>
-                                                <Form.Row>
-                                                    <Form.Group as={Col} controlId="formGridNewPassword">
-                                                        <Form.Label>Please enter your account password</Form.Label>
-                                                        <Form.Control className="password-form-control" required onChange={this.handlePasswordChange} style={{width: "50%"}} type="password" placeholder="Password" />
-                                                        <Form.Control.Feedback type="invalid" id="invalidUsernamePwdFeedback">{this.state.serverErrorMsg}</Form.Control.Feedback>
-                                                    </Form.Group>
-                                                </Form.Row>
-                                                <Button variant="danger" type="submit">
-                                                    Deactivate
-                                                </Button>
-                                            </Form>
-                                        </Card.Body>
-                                    </Card>
-                                </div>
                                 <div className="courses-content">
                                     <Card className="courses-card">
                                         <Card.Title className="card-title">Courses</Card.Title>
@@ -463,6 +399,7 @@ class ProfileContent extends Component {
                                         </Card.Body>
                                     </Card>
                                 </div>
+                                <CHDeactivateCard email={this.state.email}/>
                             </Col>
                         </Row>
                     </div>
