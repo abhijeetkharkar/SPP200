@@ -1,0 +1,12 @@
+
+
+.microDegreeForm{
+    margin-top:8em;
+    margin-left: 6%;
+    min-height: 1024px;
+}
+
+.microDegreeFormInput{
+    width: 50%;
+    float: left;
+}
