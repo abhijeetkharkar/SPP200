@@ -45,6 +45,23 @@ describe('Testing Profile', () => {
             });
         });
 
+        test('Testing Loading of ProfilePage', () => {
+            const wrapper = shallow(<CHProfile />);
+            wrapper.setState({ choice: "profile" });
+            expect(wrapper.exists()).toBe(true);
+        });
+
+        test('Testing handleAuthStateChange', async () => {
+            const wrapper = shallow(<CHProfile />);
+            const instance = wrapper.instance();
+            elastic.searchUser.mockImplementationOnce(() => { return Promise.resolve("Test1") });
+            instance.handleAuthStateChange({
+                displayName: 'testDisplayName',
+                email: 'test@test.com',
+                emailVerified: true
+            });
+            expect(instance.state.choice).toBe("");
+        });
 
         test('Testing Loading of ProfileContent Component', () => {
             const handleClick = jest.fn();
