@@ -62,13 +62,6 @@ test('Home Screen after signing in', () => {
   expect(wrapper.exists()).toBe(true);
 });
 
-test('Profile after signing in', () => {
-  const location = { search: { searchString: "testString", firstName: "Test1", email: "test1@test.com" } }
-  const wrapper = shallow(<CHCourseDetails location={location} />);
-  wrapper.setState({ choice: "profile", firstName: "Test1", email: "test1@test.com", queryString: "", courseId: "test course" });
-  expect(wrapper.exists()).toBe(true);
-});
-
 test('Testing handleclick', async () => {
   const location = { search: { searchString: "testString", firstName: "Test1", email: "test1@test.com" } }
   const wrapper = shallow(<CHCourseDetails location={location} />);

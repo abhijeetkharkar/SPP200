@@ -33,7 +33,7 @@ describe('Testing Profile Navigator', () => {
         const instance = wrapper.instance();
         instance.handleNavItemChange(2);
 
-        expect(instance.state.reviews_tag.style.display).toBe("Block");
+        expect(instance.state.deactivate_tag.style.display).toBe("Block");
 
     });
 
