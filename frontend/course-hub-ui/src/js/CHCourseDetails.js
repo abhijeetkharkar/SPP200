@@ -107,7 +107,7 @@ class CHCourseDetails extends Component {
         return (
             <div>
                 {choice === "home" &&
-                    [<CHNavigator updateContent={this.handleClick} updatePage={this.handlePagination} courseId={courseId} signedIn={false} caller={"search"} firstName={firstName} email={email} key="course-details-header"/>,
+                    [<CHNavigator updateContent={this.handleClick} updatePage={this.handlePagination} courseId={courseId} signedIn={false} caller={"coursedesc"} firstName={firstName} email={email} key="course-details-header"/>,
                     <div className="my-content-landing" key="course-details-content">
                         <CHCourseTile updateContent={this.handleClick} updatePage={this.handlePagination} courseId={courseId} signedIn={false} caller={"coursedesc"} firstName={firstName} email={email} dummy={Date.now()} />
                     </div>,
@@ -116,7 +116,7 @@ class CHCourseDetails extends Component {
 
                 {choice === "loginScreen" &&
                     [<LoginPage updateContent={this.handleClick} courseId={courseId} key="course-details-overlay"/>,
-                    <CHNavigator updateContent={this.handleClick} updatePage={this.handlePagination} courseId={courseId} signedIn={false} caller={"app"} key="course-details-header" />,
+                    <CHNavigator updateContent={this.handleClick} updatePage={this.handlePagination} courseId={courseId} signedIn={false} caller={"coursedesc"} key="course-details-header" />,
                     <div className="my-content-landing" key="course-details-content">
                         <CHCourseTile updateContent={this.handleClick} courseId={courseId} signedIn={firstName != null} caller={"coursedesc"} firstName={firstName} email={email} dummy={Date.now()} />
                     </div>,
@@ -125,7 +125,7 @@ class CHCourseDetails extends Component {
 
                 {choice === "signupScreen" &&
                     [<SignupPage updateContent={this.handleClick} courseId={courseId} key="course-details-overlay" />,
-                    <CHNavigator updateContent={this.handleClick} updatePage={this.handlePagination} courseId={courseId} signedIn={false} caller={"app"} key="course-details-header" />,
+                    <CHNavigator updateContent={this.handleClick} updatePage={this.handlePagination} courseId={courseId} signedIn={false} caller={"coursedesc"} key="course-details-header" />,
                     <div className="my-content-landing" key="course-details-content">
                         <CHCourseTile updateContent={this.handleClick} courseId={courseId} signedIn={firstName != null} caller={"coursedesc"} firstName={firstName} email={email} dummy={Date.now()} />
                     </div>,
@@ -134,7 +134,7 @@ class CHCourseDetails extends Component {
 
                 {choice === "forgotPasswordScreen" &&
                     [<ForgotPasswordPage updateContent={this.handleClick} courseId={courseId} key="course-details-overlay" />,
-                    <CHNavigator updateContent={this.handleClick} updatePage={this.handlePagination} courseId={courseId} signedIn={false} caller={"app"} key="course-details-header" />,
+                    <CHNavigator updateContent={this.handleClick} updatePage={this.handlePagination} courseId={courseId} signedIn={false} caller={"coursedesc"} key="course-details-header" />,
                     <div className="my-content-landing" key="course-details-content">
                         <CHCourseTile updateContent={this.handleClick} courseId={courseId} signedIn={firstName != null} caller={"coursedesc"} firstName={firstName} email={email} dummy={Date.now()} />
                     </div>,
@@ -142,7 +142,7 @@ class CHCourseDetails extends Component {
                 }
 
                 {choice === "homeSignedIn" &&
-                    [<CHNavigator updateContent={this.handleClick} updatePage={this.handlePagination} courseId={courseId} signedIn={firstName != null} caller={"search"} firstName={firstName} email={email} key="course-details-header" />,
+                    [<CHNavigator updateContent={this.handleClick} updatePage={this.handlePagination} courseId={courseId} signedIn={firstName != null} caller={"coursedesc"} firstName={firstName} email={email} key="course-details-header" />,
                     <div className="my-content-landing" key="course-details-content">
                         <CHCourseTile updateContent={this.handleClick} courseId={courseId} signedIn={firstName != null} caller={"coursedesc"} firstName={firstName} email={email} dummy={Date.now()} />
                     </div>,

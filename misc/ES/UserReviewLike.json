@@ -1,0 +1,21 @@
+{
+    "settings": {
+        "number_of_shards": 3,
+        "number_of_replicas": 2
+    },
+    "mappings": {
+        "userreviewlike": {
+            "properties": {
+                "UserId": {
+                    "type": "keyword"
+                },
+                "ReviewId": {
+                    "type": "keyword"
+                },
+                "Status": {
+                    "type": "text"
+                }
+            }
+        }
+    }
+}
