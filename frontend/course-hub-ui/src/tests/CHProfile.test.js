@@ -350,6 +350,11 @@ describe('Testing Profile', () => {
 
         test('Testing User Account Delete - Happy Path', async () => {
             const handleClick = jest.fn();
+            const event = {
+                preventDefault() {
+                },
+            };
+
             firebase.reauthenticateWithCredential.mockImplementationOnce(() => {return Promise.resolve(true)});
             elastic.elasticDeleteUser.mockImplementationOnce(() => {{return Promise.resolve(true)}});
             firebase.doGetProfilePicture.mockImplementationOnce(() => {return Promise.resolve("url")});
@@ -359,24 +364,33 @@ describe('Testing Profile', () => {
             const wrapper = shallow(<CHDeactivateCard updateContent={handleClick}/>);
             const instance = wrapper.instance();
 
-            await instance.handleDeleteAccount();
+            await instance.handleDeleteAccount(event);
             expect(instance.state.elastic_message).toBe("Successfully deleted user data");
         });
 
         test('Testing User Account Delete - Fail to delete elastic search data', async () => {
             const handleClick = jest.fn();
+            const event = {
+                preventDefault() {
+                },
+            };
+
             firebase.reauthenticateWithCredential.mockImplementationOnce(() => {return Promise.resolve(true)});
             elastic.elasticDeleteUser.mockImplementationOnce(() => {{return Promise.resolve(false)}});
 
             const wrapper = shallow(<CHDeactivateCard updateContent={handleClick}/>);
             const instance = wrapper.instance();
 
-            await instance.handleDeleteAccount();
+            await instance.handleDeleteAccount(event);
             expect(instance.state.elastic_message).toBe("Couldn't delete elastic search data");
         });
 
         test('Testing User Account Delete - Exception', async () => {
             const handleClick = jest.fn();
+            const event = {
+                preventDefault() {
+                },
+            };
             elastic.elasticDeleteUser.mockImplementationOnce(() => {{return Promise.resolve(true)}});
             firebase.reauthenticateWithCredential.mockImplementationOnce(() => {return Promise.resolve(true)});
             firebase.doGetProfilePicture.mockImplementationOnce(() => {return Promise.resolve("url")});
@@ -386,7 +400,7 @@ describe('Testing Profile', () => {
             const wrapper = shallow(<CHDeactivateCard updateContent={handleClick}/>);
             const instance = wrapper.instance();
 
-            await instance.handleDeleteAccount();
+            await instance.handleDeleteAccount(event);
             expect(instance.state.serverErrorMsg).toBe('Delete exception encountered');
         });
 
