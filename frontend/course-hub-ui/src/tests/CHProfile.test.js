@@ -1,10 +1,11 @@
-import {shallow, render, mount} from "enzyme/build";
+import {shallow, mount} from "enzyme/build";
 import React from "react";
-import ProfilePage from "../js/CHProfile";
 import {configure} from "enzyme";
 import Adapter from 'enzyme-adapter-react-16';
-import {doDeleteProfilePicture, doDeleteUser, doGetProfilePicture} from "../FirebaseUtils";
 import CHDeactivateCard from "../js/CHDeactivateCard";
+import ProfileContent from "../js/CHProfileContent";
+import CHProfile from "../js/CHProfile";
+import firebaseInitialization from "../FirebaseUtils";
 
 
 const firebase = require('../FirebaseUtils');
@@ -13,7 +14,26 @@ const elastic = require('../elasticSearch');
 jest.mock('../elasticSearch');
 jest.mock('../FirebaseUtils');
 
-configure({ adapter: new Adapter() })
+const onAuthStateChanged = jest.fn(() => {
+    return Promise.resolve({
+        displayName: 'testDisplayName',
+        email: 'test@test.com',
+        emailVerified: true
+    })
+});
+
+jest.spyOn(firebaseInitialization, 'auth').mockImplementation(() => {
+    return {
+        onAuthStateChanged,
+        currentUser: {
+            displayName: 'testDisplayName',
+            email: 'test@test.com',
+            emailVerified: true
+        }
+    }
+});
+
+configure({ adapter: new Adapter() });
 
 describe('Testing Profile', () => {
 
@@ -25,15 +45,16 @@ describe('Testing Profile', () => {
             });
         });
 
-        test('Testing Loading of ProfilePage', () => {
+
+        test('Testing Loading of ProfileContent Component', () => {
             const handleClick = jest.fn();
-            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+            const wrapper = shallow(<ProfileContent updateContent={handleClick} email={"john-smith@edu"}/>);
             expect(wrapper.exists()).toBe(true);
         });
 
         test('Testing Fetch User Profile Details - Happy Path', async () => {
             const handleClick = jest.fn();
-            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+            const wrapper = shallow(<ProfileContent updateContent={handleClick} email={"john-smith@edu"}/>);
 
             const instance = wrapper.instance();
             expect(instance.state.isOpen).toBe(false);
@@ -54,7 +75,7 @@ describe('Testing Profile', () => {
                     return Promise.resolve(true)
                 }
             });
-            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+            const wrapper = shallow(<ProfileContent updateContent={handleClick} email={"john-smith@edu"}/>);
 
             const instance = wrapper.instance();
             const event = {
@@ -70,7 +91,7 @@ describe('Testing Profile', () => {
             const handleClick = jest.fn();
             elastic.updateUser.mockImplementationOnce(() => {{return Promise.resolve(false)}});
 
-            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+            const wrapper = shallow(<ProfileContent updateContent={handleClick} email={"john-smith@edu"}/>);
             const instance = wrapper.instance();
 
             const event = {
@@ -85,7 +106,7 @@ describe('Testing Profile', () => {
             const handleClick = jest.fn();
             elastic.updateUser.mockImplementationOnce(() => {{throw new Error('Update profile exception')}});
 
-            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+            const wrapper = shallow(<ProfileContent updateContent={handleClick} email={"john-smith@edu"}/>);
             const instance = wrapper.instance();
 
             const event = {
@@ -98,7 +119,7 @@ describe('Testing Profile', () => {
 
         test('Testing Fetch User Profile Details - Sad Path', async () => {
             const handleClick = jest.fn();
-            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+            const wrapper = shallow(<ProfileContent updateContent={handleClick} email={"john-smith@edu"}/>);
 
             const instance = wrapper.instance();
             expect(instance.state.isOpen).toBe(false);
@@ -106,7 +127,7 @@ describe('Testing Profile', () => {
 
         test('Testing update first name', async () => {
             const handleClick = jest.fn();
-            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+            const wrapper = shallow(<ProfileContent updateContent={handleClick} email={"john-smith@edu"}/>);
             const instance = wrapper.instance();
             const event = {
                 target: { value: 'test_fname' },
@@ -117,7 +138,7 @@ describe('Testing Profile', () => {
 
         test('Testing update last name', async () => {
             const handleClick = jest.fn();
-            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+            const wrapper = shallow(<ProfileContent updateContent={handleClick} email={"john-smith@edu"}/>);
 
             const instance = wrapper.instance();
             const event = {
@@ -129,7 +150,7 @@ describe('Testing Profile', () => {
 
         test('Testing update date of birth', async () => {
             const handleClick = jest.fn();
-            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+            const wrapper = shallow(<ProfileContent updateContent={handleClick} email={"john-smith@edu"}/>);
 
             const instance = wrapper.instance();
             const event = {
@@ -141,7 +162,7 @@ describe('Testing Profile', () => {
 
         test('Testing update phone number', async () => {
             const handleClick = jest.fn();
-            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+            const wrapper = shallow(<ProfileContent updateContent={handleClick} email={"john-smith@edu"}/>);
 
             const instance = wrapper.instance();
             const event = {
@@ -153,7 +174,7 @@ describe('Testing Profile', () => {
 
         test('Testing update address', async () => {
             const handleClick = jest.fn();
-            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+            const wrapper = shallow(<ProfileContent updateContent={handleClick} email={"john-smith@edu"}/>);
 
             const instance = wrapper.instance();
             const event = {
@@ -165,7 +186,7 @@ describe('Testing Profile', () => {
 
         test('Testing update city', async () => {
             const handleClick = jest.fn();
-            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+            const wrapper = shallow(<ProfileContent updateContent={handleClick} email={"john-smith@edu"}/>);
 
             const instance = wrapper.instance();
             const event = {
@@ -177,7 +198,7 @@ describe('Testing Profile', () => {
 
         test('Testing update state', async () => {
             const handleClick = jest.fn();
-            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+            const wrapper = shallow(<ProfileContent updateContent={handleClick} email={"john-smith@edu"}/>);
 
             const instance = wrapper.instance();
             const event = {
@@ -189,7 +210,7 @@ describe('Testing Profile', () => {
 
         test('Testing update zip code', async () => {
             const handleClick = jest.fn();
-            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+            const wrapper = shallow(<ProfileContent updateContent={handleClick} email={"john-smith@edu"}/>);
 
             const instance = wrapper.instance();
             const event = {
@@ -201,7 +222,7 @@ describe('Testing Profile', () => {
 
         test('Testing update old password', async () => {
             const handleClick = jest.fn();
-            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+            const wrapper = shallow(<ProfileContent updateContent={handleClick} email={"john-smith@edu"}/>);
 
             const instance = wrapper.instance();
             const event = {
@@ -213,7 +234,7 @@ describe('Testing Profile', () => {
 
         test('Testing update new password', async () => {
             const handleClick = jest.fn();
-            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+            const wrapper = shallow(<ProfileContent updateContent={handleClick} email={"john-smith@edu"}/>);
 
             const instance = wrapper.instance();
             const event = {
@@ -225,7 +246,7 @@ describe('Testing Profile', () => {
 
         test('Testing confirm new password', async () => {
             const handleClick = jest.fn();
-            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+            const wrapper = shallow(<ProfileContent updateContent={handleClick} email={"john-smith@edu"}/>);
 
             const instance = wrapper.instance();
             const event = {
@@ -237,7 +258,7 @@ describe('Testing Profile', () => {
 
         test('Testing toggle modal', async () => {
             const handleClick = jest.fn();
-            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+            const wrapper = shallow(<ProfileContent updateContent={handleClick} email={"john-smith@edu"}/>);
 
             const instance = wrapper.instance();
             instance.toggleModal();
@@ -246,7 +267,7 @@ describe('Testing Profile', () => {
 
         test('Testing on drop image', async () => {
             const handleClick = jest.fn();
-            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+            const wrapper = shallow(<ProfileContent updateContent={handleClick} email={"john-smith@edu"}/>);
 
             const instance = wrapper.instance();
             const event = {
@@ -259,7 +280,7 @@ describe('Testing Profile', () => {
         test('Testing update profile image - exist', async () => {
             const handleClick = jest.fn();
             firebase.doGetProfilePicture.mockImplementationOnce(() => {return Promise.resolve('test_url')});
-            const wrapper = mount(<ProfilePage updateContent={handleClick}/>);
+            const wrapper = mount(<ProfileContent updateContent={handleClick} email={"john-smith@edu"}/>);
 
             const instance = wrapper.instance();
             instance.handleImageChange();
@@ -270,7 +291,7 @@ describe('Testing Profile', () => {
             const handleClick = jest.fn();
             firebase.doGetProfilePicture.mockImplementationOnce(() => {return Promise.resolve(null)});
 
-            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+            const wrapper = shallow(<ProfileContent updateContent={handleClick} email={"john-smith@edu"}/>);
 
             const instance = wrapper.instance();
             instance.handleImageChange();
@@ -281,7 +302,7 @@ describe('Testing Profile', () => {
             const handleClick = jest.fn();
             firebase.doUploadProfilePicture.mockImplementationOnce(() => {return Promise.resolve("SUCCESS")});
 
-            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+            const wrapper = shallow(<ProfileContent updateContent={handleClick} email={"john-smith@edu"}/>);
 
             const instance = wrapper.instance();
             instance.handleImageUpload();
@@ -292,7 +313,7 @@ describe('Testing Profile', () => {
             const handleClick = jest.fn();
             firebase.doUploadProfilePicture.mockImplementationOnce(() => {return Promise.resolve("FAILURE")});
 
-            const wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+            const wrapper = shallow(<ProfileContent updateContent={handleClick} email={"john-smith@edu"}/>);
 
             const instance = wrapper.instance();
             instance.handleImageUpload();
@@ -303,7 +324,7 @@ describe('Testing Profile', () => {
             const handleClick = jest.fn();
             firebase.doPasswordUpdate.mockImplementationOnce(() => {return Promise.resolve("SUCCESS")});
 
-            const wrapper = shallow(<CHDeactivateCard updateContent={handleClick}/>);
+            const wrapper = shallow(<ProfileContent updateContent={handleClick} email={"john-smith@edu"}/>);
 
             const instance = wrapper.instance();
             instance.handlePasswordSubmit();
@@ -312,6 +333,7 @@ describe('Testing Profile', () => {
 
         test('Testing User Account Delete - Happy Path', async () => {
             const handleClick = jest.fn();
+            firebase.reauthenticateWithCredential.mockImplementationOnce(() => {return Promise.resolve(true)});
             elastic.elasticDeleteUser.mockImplementationOnce(() => {{return Promise.resolve(true)}});
             firebase.doGetProfilePicture.mockImplementationOnce(() => {return Promise.resolve("url")});
             firebase.doDeleteProfilePicture.mockImplementationOnce(() => {return Promise.resolve(true)});
@@ -326,6 +348,7 @@ describe('Testing Profile', () => {
 
         test('Testing User Account Delete - Fail to delete elastic search data', async () => {
             const handleClick = jest.fn();
+            firebase.reauthenticateWithCredential.mockImplementationOnce(() => {return Promise.resolve(true)});
             elastic.elasticDeleteUser.mockImplementationOnce(() => {{return Promise.resolve(false)}});
 
             const wrapper = shallow(<CHDeactivateCard updateContent={handleClick}/>);
@@ -338,6 +361,7 @@ describe('Testing Profile', () => {
         test('Testing User Account Delete - Exception', async () => {
             const handleClick = jest.fn();
             elastic.elasticDeleteUser.mockImplementationOnce(() => {{return Promise.resolve(true)}});
+            firebase.reauthenticateWithCredential.mockImplementationOnce(() => {return Promise.resolve(true)});
             firebase.doGetProfilePicture.mockImplementationOnce(() => {return Promise.resolve("url")});
             firebase.doDeleteProfilePicture.mockImplementationOnce(() => {return Promise.resolve(true)});
             firebase.doDeleteUser.mockImplementationOnce(() => {throw new Error('Delete exception encountered')});
@@ -347,6 +371,18 @@ describe('Testing Profile', () => {
 
             await instance.handleDeleteAccount();
             expect(instance.state.serverErrorMsg).toBe('Delete exception encountered');
+        });
+
+        test('Testing update deactivated password', async () => {
+            const handleClick = jest.fn();
+            const wrapper = shallow(<CHDeactivateCard updateContent={handleClick}/>);
+
+            const instance = wrapper.instance();
+            const event = {
+                target: { value: 'test_new_password' },
+            };
+            instance.handlePasswordChange(event);
+            expect(instance.state.password).toBe('test_new_password');
         });
     });
 });
