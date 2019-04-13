@@ -6,34 +6,34 @@
     height: 100%;
     width: 160px;
     position: fixed;
-    top: 12%;
+    top: 11.5%;
     left: 0;
     bottom: 0;
     background-color: #1a1a1a;
     overflow-x: hidden;
 }
 
-.sidenav ul{
-    padding-left: 0;
-}
+    .sidenav ul{
+        padding-left: 0;
+    }
 
-.sidenav a {
-    padding: 6px 8px 6px 16px;
-    text-decoration: none;
-    font-size: 25px;
-    color: #818181;
-    display: block;
-}
+    .sidenav a {
+        padding: 6px 8px 6px 16px;
+        text-decoration: none;
+        font-size: 20px;
+        color: #818181;
+        display: block;
+    }
 
-.sidenav a:hover {
-    text-decoration: none;
-    color: #f1f1f1;
-}
+        .sidenav a:hover {
+            text-decoration: none;
+            color: #f1f1f1;
+        }
 
-@media screen and (max-height: 450px) {
-    .sidenav {padding-top: 15px;}
-    .sidenav a {font-size: 18px;}
-}
+    @media screen and (max-height: 450px) {
+        .sidenav {padding-top: 15px;}
+        .sidenav a {font-size: 18px;}
+    }
 
 .profile-content {
     background-color: #f2f3f3;
@@ -152,16 +152,25 @@
     padding-bottom: 20%;
 }
 
-.courses-content{
-    display: none;
-    width: 100%;
-    padding-bottom: 30%;
-}
-
 .deactivate-card{
     box-shadow: 0 1px 1px 0 rgba(0,28,36,0.5);
 }
 
-.courses-card{
-    box-shadow: 0 1px 1px 0 rgba(0,28,36,0.5);
+
+.courses-content{
+    display: none;
+    width: 100%;
+    padding-bottom: 9%;
 }
+
+    .favorites-courses-card{
+        box-shadow: 0 5px 1px 0 rgba(240, 238, 0, 0.8);
+    }
+
+    .taking-courses-card{
+        box-shadow: 0 5px 1px 0 rgba(0, 1, 240, 0.8);
+    }
+
+    .completed-courses-card{
+        box-shadow: 0 5px 1px 0 rgba(28, 240, 0, 0.8);
+    }

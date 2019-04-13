@@ -74,7 +74,7 @@ class CHDeactivateCard extends Component {
         return(
             <div className="deactivate-content">
                 <Card className="deactivate-card">
-                    <Card.Title className="card-title">Deactivate Account</Card.Title>
+                    <Card.Title className="card-title">Delete Account</Card.Title>
                     <Card.Body>
                         <Form className="profile-form" onSubmit={this.handleDeleteAccount}>
                             <Form.Row>

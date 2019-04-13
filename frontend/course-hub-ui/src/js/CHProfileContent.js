@@ -8,18 +8,17 @@ import {
     Form,
     Button, Modal,
 } from "react-bootstrap";
-import {updateUser, getUserDetails, elasticDeleteUser} from "../elasticSearch";
+import {updateUser, getUserDetails} from "../elasticSearch";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser  } from '@fortawesome/free-solid-svg-icons'
 import {
-    doDeleteProfilePicture,
-    doDeleteUser,
     doGetProfilePicture,
     doPasswordUpdate,
-    doUploadProfilePicture, reauthenticateWithCredential
+    doUploadProfilePicture
 } from "../FirebaseUtils";
 import ProfileNavigator from "./CHProfileNavigator";
 import CHDeactivateCard from "./CHDeactivateCard";
+import CHCourseListsCard from "./CHCourseListsCard";
 
 var dateFormat = require('dateformat');
 class ProfileContent extends Component {
@@ -153,8 +152,8 @@ class ProfileContent extends Component {
         await doUploadProfilePicture(this.state.profile_picture).then(res => {
             console.log(res);
             if(res === "SUCCESS"){
-                alert('Profile Picture Updated Successfully!');
                 this.handleImageChange();
+                alert('Profile Picture Updated Successfully!');
             }
             else{
                 alert('Error');
@@ -391,14 +390,7 @@ class ProfileContent extends Component {
                                         </Col>
                                     </Row>
                                 </div>
-                                <div className="courses-content">
-                                    <Card className="courses-card">
-                                        <Card.Title className="card-title">Courses</Card.Title>
-                                        <Card.Body>
-
-                                        </Card.Body>
-                                    </Card>
-                                </div>
+                                <CHCourseListsCard email={this.state.email}/>
                                 <CHDeactivateCard email={this.state.email}/>
                             </Col>
                         </Row>
