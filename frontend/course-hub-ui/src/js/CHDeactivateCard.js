@@ -24,8 +24,8 @@ class CHDeactivateCard extends Component {
     };
 
     handleDeleteAccount = async (e) => {
+        e.preventDefault();
         const res = await reauthenticateWithCredential(this.state.password).then(async (response) => {
-            console.log('In delete');
             var payload = {
                 query : {
                     term : { Email : this.props.email }
@@ -64,9 +64,9 @@ class CHDeactivateCard extends Component {
             return "INVALID";
         });
         if(res === "INVALID"){
-            e.preventDefault();
-            this.setState({ serverErrorMsg: "Invalid password" });
-            document.getElementById("invalidPassword").style.display = "block";
+            var feedback_div = document.getElementById("invalidPassword");
+            feedback_div.style.display = "block";
+            feedback_div.innerText = "Invalid Password";
         }
     };
 

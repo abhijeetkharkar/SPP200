@@ -68,7 +68,7 @@ class ProfileNavigator extends Component {
         return (
             <div className="sidenav">
                 <ul>
-                    <li className="nav-item" id="profile_nav_item"><a href="#" onClick={()=>{this.handleNavItemChange(1)}}>Profile</a></li>
+                    <li className="nav-item active" id="profile_nav_item"><a href="#" onClick={()=>{this.handleNavItemChange(1)}}>Profile</a></li>
                     <li className="nav-item" id="courses_nav_item"><a href="#" onClick={()=>{this.handleNavItemChange(3)}}>Courses</a></li>
                     <li className="nav-item" id="deactivate_nav_item"><a href="#" onClick={()=>{this.handleNavItemChange(2)}}>Settings</a></li>
                 </ul>
