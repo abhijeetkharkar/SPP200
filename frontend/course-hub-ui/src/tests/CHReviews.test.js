@@ -25,8 +25,29 @@ const reviewsResponse = [{
 	"PostedBy": "Test1",
 	"NoofLikes": 1,
 	"NoofdisLikes": 0,
-	"URL": "some url"
+	"URL": "some url",
+	"id": "uVPFEmoBH8XOSEpf-WOq"
 }];
+
+const userReviewLikesResponse = [{
+	CourseId: "SomeCourseId",
+	UserId: "test1@test.com", ReviewId: "uVPFEmoBH8XOSEpf-WOq",
+	id: "zFNuE2oBH8XOSEpfAmPi", Status: "like"
+}];
+
+const userReviewLikesMapLike = {
+	"test1@test.com#$#uVPFEmoBH8XOSEpf-WOq": {
+		id: "zFNuE2oBH8XOSEpfAmPi",
+		status: "like"
+	}
+}
+
+const userReviewLikesMapDislike = {
+	"test1@test.com#$#uVPFEmoBH8XOSEpf-WOq": {
+		id: "zFNuE2oBH8XOSEpfAmPi",
+		status: "dislike"
+	}
+}
 
 jest.mock('../FirebaseUtils');
 jest.mock('../elasticSearch');
@@ -59,7 +80,8 @@ test('Testing search results componentWillReceiveProps - 1', async () => {
 
 test('Testing search results componentWillReceiveProps - 2', async () => {
     const handleClick = jest.fn();
-    elastic.getReviews.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(reviewsResponse))});
+	elastic.getReviews.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(reviewsResponse))});
+	//elastic.getUserReviewLikes.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(userReviewLikesResponse))});
     const wrapper = shallow(<CHReviews updateContent={handleClick} signedIn={false} 
 										elasticId={"someID"} courseId={"someCourseID"} rating={4} 
 										numberOfRatings={2} writeReview={false} 
@@ -68,6 +90,22 @@ test('Testing search results componentWillReceiveProps - 2', async () => {
 	const instance = wrapper.instance();
 	instance.setState({reviews: reviewsResponse});
     instance.componentWillReceiveProps({courseId: "someCourseID", writeReview: false});
+	expect(wrapper.exists()).toBe(true);
+	expect(instance.state.reviews).toBe(reviewsResponse);
+});
+
+test('Testing search results componentWillReceiveProps - 3', async () => {
+    const handleClick = jest.fn();
+	elastic.getReviews.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(reviewsResponse))});
+	elastic.getUserReviewLikes.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(userReviewLikesResponse))});
+    const wrapper = shallow(<CHReviews updateContent={handleClick} signedIn={true} 
+										elasticId={"someID"} courseId={"someCourseID"} rating={4} 
+										numberOfRatings={2} writeReview={false} 
+										firstName={"Test1"} email={"test1@test.com"} 
+										searchString={"test"} courseId="test course" />);
+	const instance = wrapper.instance();
+	instance.setState({reviews: reviewsResponse});
+    instance.componentWillReceiveProps({courseId: "someCourseID", writeReview: false, signedIn: true});
 	expect(wrapper.exists()).toBe(true);
 	expect(instance.state.reviews).toBe(reviewsResponse);
 });
@@ -250,29 +288,183 @@ test('Testing handleReviewSubmit - 6 - Updating Course rating failure', async ()
     expect(instance.state.showMessage).toEqual(false); //bad
 });
 
-test('Testing handleThumbsUp', async () => {
+test('Testing handleThumbsUp - Happy - 1', async () => {
     const handleClick = jest.fn();
-    elastic.updateReview.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(false))});
+	//const setTimeout = jest.fn();
+    elastic.getReviews.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(reviewsResponse))});
+	elastic.updateReview.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(true))});
+	elastic.updateUserReviewLike.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(true))});
+    elastic.getReviews.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(reviewsResponse))});
     const wrapper = shallow(<CHReviews updateContent={handleClick} signedIn={false} 
 										elasticId={"someID"} courseId={"someCourseID"} rating={4} 
 										numberOfRatings={2} writeReview={false} 
 										firstName={"Test1"} email={"test1@test.com"} 
 										searchString={"test"} courseId="test course" />);
-    const instance = wrapper.instance();
-    instance.handleThumbsUp();
+	const instance = wrapper.instance();
+	instance.setState({userReviewLikeMap: userReviewLikesMapLike});
+    instance.handleThumbsUp("uVPFEmoBH8XOSEpf-WOq");
     // expect(instance.state.writeReview).toEqual(true);
 });
 
-test('Testing handleThumbsDown', async () => {
+test('Testing handleThumbsUp - Happy - 2', async () => {
     const handleClick = jest.fn();
-    elastic.updateReview.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(false))});
+	//const setTimeout = jest.fn();
+    elastic.getReviews.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(reviewsResponse))});
+	elastic.updateReview.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(true))});
+	elastic.updateUserReviewLike.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(true))});
+    elastic.getReviews.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(reviewsResponse))});
+    const wrapper = shallow(<CHReviews updateContent={handleClick} signedIn={false} 
+										elasticId={"someID"} courseId={"someCourseID"} rating={4} 
+										numberOfRatings={2} writeReview={false} 
+										firstName={"Test1"} email={"test1@test.com"} 
+										searchString={"test"} courseId="test course" />);
+	const instance = wrapper.instance();
+	instance.setState({userReviewLikeMap: userReviewLikesMapDislike});
+    instance.handleThumbsUp("uVPFEmoBH8XOSEpf-WOq");
+    // expect(instance.state.writeReview).toEqual(true);
+});
+
+test('Testing handleThumbsUp - Happy - 3', async () => {
+    const handleClick = jest.fn();
+	//const setTimeout = jest.fn();
+    elastic.getReviews.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(reviewsResponse))});
+	elastic.updateReview.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(true))});
+	elastic.addUserReviewLike.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(true))});
+    elastic.getReviews.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(reviewsResponse))});
+    const wrapper = shallow(<CHReviews updateContent={handleClick} signedIn={false} 
+										elasticId={"someID"} courseId={"someCourseID"} rating={4} 
+										numberOfRatings={2} writeReview={false} 
+										firstName={"Test1"} email={"test1@test.com"} 
+										searchString={"test"} courseId="test course" />);
+	const instance = wrapper.instance();
+	instance.setState({userReviewLikeMap: userReviewLikesMapLike});
+    instance.handleThumbsUp("uVPFEmoBH8XOSEpf-WOq1");
+    // expect(instance.state.writeReview).toEqual(true);
+});
+
+test('Testing handleThumbsUp - Happy - 4', async () => {
+    const handleClick = jest.fn();
+	//const setTimeout = jest.fn();
+    elastic.getReviews.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(reviewsResponse))});
+	elastic.updateReview.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(true))});
+	elastic.addUserReviewLike.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(true))});
+    elastic.getReviews.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(reviewsResponse))});
+    const wrapper = shallow(<CHReviews updateContent={handleClick} signedIn={false} 
+										elasticId={"someID"} courseId={"someCourseID"} rating={4} 
+										numberOfRatings={2} writeReview={false} 
+										firstName={"Test1"} email={"test1@test.com"} 
+										searchString={"test"} courseId="test course" />);
+	const instance = wrapper.instance();
+	instance.setState({userReviewLikeMap: userReviewLikesMapDislike});
+    instance.handleThumbsUp("uVPFEmoBH8XOSEpf-WOq1");
+    // expect(instance.state.writeReview).toEqual(true);
+});
+
+test('Testing handleThumbsUp - Sad - 1', async () => {
+    const handleClick = jest.fn();
+	//const setTimeout = jest.fn();
+    elastic.getReviews.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(reviewsResponse))});
+	elastic.updateReview.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(false))});
+	elastic.updateUserReviewLike.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(true))});
+    elastic.getReviews.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(reviewsResponse))});
+    const wrapper = shallow(<CHReviews updateContent={handleClick} signedIn={false} 
+										elasticId={"someID"} courseId={"someCourseID"} rating={4} 
+										numberOfRatings={2} writeReview={false} 
+										firstName={"Test1"} email={"test1@test.com"} 
+										searchString={"test"} courseId="test course" />);
+	const instance = wrapper.instance();
+	instance.setState({userReviewLikeMap: userReviewLikesMapLike});
+    instance.handleThumbsUp("uVPFEmoBH8XOSEpf-WOq");
+    // expect(instance.state.writeReview).toEqual(true);
+});
+
+test('Testing handleThumbsUp - Sad - 2', async () => {
+    const handleClick = jest.fn();
+	//const setTimeout = jest.fn();
+    elastic.getReviews.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(reviewsResponse))});
+	elastic.updateReview.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(true))});
+	elastic.updateUserReviewLike.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(false))});
+    elastic.getReviews.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(reviewsResponse))});
+    const wrapper = shallow(<CHReviews updateContent={handleClick} signedIn={false} 
+										elasticId={"someID"} courseId={"someCourseID"} rating={4} 
+										numberOfRatings={2} writeReview={false} 
+										firstName={"Test1"} email={"test1@test.com"} 
+										searchString={"test"} courseId="test course" />);
+	const instance = wrapper.instance();
+	instance.setState({userReviewLikeMap: userReviewLikesMapLike});
+    instance.handleThumbsUp("uVPFEmoBH8XOSEpf-WOq");
+    // expect(instance.state.writeReview).toEqual(true);
+});
+
+test('Testing handleThumbsDown - Happy - 1', async () => {
+    const handleClick = jest.fn();
+	//const setTimeout = jest.fn();
+    elastic.getReviews.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(reviewsResponse))});
+    elastic.updateReview.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(true))});
+	elastic.updateUserReviewLike.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(true))});
+    elastic.getReviews.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(reviewsResponse))});
     const wrapper = shallow(<CHReviews updateContent={handleClick} signedIn={false} 
 										elasticId={"someID"} courseId={"someCourseID"} rating={4} 
 										numberOfRatings={2} writeReview={false} 
 										firstName={"Test1"} email={"test1@test.com"} 
 										searchString={"test"} courseId="test course" />);
     const instance = wrapper.instance();
-    instance.handleThumbsDown();
+	instance.setState({userReviewLikeMap: userReviewLikesMapLike});
+    instance.handleThumbsDown("uVPFEmoBH8XOSEpf-WOq");
+    // expect(instance.state.writeReview).toEqual(true);
+});
+
+test('Testing handleThumbsDown - Happy - 2', async () => {
+    const handleClick = jest.fn();
+	//const setTimeout = jest.fn();
+    elastic.getReviews.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(reviewsResponse))});
+    elastic.updateReview.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(true))});
+	elastic.updateUserReviewLike.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(true))});
+    elastic.getReviews.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(reviewsResponse))});
+    const wrapper = shallow(<CHReviews updateContent={handleClick} signedIn={false} 
+										elasticId={"someID"} courseId={"someCourseID"} rating={4} 
+										numberOfRatings={2} writeReview={false} 
+										firstName={"Test1"} email={"test1@test.com"} 
+										searchString={"test"} courseId="test course" />);
+    const instance = wrapper.instance();
+	instance.setState({userReviewLikeMap: userReviewLikesMapDislike});
+    instance.handleThumbsDown("uVPFEmoBH8XOSEpf-WOq");
+    // expect(instance.state.writeReview).toEqual(true);
+});
+
+test('Testing handleThumbsDown - Happy - 3', async () => {
+    const handleClick = jest.fn();
+	//const setTimeout = jest.fn();
+    elastic.getReviews.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(reviewsResponse))});
+    elastic.updateReview.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(true))});
+	elastic.addUserReviewLike.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(true))});
+    elastic.getReviews.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(reviewsResponse))});
+    const wrapper = shallow(<CHReviews updateContent={handleClick} signedIn={false} 
+										elasticId={"someID"} courseId={"someCourseID"} rating={4} 
+										numberOfRatings={2} writeReview={false} 
+										firstName={"Test1"} email={"test1@test.com"} 
+										searchString={"test"} courseId="test course" />);
+    const instance = wrapper.instance();
+	instance.setState({userReviewLikeMap: userReviewLikesMapLike});
+    instance.handleThumbsDown("uVPFEmoBH8XOSEpf-WOq1");
+    // expect(instance.state.writeReview).toEqual(true);
+});
+
+test('Testing handleThumbsDown - Happy - 4', async () => {
+    const handleClick = jest.fn();
+	//const setTimeout = jest.fn();
+    elastic.getReviews.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(reviewsResponse))});
+    elastic.updateReview.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(true))});
+	elastic.addUserReviewLike.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(true))});
+    elastic.getReviews.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(reviewsResponse))});
+    const wrapper = shallow(<CHReviews updateContent={handleClick} signedIn={false} 
+										elasticId={"someID"} courseId={"someCourseID"} rating={4} 
+										numberOfRatings={2} writeReview={false} 
+										firstName={"Test1"} email={"test1@test.com"} 
+										searchString={"test"} courseId="test course" />);
+    const instance = wrapper.instance();
+	instance.setState({userReviewLikeMap: userReviewLikesMapDislike});
+    instance.handleThumbsDown("uVPFEmoBH8XOSEpf-WOq1");
     // expect(instance.state.writeReview).toEqual(true);
 });
 
