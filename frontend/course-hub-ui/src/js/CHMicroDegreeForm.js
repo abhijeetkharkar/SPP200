@@ -5,7 +5,7 @@ import '../css/common-components.css';
 import '../css/card.css';
 import '../css/microdegree.css';
 import Chip from '@material-ui/core/Chip';
-import { Modal, Button, Form, Col, Badge } from 'react-bootstrap';
+import { Modal, Button, Form, Col, Badge, Card } from 'react-bootstrap';
 import CHAdvertisements from './CHAdvertisements';
 import CHFooter from './CHFooter';
 
@@ -16,14 +16,26 @@ class CHMicroDegreeForm extends Component {
 		this.state = {
             currentWord: "",
             currentTimeInterval: 0,
-            choice : '',
-            chips : []
+            choice : this.props.choice,
+            chips : [],
+            degree : this.props.microDegreeSuggestions
         };
         this.updateTag = this.updateTag.bind(this);
 	}
 
+    // Dont need this for now 
 	componentWillMount() {
-		
+		console.log("Component will mount called ");
+    }
+
+    componentWillReceiveProps(nextProps){
+        console.log("Next props Recieved are : ", nextProps);
+        this.setState({
+            choice: nextProps.choice,
+            degree : nextProps.microDegreeSuggestions
+        }, () => {
+            console.log("This . state is ", this.state);
+        })
     }
 
     updateTag = (e) => {
@@ -62,6 +74,11 @@ class CHMicroDegreeForm extends Component {
 
     loadSuggestions = (e) => {
         e.preventDefault();
+        var params = {
+            chips : this.state.chips,
+            durations : this.state.currentTimeInterval
+        }
+        this.props.onFormSubmit(params);
         console.log("Button Pressed");
         console.log("Tags are : ", this.state.chips);
         console.log("Time Duration is : ", this.state.currentTimeInterval);
@@ -76,6 +93,7 @@ class CHMicroDegreeForm extends Component {
     }
 
 	render() {
+        var choice = this.state.choice;
         var floatLeft = {
             'float' : 'left'
         }
@@ -99,11 +117,35 @@ class CHMicroDegreeForm extends Component {
                         <Form.Label style={floatLeft}><h4>Degree Time Interval</h4></Form.Label>
                         <Form.Control type="number" value={this.state.currentTimeInterval} placeholder="Enter Degree Time Interval in Hours" onChange={this.updateTimeInterval} />
                         <br />
-                        <Button variant="primary" type="submit" onClick={this.loadSuggestions} style={floatLeft}>
+                        <Button variant="primary" type="button" onClick={this.loadSuggestions} style={floatLeft}>
                             Get MicroDegree Suggestions
                         </Button>
+                        <br /><br /><br />
                     </Form>
-                    
+
+                    {choice === 'degreeSuggestions' &&
+                        <div className="microDegreeSuggestions">
+                            <Card className="microDegreeSuggestionsCard">
+                                <Card.Header><h4>Microdegree Suggestion 1</h4></Card.Header>
+                                {
+                                    this.state.degree.length > 0 ?
+                                        this.state.degree.map((item, index) => {
+                                            return (
+                                                    <Card.Body>
+                                                        <Card.Title>{item.courseName}</Card.Title>
+                                                        <Card.Text className="microDegreeText">
+                                                            <span className="microDegreeProvider"><b>Provider : </b>{item.provider}</span>
+                                                            <span className="microDegreeDifficulty"><b>Difficulty : </b>{item.difficulty}</span>
+                                                        </Card.Text>
+                                                    </Card.Body>
+                                                    );
+                                        }) :
+                                        []
+                                },
+                            <Button variant="primary" className="microDegreeRegister">Register For MicroDegree</Button>
+                            </Card>
+                        </div>
+                    }
                 </div>
 			</div>
 		);

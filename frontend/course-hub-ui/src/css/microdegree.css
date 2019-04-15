@@ -10,3 +10,23 @@
     width: 50%;
     float: left;
 }
+
+.microDegreeSuggestions{
+    
+}
+
+.microDegreeSuggestionsCard{
+    width: 55%;
+}
+
+.microDegreeRegister{
+    width: 30%;
+}
+
+.microDegreeText{
+    float: left;
+}
+
+.microDegreeDifficulty{
+    margin-left: 20em;
+}
