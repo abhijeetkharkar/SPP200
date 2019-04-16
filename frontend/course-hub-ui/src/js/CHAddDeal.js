@@ -154,7 +154,7 @@ class CHAddDeal extends Component {
         <div className="add-deals">
             <h4 style={deals_heading}> ADD NEW COURSE DEALS </h4>
             <br /><br />
-            <Form onSubmit={e => this.handleSubmit(e)}>
+            <Form id="adddealform" onSubmit={e => this.handleSubmit(e)}>
                 <Form.Row>
                 <Form.Group as={Col} controlId="formGridTitle">
                     <Form.Control required value={this.state.title} onChange={this.handleTitleChange} type="text" minlength='5' maxlength='80' placeholder="Title" />

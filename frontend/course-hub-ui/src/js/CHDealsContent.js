@@ -17,7 +17,7 @@ import StarRatingComponent from 'react-star-rating-component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import CHFooter from './CHFooter';
 import firebaseInitialization from '../FirebaseUtils';
-import { searchUser } from '../elasticSearch';
+import { searchUser, getDealsfromES } from '../elasticSearch';
 const fetch = require('node-fetch');
 
 class CHDealsContent extends Component{
@@ -52,13 +52,8 @@ class CHDealsContent extends Component{
                 "page_number": nextProps.pageNumber || 0
             }
     
-            fetch(process.env.REACT_APP_GET_DEALS, {
-                method: 'POST',
-                body: JSON.stringify(payload),
-                headers: { 'Content-Type': 'application/json' }
-            }).then(response => {
-                return response.json();
-            }).then(dealsData => {
+            getDealsfromES()
+            .then(dealsData => {
                 this.setState({ deals: dealsData.deals, totalPages: dealsData.number_of_pages, currentPage: dealsData.current_page, totalCourses: dealsData.total_deals, pageList: this.createPageList(dealsData.current_page, dealsData.number_of_pages) });
                 if (dealsData.deals.length == 0){
                     this.setState({currentLayout : "nodeal"});

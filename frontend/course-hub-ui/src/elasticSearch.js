@@ -265,5 +265,15 @@ const updateCourseRating = async (_id, payload) => {
     });
 }
 
+const getDealsfromES = async () => {
+    return await fetch(process.env.REACT_APP_GET_DEALS, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+        headers: { 'Content-Type': 'application/json' }
+    }).then(response => {
+        return response.json();
+    });
+}
+
 export {addUser, searchUser, getUserDetails, updateUser, elasticDeleteUser, addDeal, 
-    addReview, getReviews, updateReview, getCourseDetails, updateCourseRating};
+    addReview, getReviews, updateReview, getCourseDetails, updateCourseRating, getDealsfromES};
