@@ -2,62 +2,73 @@
     color: white;
 }
 
-.profile-navigator{
-    background-color: #4f5356;
-    margin-bottom: 10px;
-    height: 68vh;
-    color: #ddd50c;
-    width: 100%;
-    float: left;
-    border-radius: 5px;
+.sidenav {
+    height: 100%;
+    width: 160px;
+    position: fixed;
+    top: 11.5%;
+    left: 0;
+    bottom: 0;
+    background-color: #1a1a1a;
+    overflow-x: hidden;
 }
 
-.nav{
-    margin: 0;
-    padding: 0;
-    list-style: none;
+    .sidenav ul{
+        padding-left: 0;
+    }
+
+    .sidenav a {
+        padding: 6px 8px 6px 16px;
+        text-decoration: none;
+        font-size: 20px;
+        color: #818181;
+        display: block;
+    }
+
+        .sidenav a:hover {
+            text-decoration: none;
+            color: #f1f1f1;
+        }
+
+    @media screen and (max-height: 450px) {
+        .sidenav {padding-top: 15px;}
+        .sidenav a {font-size: 18px;}
+    }
+
+.profile-content {
+    background-color: #f2f3f3;
+    float: left;
+    padding: 1%;
+    text-align: center;
+    width: 100% !important;
+    height: 80% !important;
 }
 
 .nav-item{
     list-style-type: none;
-    padding: 10px;
-    font-size: 20px;
 }
 
 .active{
-    background-color: #292c2f;
-}
-
-.nav-item a{
-    color: #ddd50c;
-}
-
-.nav-item a:hover{
-    color: #ddd50c;
-    font-weight: bold;
-    text-decoration: none;
-    font-size: 20px;
-}
-
-.card-title{
-    color: #ddd50c;
-    text-align: left;
-    font-size: x-large;
-}
-
-.profile-card-title{
-    padding-top: 30px;
-    color: #ddd50c;
-    text-align: center;
-    font-size: x-large;
+    background-color: #08090b;
 }
 
 .profile-edit-card{
-    background-color: #4f5356;
-    padding-left: 10px;
-    margin-bottom: 10px;
     width: 100%;
     height: 100%;
+    box-shadow: 0 1px 1px 0 rgba(0,28,36,0.5);
+
+}
+
+.card-title{
+    background-color: #f0f0f0;
+    border-bottom: 1px solid #d6d6d6;
+    color: inherit;
+    text-align: left;
+    font-weight: 700;
+    font-size: 1.8rem;
+    padding-left: 10px;
+    padding-top: 15px;
+    padding-bottom: 15px;
 }
 
 .profile-card-body{
@@ -65,10 +76,10 @@
 }
 
 .profile-form{
-    color: #ddd50c;
+    color: inherit;
+    font-weight: 700;
     text-align: left;
-    font-weight: bold;
-    font-size: 10px;
+    font-size: 13px;
     padding: 10px;
 }
 
@@ -97,20 +108,18 @@
 
 .main-content{
     position:relative;
-    /*z-index:1;*/
-
+    width: 98%;
 }
 
 .profile-image-card{
-    padding-left: 10px;
     background-color: #4f5356;
-    margin-bottom: 10px;
     width: 90%;
     height: 100%;
+    box-shadow: 0 1px 1px 0 rgba(0,28,36,0.5);
 }
 
 .profile-upload{
-    padding-top: 30%;
+    padding-top: 10%;
     padding-right: 10px;
 }
 
@@ -137,30 +146,31 @@
     display: none;
 }
 
-.account-delete-button{
-    margin-left: 1%;
-    width: 20%;
+.deactivate-content{
+    display: none;
+    width: 60%;
+    padding-bottom: 20%;
 }
 
-.reviews-content{
-    display: none;
-    width: 100%;
-    height: 100%;
+.deactivate-card{
+    box-shadow: 0 1px 1px 0 rgba(0,28,36,0.5);
 }
+
 
 .courses-content{
     display: none;
     width: 100%;
-    height: 100%;
+    padding-bottom: 9%;
 }
 
-.reviews-card{
-    background-color: #4f5356;
-    color: #ddd50c;
+    .favorites-courses-card{
+        box-shadow: 0 5px 1px 0 rgba(240, 238, 0, 0.8);
+    }
 
-}
+    .taking-courses-card{
+        box-shadow: 0 5px 1px 0 rgba(0, 1, 240, 0.8);
+    }
 
-.courses-card{
-    background-color: #4f5356;
-    color: #ddd50c;
-}
+    .completed-courses-card{
+        box-shadow: 0 5px 1px 0 rgba(28, 240, 0, 0.8);
+    }

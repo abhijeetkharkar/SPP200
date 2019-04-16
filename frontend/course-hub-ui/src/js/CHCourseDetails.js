@@ -150,11 +150,7 @@ class CHCourseDetails extends Component {
                 }
 
                 {choice === "profile" &&
-                  [<CHNavigator updateContent={this.handleClick} updatePage={this.handlePagination} courseId={courseId} signedIn={true} caller={"coursedesc"} firstName={firstName} email={email} key="course-details-header" />,
-                  <div className="profile-content" key="course-details-content">
-                    <ProfilePage updateContent={this.handleClick} courseId={courseId} email={email} />
-                  </div>,
-                  <CHFooter key="course-details-footer"/>]
+                    this.props.history.push('/profile')
                 }
         
                 {choice === "searchResults" &&

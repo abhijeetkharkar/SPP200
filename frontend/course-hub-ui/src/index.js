@@ -10,6 +10,7 @@ import * as serviceWorker from './serviceWorker';
 import 'babel-polyfill';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import CHCompare from "./js/CHCompare";
+import CHProfile from "./js/CHProfile";
 
 ReactDOM.render(
 	<BrowserRouter>
@@ -19,6 +20,7 @@ ReactDOM.render(
 			<Route path="/course" component={CHCourseDetails}/>
 			<Route path="/deals" component={CHDeals}/>
 			<Route path="/compare" component={CHCompare}/>
+			<Route path="/profile" component={CHProfile}/>
 			<Route path="/microdegree" component={CHMicroDegree}/>
 		</Switch>
     </BrowserRouter>, 

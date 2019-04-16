@@ -105,16 +105,17 @@ const elasticDeleteUser = async payload => {
             body: JSON.stringify(payload),
             headers: { 'Content-Type': 'application/json' }
         }).then(response => {
-            return response.json();
-        }).then(elasticData => {
-            if (elasticData.deleted >= 1) {
-                return true;
-            } else {
-                return false;
-            }
-        }).catch(error => {
+        return response.json();
+    }).then(elasticData => {
+        if (elasticData.deleted >= 1) {
+            return true;
+        } else {
             return false;
-        });
+        }
+    }).catch(error => {
+        console.log(error);
+        return false;
+    });
 };
 
 const addDeal = async (payload) => {
