@@ -44,7 +44,7 @@ def lambda_handler(event, context):
                             "Paid": True if 'type' in course and course["type"] == "paid" else False,
                             "Price": int(str(course["price"]).split(" ")[0]) if 'price' in course else None,
                             "PriceCurrency": "USD", "Instructors": instructors,
-                            "URL": course["courseUrl"], "Rating": 0,
+                            "URL": course["courseUrl"], "Rating": 0, "NoofRatings": 0, "hits": 0,
                             "Description": course["summary"] if 'summary' in course else None,
                             "CourseImage": course["image"] ,
                             "StartDate": datetime.strptime(course["startDate"], '%d %b %Y').isoformat().split('T')[

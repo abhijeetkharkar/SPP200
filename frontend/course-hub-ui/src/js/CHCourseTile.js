@@ -44,15 +44,6 @@ class CHCourseTile extends Component {
         this.handleWriteReviewClick = this.handleWriteReviewClick.bind(this);
     }
 
-    onImageLoad({ target: img }) {
-        this.setState({ imgHeight: img.offsetHeight, imgWidth: img.offsetWidth });
-    }
-
-    getWidthAndHeight() {
-        // console.log("'" + this.name + "' is " + this.width + " by " + this.height + " pixels in size.");
-        return true;
-    }
-
     componentWillMount() {
         console.log("In CHCourseTile, componentWillMount");
         // console.log('course tile: ', this.props.courseId);
@@ -82,6 +73,11 @@ class CHCourseTile extends Component {
     componentWillReceiveProps() {
         console.log("In CHCourseTile, componentWillReceiveProps");
         this.setState({writeReview: false});
+    }
+
+    onImageLoad({ target: img }) {
+        console.log("IMAGE:", img.offsetHeight, "::::", img.offsetHeight);
+        this.setState({ imgHeight: img.offsetHeight, imgWidth: img.offsetWidth });
     }
 
     handleWriteReviewClick = () => {
@@ -157,7 +153,7 @@ class CHCourseTile extends Component {
                     <span className="course-desc-span">
                         <div style={{ marginTop: "10%" }} className="course-details" dangerouslySetInnerHTML={{ __html: this.state.Description }} />
                     </span>
-                    <Button className="write-review" onClick={this.handleWriteReviewClick}>
+                    <Button id="write-review-button" className="write-review" onClick={this.handleWriteReviewClick}>
                         <FontAwesomeIcon icon="pencil-alt" />
                         &nbsp;&nbsp;Write a review
                     </Button>

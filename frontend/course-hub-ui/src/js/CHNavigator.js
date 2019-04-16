@@ -100,7 +100,7 @@ class CHNavigator extends Component {
                     <Image style={logoStyle} className="website-logo" src="https://firebasestorage.googleapis.com/v0/b/course-hub-73ea7.appspot.com/o/Course_Hub_Transparent_Background.png?alt=media&token=7932c4fe-54d6-4802-9ab6-8e12fc359cb9"/>
                 </a>
                 
-                {   this.props.caller === "search" &&
+                {   (this.props.caller === "search" || this.props.caller === "coursedesc") &&
                     <div>
                         <Form className="search-results-search-form" onSubmit={e => this.handleSearch(e)}>
                             <input className="search-results-search-box" placeholder="Search courses" value={this.state.searchString} onChange={this.handleSearchStringChange} type="text" />

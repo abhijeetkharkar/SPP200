@@ -3,7 +3,8 @@
 import json
 import requests
 import base64
-from awslambda.udemy.crawler import *
+# from awslambda.udemy.crawler import *
+from crawler import *
 import hashlib
 import sys
 import time
@@ -61,7 +62,6 @@ def parse_json(json_data):
     if extra_data['duration'] == None:
         print("Crawler returned None for this URl : ",url_to_crawl, extra_data)
         return False
-    
     try:
         instructers = []
         for val in json_data['visible_instructors']:
@@ -94,16 +94,29 @@ def parse_json(json_data):
             else None        
         course_object['StartDate'] = None
         course_object['EndDate'] = None
-        course_object['Difficulty'] = course_level \
-            if course_level != "all" \
-            else ["beginnner", "intermediate", "expert"]
+
+        if course_level == "beginner":
+            course_object['Difficulty'] = "Introductory"
+        elif course_level == "intermediate":
+            course_object['Difficulty'] = "Intermediate"
+        elif course_level == "expert":
+            course_object['Difficulty'] = "Advanced"
+        elif course_level == "all":
+            course_object['Difficulty'] = "all"
+        else:
+            course_object['Difficulty'] = "all"
+
         course_object['Description'] = extra_data["description"] \
             if extra_data != None \
-            else None
+            else None        
+        course_object['Rating']=0
+        course_object['NoofRatings']=0
+        course_object['hits']=0
     except KeyError:
         print("\t Something wrong with parsing JSON object - parse_json(json_data)")
         return False
     
+    print ("Object is ", course_object)
     return course_object
 
 

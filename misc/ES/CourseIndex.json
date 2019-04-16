@@ -6,7 +6,8 @@
     "analyzer": {
       "ngram_tokenizer_analyzer": {
         "type": "custom",
-            "tokenizer": "ngram_tokenizer"
+         "tokenizer": "ngram_tokenizer",
+        "filter": ["lowercase"]
       }
     },
     "tokenizer": {
@@ -27,7 +28,7 @@
     "properties": {
       "Category": {
         "type": "text",
-            "analyzer": "standard"
+            "analyzer": "ngram_tokenizer_analyzer"
       },
       "CourseDuration": {
         "properties": {

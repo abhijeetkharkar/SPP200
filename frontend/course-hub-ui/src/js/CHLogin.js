@@ -36,7 +36,7 @@ class LoginPage extends Component {
 
   handleHide = () => {
     this.setState({ show: false });
-    this.props.updateContent("home", null, null, null, this.props.courseId || null);
+    this.props.updateContent("home", null, null, null, this.props.courseId || '');
   };
 
   handleEmailChange = e => {
@@ -64,22 +64,21 @@ class LoginPage extends Component {
         }
         return searchUser(payloadSearch);
       }).then(elasticData => {
-        this.setState({ loggedIn: true });
-        this.setState({ validated: false });
-        // document.getElementById("invalidUsernamePwdFeedback").style.display = "none";
-        this.props.updateContent("homeSignedIn", elasticData, null, this.props.searchString != undefined? this.props.searchString: null, this.props.courseId || null);
+        this.setState({ loggedIn: true, validated: false }, 
+          this.props.updateContent("homeSignedIn", 
+                                    elasticData, 
+                                    null, 
+                                    this.props.searchString != undefined? this.props.searchString: null, 
+                                    this.props.courseId || null));
       }).catch(error => {
         // console.log("SIGN-IN ERROR:", error.message);
-        this.setState({ serverErrorMsg: error.message });
-        document.getElementById("formGridPassword").style.borderColor = "#dc3545";
-        document.getElementById("invalidUsernamePwdFeedback").style.display = "block";
-        this.setState({ validated: true });
+        this.setState({ serverErrorMsg: error.message, validated: true });
       });
     }
   }
 
   handleForgotPassword = () => {
-    this.props.updateContent("forgotPasswordScreen", null, null, this.props.searchString != undefined? this.props.searchString: null, this.props.courseId || null);
+    this.props.updateContent("forgotPasswordScreen", null, null, this.props.searchString != undefined? this.props.searchString: null, this.props.courseId || '');
   }
 
   handleGoogleSignin = () => {
@@ -116,13 +115,13 @@ class LoginPage extends Component {
           // console.log("Response:", response); 
           if (response) {
             this.setState({ loggedIn: true });
-            this.props.updateContent("homeSignedIn", firstName, null, this.props.searchString != undefined? this.props.searchString: null, this.props.courseId || null);
+            this.props.updateContent("homeSignedIn", firstName, null, this.props.searchString != undefined? this.props.searchString: null, this.props.courseId || '');
           } else {
             // console.log("Google Signin, came to error");
             doDeleteUser().then(deleteResponse => {
               // console.log("DELETE:", deleteResponse);
               this.setState({ serverErrorMsg: "Unable to sign-in now. Please try after some time." });
-              this.props.updateContent("loginScreen", null, null, this.props.searchString != undefined? this.props.searchString: null, this.props.courseId || null);
+              this.props.updateContent("loginScreen", null, null, this.props.searchString != undefined? this.props.searchString: null, this.props.courseId || '');
               document.getElementById("googleSigninError").style.display = "block";
             }).catch(error => {
               // TODO Needs to be reported to the Course-Hub team
@@ -133,23 +132,29 @@ class LoginPage extends Component {
         }).catch(error => {          
             // console.log("FINAL111 ERROR:", error.message);
             this.setState({ serverErrorMsg: error.message });
-            this.props.updateContent("loginScreen", null, null, this.props.searchString != undefined? this.props.searchString: null, this.props.courseId || null);
+            this.props.updateContent("loginScreen", null, null, this.props.searchString != undefined? this.props.searchString: null, this.props.courseId || '');
             document.getElementById("googleSigninError").style.display = "block";
         });
       } else {
         this.setState({ loggedIn: true });
-        this.props.updateContent("homeSignedIn", firstName, null, this.props.searchString != undefined? this.props.searchString: null, this.props.courseId || null);
+        this.props.updateContent("homeSignedIn", firstName, null, this.props.searchString != undefined? this.props.searchString: null, this.props.courseId || '');
       }
     }).catch(error => {
       // console.log("FINAL ERROR:", error.message);
       this.setState({ serverErrorMsg: error.message });
-      this.props.updateContent("loginScreen", null, null, this.props.searchString != undefined? this.props.searchString: null, this.props.courseId || null);
+      this.props.updateContent("loginScreen", null, null, this.props.searchString != undefined? this.props.searchString: null, this.props.courseId || '');
       document.getElementById("googleSigninError").style.display = "block";
     });
   }
 
   render() {
     const { validated } = this.state;
+
+    const feedbackStyle = {display: this.state.serverErrorMsg!=''?'block':'none'};
+    const passwordBoxStyle = {borderColor: this.state.serverErrorMsg!=''?'#dc3545':'#28a745', 
+                              /* boxShadow:this.state.serverErrorMsg!=''?'0 0 0 0.2rem rgba(220,53,69,.25)':'0 0 0 0.2rem rgba(40,167,69,.25)' */
+                            };
+
     return (
       <Modal
         className="loginModal"
@@ -161,7 +166,7 @@ class LoginPage extends Component {
           <Modal.Title size="lg" id="login-in-title">
             Login
             </Modal.Title>
-          <Button id="loginCloseButton" variant="danger" onClick={(e) => this.props.updateContent("home", null, null, this.props.searchString != undefined? this.props.searchString: null, this.props.courseId || null)}>
+          <Button id="loginCloseButton" variant="danger" onClick={(e) => this.props.updateContent("home", null, null, this.props.searchString != undefined? this.props.searchString: null, this.props.courseId || '')}>
             X
           </Button>
         </Modal.Header>
@@ -176,14 +181,14 @@ class LoginPage extends Component {
               </Form.Group>
             </Form.Row>
             <Form.Row>
-              <Form.Group as={Col} controlId="formGridPassword">
+              <Form.Group as={Col} controlId="formGridPassword" style={passwordBoxStyle}>
                 <Form.Control type="password" placeholder="Enter your password" value={this.state.password} onChange={this.handlePasswordChange} />
-                <Form.Control.Feedback type="invalid" id="invalidUsernamePwdFeedback">{this.state.serverErrorMsg}</Form.Control.Feedback>
+                <Form.Control.Feedback type="invalid" id="invalidUsernamePwdFeedback" style={feedbackStyle}>{this.state.serverErrorMsg}</Form.Control.Feedback>
               </Form.Group>
             </Form.Row>
             <Form.Row>
               <Form.Group className="float-left" as={Col} controlId="formGridSignIn">
-                <Button size="lg" variant="success" type="submit">Login</Button>
+                <Button size="sm" variant="success" type="submit">Login</Button>
               </Form.Group>
               <Form.Group className="float-right text-right" as={Col} controlId="formGridForgot">
                 <Button variant="link" onClick={this.handleForgotPassword}>Forgot Password?</Button>
@@ -191,7 +196,7 @@ class LoginPage extends Component {
             </Form.Row>
             <Form.Row className="text-center">
               <Form.Group className="float-center" as={Col} controlId="formGridGoogleSignIn">
-                <h2><Badge pill variant="info">OR</Badge></h2>
+                <h3><Badge pill variant="secondary">Or</Badge></h3>
               </Form.Group>
             </Form.Row>
             <Form.Row>
@@ -202,7 +207,7 @@ class LoginPage extends Component {
             </Form.Row>
             <Form.Row>
               <Form.Group className="float-right text-right" as={Col} controlId="formGridSignUp">
-                New User? <Button id="loginRegisterButton" variant="link" onClick={(e) => this.props.updateContent("signupScreen", null, null, this.props.searchString != undefined? this.props.searchString: null, this.props.courseId || null)}>Register</Button>
+                New User? <Button id="loginRegisterButton" variant="link" onClick={(e) => this.props.updateContent("signupScreen", null, null, this.props.searchString != undefined? this.props.searchString: null, this.props.courseId || '')}>Register</Button>
               </Form.Group>
             </Form.Row>
           </Form>

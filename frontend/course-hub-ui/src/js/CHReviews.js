@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import { doGetProfilePicture } from '../FirebaseUtils';
-import { addReview, updateCourseRating, updateReview, getReviews } from '../elasticSearch';
+import {
+    addReview, updateReview, getReviews,
+    addUserReviewLike, getUserReviewLikes, updateUserReviewLike,
+    updateCourseRating
+} from '../elasticSearch';
 import { Form, Button, Image, Modal, Overlay, Tooltip } from 'react-bootstrap';
 import '../App.css';
 import '../css/common-components.css';
@@ -16,6 +20,7 @@ class CHReviews extends Component {
         this.state = {
             show: false,
             reviews: null,
+            userReviewLikeMap: {},
             newComment: '',
             userRating: 0,
             serverErrorMsg: '',
@@ -61,20 +66,47 @@ class CHReviews extends Component {
     } */
 
     componentWillReceiveProps(nextProps) {
-        console.log("In CHReviews, componentWillReceiveProps", nextProps.courseId, ", writeReview: ", nextProps.writeReview);
+        console.log("In CHReviews, componentWillReceiveProps", nextProps.courseId, "::::", nextProps.email, ", writeReview: ", nextProps.writeReview);
 
         if (nextProps.writeReview) {
             this.handleShow();
         } else {
 
-            var payload = {
+            const payload = {
                 "query": {
                     "term": { "CourseId": nextProps.courseId }
                 }
             }
 
+            const payLoadUserReviewLikeSearch = {
+                "query": {
+                    "bool": {
+                        "should": [
+                            { "match": { "CourseId": nextProps.elasticId } },
+                            { "match": { "UserId": nextProps.email } }
+                        ]
+                    }
+                }
+            };
+
             getReviews(payload).then(reviews => {
-                this.setState({ show: false, showMessage: false, newComment: "", userRating: 0, reviews: reviews });
+                // this.setState({ show: false, showMessage: false, newComment: "", userRating: 0, reviews: reviews });
+                if (nextProps.signedIn) {
+                    const userReviewLikeMap = {};
+                    getUserReviewLikes(payLoadUserReviewLikeSearch).then(response => {
+                        if (response != null) {
+                            response.forEach(record => {
+                                userReviewLikeMap[record.UserId + "#$#" + record.ReviewId] = { status: record.Status, id: record.id };
+                            });
+                        }
+                        this.setState({
+                            show: false, showMessage: false, newComment: "", userRating: 0,
+                            reviews: reviews, userReviewLikeMap: userReviewLikeMap
+                        });
+                    });
+                } else {
+                    this.setState({ show: false, showMessage: false, newComment: "", userRating: 0, reviews: reviews });
+                }
             }).catch(error => {
                 console.log("CHReviews, componentWillReceiveProps, elasticsearch error: ", error)
             });
@@ -116,7 +148,7 @@ class CHReviews extends Component {
                 var today = new Date();
                 var date = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate();
                 var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-                var reviewId = this.props.email + '$' + date + '$' + time;
+                var reviewId = this.props.email + "#" + today.getMilliseconds;
                 var parentReviewId = reviewId;
                 var courseId = this.props.courseId;
                 var description = this.state.newComment;
@@ -125,31 +157,17 @@ class CHReviews extends Component {
                 var postedBy = this.props.firstName;
                 var edited = false;
                 var postedByInstructor = false;
-                var commentedOn = { Date: '', Time: '' };
-                commentedOn.Date = date;
-                commentedOn.Time = time;
-                var editedOn = { Date: '', Time: '' };
-                editedOn.Date = date;
-                editedOn.Time = time;
-                
-                /* var payloadCourse = {
-                    "script": {
-                        "source": "ctx._source.NoofRatings += 1; ctx._source.Ratings = " + (((this.props.rating * this.props.numberOfRatings) + rating)/(this.props.numberOfRatings+1)),
-                        "lang": "painless"
-                    }
-                }; */
-
-                console.log("In CHReview, handleReviewSubmit, New Rating: ", (((this.props.rating * this.props.numberOfRatings) + rating)/(this.props.numberOfRatings+1)));
-                console.log("In CHReview, handleReviewSubmit, New Number of Rating: ", (this.props.numberOfRatings+1));
+                var commentedOn = { Date: date, Time: time };
+                var editedOn = { Date: date, Time: time };
 
                 var payloadCourse = {
                     "doc": {
-                        "Rating": (((this.props.rating * this.props.numberOfRatings) + rating)/(this.props.numberOfRatings+1)),
-                        "NoofRatings":(this.props.numberOfRatings+1) 
+                        "Rating": (((this.props.rating * this.props.numberOfRatings) + rating) / (this.props.numberOfRatings + 1)),
+                        "NoofRatings": (this.props.numberOfRatings + 1)
                     }
                 };
 
-                console.log("Inside", payloadCourse)
+                console.log("Inside", payloadCourse);
 
                 doGetProfilePicture().then(url => {
                     // console.log("In CHReview, handleSubmitReview, imageURL: ", url);
@@ -165,20 +183,22 @@ class CHReviews extends Component {
                     if (success) {
                         console.log("Inside elastic data");
                         updateCourseRating(this.props.elasticId, payloadCourse).then(successCourse => {
-                            if(successCourse) {
-                                this.setState({ show: false, newComment: "", userRating: 0, serverErrorMsg: "", showMessage: false },
-                                    this.props.updateContent(this.props.signedIn ? "homeSignedIn" : "home",
-                                        this.props.firstName,
-                                        this.props.email,
-                                        null,
-                                        this.props.courseId));
+                            if (successCourse) {
+                                setTimeout(() => {
+                                    this.setState({ show: false, newComment: "", userRating: 0, serverErrorMsg: "", showMessage: false },
+                                        this.props.updateContent(this.props.signedIn ? "homeSignedIn" : "home",
+                                            this.props.firstName,
+                                            this.props.email,
+                                            null,
+                                            this.props.courseId));
+                                }, 1500);
                             } else {
                                 this.setState({
                                     serverErrorMsg: "Your review could not be submitted at the moment. Please try again later.",
                                     showMessage: true
                                 });
                             }
-                        });                        
+                        });
                     } else {
                         this.setState({
                             serverErrorMsg: "Your review could not be submitted at the moment. Please try again later.",
@@ -196,38 +216,289 @@ class CHReviews extends Component {
         }
     }
 
-    handleThumbsUp = async (likes, reviewId) => {
-        var payloadReview = {
-            "doc": {
-                "NoofLikes": likes
-            }
-        };
+    handleThumbsUp = async (reviewId) => {
+        console.log("In CHReviews, handleThumbsUp, MAP: ", this.state.userReviewLikeMap);
+        console.log("In CHReviews, handleThumbsUp, MAP Data: ", this.state.userReviewLikeMap[this.props.email + "#$#" + reviewId]);
+        var payloadReview = {};
+        var payloadUserReviewLike = {};
+        var id = null;
 
-        updateReview(reviewId, payloadReview).then(response => {
-            if(!response)
-                console.log("In CHReviews, handleThumbsUp, LAFDA in updateReview");
-            this.forceUpdate();
+        var payloadGetReview = {
+            "query": {
+                "match": {
+                    "_id": reviewId
+                }
+            }
+        }
+
+        getReviews(payloadGetReview).then(response => {
+            const likes = response[0].NoofLikes;
+            const dislikes = response[0].NoofdisLikes;
+
+            if (this.state.userReviewLikeMap[this.props.email + "#$#" + reviewId] &&
+                this.state.userReviewLikeMap[this.props.email + "#$#" + reviewId].status === 'like') {
+                payloadReview = {
+                    "doc": {
+                        "NoofLikes": likes
+                    }
+                };
+                payloadUserReviewLike = {
+                    "doc": {
+                        "Status": "like"
+                    }
+                };
+                id = this.state.userReviewLikeMap[this.props.email + "#$#" + reviewId].id;
+            } else if (this.state.userReviewLikeMap[this.props.email + "#$#" + reviewId] &&
+                this.state.userReviewLikeMap[this.props.email + "#$#" + reviewId].status != 'like') {
+                payloadReview = {
+                    "doc": {
+                        "NoofLikes": likes + 1,
+                        "NoofdisLikes": dislikes - 1
+                    }
+                };
+                payloadUserReviewLike = {
+                    "doc": {
+                        "Status": "like"
+                    }
+                };
+                id = this.state.userReviewLikeMap[this.props.email + "#$#" + reviewId].id;
+            } else {
+                payloadReview = {
+                    "doc": {
+                        "NoofLikes": likes + 1
+                    }
+                };
+                payloadUserReviewLike = {
+                    CourseId: this.props.elasticId,
+                    UserId: this.props.email,
+                    ReviewId: reviewId,
+                    Status: "like"
+                };
+                id = null;
+            }
+
+            updateReview(reviewId, payloadReview).then(response => {
+                if (!response)
+                    console.log("In CHReviews, handleThumbsUp, LAFDA in updateReview");
+                else {
+                    if (id != null) {
+                        console.log("UpdateUserReviewLike");
+                        updateUserReviewLike(id, payloadUserReviewLike).then(response => {
+                            if (!response)
+                                console.log("In CHReviews, handleThumbsUp, LAFDA in updateUserReviewLike");
+                            else {
+                                setTimeout(() => {
+                                    var payload = {
+                                        "query": {
+                                            "term": { "CourseId": this.props.courseId }
+                                        }
+                                    }
+
+                                    var userReviewLikeMap = this.state.userReviewLikeMap;
+                                    userReviewLikeMap[this.props.email + "#$#" + reviewId] = { status: "like", id: id };
+
+                                    getReviews(payload).then(reviews => {
+                                        // console.log("In CHReviews, handleThumbsUp, reviews: ", reviews);
+                                        this.setState({ reviews: reviews, userReviewLikeMap: userReviewLikeMap });
+                                    }).catch(error => {
+                                        console.log("CHReviews, componentWillReceiveProps, elasticsearch error: ", error)
+                                    })
+                                }, 2000);
+                            }
+                        });
+
+                    } else {
+                        console.log("AddUserReviewLike");
+                        addUserReviewLike(payloadUserReviewLike).then(response => {
+                            if (!response)
+                                console.log("In CHReviews, handleThumbsUp, LAFDA in addUserReviewLike");
+                            else {
+                                setTimeout(() => {
+                                    var payload = {
+                                        "query": {
+                                            "term": { "CourseId": this.props.courseId }
+                                        }
+                                    };
+
+                                    var userReviewLikeMap = this.state.userReviewLikeMap;
+                                    const payLoadUserReviewLikeSearch = {
+                                        "query": {
+                                            "bool": {
+                                                "should": [
+                                                    { "match": { "CourseId": this.props.elasticId } },
+                                                    { "match": { "UserId": this.props.email } },
+                                                    { "match": { "ReviewId": reviewId } }
+                                                ]
+                                            }
+                                        }
+                                    };
+
+                                    getReviews(payload).then(reviews => {
+                                        // console.log("In CHReviews, handleThumbsUp, reviews: ", reviews);
+                                        getUserReviewLikes(payLoadUserReviewLikeSearch).then(response => {
+                                            if (response != null) {
+                                                userReviewLikeMap[response[0].UserId + "#$#" + response[0].ReviewId] = { status: "like", id: response[0].id };
+                                            }
+                                            this.setState({
+                                                reviews: reviews, userReviewLikeMap: userReviewLikeMap
+                                            });
+                                        });
+                                    }).catch(error => {
+                                        console.log("CHReviews, componentWillReceiveProps, elasticsearch error: ", error)
+                                    })
+                                }, 2000);
+                            }
+                        });
+                    }
+                }
+            });
         });
     }
 
-    handleThumbsDown = async (dislikes, reviewId) => {
-        var payloadReview = {
-            "doc": {
-                "NoofdisLikes": dislikes
-            }
-        };
+    handleThumbsDown = async (reviewId) => {
+        console.log("In CHReviews, handleThumbsDown, MAP: ", this.state.userReviewLikeMap);
+        console.log("In CHReviews, handleThumbsDown, MAP Data: ", this.state.userReviewLikeMap[this.props.email + "#$#" + reviewId]);
+        var payloadReview = {};
+        var payloadUserReviewLike = {};
+        var id = null;
 
-        updateReview(reviewId, payloadReview).then(response => {
-            if(!response)
-                console.log("In CHReviews, handleThumbsDown, LAFDA in updateReview");
-            this.forceUpdate();
+        var payloadGetReview = {
+            "query": {
+                "match": {
+                    "_id": reviewId
+                }
+            }
+        }
+
+        getReviews(payloadGetReview).then(response => {
+            const likes = response[0].NoofLikes;
+            const dislikes = response[0].NoofdisLikes;
+
+            if (this.state.userReviewLikeMap[this.props.email + "#$#" + reviewId] &&
+                this.state.userReviewLikeMap[this.props.email + "#$#" + reviewId].status === 'dislike') {
+                payloadReview = {
+                    "doc": {
+                        "NoofdisLikes": dislikes
+                    }
+                };
+                payloadUserReviewLike = {
+                    "doc": {
+                        "Status": "dislike"
+                    }
+                };
+                id = this.state.userReviewLikeMap[this.props.email + "#$#" + reviewId].id;
+            } else if (this.state.userReviewLikeMap[this.props.email + "#$#" + reviewId] &&
+                this.state.userReviewLikeMap[this.props.email + "#$#" + reviewId].status != 'dislike') {
+                payloadReview = {
+                    "doc": {
+                        "NoofdisLikes": dislikes + 1,
+                        "NoofLikes": likes - 1
+                    }
+                };
+                payloadUserReviewLike = {
+                    "doc": {
+                        "Status": "dislike"
+                    }
+                };
+                id = this.state.userReviewLikeMap[this.props.email + "#$#" + reviewId].id;
+            } else {
+                payloadReview = {
+                    "doc": {
+                        "NoofdisLikes": dislikes + 1
+                    }
+                };
+                payloadUserReviewLike = {
+                    CourseId: this.props.elasticId,
+                    UserId: this.props.email,
+                    ReviewId: reviewId,
+                    Status: "dislike"
+                };
+                id = null;
+            }
+
+            updateReview(reviewId, payloadReview).then(response => {
+                if (!response)
+                    console.log("In CHReviews, handleThumbsDown, LAFDA in updateReview");
+                else {
+                    if (id != null) {
+                        console.log("UpdateUserReviewLike");
+                        updateUserReviewLike(id, payloadUserReviewLike).then(response => {
+                            if (!response)
+                                console.log("In CHReviews, handleThumbsDown, LAFDA in updateUserReviewLike");
+                            else {
+                                setTimeout(() => {
+                                    var payload = {
+                                        "query": {
+                                            "term": { "CourseId": this.props.courseId }
+                                        }
+                                    }
+
+                                    var userReviewLikeMap = this.state.userReviewLikeMap;
+                                    userReviewLikeMap[this.props.email + "#$#" + reviewId] = { status: "dislike", id: id };
+
+                                    getReviews(payload).then(reviews => {
+                                        // console.log("In CHReviews, handleThumbsUp, reviews: ", reviews);
+                                        this.setState({ reviews: reviews, userReviewLikeMap: userReviewLikeMap });
+                                    }).catch(error => {
+                                        console.log("CHReviews, componentWillReceiveProps, elasticsearch error: ", error)
+                                    })
+                                }, 2000);
+                            }
+                        });
+
+                    } else {
+                        console.log("AddUserReviewLike");
+                        addUserReviewLike(payloadUserReviewLike).then(response => {
+                            if (!response)
+                                console.log("In CHReviews, handleThumbsUp, LAFDA in addUserReviewLike");
+                            else {
+                                setTimeout(() => {
+                                    var payload = {
+                                        "query": {
+                                            "term": { "CourseId": this.props.courseId }
+                                        }
+                                    };
+
+                                    var userReviewLikeMap = this.state.userReviewLikeMap;
+                                    const payLoadUserReviewLikeSearch = {
+                                        "query": {
+                                            "bool": {
+                                                "should": [
+                                                    { "match": { "CourseId": this.props.elasticId } },
+                                                    { "match": { "UserId": this.props.email } },
+                                                    { "match": { "ReviewId": reviewId } }
+                                                ]
+                                            }
+                                        }
+                                    };
+
+                                    getReviews(payload).then(reviews => {
+                                        // console.log("In CHReviews, handleThumbsUp, reviews: ", reviews);
+                                        getUserReviewLikes(payLoadUserReviewLikeSearch).then(response => {
+                                            if (response != null) {
+                                                userReviewLikeMap[response[0].UserId + "#$#" + response[0].ReviewId] = { status: "dislike", id: response[0].id };
+                                            }
+                                            this.setState({
+                                                reviews: reviews, userReviewLikeMap: userReviewLikeMap
+                                            });
+                                        });
+                                    }).catch(error => {
+                                        console.log("CHReviews, componentWillReceiveProps, elasticsearch error: ", error)
+                                    })
+                                }, 2000);
+                            }
+                        });
+                    }
+                }
+            });
         });
     }
 
     render() {
         const { serverErrorMsg, showMessage, target, userRating } = this.state;
         // console.log("Write Review:", this.props.writeReview, ", Show:", this.state.show);
-        console.log("In CHReviews, render method, errorMessage: ", serverErrorMsg, ", showMessage: ", showMessage, ", rating: ", userRating);
+        // console.log("In CHReviews, render method, errorMessage: ", serverErrorMsg, ", showMessage: ", showMessage, ", rating: ", userRating);
+        console.log("In CHReviews, render method, MAP: ", this.state.userReviewLikeMap);
         return (
             <div className="course-reviews">
                 {this.props.writeReview &&
@@ -268,7 +539,7 @@ class CHReviews extends Component {
                                     <Form.Control as="textarea" className='review-area' rows="5" required value={this.state.newComment} onChange={this.handleCommentChange} />
                                 </Form.Row>
                                 <Form.Row>
-                                    <Button ref={this.attachRef} className="submit-review-button" variant="success" type="submit">Submit Review</Button>
+                                    <Button id="submit-review-button" ref={this.attachRef} className="submit-review-button" variant="success" type="submit">Submit Review</Button>
                                     <Overlay target={target} show={showMessage} placement="top">
                                         {props => (
                                             <Tooltip id="passwordResetOverlay" {...props}>
@@ -323,8 +594,18 @@ class CHReviews extends Component {
                                                     <p className="review-likes-text">people found this review helpful</p>
                                                 </div>
                                                 <div className="review-up-down-vote">
-                                                    <Button className="review-thumbs-up" onClick={() => this.handleThumbsUp(item.NoofLikes + 1, item.id)}><FontAwesomeIcon icon={['fa', 'thumbs-up']} size='lg' color='rgb(0, 0, 0)' />&nbsp;+{item.NoofLikes}</Button>
-                                                    <Button className="review-thumbs-down" onClick={() => this.handleThumbsDown(item.NoofdisLikes + 1, item.id)}><FontAwesomeIcon icon={['fa', 'thumbs-down']} size='lg' color='rgb(0, 0, 0)' />&nbsp;+{item.NoofdisLikes}</Button>
+                                                    <Button id={"review-thumbs-up-" + index} className="review-thumbs-up"
+                                                        onClick={() => this.handleThumbsUp(item.id)}
+                                                        disabled={this.state.userReviewLikeMap[this.props.email + "#$#" + item.id] &&
+                                                            this.state.userReviewLikeMap[this.props.email + "#$#" + item.id].status === "like"}>
+                                                        <FontAwesomeIcon icon={['fa', 'thumbs-up']} size='lg' color='rgb(0, 0, 0)' />&nbsp;+{item.NoofLikes}
+                                                    </Button>
+                                                    <Button id={"review-thumbs-down-" + index} className="review-thumbs-down"
+                                                        onClick={() => this.handleThumbsDown(item.id)}
+                                                        disabled={this.state.userReviewLikeMap[this.props.email + "#$#" + item.id] &&
+                                                            this.state.userReviewLikeMap[this.props.email + "#$#" + item.id].status === "dislike"}>
+                                                        <FontAwesomeIcon icon={['fa', 'thumbs-down']} size='lg' color='rgb(0, 0, 0)' />&nbsp;+{item.NoofdisLikes}
+                                                    </Button>
                                                 </div>
                                             </div>
                                             {/* </div> */}
