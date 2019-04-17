@@ -265,7 +265,7 @@ const updateCourseRating = async (_id, payload) => {
     });
 }
 
-const getDealsfromES = async () => {
+const getDealsfromES = async (payload) => {
     return await fetch(process.env.REACT_APP_GET_DEALS, {
         method: 'POST',
         body: JSON.stringify(payload),
@@ -275,5 +275,59 @@ const getDealsfromES = async () => {
     });
 }
 
+const getSpecificDealFromES = async (payload) => {
+    return await fetch(process.env.REACT_APP_SEARCH_DEALS, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+        headers: { 'Content-Type': 'application/json' }
+    }).then(response => {
+        return response.json();
+    });
+}
+
+const getDealVotesFromES = async (payload) => {
+    return await fetch(process.env.REACT_APP_SEARCH_DEAL_VOTE, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+        headers: { 'Content-Type': 'application/json' }
+    }).then(response => {
+        return response.json();
+    });
+}
+
+const updateDealVotesinES = async (voteID, payload) => {
+    var url = process.env.REACT_APP_UPDATE_DEAL_VOTE + voteID + '/_update';
+    return await fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+        headers: { 'Content-Type': 'application/json' }
+    }).then(response => {
+        return response.json();
+    });
+}
+
+const updateDealsinES = async (url, payload) =>{
+    // var url = process.env.REACT_APP_UPDATE_DEALS + this.state.showCompleteDealID + '/_update';
+    return await fetch(url, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+        headers: { 'Content-Type': 'application/json' }
+    }).then(response => {
+        return response.json();
+    });
+}
+
+const addDealVoteinES = async (payload) => {
+    return await fetch(process.env.REACT_APP_ADD_DEAL_VOTE, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+        headers: { 'Content-Type': 'application/json' }
+    }).then(response => {
+        return response.json();
+    });
+}
+
 export {addUser, searchUser, getUserDetails, updateUser, elasticDeleteUser, addDeal, 
-    addReview, getReviews, updateReview, getCourseDetails, updateCourseRating, getDealsfromES};
+    addReview, getReviews, updateReview, getCourseDetails, updateCourseRating, 
+    getDealsfromES, getSpecificDealFromES, getDealVotesFromES, updateDealVotesinES, 
+    updateDealsinES, addDealVoteinES };
