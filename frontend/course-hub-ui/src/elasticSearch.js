@@ -412,5 +412,4 @@ const addDealVoteinES = async (payload) => {
 export {addUser, searchUser, getUserDetails, updateUser, elasticDeleteUser, addDeal, 
     addReview, getReviews, updateReview, getCourseDetails, updateCourseRating, 
     getDealsfromES, getSpecificDealFromES, getDealVotesFromES, updateDealVotesinES, 
-    updateDealsinES, addDealVoteinES, addUserReviewLike, getUserReviewLikes, updateUserReviewLike,
-    getCourseDetails, updateCourseRating };
+    updateDealsinES, addDealVoteinES, addUserReviewLike, getUserReviewLikes, updateUserReviewLike };
