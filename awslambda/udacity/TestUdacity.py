@@ -97,7 +97,7 @@ class Testudacity(TestCase):
 
     def test_successful_parsing_of_json(self):
         dummyJson={"instructors": [],"key": "testapp","image": "","title": "Intro to Deep Learning",
-                   "homepage": "https://www.udacity.com/course/intro-to-deep-learning--ud101app?utm_medium=referral&utm_campaign=api",
+                   "slug": "intro-to-deep-learning--ud101app?utm_medium=referral&utm_campaign=api",
                    "short_summary": "","level": "","expected_duration_unit": "","summary": "Learn how to learn.","expected_duration": 0}
         response = parse_json(dummyJson)
         self.assertEqual(response['CourseProvider'], 'udacity')
