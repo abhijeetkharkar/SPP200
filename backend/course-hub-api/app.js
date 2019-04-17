@@ -11,7 +11,6 @@ var fs = require('fs');
 
 var indexRouter = require('./routes/index');
 var autosuggestRouter = require('./routes/search');
-
 var signupRouter = require('./routes/signup');
 var profileRouter = require('./routes/profile');
 var searchQueryRouter = require('./routes/searchquery');
@@ -33,7 +32,7 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 app.get('/', indexRouter);
 app.get('/autosuggest', autosuggestRouter);
-
+app.post('/microdegree',autosuggestRouter);
 app.get('/profile:id', profileRouter);
 app.post('/signup', signupRouter);
 app.post('/searchquery', searchQueryRouter);
