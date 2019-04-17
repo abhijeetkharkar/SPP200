@@ -3,8 +3,7 @@
 import json
 import requests
 import base64
-# from awslambda.udemy.crawler import *
-from crawler import *
+from awslambda.udemy.crawler import *
 import hashlib
 import sys
 import time
