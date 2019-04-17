@@ -24,20 +24,20 @@ class Testudacity(TestCase):
 
     @requests_mock.mock()
     def test_valid_url(self,req):
-        req.get('https://www.udacity.com/public-api/v0/courses', text='{"courses":[{}]}')
+        req.get('https://www.udacity.com/public-api/v1/courses', text='{"courses":[{}]}')
         with patch("json.loads",MagicMock('{cool}')) as m:
             fetch_records_udacity("info.txt")
             m.called
 
     @requests_mock.mock()
     def test_api_endpoint_failure(self, req):
-        req.get('https://www.udacity.com/public-api/v0/courses', text='{"courses":[{}],"status_code": 404}')
+        req.get('https://www.udacity.com/public-api/v1/courses', text='{"courses":[{}],"status_code": 404}')
         with patch("json.loads", return_value={"courses":[]}):
             fetch_records_udacity("info.txt")
 
     @requests_mock.mock()
     def test_response_parsed_properly(self, req):
-        req.get('https://www.udacity.com/public-api/v0/courses', text='{"courses":[{}]}')
+        req.get('https://www.udacity.com/public-api/v1/courses', text='{"courses":[{}]}')
         with patch("awslambda.udacity.loader.parse_json",return_value={"CourseId":{}}):
             with patch("awslambda.udacity.loader.search_elastic_server",MagicMock('{"CourseId":{}}')) as m:
                 fetch_records_udacity("info.txt")
@@ -45,14 +45,14 @@ class Testudacity(TestCase):
 
     @requests_mock.mock()
     def test_record_found_in_database(self, req):
-        req.get('https://www.udacity.com/public-api/v0/courses', text='{"courses":[{}]}')
+        req.get('https://www.udacity.com/public-api/v1/courses', text='{"courses":[{}]}')
         with patch("awslambda.udacity.loader.parse_json", return_value={"CourseId": "testid123"}):
             with patch("awslambda.udacity.loader.search_elastic_server", return_value=True):
                 fetch_records_udacity("info.txt")
 
     @requests_mock.mock()
     def test_record_not_found_database(self, req):
-        req.get('https://www.udacity.com/public-api/v0/courses', text='{"courses":[{}]}')
+        req.get('https://www.udacity.com/public-api/v1/courses', text='{"courses":[{}]}')
         with patch("awslambda.udacity.loader.parse_json", return_value={"CourseId": "testid123"}):
             with patch("awslambda.udacity.loader.search_elastic_server", return_value=True):
                 with patch("awslambda.udacity.loader.add_data_elastic_search",MagicMock({"CourseId": "testid123"})) as m:
@@ -97,7 +97,7 @@ class Testudacity(TestCase):
 
     def test_successful_parsing_of_json(self):
         dummyJson={"instructors": [],"key": "testapp","image": "","title": "Intro to Deep Learning",
-                   "homepage": "https://www.udacity.com/course/intro-to-deep-learning--ud101app?utm_medium=referral&utm_campaign=api",
+                   "slug": "intro-to-deep-learning--ud101app?utm_medium=referral&utm_campaign=api",
                    "short_summary": "","level": "","expected_duration_unit": "","summary": "Learn how to learn.","expected_duration": 0}
         response = parse_json(dummyJson)
         self.assertEqual(response['CourseProvider'], 'udacity')
