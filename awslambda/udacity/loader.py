@@ -101,7 +101,6 @@ def parse_json(json_data):
 
 def fetch_records_udacity(filename):
     filename=(os.path.dirname(os.path.abspath(__file__)))+'/'+filename
-    print filename
     try:
         with open(filename) as f:
             content = f.readlines()
