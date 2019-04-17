@@ -13,14 +13,6 @@ blocks:
         - name: CC_TEST_REPORTER_ID
           value: 3b8cc7752799b01b3f2f42a4237543e0e781e7ac99e5b44fc0767c9bea8f697a
 
-      jobs:
-      - name: Docker build
-        commands:
-          - checkout
-          - ls -1
-          - echo $APP_ENV
-          - docker-compose build
-
   - name: "Unit tests"
     task:
       prologue:
