@@ -21,7 +21,7 @@ class CHDeals extends Component {
 		super(props, context);
 		const values = queryString.parse(this.props.location.search);
 		this.state = {
-			choice: '',
+			choice: 'deals',
 			firstName: false,
 			email: null,
 			pagenumber: 0,

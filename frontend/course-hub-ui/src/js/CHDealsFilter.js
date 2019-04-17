@@ -36,26 +36,25 @@ class CHDealsFilters extends Component {
                 <div className="left_lane_deals">
                     <b style={headingstyle}>Category</b><br />
                     <hr />
-                    <a href="#" style={left_lane_deals} onClick={e => this.props.updateDeals('all')}>All Deals</a><br />
-                    <a href="#" style={left_lane_deals} onClick={e => this.props.updateDeals('General')}>General</a><br />
-                    <a href="#" style={left_lane_deals} onClick={e => this.props.updateDeals('Computer Science')}>Computer Science</a><br />
-                    <a href="#" style={left_lane_deals} onClick={e => this.props.updateDeals('Business')}>Business</a><br />
-                    <a href="#" style={left_lane_deals} onClick={e => this.props.updateDeals('Humanities')}>Humanities</a><br />
-                    <a href="#" style={left_lane_deals} onClick={e => this.props.updateDeals('Data Science')}>Data Science</a><br />
-                    <a href="#" style={left_lane_deals} onClick={e => this.props.updateDeals('Personal Development')}>Personal Development</a><br />
-                    <a href="#" style={left_lane_deals} onClick={e => this.props.updateDeals('Art & Design')}>Art & Design</a><br />
-                    <a href="#" style={left_lane_deals} onClick={e => this.props.updateDeals('Programming')}>Programming</a><br />
-                    <a href="#" style={left_lane_deals} onClick={e => this.props.updateDeals('Engineering')}>Engineering</a><br />
-                    <a href="#" style={left_lane_deals} onClick={e => this.props.updateDeals('Health & Science')}>Health & Science</a><br />
-                    <a href="#" style={left_lane_deals} onClick={e => this.props.updateDeals('Mathematics')}>Mathematics</a><br />
-                    <a href="#" style={left_lane_deals} onClick={e => this.props.updateDeals('Science')}>Science</a><br />
-                    <a href="#" style={left_lane_deals} onClick={e => this.props.updateDeals('Social Science')}>Social Science</a><br />
-                    <a href="#" style={left_lane_deals} onClick={e => this.props.updateDeals('Personal Development')}>Personal Development</a><br />
-                    <a href="#" style={left_lane_deals} onClick={e => this.props.updateDeals('Education & Teaching')}>Education & Teaching</a><br />
+                    <a href="#" style={left_lane_deals} id="all-deals" onClick={e => this.props.updateDeals('all')}>All Deals</a><br />
+                    <a href="#" style={left_lane_deals} id="general-deals" onClick={e => this.props.updateDeals('General')}>General</a><br />
+                    <a href="#" style={left_lane_deals} id="computerscience-deals" onClick={e => this.props.updateDeals('Computer Science')}>Computer Science</a><br />
+                    <a href="#" style={left_lane_deals} id="business-deals" onClick={e => this.props.updateDeals('Business')}>Business</a><br />
+                    <a href="#" style={left_lane_deals} id="humanities-deals" onClick={e => this.props.updateDeals('Humanities')}>Humanities</a><br />
+                    <a href="#" style={left_lane_deals} id="datascience-deals" onClick={e => this.props.updateDeals('Data Science')}>Data Science</a><br />
+                    <a href="#" style={left_lane_deals} id="personaldevelopment-deals" onClick={e => this.props.updateDeals('Personal Development')}>Personal Development</a><br />
+                    <a href="#" style={left_lane_deals} id="artanddesign-deals" onClick={e => this.props.updateDeals('Art & Design')}>Art & Design</a><br />
+                    <a href="#" style={left_lane_deals} id="programming-deals" onClick={e => this.props.updateDeals('Programming')}>Programming</a><br />
+                    <a href="#" style={left_lane_deals} id="engineering-deals" onClick={e => this.props.updateDeals('Engineering')}>Engineering</a><br />
+                    <a href="#" style={left_lane_deals} id="healthandscience-deals" onClick={e => this.props.updateDeals('Health & Science')}>Health & Science</a><br />
+                    <a href="#" style={left_lane_deals} id="mathematics-deals" onClick={e => this.props.updateDeals('Mathematics')}>Mathematics</a><br />
+                    <a href="#" style={left_lane_deals} id="science-deals" onClick={e => this.props.updateDeals('Science')}>Science</a><br />
+                    <a href="#" style={left_lane_deals} id="socialscience-deals" onClick={e => this.props.updateDeals('Social Science')}>Social Science</a><br />
+                    <a href="#" style={left_lane_deals} id="educationandteaching-deals" onClick={e => this.props.updateDeals('Education & Teaching')}>Education & Teaching</a><br />
                     <br /><br />
                     <div className="add-course-deals">
                         <ButtonToolbar>
-                            <Button variant="light" onClick={(e) => this.props.updatePage('addnewdeal')}>Add Course Deals</Button>
+                            <Button variant="light" id="dealSubmitButton" onClick={(e) => this.props.updatePage('addnewdeal')}>Add Course Deals</Button>
                         </ButtonToolbar>
                     </div>
                 </div>

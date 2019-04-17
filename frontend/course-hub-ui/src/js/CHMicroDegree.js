@@ -25,6 +25,8 @@ class CHMicroDegree extends Component {
 		super(props, context);
 		this.state = {
 			choice: '',
+			microDegreeChoice: 'form',
+			microDegreeSuggestions: [],
 			firstName: false,
 			email: null,
 			pageType: "microDegreeHome",
@@ -61,12 +63,32 @@ class CHMicroDegree extends Component {
 	}
 
 	handleClick = (choice, firstName, email, queryString) => {
-        // Update this.state here           
+        // Update this.state here
     }
     
     handleCloseHere = (param) => (e) => {
         console.log("Close function called");
-    }
+	}
+	
+	updatePage = (params) => {
+		console.log("upDATE pAGE CALLED with params : ", params);
+		this.setState({
+			microDegreeChoice: "degreeSuggestions",
+			microDegreeSuggestions : [{
+				courseName : "The Python Bible™ | Everything You Need to Program in Python",
+				provider : "Udemy",
+				difficulty : "Introductory"
+			},{
+				courseName : "Learnign Python: Python for Beginners",
+				provider : "Iversity",
+				difficulty : "Intermediate"
+			},{
+				courseName : "Python Advanced Level ",
+				provider : "Coursera",
+				difficulty : "Advanced"
+			}]
+		})
+	}
 
 
 	render() {
@@ -78,7 +100,7 @@ class CHMicroDegree extends Component {
 			<div className="App container-fluid">
 				{choice === "microDegreeHome" &&
 					[<CHNavigator updateContent={this.handleClick} signedIn={firstName} caller={"microdegree"} firstName={firstName} email={email} key="microdegreehome" />,
-                    <CHMicroDegreeForm />,
+                    <CHMicroDegreeForm onFormSubmit={this.updatePage} choice={this.state.microDegreeChoice} microDegreeSuggestions={this.state.microDegreeSuggestions}/>,
 					<CHFooter key="keyFooterSearch" />]
 				}
 
