@@ -5,22 +5,6 @@ agent:
     type: e1-standard-2
     os_image: ubuntu1804
 blocks:
-  - name: "Build"
-    task:
-      env_vars:
-        - name: APP_ENV
-          value: prod
-        - name: CC_TEST_REPORTER_ID
-          value: 3b8cc7752799b01b3f2f42a4237543e0e781e7ac99e5b44fc0767c9bea8f697a
-
-      jobs:
-      - name: Docker build
-        commands:
-          - checkout
-          - ls -1
-          - echo $APP_ENV
-          - echo "docker-compose build"
-
   - name: "Unit tests"
     task:
       prologue:
@@ -33,7 +17,7 @@ blocks:
           - pip install -r requirements.txt
           - python -m unittest discover -p 'Test*.py'
           
-      - name: NodeTestFrontend
+      - name: ReactTestFrontend
         commands:
           - checkout
           - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
@@ -73,10 +57,18 @@ blocks:
         commands:
           - checkout
           - echo "make cucumber"
-  - name: "Push Image"
+  - name: "Build and Push to GCR"
     task:
+      env_vars:
+        - name: APP_ENV
+          value: prod
+        - name: CC_TEST_REPORTER_ID
+          value: 3b8cc7752799b01b3f2f42a4237543e0e781e7ac99e5b44fc0767c9bea8f697a
+
       jobs:
-      - name: Push
+      - name: Docker build
         commands:
           - checkout
-          - echo "make docker.push"
+          - ls -1
+          - echo $APP_ENV
+          - echo "docker-compose build"
