@@ -18,7 +18,7 @@ blocks:
           - checkout
           - ls -1
           - echo $APP_ENV
-          %- docker-compose build
+          -echo " docker-compose build"
 
   - name: "Unit tests"
     task:
