@@ -84,15 +84,7 @@
 				}
 
 
-.profile-content {
-	float: left;
-	padding: 1%;
-	text-align: center;
-	width: 100% !important;
-	height: 80% !important;
-	background: -webkit-linear-gradient(to right, rgb(124, 124, 124), rgb(218, 218, 218), rgb(124, 124, 124));
-	background: linear-gradient(to right, rgb(124, 124, 124), rgb(218, 218, 218), rgb(124, 124, 124)); 
-}
+
 
 @media (min-width: 1200px) {
 	.container {
@@ -113,13 +105,14 @@
 	width: 100%;
 	text-align: left;
 	font: normal 16px sans-serif;
-
 	width: 100%;
 	height: 10%;
 	text-align: left;
 	font: normal 16px sans-serif;
 	float: left;
 	padding: 2% 3%;
+	position: relative;
+	z-index: 10 !important;
 
 	/* padding: 20px 50px;
 	position: fixed;
@@ -162,6 +155,7 @@
 	height: 35px;
 	background-color:  #33383b;
 	border-radius: 2px;
+
 
 	font-size: 20px;
 	color: #ffffff;

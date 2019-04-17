@@ -1,7 +1,8 @@
 'use strict';
 
 import { 	addUser, searchUser, getUserDetails, updateUser, elasticDeleteUser, 
-			addDeal, addReview, getReviews, updateReview, getCourseDetails, updateCourseRating } from '../elasticSearch';
+			addDeal, addReview, getReviews, updateReview, addUserReviewLike, getUserReviewLikes, updateUserReviewLike, 
+			getCourseDetails, updateCourseRating } from '../elasticSearch';
 const fetch = require('node-fetch');
 
 const elasticResponse11 = { result: "created" };
@@ -360,6 +361,86 @@ describe('Elastic Search API', () => {
 		fetch.mockResponseOnce(elasticResponse43);
 
 		const current = await updateReview("1", payload);
+
+		expect(current).toEqual(false);
+	});
+
+	test('Add UserReviewLike - Happy Path 1', async () => {
+		fetch.mockResponseOnce(JSON.stringify({result: "created"}));
+
+		const current = await addUserReviewLike(payload);
+
+		expect(current).toEqual(true);
+	});
+
+	test('Add UserReviewLike - Sad Path 1', async () => {
+		fetch.mockResponseOnce(JSON.stringify({result: "notcreated"}));
+
+		const current = await addUserReviewLike(payload);
+
+		expect(current).toEqual(false);
+	});
+
+	test('Add UserReviewLike - Sad Path 2', async () => {
+		fetch.mockResponseOnce(elasticResponse43);
+
+		const current = await addUserReviewLike(payload);
+
+		expect(current).toEqual(false);
+	});
+
+	test('Get UserReviewLike - Happy Path 1', async () => {
+		fetch.mockResponseOnce(JSON.stringify(elasticResponse81));
+
+		const current = await getUserReviewLikes(payload);
+
+		expect(current).toEqual(elasticResponse81_1);
+	});
+
+	test('Get UserReviewLike - Sad Path 1', async () => {
+		fetch.mockResponseOnce(JSON.stringify({hits: {total: 0}}));
+
+		const current = await getUserReviewLikes(payload);
+
+		expect(current).toEqual(null);
+	});
+
+	test('Get UserReviewLike - Sad Path 2', async () => {
+		fetch.mockResponseOnce(elasticResponse43);
+
+		const current = await getUserReviewLikes(payload);
+
+		expect(current).toEqual(null);
+	});
+
+	test('Update UserReviewLike - Happy Path 1', async () => {
+		fetch.mockResponseOnce(JSON.stringify({result: "updated"}));
+
+		const current = await updateUserReviewLike("1".payload);
+
+		expect(current).toEqual(true);
+	});
+
+	test('Update UserReviewLike - Happy Path 2', async () => {
+		fetch.mockResponseOnce(JSON.stringify({result: "noop"}));
+
+		const current = await updateUserReviewLike("1".payload);
+
+		expect(current).toEqual(true);
+	});
+
+	test('Update UserReviewLike - Sad Path 1', async () => {
+		fetch.mockResponseOnce(JSON.stringify({result: "notcreated"}));
+
+		const current = await updateUserReviewLike("1", payload);
+
+		expect(current).toEqual(false);
+	});
+
+	test('Update UserReviewLike - Sad Path 2', async () => {
+		fetch.mockResponseOnce(elasticResponse43);
+
+		const current = await updateUserReviewLike("1", payload);
 
 		expect(current).toEqual(false);
 	});

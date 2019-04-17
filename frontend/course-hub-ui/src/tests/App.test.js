@@ -63,13 +63,6 @@ test('Home Screen after signing in', () => {
   expect(wrapper.exists()).toBe(true);
 });
 
-test('Profile after signing in', () => {
-
-  const wrapper = shallow(<App />);
-  wrapper.setState({ choice: "profile", optional1: "Test1", optional2: "test1@test.com", optional3: "" });
-  expect(wrapper.exists()).toBe(true);
-});
-
 test('Search Results after Signing in', () => {
 
   const wrapper = shallow(<App history={[]} />);
