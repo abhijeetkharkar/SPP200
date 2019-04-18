@@ -66,13 +66,34 @@ function addCourseProvider(searchQuery, courseProviders) {
         matchQ={"match": {"CourseProvider": courseProviders[i]} }
         coursefilter.bool.should.push(matchQ);
     }
-    /*var course = {
-        match : {
-            CourseProvider : courseProvider
-        }
-    }*/
-    
+
     searchQuery.query.bool.must.push(coursefilter);
+    return searchQuery;
+}
+
+function addDifficulty(searchQuery, difficulties) {
+    difficultyfilter={bool:{should:[]}}
+    for(i=0;i<difficulties.length;i++){
+        matchQ={"match": {"Difficulty": difficulties[i]} }
+        difficultyfilter.bool.should.push(matchQ);
+    }
+    searchQuery.query.bool.must.push(difficultyfilter);
+    return searchQuery;
+}
+
+function addSortquery(searchQuery, sortparams) {
+    sortfilter={}
+    console.log(sortparams.length)
+    for(i=0;i<sortparams.length;i++){
+        sortparam=sortparams[i];
+        if(sortparam.field=="Price"){
+            sortfilter["Price"]={"order": sortparam.order} 
+        }
+        else if(sortparam.field=="Rating"){
+            sortfilter["Rating"]={"order": sortparam.order} 
+        }
+    }
+    searchQuery["sort"]=sortfilter;
     return searchQuery;
 }
 
@@ -118,6 +139,13 @@ exports.searchquery = function(request, response){
 
     if (request.body.courseprovider){
         searchQuery = addCourseProvider(searchQuery, request.body.courseprovider);
+    }
+
+    if (request.body.difficulty){
+        searchQuery = addDifficulty(searchQuery, request.body.difficulty);
+    }
+    if(request.body.sortparams){
+        searchQuery = addSortquery(searchQuery,request.body.sortparams)
     }
 
     console.log("Search Query: ",JSON.stringify(searchQuery))
