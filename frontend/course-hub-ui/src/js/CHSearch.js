@@ -6,7 +6,6 @@ import CHNavigator from './CHNavigator';
 import LoginPage from './CHLogin';
 import SignupPage from './CHSignup';
 import ForgotPasswordPage from './CHForgotPassword';
-import ProfilePage from "./CHProfile";
 import CHFilters from './CHFilters';
 import CHSearchContent from './CHSearchContent';
 import CHAdvertisements from './CHAdvertisements';
@@ -47,7 +46,9 @@ class CHSearch extends Component {
 		this.addCourseToCompare = this.addCourseToCompare.bind(this);
 		this.removeCourseFromCompare = this.removeCourseFromCompare.bind(this);
         this.removeCourseFromModal = this.removeCourseFromModal.bind(this);
-        console.log("This is my compare list");
+		this.addCourseToList = this.addCourseToList.bind(this);
+		this.clearCourseFromLists= this.clearCourseFromLists.bind(this);
+		console.log("This is my compare list");
         console.log(this.state.compareList);
 	}
 
@@ -131,6 +132,81 @@ class CHSearch extends Component {
         sessionStorage.setItem("compareList", JSON.stringify(this.state.compareList));
     }
 
+	addCourseToList(item){
+    	let lists = document.getElementsByClassName("course-radio");
+    	var list = "0";
+		for(var i = 0; i < lists.length; i++){
+			if(lists[i].checked){
+				list = lists[i].value;
+				console.log(list);
+				break;
+			}
+		}
+		let favoriteListMap = this.state.favoriteList.map(function(obj){ return obj.CourseId });
+		let inProgressListMap = this.state.inProgressList.map(function(obj){ return obj.CourseId });
+		let CompletedListMap = this.state.completedList.map(function(obj){ return obj.CourseId });
+		if(list === "1"){
+			if(!favoriteListMap.includes(item.CourseId)) {
+				this.state.favoriteList.push(item);
+				if(inProgressListMap.includes(item.CourseId)){
+					let idx = inProgressListMap.indexOf(item.CourseId);
+					this.state.inProgressList.splice(idx, 1);
+				}
+				if(CompletedListMap.includes(item.CourseId)){
+					let idx = CompletedListMap.indexOf(item.CourseId);
+					this.state.completedList.splice(idx, 1);
+				}
+			}
+		}
+		else if(list === "2"){
+			if(!inProgressListMap.includes(item.CourseId)) {
+				this.state.inProgressList.push(item);
+				if(favoriteListMap.includes(item.CourseId)){
+					let idx = favoriteListMap.indexOf(item.CourseId);
+					this.state.favoriteList.splice(idx, 1);
+				}
+				if(CompletedListMap.includes(item.CourseId)){
+					let idx = CompletedListMap.indexOf(item.CourseId);
+					this.state.completedList.splice(idx, 1);
+				}
+			}
+		}
+		else if(list === "3"){
+			if(!CompletedListMap.includes(item.CourseId)) {
+				this.state.completedList.push(item);
+				if(favoriteListMap.includes(item.CourseId)){
+					let idx = favoriteListMap.indexOf(item.CourseId);
+					this.state.favoriteList.splice(idx, 1);
+				}
+				if(inProgressListMap.includes(item.CourseId)){
+					let idx = inProgressListMap.indexOf(item.CourseId);
+					this.state.inProgressList.splice(idx, 1);
+				}
+			}
+		}
+		this.setState({isOpen: false});
+	}
+
+	clearCourseFromLists(item){
+		let favoriteListMap = this.state.favoriteList.map(function(obj){ return obj.CourseId });
+		let inProgressListMap = this.state.inProgressList.map(function(obj){ return obj.CourseId });
+		let CompletedListMap = this.state.completedList.map(function(obj){ return obj.CourseId });
+
+		if(favoriteListMap.includes(item.CourseId)){
+			let idx = favoriteListMap.indexOf(item.CourseId);
+			this.state.favoriteList.splice(idx, 1);
+		}
+		else if(inProgressListMap.includes(item.CourseId)){
+			let idx = inProgressListMap.indexOf(item.CourseId);
+			this.state.inProgressList.splice(idx, 1);
+		}
+		else if(CompletedListMap.includes(item.CourseId)){
+			let idx = CompletedListMap.indexOf(item.CourseId);
+			this.state.completedList.splice(idx, 1);
+		}
+		this.setState({isOpen: false});
+	}
+
 	render() {
 		const choice = this.state.choice;
 		const firstName = this.state.firstName;
@@ -156,7 +232,7 @@ class CHSearch extends Component {
 						<CHFilters updateContent={this.handleClick} updateFilter={this.handleFilter} searchString={searchString}/>
 						<CHSearchContent  updateContent={this.handleClick} searchCompareList={this.state.compareList}
                                           addToCompare={this.addCourseToCompare} removeFromCompare={this.removeCourseFromCompare} updatePage={this.handlePagination} firstName={firstName} email={email} searchString={searchString} pageNumber={pageNumber} filters={filters}
-										  favorite_list={this.state.favoriteList} in_progress_list={this.state.inProgressList} completed_list={this.state.completedList}/>
+										  favorite_list={this.state.favoriteList} in_progress_list={this.state.inProgressList} completed_list={this.state.completedList} addCourseToList={this.addCourseToList} clearCourseFromLists={this.clearCourseFromLists}/>
 						<CHAdvertisements updateContent={this.handleClick} />
 					</div>,
 					<CHFooter key="keyFooterSearch" />]
@@ -202,7 +278,7 @@ class CHSearch extends Component {
 						<CHFilters updateContent={this.handleClick} updateFilter={this.handleFilter} searchString={searchString} />
 						<CHSearchContent updateContent={this.handleClick} searchCompareList={this.state.compareList}
                                          addToCompare={this.addCourseToCompare} removeFromCompare={this.removeCourseFromCompare} updatePage={this.handlePagination} firstName={firstName} email={email} searchString={searchString} pageNumber={pageNumber} filters={filters}
-										 favorite_list={this.state.favoriteList} in_progress_list={this.state.inProgressList} completed_list={this.state.completedList}/>
+										 favorite_list={this.state.favoriteList} in_progress_list={this.state.inProgressList} completed_list={this.state.completedList} addCourseToList={this.addCourseToList} clearCourseFromLists={this.clearCourseFromLists}/>
 						<CHAdvertisements updateContent={this.handleClick} />
 					</div>,
 					<CHFooter key="keyFooterSearch" />]

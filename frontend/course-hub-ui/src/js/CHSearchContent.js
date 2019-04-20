@@ -6,7 +6,7 @@ import {Table, Image, Pagination, Button, Row, Col} from 'react-bootstrap';
 import { UncontrolledDropdown, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import StarRatingComponent from 'react-star-rating-component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faListAlt, faCaretDown, faCheck, faStar, faSpinner } from '@fortawesome/free-solid-svg-icons'
+import { faListAlt, faCaretDown, faCheck, faStar, faClock } from '@fortawesome/free-solid-svg-icons'
 import Form from "react-bootstrap/FormControl";
 
 const fetch = require('node-fetch');
@@ -144,7 +144,7 @@ class CHSearchContent extends Component {
                                                                 <span style={{fontSize: "27px",}}>
                                                                     {
                                                                         (this.props.favorite_list.map(function(obj){ return obj.CourseId }).includes(item.CourseId)) && <FontAwesomeIcon icon={faStar} style={{color: "yellow"}} />
-                                                                        || (this.props.in_progress_list.map(function(obj){ return obj.CourseId }).includes(item.CourseId)) && <FontAwesomeIcon icon={faSpinner} style={{color: "blue"}} />
+                                                                        || (this.props.in_progress_list.map(function(obj){ return obj.CourseId }).includes(item.CourseId)) && <FontAwesomeIcon icon={faClock} style={{color: "blue"}} />
                                                                         || (this.props.completed_list.map(function(obj){ return obj.CourseId }).includes(item.CourseId)) && <FontAwesomeIcon icon={faCheck} style={{color: "green"}} />
                                                                         ||  <FontAwesomeIcon icon={faListAlt} style={{color: "Dodgerblue"}}/>
                                                                     }
@@ -154,17 +154,18 @@ class CHSearchContent extends Component {
                                                                 <DropdownItem header style={{color: "blue", fontSize: "15px"}}>Lists</DropdownItem>
                                                                 <ul style={{listStyleType: "none", padding: "0", paddingLeft: "15px"}}>
                                                                     <li>
-                                                                        <input type="radio" name="course-list" value="1"/> Favorite
+                                                                        <input className="course-radio" type="radio" name="course-list" value="1"/> Favorite
                                                                     </li>
                                                                     <li>
-                                                                        <input type="radio" name="course-list" value="2"/> In Progress
+                                                                        <input className="course-radio" type="radio" name="course-list" value="2"/> In Progress
                                                                     </li>
                                                                     <li>
-                                                                        <input type="radio" name="course-list" value="3"/> Completed
+                                                                        <input className="course-radio" type="radio" name="course-list" value="3"/> Completed
                                                                     </li>
                                                                 </ul>
                                                                 <DropdownItem divider />
-                                                                <Button variant="link" className="course-list-clear-button" >Clear</Button>
+                                                                <Button variant="link" className="course-list-clear-button" onClick={() => {this.props.clearCourseFromLists(item)}}>Clear</Button>
+                                                                <Button variant="link" className="course-list-clear-button list-add" onClick={() => {this.props.addCourseToList(item)}}>Add</Button>
                                                             </DropdownMenu>
                                                         </UncontrolledDropdown>
                                                     </Col>
