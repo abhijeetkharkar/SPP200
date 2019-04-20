@@ -2,9 +2,13 @@ import React, { Component } from 'react';
 import '../App.css';
 import '../css/common-components.css';
 import '../css/search.css';
-import {Table, Image, Pagination, Button} from 'react-bootstrap';
+import {Table, Image, Pagination, Button, Row, Col} from 'react-bootstrap';
+import { UncontrolledDropdown, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import StarRatingComponent from 'react-star-rating-component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faListAlt, faCaretDown } from '@fortawesome/free-solid-svg-icons'
+import Form from "react-bootstrap/FormControl";
+
 const fetch = require('node-fetch');
 
 class CHSearchContent extends Component {
@@ -132,7 +136,34 @@ class CHSearchContent extends Component {
                                                 <Image src={item.CourseImage || 'https://increasify.com.au/wp-content/uploads/2016/08/default-image.png'} fluid />;
                                             </td>
                                             <td className="search-results-course-data">
-                                                <p className="search-results-course-data-type">{"Course"}</p>
+                                                <Row>
+                                                    <Col><p className="search-results-course-data-type">{"Course"}</p></Col>
+                                                    <Col>
+                                                        <UncontrolledDropdown style={{float: "right"}}>
+                                                            <DropdownToggle className="course-list-button">
+                                                                <span style={{fontSize: "30px", color: "Dodgerblue"}}>
+                                                                    <FontAwesomeIcon icon={faListAlt}/>
+                                                                </span>
+                                                            </DropdownToggle>
+                                                            <DropdownMenu style={{marginTop: "0"}}>
+                                                                <DropdownItem header style={{color: "blue", fontSize: "15px"}}>Lists</DropdownItem>
+                                                                <ul style={{listStyleType: "none", padding: "0", paddingLeft: "15px"}}>
+                                                                    <li>
+                                                                        <input type="radio" name="course-list" value="1"/> Favorite
+                                                                    </li>
+                                                                    <li>
+                                                                        <input type="radio" name="course-list" value="2"/> In Progress
+                                                                    </li>
+                                                                    <li>
+                                                                        <input type="radio" name="course-list" value="3"/> Completed
+                                                                    </li>
+                                                                </ul>
+                                                                <DropdownItem divider />
+                                                                <Button variant="link" className="course-list-clear-button" >Clear</Button>
+                                                            </DropdownMenu>
+                                                        </UncontrolledDropdown>
+                                                    </Col>
+                                                </Row>
                                                 {/* <p className="search-results-course-data-name">{item.Title}</p>    */}
                                                 <p className="search-results-course-data-name"><Button className="search-results-course-data-name-link" variant="link" onClick={ () => this.props.updateContent('coursedetails',null,null,item.CourseId)}>{item.Title}</Button></p>
                                                 <p className="search-results-course-data-short-provider-instructors">{"Provider: " +  item.CourseProvider + " | Taught By: " + (item.Instructors? item.Instructors.map(item => item.InstructorName).toString(): "")}</p>
