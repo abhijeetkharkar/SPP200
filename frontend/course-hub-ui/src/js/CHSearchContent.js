@@ -6,7 +6,7 @@ import {Table, Image, Pagination, Button, Row, Col} from 'react-bootstrap';
 import { UncontrolledDropdown, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import StarRatingComponent from 'react-star-rating-component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faListAlt, faCaretDown } from '@fortawesome/free-solid-svg-icons'
+import { faListAlt, faCaretDown, faCheck, faStar, faSpinner } from '@fortawesome/free-solid-svg-icons'
 import Form from "react-bootstrap/FormControl";
 
 const fetch = require('node-fetch');
@@ -141,8 +141,13 @@ class CHSearchContent extends Component {
                                                     <Col>
                                                         <UncontrolledDropdown style={{float: "right"}}>
                                                             <DropdownToggle className="course-list-button">
-                                                                <span style={{fontSize: "30px", color: "Dodgerblue"}}>
-                                                                    <FontAwesomeIcon icon={faListAlt}/>
+                                                                <span style={{fontSize: "27px",}}>
+                                                                    {
+                                                                        (this.props.favorite_list.map(function(obj){ return obj.CourseId }).includes(item.CourseId)) && <FontAwesomeIcon icon={faStar} style={{color: "yellow"}} />
+                                                                        || (this.props.in_progress_list.map(function(obj){ return obj.CourseId }).includes(item.CourseId)) && <FontAwesomeIcon icon={faSpinner} style={{color: "blue"}} />
+                                                                        || (this.props.completed_list.map(function(obj){ return obj.CourseId }).includes(item.CourseId)) && <FontAwesomeIcon icon={faCheck} style={{color: "green"}} />
+                                                                        ||  <FontAwesomeIcon icon={faListAlt} style={{color: "Dodgerblue"}}/>
+                                                                    }
                                                                 </span>
                                                             </DropdownToggle>
                                                             <DropdownMenu style={{marginTop: "0"}}>

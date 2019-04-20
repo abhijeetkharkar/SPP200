@@ -35,6 +35,9 @@ class CHSearch extends Component {
 			isOpen: false,
             compareList: (JSON.parse(sessionStorage.getItem("compareList"))) ?
                 JSON.parse(sessionStorage.getItem("compareList")) : [],
+			favoriteList: [],
+			inProgressList: [],
+			completedList: [],
 		};
 		console.log("In search constructor");
 		this.handleClick = this.handleClick.bind(this);
@@ -152,7 +155,8 @@ class CHSearch extends Component {
 					<div className="my-content-landing" key="keySearchContent">
 						<CHFilters updateContent={this.handleClick} updateFilter={this.handleFilter} searchString={searchString}/>
 						<CHSearchContent  updateContent={this.handleClick} searchCompareList={this.state.compareList}
-                                          addToCompare={this.addCourseToCompare} removeFromCompare={this.removeCourseFromCompare} updatePage={this.handlePagination} firstName={firstName} email={email} searchString={searchString} pageNumber={pageNumber} filters={filters}/>
+                                          addToCompare={this.addCourseToCompare} removeFromCompare={this.removeCourseFromCompare} updatePage={this.handlePagination} firstName={firstName} email={email} searchString={searchString} pageNumber={pageNumber} filters={filters}
+										  favorite_list={this.state.favoriteList} in_progress_list={this.state.inProgressList} completed_list={this.state.completedList}/>
 						<CHAdvertisements updateContent={this.handleClick} />
 					</div>,
 					<CHFooter key="keyFooterSearch" />]
@@ -197,7 +201,8 @@ class CHSearch extends Component {
 					<div className="my-content-landing" key="keySearchContent">
 						<CHFilters updateContent={this.handleClick} updateFilter={this.handleFilter} searchString={searchString} />
 						<CHSearchContent updateContent={this.handleClick} searchCompareList={this.state.compareList}
-                                         addToCompare={this.addCourseToCompare} removeFromCompare={this.removeCourseFromCompare} updatePage={this.handlePagination} firstName={firstName} email={email} searchString={searchString} pageNumber={pageNumber} filters={filters}/>
+                                         addToCompare={this.addCourseToCompare} removeFromCompare={this.removeCourseFromCompare} updatePage={this.handlePagination} firstName={firstName} email={email} searchString={searchString} pageNumber={pageNumber} filters={filters}
+										 favorite_list={this.state.favoriteList} in_progress_list={this.state.inProgressList} completed_list={this.state.completedList}/>
 						<CHAdvertisements updateContent={this.handleClick} />
 					</div>,
 					<CHFooter key="keyFooterSearch" />]
