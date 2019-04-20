@@ -11,7 +11,7 @@ import CHSearchContent from './CHSearchContent';
 import CHAdvertisements from './CHAdvertisements';
 import CHFooter from './CHFooter';
 import firebaseInitialization from '../FirebaseUtils';
-import { searchUser } from '../elasticSearch';
+import {searchUser, updateUser} from '../elasticSearch';
 import CHCompareModal from "./CHCompareModal";
 
 class CHSearch extends Component {
@@ -81,7 +81,7 @@ class CHSearch extends Component {
 
 	handleClick = (choice, firstName, email, queryString) => {
 		this.setState({ choice: choice, firstName: firstName, email: email, queryString: queryString});
-	}
+	};
 
 	handleFilter = (searchString,pageNumber,filters) =>{
 		this.setState({pageNumber: pageNumber});
@@ -132,16 +132,7 @@ class CHSearch extends Component {
         sessionStorage.setItem("compareList", JSON.stringify(this.state.compareList));
     }
 
-	addCourseToList(item){
-    	let lists = document.getElementsByClassName("course-radio");
-    	var list = "0";
-		for(var i = 0; i < lists.length; i++){
-			if(lists[i].checked){
-				list = lists[i].value;
-				console.log(list);
-				break;
-			}
-		}
+	addCourseToList = async (list, item) => {
 		let favoriteListMap = this.state.favoriteList.map(function(obj){ return obj.CourseId });
 		let inProgressListMap = this.state.inProgressList.map(function(obj){ return obj.CourseId });
 		let CompletedListMap = this.state.completedList.map(function(obj){ return obj.CourseId });
@@ -185,9 +176,34 @@ class CHSearch extends Component {
 			}
 		}
 		this.setState({isOpen: false});
+        var payload = {
+            "doc": {
+                "FavouriteCourses": this.state.favoriteList,
+                "InProgressCourses": this.state.inProgressList,
+                "CoursesTaken": this.state.completedList,
+            }
+        };
+        try {
+            var response = await updateUser(this.state.id, payload);
+            console.log(response);
+            if(response === false){
+                alert("Error in updating lists... Try again");
+            }
+        } catch (error) {
+            alert("Error in updating lists... Try again");
+            console.log("error is", error);
+        }
 	}
 
-	clearCourseFromLists(item){
+	clearCourseFromLists= async (item) => {
+        let lists = document.getElementsByClassName("course-radio");
+        for(var i = 0; i < lists.length; i++){
+            if(lists[i].checked){
+                lists[i].checked = false;
+                break;
+            }
+        }
+
 		let favoriteListMap = this.state.favoriteList.map(function(obj){ return obj.CourseId });
 		let inProgressListMap = this.state.inProgressList.map(function(obj){ return obj.CourseId });
 		let CompletedListMap = this.state.completedList.map(function(obj){ return obj.CourseId });
@@ -205,6 +221,22 @@ class CHSearch extends Component {
 			this.state.completedList.splice(idx, 1);
 		}
 		this.setState({isOpen: false});
+        var payload = {
+            "doc": {
+                "FavouriteCourses": this.state.favoriteList,
+                "InProgressCourses": this.state.inProgressList,
+                "CoursesTaken": this.state.completedList,
+            }
+        };
+        try {
+            var response = await updateUser(this.state.id, payload);
+            if(response === false){
+                alert("Error in updating lists in database... Try again");
+            }
+        } catch (error) {
+            alert("Error in updating lists in database... Try again");
+            console.log("error is", error);
+        }
 	}
 
 	render() {
