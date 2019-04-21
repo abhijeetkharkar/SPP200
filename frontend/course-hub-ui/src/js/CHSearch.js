@@ -11,7 +11,7 @@ import CHSearchContent from './CHSearchContent';
 import CHAdvertisements from './CHAdvertisements';
 import CHFooter from './CHFooter';
 import firebaseInitialization from '../FirebaseUtils';
-import {searchUser, updateUser} from '../elasticSearch';
+import {getUserDetails, searchUser, updateUser} from '../elasticSearch';
 import CHCompareModal from "./CHCompareModal";
 
 class CHSearch extends Component {
@@ -20,6 +20,7 @@ class CHSearch extends Component {
 		super(props, context);
 		const values = queryString.parse(this.props.location.search);
 		this.state = {
+		    user_id: null,
 			choice: '',
 			firstName: null,
 			email: null,
@@ -47,15 +48,34 @@ class CHSearch extends Component {
 		this.removeCourseFromCompare = this.removeCourseFromCompare.bind(this);
         this.removeCourseFromModal = this.removeCourseFromModal.bind(this);
 		this.addCourseToList = this.addCourseToList.bind(this);
-		this.clearCourseFromLists= this.clearCourseFromLists.bind(this);
-		console.log("This is my compare list");
-        console.log(this.state.compareList);
-	}
+		this.clearCourseFromLists = this.clearCourseFromLists.bind(this);
+		this.getUserCoursesLists = this.getUserCoursesLists.bind(this);
+    }
 
 	componentWillMount() {
 		const self = this;
-		firebaseInitialization.auth().onAuthStateChanged(user => self.handleAuthStateChange(user));
+        firebaseInitialization.auth().onAuthStateChanged(user =>  {
+            self.handleAuthStateChange(user);
+            if(user != null) {
+                self.getUserCoursesLists(user.email)
+            }
+        });
 	}
+
+	getUserCoursesLists(email){
+        var payload = {
+            query : {
+                term : { Email : email }
+            }
+        };
+        getUserDetails(payload).then(elasticResponse => {
+            this.state.user_id = elasticResponse.id;
+            var elasticData = elasticResponse.data;
+            this.setState({favoriteList: ((elasticData.FavouriteCourses != null) ? elasticData.FavouriteCourses : [])});
+            this.setState({inProgressList: ((elasticData.CoursesinProgress != null) ? elasticData.CoursesinProgress : [])});
+            this.setState({completedList: ((elasticData.CoursesTaken != null) ? elasticData.CoursesTaken : [])});
+        });
+    }
 
 	handleAuthStateChange = user => {
 		if (user) {
@@ -64,7 +84,7 @@ class CHSearch extends Component {
 				query: {
 					term: { Email: email }
 				}
-			}
+			};
 			searchUser(payloadSearch).then(first => {
 				this.setState({
 					choice: "homeSignedIn",
@@ -77,11 +97,11 @@ class CHSearch extends Component {
 				choice: "home"
 			});
 		}
-	}
+	};
 
 	handleClick = (choice, firstName, email, queryString) => {
 		this.setState({ choice: choice, firstName: firstName, email: email, queryString: queryString});
-	};
+    };
 
 	handleFilter = (searchString,pageNumber,filters) =>{
 		this.setState({pageNumber: pageNumber});
@@ -99,7 +119,7 @@ class CHSearch extends Component {
 		"&maxPrice" + filters.maxprice +
 		"&startDate" + filters.startdate +
 		"&endDate" + filters.enddate);
-	}
+	};
 
 	handlePagination = (searchString, pageNumber) => {
 		// console.log("In CHSearch, before history, searchString:", searchString, ", pageNumber:", pageNumber);
@@ -133,7 +153,7 @@ class CHSearch extends Component {
     }
 
 	addCourseToList = async (list, item) => {
-		let favoriteListMap = this.state.favoriteList.map(function(obj){ return obj.CourseId });
+        let favoriteListMap = this.state.favoriteList.map(function(obj){ return obj.CourseId });
 		let inProgressListMap = this.state.inProgressList.map(function(obj){ return obj.CourseId });
 		let CompletedListMap = this.state.completedList.map(function(obj){ return obj.CourseId });
 		if(list === "1"){
@@ -179,21 +199,21 @@ class CHSearch extends Component {
         var payload = {
             "doc": {
                 "FavouriteCourses": this.state.favoriteList,
-                "InProgressCourses": this.state.inProgressList,
+                "CoursesinProgress": this.state.inProgressList,
                 "CoursesTaken": this.state.completedList,
             }
         };
         try {
-            var response = await updateUser(this.state.id, payload);
+            var response = await updateUser(this.state.user_id, payload);
             console.log(response);
             if(response === false){
-                alert("Error in updating lists... Try again");
+                alert("Error in updating lists in database... Try again");
             }
         } catch (error) {
-            alert("Error in updating lists... Try again");
+            alert("Error in updating lists in database... Try again");
             console.log("error is", error);
         }
-	}
+	};
 
 	clearCourseFromLists= async (item) => {
         let lists = document.getElementsByClassName("course-radio");
@@ -224,12 +244,12 @@ class CHSearch extends Component {
         var payload = {
             "doc": {
                 "FavouriteCourses": this.state.favoriteList,
-                "InProgressCourses": this.state.inProgressList,
+                "CoursesinProgress": this.state.inProgressList,
                 "CoursesTaken": this.state.completedList,
             }
         };
         try {
-            var response = await updateUser(this.state.id, payload);
+            var response = await updateUser(this.state.user_id, payload);
             if(response === false){
                 alert("Error in updating lists in database... Try again");
             }
@@ -237,7 +257,7 @@ class CHSearch extends Component {
             alert("Error in updating lists in database... Try again");
             console.log("error is", error);
         }
-	}
+	};
 
 	render() {
 		const choice = this.state.choice;
@@ -263,8 +283,7 @@ class CHSearch extends Component {
 					<div className="my-content-landing" key="keySearchContent">
 						<CHFilters updateContent={this.handleClick} updateFilter={this.handleFilter} searchString={searchString}/>
 						<CHSearchContent  updateContent={this.handleClick} searchCompareList={this.state.compareList}
-                                          addToCompare={this.addCourseToCompare} removeFromCompare={this.removeCourseFromCompare} updatePage={this.handlePagination} firstName={firstName} email={email} searchString={searchString} pageNumber={pageNumber} filters={filters}
-										  favorite_list={this.state.favoriteList} in_progress_list={this.state.inProgressList} completed_list={this.state.completedList} addCourseToList={this.addCourseToList} clearCourseFromLists={this.clearCourseFromLists}/>
+                                          addToCompare={this.addCourseToCompare} removeFromCompare={this.removeCourseFromCompare} updatePage={this.handlePagination} firstName={firstName} email={email} searchString={searchString} pageNumber={pageNumber} filters={filters} />
 						<CHAdvertisements updateContent={this.handleClick} />
 					</div>,
 					<CHFooter key="keyFooterSearch" />]
@@ -310,7 +329,7 @@ class CHSearch extends Component {
 						<CHFilters updateContent={this.handleClick} updateFilter={this.handleFilter} searchString={searchString} />
 						<CHSearchContent updateContent={this.handleClick} searchCompareList={this.state.compareList}
                                          addToCompare={this.addCourseToCompare} removeFromCompare={this.removeCourseFromCompare} updatePage={this.handlePagination} firstName={firstName} email={email} searchString={searchString} pageNumber={pageNumber} filters={filters}
-										 favorite_list={this.state.favoriteList} in_progress_list={this.state.inProgressList} completed_list={this.state.completedList} addCourseToList={this.addCourseToList} clearCourseFromLists={this.clearCourseFromLists}/>
+										 favorite_list={this.state.favoriteList} in_progress_list={this.state.inProgressList} completed_list={this.state.completedList} addCourseToList={this.addCourseToList} clearCourseFromLists={this.clearCourseFromLists} />
 						<CHAdvertisements updateContent={this.handleClick} />
 					</div>,
 					<CHFooter key="keyFooterSearch" />]

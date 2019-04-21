@@ -139,36 +139,38 @@ class CHSearchContent extends Component {
                                                 <Row>
                                                     <Col><p className="search-results-course-data-type">{"Course"}</p></Col>
                                                     <Col>
-                                                        <UncontrolledDropdown style={{float: "right"}}>
-                                                            <DropdownToggle className="course-list-button">
-                                                                <span style={{fontSize: "27px",}}>
-                                                                    {
-                                                                        (this.props.favorite_list.map(function(obj){ return obj.CourseId }).includes(item.CourseId)) && <FontAwesomeIcon icon={faStar} style={{color: "yellow"}} />
-                                                                        || (this.props.in_progress_list.map(function(obj){ return obj.CourseId }).includes(item.CourseId)) && <FontAwesomeIcon icon={faClock} style={{color: "deepskyblue"}} />
-                                                                        || (this.props.completed_list.map(function(obj){ return obj.CourseId }).includes(item.CourseId)) && <FontAwesomeIcon icon={faCheck} style={{color: "#00d207"}} />
-                                                                        ||  <FontAwesomeIcon icon={faListAlt} style={{color: "Dodgerblue"}}/>
-                                                                    }
-                                                                </span>
-                                                            </DropdownToggle>
-                                                            <DropdownMenu style={{marginTop: "0"}}>
-                                                                <DropdownItem header style={{color: "blue", fontSize: "15px"}}>Lists</DropdownItem>
-                                                                <DropdownItem divider />
-                                                                <ul style={{listStyleType: "none", padding: "0", paddingLeft: "15px"}}>
-                                                                    <li>
-                                                                        <input className="course-radio" type="radio" name="course-list" value="1" checked={this.props.favorite_list.map(function(obj){ return obj.CourseId }).includes(item.CourseId)} onClick={() => {this.props.addCourseToList("1" ,item)}} /> Favorite
-                                                                    </li>
-                                                                    <li>
-                                                                        <input className="course-radio" type="radio" name="course-list" value="2" checked={this.props.in_progress_list.map(function(obj){ return obj.CourseId }).includes(item.CourseId)} onClick={() => {this.props.addCourseToList("2", item)}} /> In Progress
-                                                                    </li>
-                                                                    <li>
-                                                                        <input className="course-radio" type="radio" name="course-list" value="3" checked={this.props.completed_list.map(function(obj){ return obj.CourseId }).includes(item.CourseId)} onClick={() => {this.props.addCourseToList("3", item)}} /> Completed
-                                                                    </li>
-                                                                </ul>
-                                                                <DropdownItem divider />
-                                                                <Button variant="link" className="course-list-clear-button" onClick={() => {this.props.clearCourseFromLists(item)}}>Clear</Button>
-                                                            </DropdownMenu>
-                                                        </UncontrolledDropdown>
-                                                    </Col>
+                                                        {(this.props.favorite_list && this.props.in_progress_list && this.props.completed_list) ? (
+                                                            <UncontrolledDropdown style={{float: "right"}} >
+                                                                <DropdownToggle className="course-list-button" >
+                                                                    <span style={{fontSize: "27px",}}>
+                                                                        {
+                                                                            (this.props.favorite_list.map(function(obj){ return obj.CourseId }).includes(item.CourseId)) && <FontAwesomeIcon icon={faStar} style={{color: "yellow"}}/>
+                                                                            || (this.props.in_progress_list.map(function(obj){ return obj.CourseId }).includes(item.CourseId)) && <FontAwesomeIcon icon={faClock} style={{color: "deepskyblue"}}/>
+                                                                            || (this.props.completed_list.map(function(obj){ return obj.CourseId }).includes(item.CourseId)) && <FontAwesomeIcon icon={faCheck} style={{color: "#00d207"}}/>
+                                                                            ||  <FontAwesomeIcon icon={faListAlt} style={{color: "Dodgerblue"}}/>
+                                                                        }
+                                                                    </span>
+                                                                </DropdownToggle>
+                                                                <DropdownMenu style={{marginTop: "0"}}>
+                                                                    <DropdownItem header style={{color: "blue", fontSize: "15px"}}>Lists</DropdownItem>
+                                                                    <DropdownItem divider />
+                                                                    <ul style={{listStyleType: "none", padding: "0", paddingLeft: "15px"}}>
+                                                                        <li>
+                                                                            <input id="course-radio-1" className="course-radio" type="radio" name="course-list" value="1" onClick={() => {this.props.addCourseToList("1", item)}} /> Favorite
+                                                                        </li>
+                                                                        <li>
+                                                                            <input id="course-radio-2" className="course-radio" type="radio" name="course-list" value="2" onClick={() => {this.props.addCourseToList("2", item)}} /> In Progress
+                                                                        </li>
+                                                                        <li>
+                                                                            <input id="course-radio-3" className="course-radio" type="radio" name="course-list" value="3" onClick={() => {this.props.addCourseToList("3", item)}} /> Completed
+                                                                        </li>
+                                                                    </ul>
+                                                                    <DropdownItem divider />
+                                                                    <Button variant="link" className="course-list-clear-button" onClick={() => {this.props.clearCourseFromLists(item)}}>Clear</Button>
+                                                                </DropdownMenu>
+                                                            </UncontrolledDropdown>
+                                                        ) : ([]) }
+                                                    </ Col>
                                                 </Row>
                                                 {/* <p className="search-results-course-data-name">{item.Title}</p>    */}
                                                 <p className="search-results-course-data-name"><Button className="search-results-course-data-name-link" variant="link" onClick={ () => this.props.updateContent('coursedetails',null,null,item.CourseId)}>{item.Title}</Button></p>
