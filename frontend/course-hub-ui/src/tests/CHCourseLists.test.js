@@ -45,8 +45,13 @@ describe('Testing Course Lists', () => {
         const instance = wrapper.instance();
 
         var item = {"CourseId": "xyz"};
+        instance.addCourseToList("2", item);
+        instance.addCourseToList("3", item);
+
         instance.addCourseToList("1", item);
         expect(instance.state.favoriteList.includes(item)).toBe(true);
+        expect(instance.state.inProgressList.includes(item)).toBe(false);
+        expect(instance.state.completedList.includes(item)).toBe(false);
     });
 
     test('Testing addCourseToList function of search component - In Progress List', async () => {
@@ -62,24 +67,34 @@ describe('Testing Course Lists', () => {
         const instance = wrapper.instance();
 
         var item = {"CourseId": "xyz"};
-        instance.addCourseToList("2", item);
-        expect(instance.state.inProgressList.includes(item)).toBe(true);
-    });
-
-    test('Testing addCourseToList function of search component - In Progress List', async () => {
-        window.alert = () => {};
-        elastic.updateUser.mockImplementationOnce(() => {
-            {
-                return Promise.resolve(false)
-            }
-        });
-
-        const location = { search: { searchString: "testString", firstName: "Test1", email: "test1@test.com" } };
-        const wrapper = shallow(<CHSearch location={location} />);
-        const instance = wrapper.instance();
-
-        var item = {"CourseId": "xyz"};
+        instance.addCourseToList("1", item);
         instance.addCourseToList("3", item);
+
+        instance.addCourseToList("2", item);
+        expect(instance.state.favoriteList.includes(item)).toBe(false);
+        expect(instance.state.inProgressList.includes(item)).toBe(true);
+        expect(instance.state.completedList.includes(item)).toBe(false);
+    });
+
+    test('Testing addCourseToList function of search component - Completed List', async () => {
+        window.alert = () => {};
+        elastic.updateUser.mockImplementationOnce(() => {
+            {
+                return Promise.resolve(false)
+            }
+        });
+
+        const location = { search: { searchString: "testString", firstName: "Test1", email: "test1@test.com" } };
+        const wrapper = shallow(<CHSearch location={location} />);
+        const instance = wrapper.instance();
+
+        var item = {"CourseId": "xyz"};
+        instance.addCourseToList("1", item);
+        instance.addCourseToList("2", item);
+
+        instance.addCourseToList("3", item);
+        expect(instance.state.favoriteList.includes(item)).toBe(false);
+        expect(instance.state.inProgressList.includes(item)).toBe(false);
         expect(instance.state.completedList.includes(item)).toBe(true);
     });
 
@@ -94,6 +109,21 @@ describe('Testing Course Lists', () => {
         var item = {"CourseId": "xyz"};
         instance.addCourseToList("3", item);
         expect(instance.state.completedList.includes(item)).toBe(true);
+    });
+
+    test('Testing getUserCoursesLists function', async () => {
+        elastic.getUserDetails.mockImplementationOnce(() => {
+            return Promise.resolve({"id": 1, "data": {"FavouriteCourses": ["1", "2"], "CoursesinProgress": [],
+                    "CoursesTaken": []}});
+        });
+
+        const location = { search: { searchString: "testString", firstName: "Test1", email: "test1@test.com" } };
+        const wrapper = shallow(<CHSearch location={location} />);
+        const instance = wrapper.instance();
+
+        var email = "test@example.com";
+        await instance.getUserCoursesLists(email);
+        expect(instance.state.favoriteList.includes("1")).toBe(true);
     });
 
 });
