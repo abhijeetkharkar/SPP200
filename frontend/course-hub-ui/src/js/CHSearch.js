@@ -205,13 +205,12 @@ class CHSearch extends Component {
         };
         try {
             var response = await updateUser(this.state.user_id, payload);
-            console.log(response);
+            // console.log(response);
             if(response === false){
                 alert("Error in updating lists in database... Try again");
             }
         } catch (error) {
             alert("Error in updating lists in database... Try again");
-            console.log("error is", error);
         }
 	};
 
