@@ -83,7 +83,7 @@ describe('Testing Course Lists', () => {
         expect(instance.state.completedList.includes(item)).toBe(true);
     });
 
-    test('Testing addCourseToList function of search component - Sad Path', async () => {
+    test('Testing updateUser function of lists - Sad Path', async () => {
         window.alert = () => {};
         elastic.updateUser.mockImplementationOnce(() => {throw new Error('Exception encountered')});
 
