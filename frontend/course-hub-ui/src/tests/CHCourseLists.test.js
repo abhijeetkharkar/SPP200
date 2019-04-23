@@ -83,6 +83,17 @@ describe('Testing Course Lists', () => {
         expect(instance.state.completedList.includes(item)).toBe(true);
     });
 
+    test('Testing addCourseToList function of search component - Sad Path', async () => {
+        window.alert = () => {};
+        elastic.updateUser.mockImplementationOnce(() => {throw new Error('Exception encountered')});
 
+        const location = { search: { searchString: "testString", firstName: "Test1", email: "test1@test.com" } };
+        const wrapper = shallow(<CHSearch location={location} />);
+        const instance = wrapper.instance();
+
+        var item = {"CourseId": "xyz"};
+        instance.addCourseToList("3", item);
+        expect(instance.state.completedList.includes(item)).toBe(true);
+    });
 
 });
