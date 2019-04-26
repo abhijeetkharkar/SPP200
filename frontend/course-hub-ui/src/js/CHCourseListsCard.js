@@ -6,6 +6,7 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import StarRatingComponent from 'react-star-rating-component';
 import {DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown} from "reactstrap";
 import '../css/profile.css';
+import {updateUser} from "../elasticSearch";
 
 
 class CHCourseListsCard extends Component {
@@ -14,9 +15,63 @@ class CHCourseListsCard extends Component {
         super(props, context);
     }
 
-    switchList(){
+    switchList = async (removeList, addList, item) => {
+        var prevListMap;
+        switch(removeList){
+            case "1":
+                prevListMap = this.props.favoriteList.map(function(obj){ return obj.CourseId });
+                break;
+            case "2":
+                prevListMap = this.props.inProgressList.map(function(obj){ return obj.CourseId });
+                break;
+            case "3":
+                prevListMap = this.props.completedList.map(function(obj){ return obj.CourseId });
+        }
 
-    }
+        let idx = prevListMap.indexOf(item.CourseId);
+        prevListMap.splice(idx, 1);
+        switch(removeList){
+            case "1":
+                this.props.favoriteList.splice(idx, 1);
+                break;
+            case "2":
+                this.props.inProgressList.splice(idx, 1);
+                break;
+            case "3":
+                this.props.completedList.splice(idx, 1);
+        }
+
+        if (addList != null){
+            switch(addList){
+                case "1":
+                    this.props.favoriteList.push(item);
+                    break;
+                case "2":
+                    this.props.inProgressList.push(item);
+                    break;
+                case "3":
+                    this.props.completedList.push(item);
+            }
+        }
+
+        this.setState({isOpen: false});
+        var payload = {
+            "doc": {
+                "FavouriteCourses": this.props.favoriteList,
+                "CoursesinProgress": this.props.inProgressList,
+                "CoursesTaken": this.props.completedList,
+            }
+        };
+        try {
+            var response = await updateUser(this.props.user_id, payload);
+            // console.log(response);
+            if(response === false){
+                alert("Error in updating lists in database... Try again");
+            }
+        } catch (error) {
+            alert("Error in updating lists in database... Try again");
+        }
+    };
 
     render() {
         return(
@@ -43,11 +98,15 @@ class CHCourseListsCard extends Component {
                                                                         <FontAwesomeIcon icon={faExchangeAlt} style={{color: "grey", height: "20px"}} className="exchange-sign"/>
                                                                     </span>
                                                             </DropdownToggle>
-                                                            <DropdownMenu style={{marginLeft: "66%", marginTop: "7%"}}>
+                                                            <DropdownMenu style={{marginLeft: "66%", marginTop: "7%", zIndex: "1"}}>
                                                                 <DropdownItem header style={{color: "blue", fontSize: "15px"}}>Switch List</DropdownItem>
+                                                                <DropdownItem onClick={() => {this.switchList("1", "2", item)}}>Move to In-Progress List</DropdownItem>
+                                                                <DropdownItem onClick={() => {this.switchList("1", "3", item)}}>Move to Completed List</DropdownItem>
                                                                 <DropdownItem divider />
-                                                                <DropdownItem>Move to In-Progress List</DropdownItem>
-                                                                <DropdownItem>Move to Completed List</DropdownItem>
+                                                                <div className="course-list-remove-button">
+                                                                    <Button variant="danger" onClick={() => {this.switchList("1", null, item)}}>Remove</Button>
+                                                                </div>
+
                                                             </DropdownMenu>
                                                         </UncontrolledDropdown>
                                                     </Col>
@@ -57,7 +116,7 @@ class CHCourseListsCard extends Component {
                                                 </Row>
                                                 <Row>
                                                     <strong>Provider</strong>: {item.CourseProvider}&nbsp;&nbsp;|&nbsp;&nbsp;
-                                                    <strong>Taught By</strong>: {(item.Instructors? item.Instructors.map(item => item.InstructorName).toString(): "")}
+                                                    <strong>Taught By</strong>: {(item.Instructors? item.Instructors.map(item => " " + item.InstructorName ).splice(0, 3).toString(): " ")}
                                                 </Row>
                                                 <br/>
                                                 <Row>
@@ -108,11 +167,15 @@ class CHCourseListsCard extends Component {
                                                                         <FontAwesomeIcon icon={faExchangeAlt} style={{color: "grey", height: "20px"}} className="exchange-sign"/>
                                                                     </span>
                                                             </DropdownToggle>
-                                                            <DropdownMenu style={{marginLeft: "66%", marginTop: "7%"}}>
+                                                            <DropdownMenu style={{marginLeft: "66%", marginTop: "7%", zIndex: "1"}}>
                                                                 <DropdownItem header style={{color: "blue", fontSize: "15px"}}>Switch List</DropdownItem>
                                                                 <DropdownItem divider />
-                                                                <DropdownItem>Move to Favorites List</DropdownItem>
-                                                                <DropdownItem>Move to Completed List</DropdownItem>
+                                                                <DropdownItem onClick={() => {this.switchList("2", "1", item)}}>Move to Favorites List</DropdownItem>
+                                                                <DropdownItem onClick={() => {this.switchList("2", "3", item)}}>Move to Completed List</DropdownItem>
+                                                                <DropdownItem divider />
+                                                                <div className="course-list-remove-button">
+                                                                    <Button variant="danger" onClick={() => {this.switchList("2", null, item)}}>Remove</Button>
+                                                                </div>
                                                             </DropdownMenu>
                                                         </UncontrolledDropdown>
                                                     </Col>
@@ -122,7 +185,7 @@ class CHCourseListsCard extends Component {
                                                 </Row>
                                                 <Row>
                                                     <strong>Provider</strong>: {item.CourseProvider}&nbsp;&nbsp;|&nbsp;&nbsp;
-                                                    <strong>Taught By</strong>: {(item.Instructors? item.Instructors.map(item => item.InstructorName).toString(): "")}
+                                                    <strong>Taught By</strong>: {(item.Instructors? item.Instructors.map(item => " " + item.InstructorName ).splice(0, 3).toString(): " ")}
                                                 </Row>
                                                 <br/>
                                                 <Row>
@@ -173,11 +236,15 @@ class CHCourseListsCard extends Component {
                                                                         <FontAwesomeIcon icon={faExchangeAlt} style={{color: "grey", height: "20px"}} className="exchange-sign"/>
                                                                     </span>
                                                             </DropdownToggle>
-                                                            <DropdownMenu style={{marginLeft: "66%", marginTop: "7%"}}>
+                                                            <DropdownMenu style={{marginLeft: "66%", marginTop: "7%", zIndex: "1"}}>
                                                                 <DropdownItem header style={{color: "blue", fontSize: "15px"}}>Switch List</DropdownItem>
                                                                 <DropdownItem divider />
-                                                                <DropdownItem>Move to Favorites List</DropdownItem>
-                                                                <DropdownItem>Move to In-Progress List</DropdownItem>
+                                                                <DropdownItem onClick={() => {this.switchList("3", "1", item)}}>Move to Favorites List</DropdownItem>
+                                                                <DropdownItem onClick={() => {this.switchList("3", "2", item)}}>Move to In-Progress List</DropdownItem>
+                                                                <DropdownItem divider />
+                                                                <div className="course-list-remove-button">
+                                                                    <Button variant="danger" onClick={() => {this.switchList("3", null, item)}}>Remove</Button>
+                                                                </div>
                                                             </DropdownMenu>
                                                         </UncontrolledDropdown>
                                                     </Col>
@@ -187,7 +254,7 @@ class CHCourseListsCard extends Component {
                                                 </Row>
                                                 <Row>
                                                     <strong>Provider</strong>: {item.CourseProvider}&nbsp;&nbsp;|&nbsp;&nbsp;
-                                                    <strong>Taught By</strong>: {(item.Instructors? item.Instructors.map(item => item.InstructorName).toString(): "")}
+                                                    <strong>Taught By</strong>: {(item.Instructors? item.Instructors.map(item => " " + item.InstructorName ).splice(0, 3).toString(): " ")}
                                                 </Row>
                                                 <br/>
                                                 <Row>

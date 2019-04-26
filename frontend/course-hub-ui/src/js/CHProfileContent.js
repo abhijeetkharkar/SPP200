@@ -85,6 +85,10 @@ class ProfileContent extends Component {
         console.log(this.props.email);
     }
 
+    handleClick = (choice, firstName, email, queryString) => {
+        this.props.updateContent(choice, firstName, email, queryString);
+    };
+
     handleSubmit = async event => {
         console.log('In Submit');
         event.preventDefault();
@@ -396,7 +400,7 @@ class ProfileContent extends Component {
                                         </Col>
                                     </Row>
                                 </div>
-                                <CHCourseListsCard email={this.state.email} favoriteList={this.state.favoriteList} inProgressList={this.state.inProgressList} completedList={this.state.completedList}/>
+                                <CHCourseListsCard updateContent={this.handleClick} user_id={this.state.id} email={this.state.email} favoriteList={this.state.favoriteList} inProgressList={this.state.inProgressList} completedList={this.state.completedList}/>
                                 <CHDeactivateCard email={this.state.email}/>
                             </Col>
                         </Row>

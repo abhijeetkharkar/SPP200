@@ -60,8 +60,8 @@
 }
 
 .card-title{
-    background-color: #f0f0f0;
-    border-bottom: 1px solid #d6d6d6;
+    background-color: #e6e6e6;
+    border-bottom: 1px solid #cbcbcb;
     color: inherit;
     text-align: left;
     font-weight: 700;
@@ -191,21 +191,39 @@
         text-align: left;
     }
 
+    .profile-course-list-item:hover{
+        background-color: #f4f4f4;
+    }
+
         .profile-list-course-image{
             max-width: 220px;
             max-height: 200px;
         }
 
-        .profile-list-course-title a, .profile-list-course-title a:hover{
+        .profile-list-course-title a{
             color: rgb(82, 85, 177);
             font-weight: bold;
             font-size: 1.2rem;
             text-decoration: none;
         }
+        .profile-list-course-title a:hover{
+            color: rgb(118, 120, 229);
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-decoration: none;
+        }
 
-        .profile-list-dropdown-toggle, .profile-list-dropdown-toggle:hover, .profile-list-dropdown-toggle:active, .profile-list-dropdown-toggle:active{
+        .profile-list-dropdown-toggle, .profile-list-dropdown-toggle:hover, .profile-list-dropdown-toggle:active{
             padding: 0;
             margin: 0;
             border-color: green;
             border: 0;
+        }
+
+        .course-list-remove-button .btn{
+            margin-left: 10%;
+            padding: 5px;
+            max-height: 30px;
+            max-width: 70px;
+            font-size: 13px;
         }
