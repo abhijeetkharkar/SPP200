@@ -17,7 +17,7 @@ import ProfilePage from "./CHProfile";
 import CHAdvertisements from './CHAdvertisements';
 import CHFooter from './CHFooter';
 import firebaseInitialization from '../FirebaseUtils';
-import { searchUser } from '../elasticSearch';
+import { searchUser, getMicroDegreeSuggestions } from '../elasticSearch';
 
 class CHMicroDegree extends Component {
 
@@ -72,22 +72,39 @@ class CHMicroDegree extends Component {
 	
 	updatePage = (params) => {
 		console.log("upDATE pAGE CALLED with params : ", params);
-		this.setState({
-			microDegreeChoice: "degreeSuggestions",
-			microDegreeSuggestions : [{
-				courseName : "The Python Bible™ | Everything You Need to Program in Python",
-				provider : "Udemy",
-				difficulty : "Introductory"
-			},{
-				courseName : "Learnign Python: Python for Beginners",
-				provider : "Iversity",
-				difficulty : "Intermediate"
-			},{
-				courseName : "Python Advanced Level ",
-				provider : "Coursera",
-				difficulty : "Advanced"
-			}]
-		})
+		var payload = {
+			duration: params.durations,
+			tags : params.chips.join(' ')
+		}
+		getMicroDegreeSuggestions(payload)
+		.then(responseData => {
+			console.log("Payload IS ", payload)
+			console.log("RESPONSE DATA IS ", responseData)
+			var microDegreeSuggestions = []
+			for (var key in responseData) {
+				microDegreeSuggestions.push(responseData[key])
+			}
+			this.setState({
+				microDegreeChoice: "degreeSuggestions",
+				microDegreeSuggestions : microDegreeSuggestions
+			})
+		});
+		// this.setState({
+		// 	microDegreeChoice: "degreeSuggestions",
+		// 	microDegreeSuggestions : [{
+		// 		courseName : "The Python Bible™ | Everything You Need to Program in Python",
+		// 		provider : "Udemy",
+		// 		difficulty : "Introductory"
+		// 	},{
+		// 		courseName : "Learnign Python: Python for Beginners",
+		// 		provider : "Iversity",
+		// 		difficulty : "Intermediate"
+		// 	},{
+		// 		courseName : "Python Advanced Level ",
+		// 		provider : "Coursera",
+		// 		difficulty : "Advanced"
+		// 	}]
+		// })
 	}
 
 
