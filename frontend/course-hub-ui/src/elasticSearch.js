@@ -49,7 +49,6 @@ const searchUser = async payload => {
 }
 
 const getUserDetails = async payload => {
-    // console.log("in search user");
     const response = await fetch(process.env.REACT_APP_AWS_ELASTIC_SEARCH_URL + "users/_search",
         {
             method: 'POST',
@@ -75,8 +74,6 @@ const getUserDetails = async payload => {
 }
 
 const updateUser = async (_id, payload) => {
-    // console.log("in update user");
-    // console.log("payload is:", payload);
     return await fetch(process.env.REACT_APP_AWS_ELASTIC_SEARCH_URL + "users/user/" + _id + '/_update',
         {
             method: 'POST',
@@ -86,7 +83,6 @@ const updateUser = async (_id, payload) => {
             return response.json();
         }).then(elasticData => {
             // console.log("Update User JSON OBJECT IS ")
-            // console.log("log is ", elasticData)
             if (elasticData.result === "updated" || elasticData.result === "noop") {
                 return true;
             } else {

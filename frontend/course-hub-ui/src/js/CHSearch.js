@@ -6,13 +6,12 @@ import CHNavigator from './CHNavigator';
 import LoginPage from './CHLogin';
 import SignupPage from './CHSignup';
 import ForgotPasswordPage from './CHForgotPassword';
-import ProfilePage from "./CHProfile";
 import CHFilters from './CHFilters';
 import CHSearchContent from './CHSearchContent';
 import CHAdvertisements from './CHAdvertisements';
 import CHFooter from './CHFooter';
 import firebaseInitialization from '../FirebaseUtils';
-import { searchUser } from '../elasticSearch';
+import {getUserDetails, searchUser, updateUser} from '../elasticSearch';
 import CHCompareModal from "./CHCompareModal";
 
 class CHSearch extends Component {
@@ -21,6 +20,7 @@ class CHSearch extends Component {
 		super(props, context);
 		const values = queryString.parse(this.props.location.search);
 		this.state = {
+		    user_id: null,
 			choice: '',
 			firstName: null,
 			email: null,
@@ -35,6 +35,9 @@ class CHSearch extends Component {
 			isOpen: false,
             compareList: (JSON.parse(sessionStorage.getItem("compareList"))) ?
                 JSON.parse(sessionStorage.getItem("compareList")) : [],
+			favoriteList: [],
+			inProgressList: [],
+			completedList: [],
 		};
 		console.log("In search constructor");
 		this.handleClick = this.handleClick.bind(this);
@@ -44,14 +47,35 @@ class CHSearch extends Component {
 		this.addCourseToCompare = this.addCourseToCompare.bind(this);
 		this.removeCourseFromCompare = this.removeCourseFromCompare.bind(this);
         this.removeCourseFromModal = this.removeCourseFromModal.bind(this);
-        console.log("This is my compare list");
-        console.log(this.state.compareList);
-	}
+		this.addCourseToList = this.addCourseToList.bind(this);
+		this.clearCourseFromLists = this.clearCourseFromLists.bind(this);
+		this.getUserCoursesLists = this.getUserCoursesLists.bind(this);
+    }
 
 	componentWillMount() {
 		const self = this;
-		firebaseInitialization.auth().onAuthStateChanged(user => self.handleAuthStateChange(user));
+        firebaseInitialization.auth().onAuthStateChanged(user =>  {
+            self.handleAuthStateChange(user);
+            if(user != null) {
+                self.getUserCoursesLists(user.email)
+            }
+        });
 	}
+
+	getUserCoursesLists(email){
+        var payload = {
+            query : {
+                term : { Email : email }
+            }
+        };
+        getUserDetails(payload).then(elasticResponse => {
+            this.state.user_id = elasticResponse.id;
+            var elasticData = elasticResponse.data;
+            this.setState({favoriteList: ((elasticData.FavouriteCourses != null) ? elasticData.FavouriteCourses : [])});
+            this.setState({inProgressList: ((elasticData.CoursesinProgress != null) ? elasticData.CoursesinProgress : [])});
+            this.setState({completedList: ((elasticData.CoursesTaken != null) ? elasticData.CoursesTaken : [])});
+        });
+    }
 
 	handleAuthStateChange = user => {
 		if (user) {
@@ -60,7 +84,7 @@ class CHSearch extends Component {
 				query: {
 					term: { Email: email }
 				}
-			}
+			};
 			searchUser(payloadSearch).then(first => {
 				this.setState({
 					choice: "homeSignedIn",
@@ -73,11 +97,11 @@ class CHSearch extends Component {
 				choice: "home"
 			});
 		}
-	}
+	};
 
 	handleClick = (choice, firstName, email, queryString) => {
 		this.setState({ choice: choice, firstName: firstName, email: email, queryString: queryString});
-	}
+    };
 
 	handleFilter = (searchString,pageNumber,filters) =>{
 		this.setState({pageNumber: pageNumber});
@@ -95,7 +119,7 @@ class CHSearch extends Component {
 		"&maxPrice" + filters.maxprice +
 		"&startDate" + filters.startdate +
 		"&endDate" + filters.enddate);
-	}
+	};
 
 	handlePagination = (searchString, pageNumber) => {
 		// console.log("In CHSearch, before history, searchString:", searchString, ", pageNumber:", pageNumber);
@@ -128,6 +152,112 @@ class CHSearch extends Component {
         sessionStorage.setItem("compareList", JSON.stringify(this.state.compareList));
     }
 
+	addCourseToList = async (list, item) => {
+        let favoriteListMap = this.state.favoriteList.map(function(obj){ return obj.CourseId });
+		let inProgressListMap = this.state.inProgressList.map(function(obj){ return obj.CourseId });
+		let CompletedListMap = this.state.completedList.map(function(obj){ return obj.CourseId });
+		if(list === "1"){
+			if(!favoriteListMap.includes(item.CourseId)) {
+				this.state.favoriteList.push(item);
+				if(inProgressListMap.includes(item.CourseId)){
+					let idx = inProgressListMap.indexOf(item.CourseId);
+					this.state.inProgressList.splice(idx, 1);
+				}
+				if(CompletedListMap.includes(item.CourseId)){
+					let idx = CompletedListMap.indexOf(item.CourseId);
+					this.state.completedList.splice(idx, 1);
+				}
+			}
+		}
+		else if(list === "2"){
+			if(!inProgressListMap.includes(item.CourseId)) {
+				this.state.inProgressList.push(item);
+				if(favoriteListMap.includes(item.CourseId)){
+					let idx = favoriteListMap.indexOf(item.CourseId);
+					this.state.favoriteList.splice(idx, 1);
+				}
+				if(CompletedListMap.includes(item.CourseId)){
+					let idx = CompletedListMap.indexOf(item.CourseId);
+					this.state.completedList.splice(idx, 1);
+				}
+			}
+		}
+		else if(list === "3"){
+			if(!CompletedListMap.includes(item.CourseId)) {
+				this.state.completedList.push(item);
+				if(favoriteListMap.includes(item.CourseId)){
+					let idx = favoriteListMap.indexOf(item.CourseId);
+					this.state.favoriteList.splice(idx, 1);
+				}
+				if(inProgressListMap.includes(item.CourseId)){
+					let idx = inProgressListMap.indexOf(item.CourseId);
+					this.state.inProgressList.splice(idx, 1);
+				}
+			}
+		}
+		this.setState({isOpen: false});
+        var payload = {
+            "doc": {
+                "FavouriteCourses": this.state.favoriteList,
+                "CoursesinProgress": this.state.inProgressList,
+                "CoursesTaken": this.state.completedList,
+            }
+        };
+        try {
+            var response = await updateUser(this.state.user_id, payload);
+            // console.log(response);
+            if(response === false){
+                alert("Error in updating lists in database... Try again");
+            }
+        } catch (error) {
+            alert("Error in updating lists in database... Try again");
+        }
+	};
+
+	clearCourseFromLists= async (item) => {
+        let lists = document.getElementsByClassName("course-radio");
+        for(var i = 0; i < lists.length; i++){
+            if(lists[i].checked){
+                lists[i].checked = false;
+                break;
+            }
+        }
+
+		let favoriteListMap = this.state.favoriteList.map(function(obj){ return obj.CourseId });
+		let inProgressListMap = this.state.inProgressList.map(function(obj){ return obj.CourseId });
+		let CompletedListMap = this.state.completedList.map(function(obj){ return obj.CourseId });
+
+		if(favoriteListMap.includes(item.CourseId)){
+			let idx = favoriteListMap.indexOf(item.CourseId);
+			this.state.favoriteList.splice(idx, 1);
+		}
+		else if(inProgressListMap.includes(item.CourseId)){
+			let idx = inProgressListMap.indexOf(item.CourseId);
+			this.state.inProgressList.splice(idx, 1);
+		}
+		else if(CompletedListMap.includes(item.CourseId)){
+			let idx = CompletedListMap.indexOf(item.CourseId);
+			this.state.completedList.splice(idx, 1);
+		}
+		this.setState({isOpen: false});
+        var payload = {
+            "doc": {
+                "FavouriteCourses": this.state.favoriteList,
+                "CoursesinProgress": this.state.inProgressList,
+                "CoursesTaken": this.state.completedList,
+            }
+        };
+        try {
+            var response = await updateUser(this.state.user_id, payload);
+            if(response === false){
+                alert("Error in updating lists in database... Try again");
+            }
+        } catch (error) {
+            alert("Error in updating lists in database... Try again");
+            console.log("error is", error);
+        }
+	};
+
 	render() {
 		const choice = this.state.choice;
 		const firstName = this.state.firstName;
@@ -152,7 +282,7 @@ class CHSearch extends Component {
 					<div className="my-content-landing" key="keySearchContent">
 						<CHFilters updateContent={this.handleClick} updateFilter={this.handleFilter} searchString={searchString}/>
 						<CHSearchContent  updateContent={this.handleClick} searchCompareList={this.state.compareList}
-                                          addToCompare={this.addCourseToCompare} removeFromCompare={this.removeCourseFromCompare} updatePage={this.handlePagination} firstName={firstName} email={email} searchString={searchString} pageNumber={pageNumber} filters={filters}/>
+                                          addToCompare={this.addCourseToCompare} removeFromCompare={this.removeCourseFromCompare} updatePage={this.handlePagination} firstName={firstName} email={email} searchString={searchString} pageNumber={pageNumber} filters={filters} />
 						<CHAdvertisements updateContent={this.handleClick} />
 					</div>,
 					<CHFooter key="keyFooterSearch" />]
@@ -197,7 +327,8 @@ class CHSearch extends Component {
 					<div className="my-content-landing" key="keySearchContent">
 						<CHFilters updateContent={this.handleClick} updateFilter={this.handleFilter} searchString={searchString} />
 						<CHSearchContent updateContent={this.handleClick} searchCompareList={this.state.compareList}
-                                         addToCompare={this.addCourseToCompare} removeFromCompare={this.removeCourseFromCompare} updatePage={this.handlePagination} firstName={firstName} email={email} searchString={searchString} pageNumber={pageNumber} filters={filters}/>
+                                         addToCompare={this.addCourseToCompare} removeFromCompare={this.removeCourseFromCompare} updatePage={this.handlePagination} firstName={firstName} email={email} searchString={searchString} pageNumber={pageNumber} filters={filters}
+										 favorite_list={this.state.favoriteList} in_progress_list={this.state.inProgressList} completed_list={this.state.completedList} addCourseToList={this.addCourseToList} clearCourseFromLists={this.clearCourseFromLists} />
 						<CHAdvertisements updateContent={this.handleClick} />
 					</div>,
 					<CHFooter key="keyFooterSearch" />]
