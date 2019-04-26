@@ -143,7 +143,7 @@ class CHSearchContent extends Component {
                                                             {(this.props.favorite_list && this.props.in_progress_list && this.props.completed_list) ? (
                                                                 <UncontrolledDropdown style={{float: "right"}} >
                                                                     <DropdownToggle className="course-list-button" >
-                                                                        <span style={{fontSize: "27px",}}>
+                                                                        <span style={{fontSize: "27px", zIndex: "1"}}>
                                                                             {
                                                                                 (this.props.favorite_list.map(function(obj){ return obj.CourseId }).includes(item.CourseId)) && <FontAwesomeIcon icon={faStar} style={{color: "yellow"}}/>
                                                                                 || (this.props.in_progress_list.map(function(obj){ return obj.CourseId }).includes(item.CourseId)) && <FontAwesomeIcon icon={faClock} style={{color: "deepskyblue"}}/>
@@ -152,7 +152,7 @@ class CHSearchContent extends Component {
                                                                             }
                                                                         </span>
                                                                     </DropdownToggle>
-                                                                    <DropdownMenu style={{marginTop: "0"}}>
+                                                                    <DropdownMenu style={{marginTop: "0", zIndex: "2"}}>
                                                                         <DropdownItem header style={{color: "blue", fontSize: "15px"}}>Lists</DropdownItem>
                                                                         <DropdownItem divider />
                                                                         <ul style={{listStyleType: "none", padding: "0", paddingLeft: "15px"}}>

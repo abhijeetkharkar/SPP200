@@ -25,7 +25,7 @@
 		background-color: #007BF9;
 		border-bottom: 1px solid #cecece;
 		color: white;
-		border-radius: 1px;
+		border-radius: 4px;
 		font-weight: 600;
 		font-size: 1.1rem;
 		padding-left: 10px;
@@ -107,6 +107,7 @@
 			padding-left: 10px;
 			padding-top: 10px;
 			padding-bottom: 10px;
+			border-radius: 4px;
 		}
 
 		.search-results-course-image {
