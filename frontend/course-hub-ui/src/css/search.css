@@ -102,11 +102,13 @@
 					padding: 0px;
 				}
 
-				.course-list-button, .course-list-button:active, .course-list-button:focus, .course-list-button:hover, .course-list-button:visited{
+				.course-list-button, .course-list-button:active button, .course-list-button:focus button, .course-list-button:hover,
+				.course-list-button:visited {
 					padding: 0;
 					margin: 0;
 					background-color: transparent;
 					border: 0;
+					border-color: white;
 				}
 
 				.course-list-clear-button{

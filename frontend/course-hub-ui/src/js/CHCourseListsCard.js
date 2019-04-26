@@ -1,6 +1,6 @@
-import {Button, Card, Col, Form, Image, Row} from "react-bootstrap";
+import {Card, Col, Image, Row, Button} from "react-bootstrap";
 import React, {Component} from "react";
-import {faCheck, faClock, faExchangeAlt, faListAlt, faStar} from "@fortawesome/free-solid-svg-icons";
+import {faClock, faExchangeAlt} from "@fortawesome/free-solid-svg-icons";
 import {faWater} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import StarRatingComponent from 'react-star-rating-component';
@@ -12,6 +12,10 @@ class CHCourseListsCard extends Component {
 
     constructor(props, context) {
         super(props, context);
+    }
+
+    switchList(){
+
     }
 
     render() {
@@ -31,14 +35,19 @@ class CHCourseListsCard extends Component {
                                             <Col md={9}>
                                                 <Row>
                                                     COURSE
-                                                    <Col style={{fontSize: "15px"}} >
-                                                        <UncontrolledDropdown style={{float: "right"}} >
-                                                            <DropdownToggle className="profile-list-dropdown-toggle">
-                                                                <FontAwesomeIcon icon={faExchangeAlt} className="exchange-sign"/>
+                                                    <Col md={1}></Col>
+                                                    <Col md={10}>
+                                                        <UncontrolledDropdown >
+                                                            <DropdownToggle className="course-list-button" style={{float: "right"}}>
+                                                                    <span style={{fontSize: "27px", padding: "0"}}>
+                                                                        <FontAwesomeIcon icon={faExchangeAlt} style={{color: "grey", height: "20px"}} className="exchange-sign"/>
+                                                                    </span>
                                                             </DropdownToggle>
-                                                            <DropdownMenu style={{marginTop: "0"}}>
-                                                                <DropdownItem header style={{color: "blue", fontSize: "15px"}}>Lists</DropdownItem>
+                                                            <DropdownMenu style={{marginLeft: "66%", marginTop: "7%"}}>
+                                                                <DropdownItem header style={{color: "blue", fontSize: "15px"}}>Switch List</DropdownItem>
                                                                 <DropdownItem divider />
+                                                                <DropdownItem>Move to In-Progress List</DropdownItem>
+                                                                <DropdownItem>Move to Completed List</DropdownItem>
                                                             </DropdownMenu>
                                                         </UncontrolledDropdown>
                                                     </Col>
@@ -91,14 +100,19 @@ class CHCourseListsCard extends Component {
                                             <Col md={9}>
                                                 <Row>
                                                     COURSE
-                                                    <Col style={{fontSize: "15px"}} >
-                                                        <UncontrolledDropdown style={{float: "right"}} >
-                                                            <DropdownToggle className="profile-list-dropdown-toggle">
-                                                                <FontAwesomeIcon icon={faExchangeAlt} className="exchange-sign"/>
+                                                    <Col md={1}></Col>
+                                                    <Col md={10}>
+                                                        <UncontrolledDropdown >
+                                                            <DropdownToggle className="course-list-button" style={{float: "right"}}>
+                                                                    <span style={{fontSize: "27px", padding: "0"}}>
+                                                                        <FontAwesomeIcon icon={faExchangeAlt} style={{color: "grey", height: "20px"}} className="exchange-sign"/>
+                                                                    </span>
                                                             </DropdownToggle>
-                                                            <DropdownMenu style={{marginTop: "0"}}>
-                                                                <DropdownItem header style={{color: "blue", fontSize: "15px"}}>Lists</DropdownItem>
+                                                            <DropdownMenu style={{marginLeft: "66%", marginTop: "7%"}}>
+                                                                <DropdownItem header style={{color: "blue", fontSize: "15px"}}>Switch List</DropdownItem>
                                                                 <DropdownItem divider />
+                                                                <DropdownItem>Move to Favorites List</DropdownItem>
+                                                                <DropdownItem>Move to Completed List</DropdownItem>
                                                             </DropdownMenu>
                                                         </UncontrolledDropdown>
                                                     </Col>
@@ -149,27 +163,21 @@ class CHCourseListsCard extends Component {
                                                 <Image className="profile-list-course-image" src={item.CourseImage || 'https://increasify.com.au/wp-content/uploads/2016/08/default-image.png'} />
                                             </Col>
                                             <Col md={9}>
-                                                <Row style={{padding: "0"}}>
+                                                <Row>
                                                     COURSE
-                                                    {/*<UncontrolledDropdown style={{float: "right"}} >*/}
-                                                        {/*<DropdownToggle className="course-list-button" >*/}
-                                                                    {/*<span style={{fontSize: "27px",}}>*/}
-                                                                        {/*<FontAwesomeIcon icon={faExchangeAlt} style={{float: "right"}} className="exchange-sign"/>*/}
-                                                                    {/*</span>*/}
-                                                        {/*</DropdownToggle>*/}
-                                                        {/*<DropdownMenu style={{marginTop: "0"}}>*/}
-                                                            {/*<DropdownItem header style={{color: "blue", fontSize: "15px"}}>Lists</DropdownItem>*/}
-                                                            {/*<DropdownItem divider />*/}
-                                                        {/*</DropdownMenu>*/}
-                                                    {/*</UncontrolledDropdown>*/}
-                                                    <Col style={{fontSize: "15px"}} >
-                                                        <UncontrolledDropdown style={{float: "right"}} >
-                                                            <DropdownToggle className="profile-list-dropdown-toggle">
-                                                                <FontAwesomeIcon icon={faExchangeAlt} className="exchange-sign"/>
+                                                    <Col md={1}></Col>
+                                                    <Col md={10}>
+                                                        <UncontrolledDropdown >
+                                                            <DropdownToggle className="course-list-button" style={{float: "right"}}>
+                                                                    <span style={{fontSize: "27px", padding: "0"}}>
+                                                                        <FontAwesomeIcon icon={faExchangeAlt} style={{color: "grey", height: "20px"}} className="exchange-sign"/>
+                                                                    </span>
                                                             </DropdownToggle>
-                                                            <DropdownMenu style={{marginTop: "0"}}>
-                                                                <DropdownItem header style={{color: "blue", fontSize: "15px"}}>Lists</DropdownItem>
+                                                            <DropdownMenu style={{marginLeft: "66%", marginTop: "7%"}}>
+                                                                <DropdownItem header style={{color: "blue", fontSize: "15px"}}>Switch List</DropdownItem>
                                                                 <DropdownItem divider />
+                                                                <DropdownItem>Move to Favorites List</DropdownItem>
+                                                                <DropdownItem>Move to In-Progress List</DropdownItem>
                                                             </DropdownMenu>
                                                         </UncontrolledDropdown>
                                                     </Col>
