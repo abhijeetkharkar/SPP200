@@ -164,13 +164,33 @@
 }
 
     .favorites-courses-card{
-        box-shadow: 0 5px 1px 0 rgba(240, 238, 0, 0.8);
+        box-shadow: 10px 10px 10px 0 rgba(240, 238, 0, 0.8);
     }
 
     .taking-courses-card{
-        box-shadow: 0 5px 1px 0 rgba(0, 1, 240, 0.8);
+        box-shadow: 10px 10px 10px 0 rgba(0, 1, 240, 0.8);
     }
 
     .completed-courses-card{
-        box-shadow: 0 5px 1px 0 rgba(28, 240, 0, 0.8);
+        box-shadow: 10px 10px 10px 0 rgba(28, 240, 0, 0.8);
     }
+
+    .profile-course-list-item{
+        margin-bottom: 1%;
+        padding-top: 1%;
+        padding-bottom: 1%;
+        border-top: 1px solid lightgrey;
+        text-align: left;
+    }
+
+        .profile-list-course-image{
+            max-width: 220px;
+            max-height: 200px;
+        }
+
+        .profile-list-course-title a, .profile-list-course-title a:hover{
+            color: rgb(82, 85, 177);
+            font-weight: bold;
+            font-size: 1.2rem;
+            text-decoration: none;
+        }

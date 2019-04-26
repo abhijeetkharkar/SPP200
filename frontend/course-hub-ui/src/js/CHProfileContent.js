@@ -39,6 +39,9 @@ class ProfileContent extends Component {
             state: "",
             zip_code: "",
             bio: "",
+            favoriteList: [],
+            inProgressList: [],
+            completedList: [],
             old_password: "",
             new_password: "",
             confirm_password: "",
@@ -66,6 +69,9 @@ class ProfileContent extends Component {
             this.setState({state: ((elasticData.Address != null && elasticData.Address.State != null) ? elasticData.Address.State : '')});
             this.setState({zip_code: ((elasticData.Address != null && elasticData.Address.ZipCode != null) ? elasticData.Address.ZipCode : '')});
             this.setState({bio: ((elasticData.Bio != null) ? elasticData.Bio : "I am a greatest Software in the World of Engineer")});
+            this.setState({favoriteList: ((elasticData.FavouriteCourses != null) ? elasticData.FavouriteCourses : [])});
+            this.setState({inProgressList: ((elasticData.CoursesinProgress != null) ? elasticData.CoursesinProgress : [])});
+            this.setState({completedList: ((elasticData.CoursesTaken != null) ? elasticData.CoursesTaken : [])});
             this.handleImageChange();
 
         }).catch(error => {
@@ -390,7 +396,7 @@ class ProfileContent extends Component {
                                         </Col>
                                     </Row>
                                 </div>
-                                <CHCourseListsCard email={this.state.email}/>
+                                <CHCourseListsCard email={this.state.email} favoriteList={this.state.favoriteList} inProgressList={this.state.inProgressList} completedList={this.state.completedList}/>
                                 <CHDeactivateCard email={this.state.email}/>
                             </Col>
                         </Row>

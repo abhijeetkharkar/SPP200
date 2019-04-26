@@ -148,7 +148,9 @@
 				margin-left: 4%;
 			}
 
-			.search-results-course-data-rating {
+			.profile-course-data-rating {
+				padding: 0;
+				font-size: 15px;
 				margin-left: 4%;
 				float: left;
 			}
