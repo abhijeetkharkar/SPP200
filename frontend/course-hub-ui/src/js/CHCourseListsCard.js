@@ -1,10 +1,11 @@
 import {Button, Card, Col, Form, Image, Row} from "react-bootstrap";
 import React, {Component} from "react";
-import '../css/profile.css';
-import {faClock, faBars} from "@fortawesome/free-solid-svg-icons";
+import {faCheck, faClock, faExchangeAlt, faListAlt, faStar} from "@fortawesome/free-solid-svg-icons";
 import {faWater} from "@fortawesome/free-solid-svg-icons";
 import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import StarRatingComponent from 'react-star-rating-component';
+import {DropdownItem, DropdownMenu, DropdownToggle, UncontrolledDropdown} from "reactstrap";
+import '../css/profile.css';
 
 
 class CHCourseListsCard extends Component {
@@ -30,6 +31,17 @@ class CHCourseListsCard extends Component {
                                             <Col md={9}>
                                                 <Row>
                                                     COURSE
+                                                    <Col style={{fontSize: "15px"}} >
+                                                        <UncontrolledDropdown style={{float: "right"}} >
+                                                            <DropdownToggle className="profile-list-dropdown-toggle">
+                                                                <FontAwesomeIcon icon={faExchangeAlt} className="exchange-sign"/>
+                                                            </DropdownToggle>
+                                                            <DropdownMenu style={{marginTop: "0"}}>
+                                                                <DropdownItem header style={{color: "blue", fontSize: "15px"}}>Lists</DropdownItem>
+                                                                <DropdownItem divider />
+                                                            </DropdownMenu>
+                                                        </UncontrolledDropdown>
+                                                    </Col>
                                                 </Row>
                                                 <Row className="profile-list-course-title">
                                                     <a href="" onClick={ () => this.props.updateContent('coursedetails',null,null,item.CourseId)}>{item.Title}</a>
@@ -79,6 +91,17 @@ class CHCourseListsCard extends Component {
                                             <Col md={9}>
                                                 <Row>
                                                     COURSE
+                                                    <Col style={{fontSize: "15px"}} >
+                                                        <UncontrolledDropdown style={{float: "right"}} >
+                                                            <DropdownToggle className="profile-list-dropdown-toggle">
+                                                                <FontAwesomeIcon icon={faExchangeAlt} className="exchange-sign"/>
+                                                            </DropdownToggle>
+                                                            <DropdownMenu style={{marginTop: "0"}}>
+                                                                <DropdownItem header style={{color: "blue", fontSize: "15px"}}>Lists</DropdownItem>
+                                                                <DropdownItem divider />
+                                                            </DropdownMenu>
+                                                        </UncontrolledDropdown>
+                                                    </Col>
                                                 </Row>
                                                 <Row className="profile-list-course-title">
                                                     <a href="" onClick={ () => this.props.updateContent('coursedetails',null,null,item.CourseId)}>{item.Title}</a>
@@ -128,8 +151,27 @@ class CHCourseListsCard extends Component {
                                             <Col md={9}>
                                                 <Row style={{padding: "0"}}>
                                                     COURSE
-                                                    <Col style={{fontSize: "20px"}}>
-                                                        <FontAwesomeIcon icon={faBars} style={{float: "right"}}/>
+                                                    {/*<UncontrolledDropdown style={{float: "right"}} >*/}
+                                                        {/*<DropdownToggle className="course-list-button" >*/}
+                                                                    {/*<span style={{fontSize: "27px",}}>*/}
+                                                                        {/*<FontAwesomeIcon icon={faExchangeAlt} style={{float: "right"}} className="exchange-sign"/>*/}
+                                                                    {/*</span>*/}
+                                                        {/*</DropdownToggle>*/}
+                                                        {/*<DropdownMenu style={{marginTop: "0"}}>*/}
+                                                            {/*<DropdownItem header style={{color: "blue", fontSize: "15px"}}>Lists</DropdownItem>*/}
+                                                            {/*<DropdownItem divider />*/}
+                                                        {/*</DropdownMenu>*/}
+                                                    {/*</UncontrolledDropdown>*/}
+                                                    <Col style={{fontSize: "15px"}} >
+                                                        <UncontrolledDropdown style={{float: "right"}} >
+                                                            <DropdownToggle className="profile-list-dropdown-toggle">
+                                                                <FontAwesomeIcon icon={faExchangeAlt} className="exchange-sign"/>
+                                                            </DropdownToggle>
+                                                            <DropdownMenu style={{marginTop: "0"}}>
+                                                                <DropdownItem header style={{color: "blue", fontSize: "15px"}}>Lists</DropdownItem>
+                                                                <DropdownItem divider />
+                                                            </DropdownMenu>
+                                                        </UncontrolledDropdown>
                                                     </Col>
                                                 </Row>
                                                 <Row className="profile-list-course-title">
