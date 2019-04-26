@@ -2,7 +2,7 @@
 #homeHeader {
     position: fixed;
     width: 100%;
-	background-color: #292c2f;
+	background-color: black;
 	z-index: 10 !important;
 }
 
@@ -104,24 +104,23 @@
 		top: 35%;
 		width: 29%;
 		position: absolute;
-		background-color: #292c2f !important;
+		background-color: black !important;
 	}
 	
 		.my-nav-tabs {
 			/*width: 10%;*/
-			background-color: rgb(241, 239, 108) !important;
-			color: black !important;
+			background-color: #4494ff !important;
+			color: white !important;
 			border: 1px solid transparent !important;
-			border-color: rgb(124, 123, 30) !important;
 			border-radius: 4px !important;
 			margin: auto 1% !important;
 			font-size: 15px !important;
 			float: right !important;
 		}
 
-			.my-nav-tabs:hover {    
-				background-color: rgb(124, 123, 30) !important;
-				border-color: rgb(241, 239, 108) !important;
+			.my-nav-tabs:hover {
+				background-color: #007bff !important;
+				border-color: #006fe2 !important;
 			}
 
 @media (max-width: 1000px) {
