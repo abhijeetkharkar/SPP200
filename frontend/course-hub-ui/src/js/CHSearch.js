@@ -279,7 +279,7 @@ class CHSearch extends Component {
 				{choice === "home" &&
 					[<CHNavigator updateContent={this.handleClick} navCallBack={this.toggleModal} updatePage={this.handlePagination} signedIn={false} caller={"search"} firstName={firstName} email={email} key="keyNavigatorSearch" />,
                     <CHCompareModal updateContent={this.handleClick} isModalOpen={this.state.isOpen} closeModal={this.toggleModal} modalCompareList={this.state.compareList} removeFromModal={this.removeCourseFromModal} />,
-					<div className="my-content-landing" key="keySearchContent">
+					<div className="search-content-landing" key="keySearchContent">
 						<CHFilters updateContent={this.handleClick} updateFilter={this.handleFilter} searchString={searchString}/>
 						<CHSearchContent  updateContent={this.handleClick} searchCompareList={this.state.compareList}
                                           addToCompare={this.addCourseToCompare} removeFromCompare={this.removeCourseFromCompare} updatePage={this.handlePagination} firstName={firstName} email={email} searchString={searchString} pageNumber={pageNumber} filters={filters} />
@@ -291,7 +291,7 @@ class CHSearch extends Component {
 				{choice === "loginScreen" &&
 					[<LoginPage updateContent={this.handleClick} key="keyLoginOverlayOnSearch" searchString={searchString}/>,
 					<CHNavigator updateContent={this.handleClick} updatePage={this.handlePagination} signedIn={false} caller={"search"} key="keyNavigatorLoginOverlayOnSearch" />,
-					<div className="my-content-landing" key="keyContentLoginOverlayOnSearch">
+					<div className="search-content-landing" key="keyContentLoginOverlayOnSearch">
 						<CHFilters updateContent={this.handleClick} updateFilter={this.handleFilter} searchString={searchString} />
 						<CHSearchContent updateContent={this.handleClick} searchCompareList={this.state.compareList} updatePage={this.handlePagination} firstName={firstName} email={email} searchString={searchString} pageNumber={pageNumber} filters={filters}/>
 						<CHAdvertisements updateContent={this.handleClick} />
@@ -302,7 +302,7 @@ class CHSearch extends Component {
 				{choice === "signupScreen" &&
 					[<SignupPage updateContent={this.handleClick} key="keySignUpOverlayOnSearch" searchString={searchString} />,
 					<CHNavigator updateContent={this.handleClick} updatePage={this.handlePagination} signedIn={false} caller={"search"} key="keyNavigatorSignUpOverlayOnSearch" />,
-					<div className="my-content-landing" key="keyContentSignUpOverlayOnSearch">
+					<div className="search-content-landing" key="keyContentSignUpOverlayOnSearch">
 						<CHFilters updateContent={this.handleClick} updateFilter={this.handleFilter} searchString={searchString} />
 						<CHSearchContent updateContent={this.handleClick} searchCompareList={this.state.compareList} updatePage={this.handlePagination} firstName={firstName} email={email} searchString={searchString} pageNumber={pageNumber} filters={filters}/>
 						<CHAdvertisements updateContent={this.handleClick} />
@@ -313,7 +313,7 @@ class CHSearch extends Component {
 				{choice === "forgotPasswordScreen" &&
 					[<ForgotPasswordPage updateContent={this.handleClick} key="keyForgotPasswordOverlayOnSearch" searchString={searchString} />,
 					<CHNavigator updateContent={this.handleClick} updatePage={this.handlePagination} signedIn={false} caller={"search"} key="keyNavigatorForgotPasswordOverlayOnSearch" />,
-					<div className="my-content-landing" key="keyContentForgotPasswordOverlayOnSearch">
+					<div className="search-content-landing" key="keyContentForgotPasswordOverlayOnSearch">
 						<CHFilters updateContent={this.handleClick} updateFilter={this.handleFilter} searchString={searchString} />
 						<CHSearchContent updateContent={this.handleClick} searchCompareList={this.state.compareList} updatePage={this.handlePagination} firstName={firstName} email={email} searchString={searchString} pageNumber={pageNumber} filters={filters}/>
 						<CHAdvertisements updateContent={this.handleClick} />
@@ -324,7 +324,7 @@ class CHSearch extends Component {
 				{choice === "homeSignedIn" &&
 					[<CHNavigator updateContent={this.handleClick} navCallBack={this.toggleModal} updatePage={this.handlePagination} signedIn={firstName != null} caller={"search"} firstName={firstName} email={email} key="keyNavigatorSearch" />,
                      <CHCompareModal updateContent={this.handleClick} isModalOpen={this.state.isOpen} closeModal={this.toggleModal} modalCompareList={this.state.compareList} removeFromModal={this.removeCourseFromModal} />, ,
-					<div className="my-content-landing" key="keySearchContent">
+					<div className="search-content-landing" key="keySearchContent">
 						<CHFilters updateContent={this.handleClick} updateFilter={this.handleFilter} searchString={searchString} />
 						<CHSearchContent updateContent={this.handleClick} searchCompareList={this.state.compareList}
                                          addToCompare={this.addCourseToCompare} removeFromCompare={this.removeCourseFromCompare} updatePage={this.handlePagination} firstName={firstName} email={email} searchString={searchString} pageNumber={pageNumber} filters={filters}
