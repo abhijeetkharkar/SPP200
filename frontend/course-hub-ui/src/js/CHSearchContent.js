@@ -6,7 +6,7 @@ import {Table, Image, Pagination, Button, Row, Col} from 'react-bootstrap';
 import { UncontrolledDropdown, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import StarRatingComponent from 'react-star-rating-component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faListAlt, faCaretDown, faCheck, faStar, faClock } from '@fortawesome/free-solid-svg-icons'
+import {faListAlt, faCaretDown, faCheck, faStar, faClock, faWater} from '@fortawesome/free-solid-svg-icons'
 import Form from "react-bootstrap/FormControl";
 
 const fetch = require('node-fetch');
@@ -131,79 +131,97 @@ class CHSearchContent extends Component {
                             this.state.courses.length > 0 ?
                                 this.state.courses.map(item => {
                                     return (
-                                        <tr key={item.CourseId}>
-                                            <td className="search-results-course-image">
-                                                <Image src={item.CourseImage || 'https://increasify.com.au/wp-content/uploads/2016/08/default-image.png'} fluid />;
-                                            </td>
-                                            <td className="search-results-course-data">
-                                                <Row>
-                                                    <Col><p className="search-results-course-data-type">{"Course"}</p></Col>
-                                                    <Col>
-                                                        {(this.props.favorite_list && this.props.in_progress_list && this.props.completed_list) ? (
-                                                            <UncontrolledDropdown style={{float: "right"}} >
-                                                                <DropdownToggle className="course-list-button" >
-                                                                    <span style={{fontSize: "27px",}}>
-                                                                        {
-                                                                            (this.props.favorite_list.map(function(obj){ return obj.CourseId }).includes(item.CourseId)) && <FontAwesomeIcon icon={faStar} style={{color: "yellow"}}/>
-                                                                            || (this.props.in_progress_list.map(function(obj){ return obj.CourseId }).includes(item.CourseId)) && <FontAwesomeIcon icon={faClock} style={{color: "deepskyblue"}}/>
-                                                                            || (this.props.completed_list.map(function(obj){ return obj.CourseId }).includes(item.CourseId)) && <FontAwesomeIcon icon={faCheck} style={{color: "#00d207"}}/>
-                                                                            ||  <FontAwesomeIcon icon={faListAlt} style={{color: "Dodgerblue"}}/>
-                                                                        }
-                                                                    </span>
-                                                                </DropdownToggle>
-                                                                <DropdownMenu style={{marginTop: "0"}}>
-                                                                    <DropdownItem header style={{color: "blue", fontSize: "15px"}}>Lists</DropdownItem>
-                                                                    <DropdownItem divider />
-                                                                    <ul style={{listStyleType: "none", padding: "0", paddingLeft: "15px"}}>
-                                                                        <li>
-                                                                            <input id="course-radio-1" className="course-radio" type="radio" name="course-list" value="1" onClick={() => {this.props.addCourseToList("1", item)}} /> Favorite
-                                                                        </li>
-                                                                        <li>
-                                                                            <input id="course-radio-2" className="course-radio" type="radio" name="course-list" value="2" onClick={() => {this.props.addCourseToList("2", item)}} /> In Progress
-                                                                        </li>
-                                                                        <li>
-                                                                            <input id="course-radio-3" className="course-radio" type="radio" name="course-list" value="3" onClick={() => {this.props.addCourseToList("3", item)}} /> Completed
-                                                                        </li>
-                                                                    </ul>
-                                                                    <DropdownItem divider />
-                                                                    <Button variant="link" className="course-list-clear-button" onClick={() => {this.props.clearCourseFromLists(item)}}>Clear</Button>
-                                                                </DropdownMenu>
-                                                            </UncontrolledDropdown>
-                                                        ) : ([]) }
-                                                    </ Col>
-                                                </Row>
-                                                {/* <p className="search-results-course-data-name">{item.Title}</p>    */}
-                                                <p className="search-results-course-data-name"><Button className="search-results-course-data-name-link" variant="link" onClick={ () => this.props.updateContent('coursedetails',null,null,item.CourseId)}>{item.Title}</Button></p>
-                                                <p className="search-results-course-data-short-provider-instructors">{"Provider: " +  item.CourseProvider + " | Taught By: " + (item.Instructors? item.Instructors.map(item => item.InstructorName).toString(): "")}</p>
-                                                {/* <p className="search-results-course-data-short-description">{item.Description}</p> */}
-                                                <span>
-                                                    <p className="search-results-course-data-duration">
-                                                        <FontAwesomeIcon icon={['fa', 'clock']} color='rgb(207, 204, 19)' />{item.CourseDuration? " " + item.CourseDuration.Value + " " + item.CourseDuration.Unit: " 1 hr"}
-                                                    </p>
-                                                    <p className="search-results-course-data-difficulty">{item.Difficulty ? item.Difficulty.toUpperCase(): ""}</p>
-                                                    <span className="search-results-course-data-rating">
-                                                        <StarRatingComponent
-                                                            name={"search-results-course-rating"}
-                                                            starCount={5}
-                                                            value={item.Rating}
-                                                            editing={false}
-                                                            emptyStarColor={"#5e5d25"}
-                                                            style = {{position: "inherit !important"}}
-                                                            />
+                                        <div className="search-content-course-item">
+                                            <tr key={item.CourseId} >
+                                                <td className="search-results-course-image">
+                                                    <Image src={item.CourseImage || 'https://increasify.com.au/wp-content/uploads/2016/08/default-image.png'} fluid />;
+                                                </td>
+                                                <td className="search-results-course-data">
+                                                    <Row>
+                                                        <Col md={12}>
+                                                            COURSE
+                                                            {(this.props.favorite_list && this.props.in_progress_list && this.props.completed_list) ? (
+                                                                <UncontrolledDropdown style={{float: "right"}} >
+                                                                    <DropdownToggle className="course-list-button" >
+                                                                        <span style={{fontSize: "27px", zIndex: "1"}}>
+                                                                            {
+                                                                                (this.props.favorite_list.map(function(obj){ return obj.CourseId }).includes(item.CourseId)) && <FontAwesomeIcon icon={faStar} style={{color: "yellow"}}/>
+                                                                                || (this.props.in_progress_list.map(function(obj){ return obj.CourseId }).includes(item.CourseId)) && <FontAwesomeIcon icon={faClock} style={{color: "deepskyblue"}}/>
+                                                                                || (this.props.completed_list.map(function(obj){ return obj.CourseId }).includes(item.CourseId)) && <FontAwesomeIcon icon={faCheck} style={{color: "#00d207"}}/>
+                                                                                ||  <FontAwesomeIcon icon={faListAlt} style={{color: "Dodgerblue"}}/>
+                                                                            }
+                                                                        </span>
+                                                                    </DropdownToggle>
+                                                                    <DropdownMenu style={{marginTop: "0", zIndex: "2"}}>
+                                                                        <DropdownItem header style={{color: "blue", fontSize: "15px"}}>Lists</DropdownItem>
+                                                                        <DropdownItem divider />
+                                                                        <ul style={{listStyleType: "none", padding: "0", paddingLeft: "15px"}}>
+                                                                            <li>
+                                                                                <input id="course-radio-1" className="course-radio" type="radio" name="course-list" value="1" onClick={() => {this.props.addCourseToList("1", item)}} /> Favorite
+                                                                            </li>
+                                                                            <li>
+                                                                                <input id="course-radio-2" className="course-radio" type="radio" name="course-list" value="2" onClick={() => {this.props.addCourseToList("2", item)}} /> In Progress
+                                                                            </li>
+                                                                            <li>
+                                                                                <input id="course-radio-3" className="course-radio" type="radio" name="course-list" value="3" onClick={() => {this.props.addCourseToList("3", item)}} /> Completed
+                                                                            </li>
+                                                                        </ul>
+                                                                        <DropdownItem divider />
+                                                                        <Button variant="link" className="course-list-clear-button" onClick={() => {this.props.clearCourseFromLists(item)}}>Clear</Button>
+                                                                    </DropdownMenu>
+                                                                </UncontrolledDropdown>
+                                                            ) : ([]) }
+                                                        </Col>
+                                                    </Row>
+                                                    <Row>
+                                                        <Button className="search-results-course-data-name" variant="link" onClick={ () => this.props.updateContent('coursedetails',null,null,item.CourseId)}>{item.Title}</Button>
+                                                    </Row>
+                                                    <Row style={{marginLeft: "0", fontSize: "13px"}}>
+                                                        <strong>Provider</strong>: {item.CourseProvider}&nbsp;&nbsp;|&nbsp;&nbsp;
+                                                        <strong>Taught By</strong>: {(item.Instructors? item.Instructors.map(item => " " + item.InstructorName ).splice(0, 3).toString(): " ")}
+                                                        {/*<p className="search-results-course-data-short-provider-instructors">{"Provider: " +  item.CourseProvider + " | Taught By: " + (item.Instructors? item.Instructors.map(item => item.InstructorName).toString(): "")}</p>*/}
+                                                    </Row>
+                                                    {/* <p className="search-results-course-data-short-description">{item.Description}</p> */}
+                                                    <span>
+                                                        <br/>
+                                                        <Row>
+                                                            <Col md={9}>
+                                                                <Row style={{marginLeft: "0"}}>
+                                                                <FontAwesomeIcon icon={faClock} style={{color: "grey", height: "18px", width: "18px"}}/> &nbsp; {item.CourseDuration? " " + item.CourseDuration.Value + " " + item.CourseDuration.Unit: " 1 hr"}
+                                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                <FontAwesomeIcon icon={faWater} style={{color: "grey", height: "20px", width: "20px", fontWeight: "bold"}}/> &nbsp; {item.Difficulty ? item.Difficulty.toUpperCase(): ""}&nbsp;
+                                                                <span className="profile-course-data-rating">
+                                                                    <StarRatingComponent
+                                                                        starCount={5}
+                                                                        value={item.Rating + 1}
+                                                                        editing={false}
+                                                                        emptyStarColor={"grey"}
+                                                                        style = {{position: "inherit !important"}}
+                                                                        size='2x'
+                                                                    />
+                                                                </span>
+                                                                </Row>
+                                                            </Col>
+                                                            <Col md={3}>
+                                                                <span style={{float: "right"}}>
+                                                                    {(this.props.searchCompareList.map(function(obj){ return obj.CourseId }).includes(item.CourseId)) ? (
+                                                                        <Button className="btn btn-danger add-to-compare-button" onClick={() => {this.props.removeFromCompare(item)}}>
+                                                                            Remove from Compare
+                                                                        </Button>
+                                                                    ) : (
+                                                                        <Button disabled={this.props.searchCompareList.length === 3} className="btn btn-warning add-to-compare-button"
+                                                                                onClick={() => {this.props.addToCompare(item)}}>
+                                                                            Add to Compare
+                                                                        </Button>
+                                                                    )}
+                                                                </span>
+                                                            </Col>
+                                                        </Row>
+
                                                     </span>
-                                                    {(this.props.searchCompareList.map(function(obj){ return obj.CourseId }).includes(item.CourseId)) ? (
-                                                        <Button className="btn btn-danger add-to-compare-button" onClick={() => {this.props.removeFromCompare(item)}}>
-                                                            Remove from Compare
-                                                        </Button>
-                                                    ) : (
-                                                        <Button disabled={this.props.searchCompareList.length === 3} className="btn btn-warning add-to-compare-button"
-                                                                onClick={() => {this.props.addToCompare(item)}}>
-                                                            Add to Compare
-                                                        </Button>
-                                                    )}
-                                                </span>
-                                            </td>
-                                        </tr>
+                                                </td>
+                                            </tr>
+                                        </div>
                                     );
                                 }) :
                                 []

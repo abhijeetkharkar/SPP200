@@ -18,6 +18,7 @@ class CHProfile extends Component {
             choice: '',
             firstName: '',
             email: '',
+            queryString: '',
         };
         this.handleAuthStateChange = this.handleAuthStateChange.bind(this);
     }
@@ -27,9 +28,8 @@ class CHProfile extends Component {
         firebaseInitialization.auth().onAuthStateChanged(user => self.handleAuthStateChange(user));
     }
 
-    handleClick = (choice, firstName, email) => {
-        console.log('In handle click');
-        this.setState({ choice: choice, firstName: firstName, email: email});
+    handleClick = (choice, firstName, email, queryString) => {
+        this.setState({ choice: choice, firstName: firstName, email: email, queryString: queryString});
     };
 
     handleAuthStateChange = user => {
@@ -77,6 +77,9 @@ class CHProfile extends Component {
                         </div>,
                         <CHFooter key="keyFooterLandingContent" />,
                     ]
+                }
+                {
+                    choice === "coursedetails" && this.props.history.push('/course?courseId=' + this.state.queryString )
                 }
 
             </div>
