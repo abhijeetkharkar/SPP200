@@ -362,6 +362,9 @@ class CHSearch extends Component {
 						<CHFilters updateContent={this.handleClick} updateFilter={this.handleFilter} searchString={searchString} />
 						<CHSearchContent updateContent={this.handleClick} searchCompareList={this.state.compareList}
 										 addToCompare={this.addCourseToCompare} removeFromCompare={this.removeCourseFromCompare} 
+										 favorite_list={this.state.favoriteList} in_progress_list={this.state.inProgressList} 
+										 completed_list={this.state.completedList} 
+										 addCourseToList={this.addCourseToList} clearCourseFromLists={this.clearCourseFromLists}
 										 updatePage={this.handlePagination} firstName={firstName} email={email} 
 										 searchString={searchString} pageNumber={pageNumber} filters={filters}
 										 updateSort={this.handleSort} sorter={sorter}/>

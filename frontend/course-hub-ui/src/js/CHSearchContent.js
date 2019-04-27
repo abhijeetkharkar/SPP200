@@ -143,7 +143,7 @@ class CHSearchContent extends Component {
                     <thead>
                         <tr>
                             <th colSpan="2">
-                                <p className="search-results-table-header">{this.state.totalCourses + " results for '" + this.props.searchString + "'"}</p>
+                                <p className="search-results-table-header-name">{this.state.totalCourses + " results for '" + this.props.searchString + "'"}</p>
                                 <Dropdown className="search-results-table-header-sort">
                                     <Dropdown.Toggle className="search-results-table-header-sort-toggle" variant="warning">
                                         Sort By
@@ -237,7 +237,7 @@ class CHSearchContent extends Component {
                                                                         editing={false}
                                                                         emptyStarColor={"grey"}
                                                                         style = {{position: "inherit !important"}}
-                                                                        size='2x'
+                                                                        size='3x'
                                                                     />
                                                                 </span>
                                                                 </Row>
