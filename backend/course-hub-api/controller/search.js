@@ -70,7 +70,7 @@ exports.autosuggest = function (request, response) {
     }
 }
 
-getcourses = async function (searchterm, difficulty) {
+const getcourses = async function (searchterm, difficulty) {
     const url = config.elasticsearch.endpoint + 'courses/_search'
     const searchquery = {
         query: {
@@ -103,7 +103,6 @@ getcourses = async function (searchterm, difficulty) {
         headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' }
     }).then(res => {
         // console.log('search query: ', JSON.stringify(searchquery))
-        // console.log("StatusCode: ", res.status);
         if (res.status == 200) {
             return res.json();
         } else {
@@ -111,6 +110,7 @@ getcourses = async function (searchterm, difficulty) {
         }
     }).then(body => {
         // console.log("STATUS CHECK 1");
+        console.log("!!!!!!!!!!!!!!!!!!!Response!!!!!!!!!!!!!!!!!!!!!!!!!: ", body);
         if (body.status != undefined && body.status != 200) {
             return body;
         }
@@ -161,6 +161,7 @@ exports.microdegree = async (request, response) => {
         getcourses(searchterm, 'Introductory').then(res => {
             microdegrees["Introcourses"] = res;
             getcourses(searchterm, 'Intermediate').then(res => {
+                console.log("RESPONSE======================", res);
                 microdegrees["Intermediatecourses"] = res;
                 getcourses(searchterm, 'Advanced').then(res => {
                     microdegrees["Advancedcourses"] = res;
@@ -262,3 +263,5 @@ exports.microdegree = async (request, response) => {
         });
     }
 }
+
+module.exports.getcourses = getcourses;

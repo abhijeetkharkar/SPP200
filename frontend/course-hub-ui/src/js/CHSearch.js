@@ -19,6 +19,7 @@ class CHSearch extends Component {
 
 	constructor(props, context) {
 		super(props, context);
+		console.log("In search constructor");
 		const values = queryString.parse(this.props.location.search);
 		this.state = {
 			choice: '',
@@ -34,12 +35,15 @@ class CHSearch extends Component {
 			filtersApplied: values.courseproviders || values.minPrice || values.maxPrice || values.startDate || values.endDate,
 			isOpen: false,
             compareList: (JSON.parse(sessionStorage.getItem("compareList"))) ?
-                JSON.parse(sessionStorage.getItem("compareList")) : [],
+				JSON.parse(sessionStorage.getItem("compareList")) : [],
+			sortParam: values.sortParam ? parseInt(values.sortParam): '',
+			sortApplied: false
 		};
-		console.log("In search constructor");
+
 		this.handleClick = this.handleClick.bind(this);
 		this.handlePagination = this.handlePagination.bind(this);
 		this.handleFilter = this.handleFilter.bind(this);
+		this.handleSort = this.handleSort.bind(this);
 		this.handleAuthStateChange = this.handleAuthStateChange.bind(this);
 		this.addCourseToCompare = this.addCourseToCompare.bind(this);
 		this.removeCourseFromCompare = this.removeCourseFromCompare.bind(this);
@@ -80,21 +84,35 @@ class CHSearch extends Component {
 	}
 
 	handleFilter = (searchString,pageNumber,filters) =>{
-		this.setState({pageNumber: pageNumber});
 		this.setState({
+			pageNumber: pageNumber,
 			courseproviders: filters.courseproviders, 
 			minprice:filters.minprice, 
 			maxprice:filters.maxprice,
 			startdate:filters.startdate,
 			enddate:filters.enddate, 
-			filtersApplied: true});
+			filtersApplied: true}, this.props.history.push('/search?searchString=' + searchString + "&pageNumber=" + pageNumber+
+		"&courseproviders=" + filters.courseproviders.toString() +
+		"&minPrice=" + filters.minprice + 
+		"&maxPrice=" + filters.maxprice +
+		"&startDate=" + filters.startdate +
+		"&endDate=" + filters.enddate));
+	}
 
-		this.props.history.push('/search?searchString=' + searchString + "&pageNumber=" + pageNumber+
-		"&courseproviders" + filters.courseproviders.toString() +
-		"&minPrice" + filters.minprice + 
-		"&maxPrice" + filters.maxprice +
-		"&startDate" + filters.startdate +
-		"&endDate" + filters.enddate);
+	handleSort = (searchString, pageNumber, sortBy) =>{
+		// console.log("In CHSearch, handleSort called");
+		this.setState({
+			pageNumber: pageNumber, 
+			sortParam: sortBy,
+			sortApplied: true,
+			filtersApplied: true},	this.props.history.push('/search?searchString=' + searchString + 
+																	"&pageNumber=" + pageNumber+
+																	"&courseproviders=" + this.state.courseproviders.toString() +
+																	"&minPrice=" + this.state.minprice + 
+																	"&maxPrice=" + this.state.maxprice +
+																	"&startDate=" + this.state.startdate +
+																	"&endDate=" + this.state.enddate +
+																	"&sortParam=" + sortBy));
 	}
 
 	handlePagination = (searchString, pageNumber) => {
@@ -142,6 +160,10 @@ class CHSearch extends Component {
 			startDate: this.state.startdate,
 			endDate: this.state.enddate
 		};
+		const sorter = {
+			sortApplied: this.state.sortApplied, 
+			sortParam: this.state.sortParam
+		};
 
 		// console.log("In CHSearch, render called, pagenumber:", pageNumber, ", choice:", choice, ", searchString:", searchString);
 		return (
@@ -152,7 +174,10 @@ class CHSearch extends Component {
 					<div className="my-content-landing" key="keySearchContent">
 						<CHFilters updateContent={this.handleClick} updateFilter={this.handleFilter} searchString={searchString}/>
 						<CHSearchContent  updateContent={this.handleClick} searchCompareList={this.state.compareList}
-                                          addToCompare={this.addCourseToCompare} removeFromCompare={this.removeCourseFromCompare} updatePage={this.handlePagination} firstName={firstName} email={email} searchString={searchString} pageNumber={pageNumber} filters={filters}/>
+										  addToCompare={this.addCourseToCompare} removeFromCompare={this.removeCourseFromCompare} 
+										  updatePage={this.handlePagination} firstName={firstName} email={email} 
+										  searchString={searchString} pageNumber={pageNumber} filters={filters}
+										  updateSort={this.handleSort} sorter={sorter}/>
 						<CHAdvertisements updateContent={this.handleClick} />
 					</div>,
 					<CHFooter key="keyFooterSearch" />]
@@ -163,7 +188,10 @@ class CHSearch extends Component {
 					<CHNavigator updateContent={this.handleClick} updatePage={this.handlePagination} signedIn={false} caller={"search"} key="keyNavigatorLoginOverlayOnSearch" />,
 					<div className="my-content-landing" key="keyContentLoginOverlayOnSearch">
 						<CHFilters updateContent={this.handleClick} updateFilter={this.handleFilter} searchString={searchString} />
-						<CHSearchContent updateContent={this.handleClick} searchCompareList={this.state.compareList} updatePage={this.handlePagination} firstName={firstName} email={email} searchString={searchString} pageNumber={pageNumber} filters={filters}/>
+						<CHSearchContent updateContent={this.handleClick} searchCompareList={this.state.compareList} 
+										 updatePage={this.handlePagination} firstName={firstName} email={email} 
+										 searchString={searchString} pageNumber={pageNumber} filters={filters}
+										 updateSort={this.handleSort} sorter={sorter}/>
 						<CHAdvertisements updateContent={this.handleClick} />
 					</div>,
 					<CHFooter key="keyFooterLoginOverlayOnSearch" />]
@@ -174,7 +202,10 @@ class CHSearch extends Component {
 					<CHNavigator updateContent={this.handleClick} updatePage={this.handlePagination} signedIn={false} caller={"search"} key="keyNavigatorSignUpOverlayOnSearch" />,
 					<div className="my-content-landing" key="keyContentSignUpOverlayOnSearch">
 						<CHFilters updateContent={this.handleClick} updateFilter={this.handleFilter} searchString={searchString} />
-						<CHSearchContent updateContent={this.handleClick} searchCompareList={this.state.compareList} updatePage={this.handlePagination} firstName={firstName} email={email} searchString={searchString} pageNumber={pageNumber} filters={filters}/>
+						<CHSearchContent updateContent={this.handleClick} searchCompareList={this.state.compareList} 
+										 updatePage={this.handlePagination} firstName={firstName} email={email} 
+										 searchString={searchString} pageNumber={pageNumber} filters={filters}
+										 updateSort={this.handleSort} sorter={sorter}/>
 						<CHAdvertisements updateContent={this.handleClick} />
 					</div>,
 					<CHFooter key="keyFooterSignUpOverlayOnSearch" />]
@@ -185,7 +216,10 @@ class CHSearch extends Component {
 					<CHNavigator updateContent={this.handleClick} updatePage={this.handlePagination} signedIn={false} caller={"search"} key="keyNavigatorForgotPasswordOverlayOnSearch" />,
 					<div className="my-content-landing" key="keyContentForgotPasswordOverlayOnSearch">
 						<CHFilters updateContent={this.handleClick} updateFilter={this.handleFilter} searchString={searchString} />
-						<CHSearchContent updateContent={this.handleClick} searchCompareList={this.state.compareList} updatePage={this.handlePagination} firstName={firstName} email={email} searchString={searchString} pageNumber={pageNumber} filters={filters}/>
+						<CHSearchContent updateContent={this.handleClick} searchCompareList={this.state.compareList} 
+										 updatePage={this.handlePagination} firstName={firstName} email={email} 
+										 searchString={searchString} pageNumber={pageNumber} filters={filters}
+										 updateSort={this.handleSort} sorter={sorter}/>
 						<CHAdvertisements updateContent={this.handleClick} />
 					</div>,
 					<CHFooter key="keyFooterForgotPasswordOverlayOnSearch" />]
@@ -197,7 +231,10 @@ class CHSearch extends Component {
 					<div className="my-content-landing" key="keySearchContent">
 						<CHFilters updateContent={this.handleClick} updateFilter={this.handleFilter} searchString={searchString} />
 						<CHSearchContent updateContent={this.handleClick} searchCompareList={this.state.compareList}
-                                         addToCompare={this.addCourseToCompare} removeFromCompare={this.removeCourseFromCompare} updatePage={this.handlePagination} firstName={firstName} email={email} searchString={searchString} pageNumber={pageNumber} filters={filters}/>
+										 addToCompare={this.addCourseToCompare} removeFromCompare={this.removeCourseFromCompare} 
+										 updatePage={this.handlePagination} firstName={firstName} email={email} 
+										 searchString={searchString} pageNumber={pageNumber} filters={filters}
+										 updateSort={this.handleSort} sorter={sorter}/>
 						<CHAdvertisements updateContent={this.handleClick} />
 					</div>,
 					<CHFooter key="keyFooterSearch" />]
