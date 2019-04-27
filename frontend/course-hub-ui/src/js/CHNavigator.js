@@ -66,7 +66,6 @@ class CHNavigator extends Component {
         } else {
             this.setState({ showResults: false });
         }
-        // console.log('state response ', this.state.suggestions);
     }
 
     handleSearch = event => {
@@ -76,6 +75,10 @@ class CHNavigator extends Component {
 
     handleDealsOnclick = event => {
         this.props.updateContent("deals", null, null, null, this.props.courseId || null);
+    }
+
+    handleMicrodegreeOnClick = event => {
+        this.props.updateContent("microdegree", null, null, null, null);
     }
 
     handleViewProfile = e => {
@@ -153,7 +156,7 @@ class CHNavigator extends Component {
                         </Dropdown>
                     }
                     <Button className="my-nav-tabs" onClick={this.handleDealsOnclick}>Deals</Button>
-                    <Button className="my-nav-tabs" onClick={this.handleDealsOnclick}>Microdegree</Button>
+                    <Button className="my-nav-tabs" onClick={this.handleMicrodegreeOnClick}>Microdegree</Button>
                 </div>
             </div>
         );

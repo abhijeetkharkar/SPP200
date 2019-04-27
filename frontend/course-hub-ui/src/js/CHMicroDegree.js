@@ -63,7 +63,20 @@ class CHMicroDegree extends Component {
 	}
 
 	handleClick = (choice, firstName, email, queryString) => {
-        // Update this.state here
+		if (choice === 'home' || choice === 'homeSignedIn'){
+			choice = 'microDegreeHome';
+		}else if (choice == 'deals'){
+			this.props.history.push('/deals');
+		}else if (choice == 'microdegree'){
+			choice = 'microDegreeHome';
+		}
+		if (choice != 'loginScreen' && choice != 'profile' && choice != 'signupScreen'){
+			firebaseInitialization.auth().onAuthStateChanged(user => this.handleAuthStateChange(user));
+		}
+		this.setState({ pageType: choice, firstName: firstName, email: email}, () => {
+			console.log("CURRENT STATE IS ", this.state);
+		});
+
     }
     
     handleCloseHere = (param) => (e) => {
@@ -89,22 +102,6 @@ class CHMicroDegree extends Component {
 				microDegreeSuggestions : microDegreeSuggestions
 			})
 		});
-		// this.setState({
-		// 	microDegreeChoice: "degreeSuggestions",
-		// 	microDegreeSuggestions : [{
-		// 		courseName : "The Python Bible™ | Everything You Need to Program in Python",
-		// 		provider : "Udemy",
-		// 		difficulty : "Introductory"
-		// 	},{
-		// 		courseName : "Learnign Python: Python for Beginners",
-		// 		provider : "Iversity",
-		// 		difficulty : "Intermediate"
-		// 	},{
-		// 		courseName : "Python Advanced Level ",
-		// 		provider : "Coursera",
-		// 		difficulty : "Advanced"
-		// 	}]
-		// })
 	}
 
 
@@ -124,21 +121,21 @@ class CHMicroDegree extends Component {
 				{choice === "loginScreen" &&
 					[<LoginPage updateContent={this.handleClick} key="keyLoginOverlayOnSearch" searchString=""/>,
                     <CHNavigator updateContent={this.handleClick} signedIn={false} caller={"deals"} key="keyNavigatorLoginOverlayOnSearch" />,
-                    
+                    <CHMicroDegreeForm onFormSubmit={this.updatePage} choice={this.state.microDegreeChoice} microDegreeSuggestions={this.state.microDegreeSuggestions}/>,
 					<CHFooter key="keyFooterLoginOverlayOnSearch" />]
 				}
 
 				{choice === "signupScreen" &&
 					[<SignupPage updateContent={this.handleClick} key="keySignUpOverlayOnSearch" searchString="" />,
                     <CHNavigator updateContent={this.handleClick} signedIn={false} caller={"deals"} key="keyNavigatorSignUpOverlayOnSearch" />,
-                    
+                    <CHMicroDegreeForm onFormSubmit={this.updatePage} choice={this.state.microDegreeChoice} microDegreeSuggestions={this.state.microDegreeSuggestions}/>,
 					<CHFooter key="keyFooterSignUpOverlayOnSearch" />]
 				}
 
 				{choice === "forgotPasswordScreen" &&
 					[<ForgotPasswordPage updateContent={this.handleClick} key="keyForgotPasswordOverlayOnSearch" searchString="" />,
                     <CHNavigator updateContent={this.handleClick} signedIn={false} caller={"deals"} key="keyNavigatorForgotPasswordOverlayOnSearch" />,
-                    
+                    <CHMicroDegreeForm onFormSubmit={this.updatePage} choice={this.state.microDegreeChoice} microDegreeSuggestions={this.state.microDegreeSuggestions}/>,
 					<CHFooter key="keyFooterForgotPasswordOverlayOnSearch" />]
 				}
 
