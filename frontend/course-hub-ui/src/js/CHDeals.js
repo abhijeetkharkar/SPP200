@@ -73,6 +73,8 @@ class CHDeals extends Component {
 	handleClick = (choice, firstName, email, queryString) => {
 		if (choice === 'home' || choice === 'homeSignedIn'){
 			choice = 'deals';
+		}else if (choice == 'microdegree'){
+			this.props.history.push('/microdegree');
 		}
 		if (choice != 'loginScreen' && choice != 'profile' && choice != 'signupScreen'){
 			firebaseInitialization.auth().onAuthStateChanged(user => this.handleAuthStateChange(user));
