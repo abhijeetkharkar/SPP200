@@ -311,26 +311,20 @@ const mockResponseAdv = {
 };
 
 const mockResponseGetCourses = {
-	took: 136,
-	timed_out: false,
-	_shards: {
-		total: 3,
-		successful: 3,
-		skipped: 0,
-		failed: 0
-	},
-	hits: {
-		total: 204,
-		max_score: 669.32654,
-		hits: [{
-				"CourseId": "test-1"
-			}, {
-				"CourseId": "test-2"
-			}, {
-				"CourseId": "test-3"
-			}
-		]
-	}
+    courses: [{
+        CourseId: "test-1",
+        CourseDuration: {Value: 720, Unit: "hrs"}
+    }, {
+        CourseId: "test-2",
+        CourseDuration: {Value: 4, Unit: "weeks"}
+    }, {
+        CourseId: "test-3",
+        CourseDuration: {Value: 30, Unit: "days"}
+    }, {
+        CourseId: "test-4",
+        CourseDuration: {Value: 1, Unit: "months"}
+    }
+    ]
 };
 
 module.exports.mockResponseIntro = mockResponseIntro;

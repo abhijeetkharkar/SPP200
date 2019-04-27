@@ -3,6 +3,7 @@ const fetch = require('node-fetch');
 const search = require('../controller/search');
 const httpMocks = require('node-mocks-http');
 const mockData = require('./mockData');
+const helpers = require('../controller/helpers');
 
 const mockRequest = httpMocks.createRequest({
     query: { term: 'deep learning' }
@@ -13,7 +14,7 @@ const mockRequestnew = httpMocks.createRequest({
 });
 
 const mockRequestMicrodegreeSuccess = httpMocks.createRequest({
-    body: { tags: 'deep learning' }
+    body: { tags: 'deep learning', duration: 100}
 });
 
 const mockRequestMicrodegreeFailed = httpMocks.createRequest({
@@ -44,11 +45,11 @@ const mockres = {
     }
 }
 
-// jest.mock('../controller/search');
+jest.mock('../controller/helpers');
 
 describe('Search', () => {
     test('invalid search term', async () => {
-        fetch.mockResponseOnce(JSON.stringify(mockres));
+        // fetch.mockResponseOnce(JSON.stringify(mockres));
         await search.autosuggest(mockRequestnew, mockResponse);
         expect(mockResponse.statusCode).toEqual(200);
     });
@@ -61,20 +62,16 @@ describe('Search', () => {
 });
 
 describe('Microdegree', () => {
+
     test('Tags undefined', async () => {
         await search.microdegree(mockRequestMicrodegreeFailed, mockResponse);
         expect(mockResponse.statusCode).toEqual(200);
     });
 
     test('successful search', async () => {
-        // const mockResponseIntroFunc = jest.fn(() => { return Promise.resolve(JSON.stringify(mockData.mockResponseGetCourses)) });
-        // jest.mock('../controller/search');
-        /* search.getcourses.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(mockData.mockResponseGetCourses))});
-        search.getcourses.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(mockData.mockResponseGetCourses))});
-        search.getcourses.mockImplementationOnce(() => {return Promise.resolve(JSON.stringify(mockData.mockResponseGetCourses))}); */
-        fetch.mockResponseOnce(mockData.mockResponseGetCourses);
-        fetch.mockResponseOnce(mockData.mockResponseGetCourses);
-        fetch.mockResponseOnce(mockData.mockResponseGetCourses);
+        helpers.getcourses.mockImplementationOnce(() => {return Promise.resolve(mockData.mockResponseGetCourses)});
+        helpers.getcourses.mockImplementationOnce(() => {return Promise.resolve(mockData.mockResponseGetCourses)});
+        helpers.getcourses.mockImplementationOnce(() => {return Promise.resolve(mockData.mockResponseGetCourses)});
         await search.microdegree(mockRequestMicrodegreeSuccess, mockResponse);
         expect(mockResponse.statusCode).toEqual(200);
     });

@@ -153,7 +153,7 @@ exports.searchquery = function(request, response){
         searchQuery = addSortquery(searchQuery,request.body.sortParam)
     }
 
-    console.log("Search Query: ",JSON.stringify(searchQuery))
+    // console.log("Search Query: ",JSON.stringify(searchQuery))
 
     // Loading Data from Elastic Search
     fetch(url, {
