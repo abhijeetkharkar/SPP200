@@ -3,8 +3,12 @@ import '../App.css';
 import '../css/common-components.css';
 import '../css/search.css';
 import {Table, Image, Pagination, Button, Dropdown} from 'react-bootstrap';
+import { UncontrolledDropdown, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import StarRatingComponent from 'react-star-rating-component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faListAlt, faCaretDown, faCheck, faStar, faClock } from '@fortawesome/free-solid-svg-icons'
+import Form from "react-bootstrap/FormControl";
+
 const fetch = require('node-fetch');
 
 class CHSearchContent extends Component {
@@ -171,7 +175,42 @@ class CHSearchContent extends Component {
                                                 <Image src={item.CourseImage || 'https://increasify.com.au/wp-content/uploads/2016/08/default-image.png'} fluid />;
                                             </td>
                                             <td className="search-results-course-data">
-                                                <p className="search-results-course-data-type">{"Course"}</p>
+                                                <Row>
+                                                    <Col><p className="search-results-course-data-type">{"Course"}</p></Col>
+                                                    <Col>
+                                                        {(this.props.favorite_list && this.props.in_progress_list && this.props.completed_list) ? (
+                                                            <UncontrolledDropdown style={{float: "right"}} >
+                                                                <DropdownToggle className="course-list-button" >
+                                                                    <span style={{fontSize: "27px",}}>
+                                                                        {
+                                                                            (this.props.favorite_list.map(function(obj){ return obj.CourseId }).includes(item.CourseId)) && <FontAwesomeIcon icon={faStar} style={{color: "yellow"}}/>
+                                                                            || (this.props.in_progress_list.map(function(obj){ return obj.CourseId }).includes(item.CourseId)) && <FontAwesomeIcon icon={faClock} style={{color: "deepskyblue"}}/>
+                                                                            || (this.props.completed_list.map(function(obj){ return obj.CourseId }).includes(item.CourseId)) && <FontAwesomeIcon icon={faCheck} style={{color: "#00d207"}}/>
+                                                                            ||  <FontAwesomeIcon icon={faListAlt} style={{color: "Dodgerblue"}}/>
+                                                                        }
+                                                                    </span>
+                                                                </DropdownToggle>
+                                                                <DropdownMenu style={{marginTop: "0"}}>
+                                                                    <DropdownItem header style={{color: "blue", fontSize: "15px"}}>Lists</DropdownItem>
+                                                                    <DropdownItem divider />
+                                                                    <ul style={{listStyleType: "none", padding: "0", paddingLeft: "15px"}}>
+                                                                        <li>
+                                                                            <input id="course-radio-1" className="course-radio" type="radio" name="course-list" value="1" onClick={() => {this.props.addCourseToList("1", item)}} /> Favorite
+                                                                        </li>
+                                                                        <li>
+                                                                            <input id="course-radio-2" className="course-radio" type="radio" name="course-list" value="2" onClick={() => {this.props.addCourseToList("2", item)}} /> In Progress
+                                                                        </li>
+                                                                        <li>
+                                                                            <input id="course-radio-3" className="course-radio" type="radio" name="course-list" value="3" onClick={() => {this.props.addCourseToList("3", item)}} /> Completed
+                                                                        </li>
+                                                                    </ul>
+                                                                    <DropdownItem divider />
+                                                                    <Button variant="link" className="course-list-clear-button" onClick={() => {this.props.clearCourseFromLists(item)}}>Clear</Button>
+                                                                </DropdownMenu>
+                                                            </UncontrolledDropdown>
+                                                        ) : ([]) }
+                                                    </ Col>
+                                                </Row>
                                                 {/* <p className="search-results-course-data-name">{item.Title}</p>    */}
                                                 <p className="search-results-course-data-name"><Button id={"search-results-course-data-name-link-"+index} className="search-results-course-data-name-link" variant="link" onClick={ () => this.props.updateContent('coursedetails',null,null,item.CourseId)}>{item.Title}</Button></p>
                                                 <p className="search-results-course-data-short-provider-instructors">{"Provider: " +  item.CourseProvider + " | Taught By: " + (item.Instructors? item.Instructors.map(item => item.InstructorName).toString(): "")}</p>

@@ -28,5 +28,67 @@
 }
 
 .microDegreeDifficulty{
-    margin-left: 20em;
+    margin-left: 25em;
+    /* display: inline-block; */
 }
+
+.jumbo{
+    padding: 15px;
+}
+
+.jumboDifficulty{
+    padding: 5px;
+    background-color: #C1C836;
+    display: inline-block;
+}
+
+.jumboCourseProvider{
+    padding: 5px;
+    background-color: #3DBB8B;
+    display: inline-block;
+}
+
+.jumboIntroductory{
+    padding: 5px;
+    background-color: #9BABB6;
+    font-size: 20px;
+    font-weight: bold;
+    float: left;
+}
+
+.jumboIntermediate{
+    padding: 5px;
+    background-color: #9BABB6;
+    font-size: 20px;
+    font-weight: bold;
+    float: left;
+}
+
+.jumboAdvanced{
+    padding: 5px;
+    background-color: #9BABB6;
+    font-size: 20px;
+    font-weight: bold;
+    float: left;
+}
+
+.jumboMicroDegreeTitle{
+    padding: 10px;
+    background-color: #5B676D;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.arrowImage{
+    margin-top: -30px;
+    width: 149px; 
+    height: 118px;
+}
+
+.degreeTitle{
+    font-size: 22px;
+}
+
+/* .titleBackground{
+    background-color: #78858E;
+} */

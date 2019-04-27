@@ -6,13 +6,12 @@ import CHNavigator from './CHNavigator';
 import LoginPage from './CHLogin';
 import SignupPage from './CHSignup';
 import ForgotPasswordPage from './CHForgotPassword';
-import ProfilePage from "./CHProfile";
 import CHFilters from './CHFilters';
 import CHSearchContent from './CHSearchContent';
 import CHAdvertisements from './CHAdvertisements';
 import CHFooter from './CHFooter';
 import firebaseInitialization from '../FirebaseUtils';
-import { searchUser } from '../elasticSearch';
+import {getUserDetails, searchUser, updateUser} from '../elasticSearch';
 import CHCompareModal from "./CHCompareModal";
 
 class CHSearch extends Component {
@@ -22,6 +21,7 @@ class CHSearch extends Component {
 		console.log("In search constructor");
 		const values = queryString.parse(this.props.location.search);
 		this.state = {
+		    user_id: null,
 			choice: '',
 			firstName: null,
 			email: null,
@@ -35,7 +35,10 @@ class CHSearch extends Component {
 			filtersApplied: values.courseproviders || values.minPrice || values.maxPrice || values.startDate || values.endDate,
 			isOpen: false,
             compareList: (JSON.parse(sessionStorage.getItem("compareList"))) ?
-				JSON.parse(sessionStorage.getItem("compareList")) : [],
+                JSON.parse(sessionStorage.getItem("compareList")) : [],
+			favoriteList: [],
+			inProgressList: [],
+			completedList: [],
 			sortParam: values.sortParam ? parseInt(values.sortParam): '',
 			sortApplied: false
 		};
@@ -48,14 +51,35 @@ class CHSearch extends Component {
 		this.addCourseToCompare = this.addCourseToCompare.bind(this);
 		this.removeCourseFromCompare = this.removeCourseFromCompare.bind(this);
         this.removeCourseFromModal = this.removeCourseFromModal.bind(this);
-        console.log("This is my compare list");
-        console.log(this.state.compareList);
-	}
+		this.addCourseToList = this.addCourseToList.bind(this);
+		this.clearCourseFromLists = this.clearCourseFromLists.bind(this);
+		this.getUserCoursesLists = this.getUserCoursesLists.bind(this);
+    }
 
 	componentWillMount() {
 		const self = this;
-		firebaseInitialization.auth().onAuthStateChanged(user => self.handleAuthStateChange(user));
+        firebaseInitialization.auth().onAuthStateChanged(user =>  {
+            self.handleAuthStateChange(user);
+            if(user != null) {
+                self.getUserCoursesLists(user.email)
+            }
+        });
 	}
+
+	getUserCoursesLists(email){
+        var payload = {
+            query : {
+                term : { Email : email }
+            }
+        };
+        getUserDetails(payload).then(elasticResponse => {
+            this.state.user_id = elasticResponse.id;
+            var elasticData = elasticResponse.data;
+            this.setState({favoriteList: ((elasticData.FavouriteCourses != null) ? elasticData.FavouriteCourses : [])});
+            this.setState({inProgressList: ((elasticData.CoursesinProgress != null) ? elasticData.CoursesinProgress : [])});
+            this.setState({completedList: ((elasticData.CoursesTaken != null) ? elasticData.CoursesTaken : [])});
+        });
+    }
 
 	handleAuthStateChange = user => {
 		if (user) {
@@ -64,7 +88,7 @@ class CHSearch extends Component {
 				query: {
 					term: { Email: email }
 				}
-			}
+			};
 			searchUser(payloadSearch).then(first => {
 				this.setState({
 					choice: "homeSignedIn",
@@ -77,11 +101,11 @@ class CHSearch extends Component {
 				choice: "home"
 			});
 		}
-	}
+	};
 
 	handleClick = (choice, firstName, email, queryString) => {
 		this.setState({ choice: choice, firstName: firstName, email: email, queryString: queryString});
-	}
+    };
 
 	handleFilter = (searchString,pageNumber,filters) =>{
 		this.setState({
@@ -145,6 +169,112 @@ class CHSearch extends Component {
         this.state.compareList.splice(idx, 1);
         sessionStorage.setItem("compareList", JSON.stringify(this.state.compareList));
     }
+
+	addCourseToList = async (list, item) => {
+        let favoriteListMap = this.state.favoriteList.map(function(obj){ return obj.CourseId });
+		let inProgressListMap = this.state.inProgressList.map(function(obj){ return obj.CourseId });
+		let CompletedListMap = this.state.completedList.map(function(obj){ return obj.CourseId });
+		if(list === "1"){
+			if(!favoriteListMap.includes(item.CourseId)) {
+				this.state.favoriteList.push(item);
+				if(inProgressListMap.includes(item.CourseId)){
+					let idx = inProgressListMap.indexOf(item.CourseId);
+					this.state.inProgressList.splice(idx, 1);
+				}
+				if(CompletedListMap.includes(item.CourseId)){
+					let idx = CompletedListMap.indexOf(item.CourseId);
+					this.state.completedList.splice(idx, 1);
+				}
+			}
+		}
+		else if(list === "2"){
+			if(!inProgressListMap.includes(item.CourseId)) {
+				this.state.inProgressList.push(item);
+				if(favoriteListMap.includes(item.CourseId)){
+					let idx = favoriteListMap.indexOf(item.CourseId);
+					this.state.favoriteList.splice(idx, 1);
+				}
+				if(CompletedListMap.includes(item.CourseId)){
+					let idx = CompletedListMap.indexOf(item.CourseId);
+					this.state.completedList.splice(idx, 1);
+				}
+			}
+		}
+		else if(list === "3"){
+			if(!CompletedListMap.includes(item.CourseId)) {
+				this.state.completedList.push(item);
+				if(favoriteListMap.includes(item.CourseId)){
+					let idx = favoriteListMap.indexOf(item.CourseId);
+					this.state.favoriteList.splice(idx, 1);
+				}
+				if(inProgressListMap.includes(item.CourseId)){
+					let idx = inProgressListMap.indexOf(item.CourseId);
+					this.state.inProgressList.splice(idx, 1);
+				}
+			}
+		}
+		this.setState({isOpen: false});
+        var payload = {
+            "doc": {
+                "FavouriteCourses": this.state.favoriteList,
+                "CoursesinProgress": this.state.inProgressList,
+                "CoursesTaken": this.state.completedList,
+            }
+        };
+        try {
+            var response = await updateUser(this.state.user_id, payload);
+            // console.log(response);
+            if(response === false){
+                alert("Error in updating lists in database... Try again");
+            }
+        } catch (error) {
+            alert("Error in updating lists in database... Try again");
+        }
+	};
+
+	clearCourseFromLists= async (item) => {
+        let lists = document.getElementsByClassName("course-radio");
+        for(var i = 0; i < lists.length; i++){
+            if(lists[i].checked){
+                lists[i].checked = false;
+                break;
+            }
+        }
+
+		let favoriteListMap = this.state.favoriteList.map(function(obj){ return obj.CourseId });
+		let inProgressListMap = this.state.inProgressList.map(function(obj){ return obj.CourseId });
+		let CompletedListMap = this.state.completedList.map(function(obj){ return obj.CourseId });
+
+		if(favoriteListMap.includes(item.CourseId)){
+			let idx = favoriteListMap.indexOf(item.CourseId);
+			this.state.favoriteList.splice(idx, 1);
+		}
+		else if(inProgressListMap.includes(item.CourseId)){
+			let idx = inProgressListMap.indexOf(item.CourseId);
+			this.state.inProgressList.splice(idx, 1);
+		}
+		else if(CompletedListMap.includes(item.CourseId)){
+			let idx = CompletedListMap.indexOf(item.CourseId);
+			this.state.completedList.splice(idx, 1);
+		}
+		this.setState({isOpen: false});
+        var payload = {
+            "doc": {
+                "FavouriteCourses": this.state.favoriteList,
+                "CoursesinProgress": this.state.inProgressList,
+                "CoursesTaken": this.state.completedList,
+            }
+        };
+        try {
+            var response = await updateUser(this.state.user_id, payload);
+            if(response === false){
+                alert("Error in updating lists in database... Try again");
+            }
+        } catch (error) {
+            alert("Error in updating lists in database... Try again");
+            console.log("error is", error);
+        }
+	};
 
 	render() {
 		const choice = this.state.choice;

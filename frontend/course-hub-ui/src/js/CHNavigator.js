@@ -153,10 +153,12 @@ class CHNavigator extends Component {
                         </Dropdown>
                     }
                     <Button className="my-nav-tabs" onClick={this.handleDealsOnclick}>Deals</Button>
+                    <Button className="my-nav-tabs" onClick={this.handleDealsOnclick}>Microdegree</Button>
                 </div>
             </div>
         );
     }
 }
+
 
 export default CHNavigator;
