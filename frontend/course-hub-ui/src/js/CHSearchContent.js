@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../App.css';
 import '../css/common-components.css';
 import '../css/search.css';
-import {Table, Image, Pagination, Button, Dropdown} from 'react-bootstrap';
+import {Table, Image, Pagination, Button, Dropdown, Row, Col} from 'react-bootstrap';
 import { UncontrolledDropdown, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import StarRatingComponent from 'react-star-rating-component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
