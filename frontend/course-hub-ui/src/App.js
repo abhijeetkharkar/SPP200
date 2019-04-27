@@ -62,10 +62,7 @@ class App extends Component {
   }
 
   handleClick = (choice, firstName, email, searchString) => {
-    this.setState({ choice: choice,  firstName: firstName, email: email, searchString: searchString});
-    /* this.setState({ optional1 });
-    this.setState({ optional2 });
-    this.setState({ optional3 }); */
+    this.setState({ choice: choice,  firstName: firstName, email: email, searchString: searchString});    
   }
 
   render() {
@@ -128,12 +125,16 @@ class App extends Component {
         }
 
         {choice === "searchResults" &&
-          this.props.history.push('/search?searchString=' + searchString + "&pageNumber=0")}
+          this.props.history.push('/search?searchString=' + searchString + "&pageNumber=0")
+        }
 
         {choice === "deals" &&
-          this.props.history.push('/deals')}
+          this.props.history.push('/deals')
+        }
 
-
+        {choice === "microdegree" &&
+          this.props.history.push('/microdegree')
+        }
 
       </div>
     );
