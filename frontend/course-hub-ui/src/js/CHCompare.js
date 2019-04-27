@@ -29,9 +29,9 @@ class CHCompare extends Component {
         firebaseInitialization.auth().onAuthStateChanged(user => self.handleAuthStateChange(user));
     }
 
-    handleClick = (choice, firstName, email) => {
-        this.setState({ choice: choice, firstName: firstName, email: email});
-    }
+    handleClick = (choice, firstName, email, queryString) => {
+        this.setState({ choice: choice, firstName: firstName, email: email, queryString: queryString});
+    };
 
     handleAuthStateChange = user => {
         if (user) {
@@ -64,16 +64,19 @@ class CHCompare extends Component {
         <div className="course_compare">
             {choice === "home" &&
                 [<CHNavigator updateContent={this.handleClick} signedIn={false} caller={"search"} firstName={firstName} email={email} key="keyNavigatorSearch" />,
-                    <CHCompareContent />,
+                    <CHCompareContent updateContent={this.handleClick}/>,
                 <CHFooter key="keyFooterSearch" />]
             }
             {choice === "homeSignedIn" &&
                 [<CHNavigator updateContent={this.handleClick} signedIn={firstName != null} caller={"search"} firstName={firstName} email={email} key="keyNavigatorSearch" />,
-                    <CHCompareContent />,
+                    <CHCompareContent updateContent={this.handleClick}/>,
                 <CHFooter key="keyFooterSearch" />]
             }
             {choice === "profile" &&
                 this.props.history.push('/profile')
+            }
+            {
+                choice === "coursedetails" && this.props.history.push('/course?courseId=' + this.state.queryString )
             }
 
         </div>
