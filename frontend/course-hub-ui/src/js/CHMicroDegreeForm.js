@@ -45,9 +45,9 @@ class CHMicroDegreeForm extends Component {
                 intermediate : false,
                 advanced : false,
                 arrow: {
-                    introductory : 'right',
-                    intermediate : 'right',
-                    advanced : 'right'
+                    introductory : 'rightarrow',
+                    intermediate : 'rightarrow',
+                    advanced : 'rightarrow'
                 }
             })
         }
@@ -125,11 +125,11 @@ class CHMicroDegreeForm extends Component {
         var currentCourseDisplay = this.state.coursesDisplay;
         
         currentCourseDisplay[index][courseType] = !currentCourseDisplay[index][courseType]
-        if (currentCourseDisplay[index]['arrow'][courseType] == 'right'){
-            currentCourseDisplay[index]['arrow'][courseType] = 'down';
+        if (currentCourseDisplay[index]['arrow'][courseType] == 'rightarrow'){
+            currentCourseDisplay[index]['arrow'][courseType] = 'downarrow';
         }
         else{
-            currentCourseDisplay[index]['arrow'][courseType] = 'right';
+            currentCourseDisplay[index]['arrow'][courseType] = 'rightarrow';
         }
         this.setState({
             coursesDisplay : currentCourseDisplay
