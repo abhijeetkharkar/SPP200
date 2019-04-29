@@ -67,6 +67,23 @@
             }
           }
         },
+        "CoursesinProgress": {
+          "properties": {
+            "CourseId": {
+              "type": "keyword"
+            },
+            "CourseURL": {
+              "type": "keyword"
+            },
+            "CourseTitle": {
+              "type": "text"
+            },
+            "DateVisited": {
+              "type": "date",
+              "format": "yyyy-MM-dd"
+            }
+          }
+        },
         "Address": {
           "properties": {
             "Street": {

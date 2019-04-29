@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import '../App.css';
 import '../css/common-components.css';
 import '../css/search.css';
-import {Table, Image, Pagination, Button, Row, Col} from 'react-bootstrap';
+import {Table, Image, Pagination, Button, Dropdown, Row, Col} from 'react-bootstrap';
 import { UncontrolledDropdown, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import StarRatingComponent from 'react-star-rating-component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -48,7 +48,22 @@ class CHSearchContent extends Component {
     componentWillReceiveProps(nextProps) {
         // console.log("In CHSearchContent, componentWillReceiveProps");
         var payload;
-        if(nextProps.filters.filtersApplied) {
+        if(nextProps.filters.filtersApplied && nextProps.sorter.sortApplied) {
+            payload = {
+                "term" : nextProps.searchString,
+                "page_number" : nextProps.pageNumber || 0,
+                "daterange" : {
+                    "startdate" : nextProps.filters.startDate,
+                    "enddate" : nextProps.filters.endDate
+                },
+                "pricerange" : {
+                    "gte" : nextProps.filters.minPrice,
+                    "lt" : nextProps.filters.maxPrice
+                },
+                "courseprovider" : nextProps.filters.courseproviders,
+                "sortParam": nextProps.sorter.sortParam
+             };
+        } else if(nextProps.filters.filtersApplied) {
             payload = {
                 "term" : nextProps.searchString,
                 "page_number" : nextProps.pageNumber || 0,
@@ -61,7 +76,13 @@ class CHSearchContent extends Component {
                     "lt" : nextProps.filters.maxPrice
                 },
                 "courseprovider" : nextProps.filters.courseproviders
-             }
+             };
+        } else if(nextProps.sorter.sortApplied) {            
+            payload = {
+                "term": nextProps.searchString,
+                "page_number": nextProps.pageNumber || 0,
+                "sortParam": nextProps.sorter.sortParam
+            };
         } else {
             payload = {
                 "term": nextProps.searchString,
@@ -122,14 +143,32 @@ class CHSearchContent extends Component {
                     <thead>
                         <tr>
                             <th colSpan="2">
-                                <p className="search-results-table-header">{this.state.totalCourses + " results for '" + this.props.searchString + "'"}</p>
+                                <p className="search-results-table-header-name">{this.state.totalCourses + " results for '" + this.props.searchString + "'"}</p>
+                                <Dropdown className="search-results-table-header-sort">
+                                    <Dropdown.Toggle className="search-results-table-header-sort-toggle" variant="warning">
+                                        Sort By
+                                    </Dropdown.Toggle>
+
+                                    <Dropdown.Menu className="search-results-table-header-sort-menu">
+                                        <Dropdown.Item className="search-results-table-header-sort-item"
+                                                       id="search-results-table-header-sort-item-price" 
+                                                       onClick={() => this.props.updateSort(this.props.searchString, 0, "price-asc")}>
+                                                         Price - Low to High
+                                        </Dropdown.Item>
+                                        <Dropdown.Item className="search-results-table-header-sort-item" 
+                                                       id="search-results-table-header-sort-item-rating" 
+                                                       onClick={() => this.props.updateSort(this.props.searchString, 0, "rating-desc")}>
+                                                         Rating - High to Low
+                                        </Dropdown.Item>
+                                    </Dropdown.Menu>
+                                </Dropdown>
                             </th>
                         </tr>
                     </thead>
                     <tbody>
                         {
                             this.state.courses.length > 0 ?
-                                this.state.courses.map(item => {
+                                this.state.courses.map((item,index) => {
                                     return (
                                         <div className="search-content-course-item">
                                             <tr key={item.CourseId} >
@@ -174,7 +213,7 @@ class CHSearchContent extends Component {
                                                         </Col>
                                                     </Row>
                                                     <Row>
-                                                        <Button className="search-results-course-data-name" variant="link" onClick={ () => this.props.updateContent('coursedetails',null,null,item.CourseId)}>{item.Title}</Button>
+                                                        <Button id={"search-results-course-data-name-link-"+index} className="search-results-course-data-name-link" variant="link" onClick={ () => this.props.updateContent('coursedetails',null,null,item.CourseId)}>{item.Title}</Button>
                                                     </Row>
                                                     <Row style={{marginLeft: "0", fontSize: "13px"}}>
                                                         <strong>Provider</strong>: {item.CourseProvider}&nbsp;&nbsp;|&nbsp;&nbsp;
@@ -190,14 +229,15 @@ class CHSearchContent extends Component {
                                                                 <FontAwesomeIcon icon={faClock} style={{color: "grey", height: "18px", width: "18px"}}/> &nbsp; {item.CourseDuration? " " + item.CourseDuration.Value + " " + item.CourseDuration.Unit: " 1 hr"}
                                                                 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                                 <FontAwesomeIcon icon={faWater} style={{color: "grey", height: "20px", width: "20px", fontWeight: "bold"}}/> &nbsp; {item.Difficulty ? item.Difficulty.toUpperCase(): ""}&nbsp;
-                                                                <span className="profile-course-data-rating">
+                                                                <span className="search-results-course-data-rating">
                                                                     <StarRatingComponent
+                                                                        name={"search-results-course-rating"}
                                                                         starCount={5}
-                                                                        value={item.Rating + 1}
+                                                                        value={item.Rating}
                                                                         editing={false}
                                                                         emptyStarColor={"grey"}
                                                                         style = {{position: "inherit !important"}}
-                                                                        size='2x'
+                                                                        size='3x'
                                                                     />
                                                                 </span>
                                                                 </Row>

@@ -91,24 +91,46 @@
 
 		#search-results-table thead th {
 			padding: 0;
-
-		}
-
-		#search-results-table tbody td {
-		}
-
-		.search-results-table-header {			
-			margin: 0;
-			font-size: 24pt;
-			width: 100%;
 			border-bottom: 1px solid #007BF9;
 			background-color: #007BF9;
 			color: white;
+		}
+
+		.search-results-table-header {
+			
 			padding-left: 10px;
 			padding-top: 10px;
 			padding-bottom: 10px;
-			border-radius: 4px;
 		}
+
+			.search-results-table-header-name {			
+				margin: 0;
+				font-size: 24pt;
+				display: inline !important;
+			}
+
+			.search-results-table-header-sort {
+				float: right;
+				margin-top: 0.4%;	
+				margin-right: 1%;
+				margin-bottom: 0.4%;		
+				width: 20%;
+			}
+
+				.search-results-table-header-sort-toggle {				
+					width: 100%;
+				}
+
+				.search-results-table-header-sort-menu {
+					width: 100% !important;
+					min-width: 40px !important;
+					padding: 0px !important;
+					margin: 0px !important;
+				}
+
+				.search-results-table-header-sort-item {
+					padding: .25rem .25rem !important;
+				}
 
 		.search-results-course-image {
 			width: 30%;
@@ -129,13 +151,13 @@
 				font-size: 14pt;
 			}
 
-			.search-results-course-data-name {
+			.search-results-course-data-name-link {
 				color: rgb(82, 85, 177);
 				font-weight: bold;
 				font-size: 1.2rem;
 				text-decoration: none;
 			}
-				.search-results-course-data-name:hover {
+				.search-results-course-data-name-link:hover {
 					color: rgb(118, 120, 229);
 					font-weight: bold;
 					font-size: 1.2rem;
@@ -190,7 +212,7 @@
 				margin-left: 4%;
 			}
 
-			.profile-course-data-rating {
+			.search-results-course-data-rating {
 				padding: 0;
 				font-size: 15px;
 				margin-left: 4%;
