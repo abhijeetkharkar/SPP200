@@ -3,8 +3,9 @@
 	text-align: center;
 	width: 100% !important;
 	height: 80% !important;
-	background: -webkit-linear-gradient(to right, rgb(124, 124, 124), rgb(218, 218, 218), rgb(124, 124, 124));
-    background: linear-gradient(to right, rgb(124, 124, 124), rgb(218, 218, 218), rgb(124, 124, 124));
+	/* background: -webkit-linear-gradient(to right, rgb(124, 124, 124), rgb(218, 218, 218), rgb(124, 124, 124));
+	background: linear-gradient(to right, rgb(124, 124, 124), rgb(218, 218, 218), rgb(124, 124, 124)); */	
+	background-image: -webkit-linear-gradient(top,#f7f7f7 0,#e5e5e5 100%);
   }
 
 	.landing-search-form {
@@ -26,8 +27,8 @@
 			}
 
 				.landing-search-box:focus {
-					border-color: rgb(243, 242, 166) !important;
-					outline: rgb(243, 242, 166) auto 3px !important;
+					border-color: #72aefd !important;
+					outline: #72aefd auto 3px !important;
 					border-top-left-radius: 10pt;
 					border-bottom-left-radius: 10pt;
 				}
@@ -37,8 +38,8 @@
 				float: left;
 				width: 10%;
 				height: 61px;
-				background-color: rgb(241, 239, 108) !important;
-				border-color: rgb(124, 123, 30) !important;
+				background-color: #4494ff !important;
+				border-color: #005fc4 !important;
 				border: 1px solid transparent !important;
 				border-top-right-radius: 10pt !important;
 				border-bottom-right-radius: 10pt !important;
@@ -47,12 +48,12 @@
 			}
 
 				.landing-search-button .landing-search-button-font {
-					color: rgb(124, 123, 30) !important;
+					color: #005fc4 !important;
 				}
 
 				.landing-search-button:hover {    
-					background-color: rgb(124, 123, 30) !important;
-					border-color: rgb(241, 239, 108) !important;
+					background-color: #005fc4 !important;
+					border-color: #4494ff !important;
 					border-top-right-radius: 10pt !important;
 					border-bottom-right-radius: 10pt !important;
 					border-bottom-left-radius: 0pt !important;
@@ -60,7 +61,7 @@
 				}
 
 					.landing-search-button:hover .landing-search-button-font {    
-						color: rgb(241, 239, 108) !important;
+						color: #4494ff !important;
 					}
 
 		.landing-suggestions-table {
@@ -69,7 +70,8 @@
 			width: 45%;
 			text-align: left;
 			background-color: #292c2f;
-			color: rgb(241, 239, 108);
+			background: linear-gradient(to bottom, #b8d6fd, #94c0fa);
+			color: #005fc4;
 			opacity: 0.9;
 		}
 
@@ -77,10 +79,11 @@
 				margin-top: 1%;
 				margin-bottom: 1%;
 				width: 100%;
+				padding-left: 1%;
 			}
 
 				.landing-suggestions-table-data:hover {
-					background-color: rgb(124, 123, 30);
+					background-color: #4494ff;
 				}
 
 
@@ -121,7 +124,7 @@
 }
 
 .footer-distributed .footer-left p{
-	color:  rgb(146, 144, 4);
+	color:  #005fc4;
 	font-size: 14px;
 	margin: 0;
 }
@@ -131,7 +134,7 @@
 .footer-distributed p.footer-links{
 	font-size:18px;
 	font-weight: bold;
-	color: rgb(207, 204, 19);
+	color: #4494ff;
 	margin: 0 0 10px;
 	padding: 0;
 }

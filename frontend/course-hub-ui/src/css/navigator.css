@@ -8,16 +8,6 @@
 
     #homeHeader a {        
 	    text-decoration: none;
-	}	
-
-	.website-name {    
-		color: rgb(207, 204, 19);
-		text-shadow: 1px 1px rgb(146, 144, 4);
-		font-size: 60px;
-	}
-
-	.website-name:hover {
-		text-shadow: rgb(146, 144, 4) 0px 0px 0.2em, rgb(146, 144, 4) 0px 0px 0.2em, rgb(146, 144, 4) 0px 0px 0.2em;
 	}
 
 	.website-logo {
@@ -41,8 +31,8 @@
 		}
 
 			.search-results-search-box:focus {
-				border-color: rgb(243, 242, 166) !important;
-				outline: rgb(243, 242, 166) auto 3px !important;
+				border-color: #72aefd !important;
+				outline: #72aefd auto 3px !important;
 				border-top-left-radius: 10pt;
 				border-bottom-left-radius: 10pt;
 			}
@@ -53,8 +43,8 @@
 			margin-top: 6%;
 			height: 32pt;
 			width: 10% !important;
-			background-color: rgb(241, 239, 108) !important;
-			border-color: rgb(124, 123, 30) !important;
+			background-color: #4494ff !important;
+			border-color: #005fc4 !important;
 			border: 1px solid transparent !important;
 			border-top-right-radius: 10pt !important;
 			border-bottom-right-radius: 10pt !important;
@@ -63,12 +53,12 @@
 		}
 
 			.search-results-search-button .search-results-search-button-font {
-				color: rgb(124, 123, 30) !important;
+				color: #005fc4 !important;
 			}
 
 			.search-results-search-button:hover {    
-				background-color: rgb(124, 123, 30) !important;
-				border-color: rgb(241, 239, 108) !important;
+				background-color: #005fc4 !important;
+				border-color: #4494ff !important;
 				border-top-right-radius: 10pt !important;
 				border-bottom-right-radius: 10pt !important;
 				border-bottom-left-radius: 0pt !important;
@@ -76,7 +66,7 @@
 			}
 
 				.search-results-search-button:hover .search-results-search-button-font {    
-					color: rgb(241, 239, 108) !important;
+					color: #4494ff !important;
 				}
 
 		.search-results-suggestions-table {
@@ -86,8 +76,8 @@
 			width: 90%;
 			text-align: left;
 			background-color: #292c2f;
-			color: rgb(241, 239, 108);
-			opacity: 0.9;
+			color: #4494ff;
+			opacity: 0.95;
 		}
 
 			.search-results-suggestions-table-data {
@@ -96,7 +86,7 @@
 			}
 
 				.search-results-suggestions-table-data:hover {
-					background-color: rgb(124, 123, 30);
+					background-color: #005fc4;
 				}
 
 	#website-navigators-container {
@@ -110,6 +100,7 @@
 		.my-nav-tabs {
 			/*width: 10%;*/
 			background-color: #4494ff !important;
+			border-color: #005fc4 !important;
 			color: white !important;
 			border: 1px solid transparent !important;
 			border-radius: 4px !important;
@@ -119,8 +110,8 @@
 		}
 
 			.my-nav-tabs:hover {
-				background-color: #007bff !important;
-				border-color: #006fe2 !important;
+				background-color: #005fc4 !important;
+				border-color: #4494ff !important;
 			}
 
 @media (max-width: 1000px) {

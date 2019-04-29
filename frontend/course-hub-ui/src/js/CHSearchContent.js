@@ -6,7 +6,7 @@ import {Table, Image, Pagination, Button, Dropdown, Row, Col} from 'react-bootst
 import { UncontrolledDropdown, ButtonDropdown, DropdownToggle, DropdownMenu, DropdownItem } from 'reactstrap';
 import StarRatingComponent from 'react-star-rating-component';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faListAlt, faCaretDown, faCheck, faStar, faClock, faWater} from '@fortawesome/free-solid-svg-icons'
+import {faListAlt, faCaretDown, faCheck, faStar, faClock, faWater, faMoneyCheckAlt} from '@fortawesome/free-solid-svg-icons'
 import Form from "react-bootstrap/FormControl";
 
 const fetch = require('node-fetch');
@@ -226,20 +226,22 @@ class CHSearchContent extends Component {
                                                         <Row>
                                                             <Col md={9}>
                                                                 <Row style={{marginLeft: "0"}}>
-                                                                <FontAwesomeIcon icon={faClock} style={{color: "grey", height: "18px", width: "18px"}}/> &nbsp; {item.CourseDuration? " " + item.CourseDuration.Value + " " + item.CourseDuration.Unit: " 1 hr"}
-                                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-                                                                <FontAwesomeIcon icon={faWater} style={{color: "grey", height: "20px", width: "20px", fontWeight: "bold"}}/> &nbsp; {item.Difficulty ? item.Difficulty.toUpperCase(): ""}&nbsp;
-                                                                <span className="search-results-course-data-rating">
-                                                                    <StarRatingComponent
-                                                                        name={"search-results-course-rating"}
-                                                                        starCount={5}
-                                                                        value={item.Rating}
-                                                                        editing={false}
-                                                                        emptyStarColor={"grey"}
-                                                                        style = {{position: "inherit !important"}}
-                                                                        size='3x'
-                                                                    />
-                                                                </span>
+                                                                    <FontAwesomeIcon icon={faClock} style={{color: "grey", height: "18px", width: "18px"}}/> &nbsp; {item.CourseDuration? " " + item.CourseDuration.Value + " " + item.CourseDuration.Unit: " 1 hr"}
+                                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                                                                    
+                                                                    <FontAwesomeIcon icon={faMoneyCheckAlt} style={{color: "grey", height: "20px", width: "20px", fontWeight: "bold"}}/> &nbsp; {item.Price ? item.Price: "Free"}                                                                    
+                                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                    <FontAwesomeIcon icon={faWater} style={{color: "grey", height: "20px", width: "20px", fontWeight: "bold"}}/> &nbsp; {item.Difficulty ? item.Difficulty.toUpperCase(): ""}&nbsp;
+                                                                    <span className="search-results-course-data-rating">
+                                                                        <StarRatingComponent
+                                                                            name={"search-results-course-rating"}
+                                                                            starCount={5}
+                                                                            value={item.Rating}
+                                                                            editing={false}
+                                                                            emptyStarColor={"grey"}
+                                                                            style = {{position: "inherit !important"}}
+                                                                            size='3x'
+                                                                        />
+                                                                    </span>
                                                                 </Row>
                                                             </Col>
                                                             <Col md={3}>
