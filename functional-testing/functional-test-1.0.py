@@ -4,13 +4,19 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.support.ui import Select
 import time
+import platform
 
 
 class Election(unittest.TestCase):
 
     def setUp(self):
         # Loading the Chrome Web Driver
-        self.driver = webdriver.Chrome(executable_path="./chrome-driver/chromedriver")
+        if platform.system() == "Darwin":
+            self.driver = webdriver.Chrome(executable_path="./chrome-driver/chromedriver_mac")
+        elif platform.system() == "Windows":
+            self.driver = webdriver.Chrome(executable_path="./chrome-driver/chromedriver.exe")
+        elif platform.system() == "Linux":
+            self.driver = webdriver.Chrome(executable_path="./chrome-driver/chromedriver_linux")
 
     def test_Successful_Login(self):
         driver = self.driver
