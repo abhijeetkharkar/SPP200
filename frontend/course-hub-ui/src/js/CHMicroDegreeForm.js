@@ -22,6 +22,7 @@ class CHMicroDegreeForm extends Component {
             currentTimeInterval: 0,
             choice : this.props.choice,
             chips : [],
+            errorResponse : null,
             degree : this.props.microDegreeSuggestions,
             coursesDisplay : []
         };
@@ -35,30 +36,39 @@ class CHMicroDegreeForm extends Component {
     }
 
     componentWillReceiveProps(nextProps){
-        console.log("Next props Recieved are : ", nextProps);
-        console.log("LENGTH OF NEXT PROPS IS ", nextProps.microDegreeSuggestions.length);
         var courseDisplay = []
-        
-        for (let i = 0; i < nextProps.microDegreeSuggestions.length; i++) {
-            courseDisplay.push({
-                introductory : false,
-                intermediate : false,
-                advanced : false,
-                arrow: {
-                    introductory : 'rightarrow',
-                    intermediate : 'rightarrow',
-                    advanced : 'rightarrow'
-                }
+        if (nextProps.errorResponse){
+            this.setState({
+                errorResponse: nextProps.errorResponse,
+                choice: nextProps.choice
+            }, () => {
+                console.log("This state is ", this.state);
+            });
+        }else{
+            console.log("Next props Recieved are : ", nextProps);
+            console.log("LENGTH OF NEXT PROPS IS ", nextProps.microDegreeSuggestions.length);
+            for (let i = 0; i < nextProps.microDegreeSuggestions.length; i++) {
+                courseDisplay.push({
+                    introductory : false,
+                    intermediate : false,
+                    advanced : false,
+                    arrow: {
+                        introductory : 'rightarrow',
+                        intermediate : 'rightarrow',
+                        advanced : 'rightarrow'
+                    }
+                })
+            }
+    
+            this.setState({
+                errorResponse: null,
+                choice: nextProps.choice,
+                degree : nextProps.microDegreeSuggestions,
+                coursesDisplay :  courseDisplay
+            }, () => {
+                console.log("THIS IS STATE : ", this.state);
             })
         }
-
-        this.setState({
-            choice: nextProps.choice,
-            degree : nextProps.microDegreeSuggestions,
-            coursesDisplay :  courseDisplay
-        }, () => {
-            console.log("THIS IS STATE : ", this.state);
-        })
     }
 
     updateTag = (e) => {
@@ -99,7 +109,8 @@ class CHMicroDegreeForm extends Component {
         e.preventDefault();
         // Updating to Waiting State
         this.setState({
-            choice: 'waitingForSuggestions'
+            choice: 'waitingForSuggestions',
+            errorResponse: null
         });
         var params = {
             chips : this.state.chips,
@@ -164,7 +175,7 @@ class CHMicroDegreeForm extends Component {
                         <br />
                         <br />
                         <Form.Label style={floatLeft}><h4>Degree Time Interval</h4></Form.Label>
-                        <Form.Control type="number" value={this.state.currentTimeInterval} placeholder="Enter Degree Time Interval in Hours" onChange={this.updateTimeInterval} />
+                        <Form.Control type="number" value={this.state.currentTimeInterval} placeholder="Enter Degree Time Interval in Hours" onChange={this.updateTimeInterval} minlength='5' maxlength='50'/>
                         <br />
                         <Button variant="primary" type="button" onClick={this.loadSuggestions} style={floatLeft}>
                             Get MicroDegree Suggestions
@@ -175,6 +186,14 @@ class CHMicroDegreeForm extends Component {
                     {choice === 'waitingForSuggestions' &&
                         <div className="microDegreeSuggestionsLoading">
                             <Spinner size={40} spinnerColor="#333333" spinnerWidth={5} visible={true} />
+                        </div>
+                    }
+
+                    { this.state.errorResponse != null &&
+                        <div className="microDegreeSuggestionsLoading">
+                            <div className="floatLeft">
+                                {this.state.errorResponse}
+                            </div>
                         </div>
                     }
 

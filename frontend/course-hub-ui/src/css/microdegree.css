@@ -198,3 +198,9 @@
     transform: rotate(45deg);
     -webkit-transform: rotate(45deg);
 }
+
+.floatLeft {
+    float: left;
+    font-size: 18px;
+    font-weight: bold;
+}
