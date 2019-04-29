@@ -102,7 +102,6 @@ exports.microdegree = async (request, response) => {
                     var interindex = 0;
                     var advanceindex = 0;
                     var totalnoofmicrodegree = 0;
-<<<<<<< HEAD
                     var degreeadded=1;
                     while (totalnoofmicrodegree < 3 && microdegrees.Introcourses.courses.length>0 &&
                         microdegrees.Intermediatecourses.courses.length>0 && microdegrees.Advancedcourses.courses.length>0&&degreeadded==1) {
@@ -110,13 +109,6 @@ exports.microdegree = async (request, response) => {
                         console.log("No of Intermediate Courses: ", microdegrees.Intermediatecourses.courses.length);
                         console.log("No of Advanced Courses: ", microdegrees.Advancedcourses.courses.length);
                         degreeadded=0;
-=======
-                    var degreeadded = 1;
-                    while (totalnoofmicrodegree <= 10 && microdegrees.Introcourses.courses.length > 0 &&
-                        microdegrees.Intermediatecourses.courses.length > 0 && microdegrees.Advancedcourses.courses.length > 0
-                        && degreeadded == 1) {
-                        degreeadded = 0;
->>>>>>> 17a164b239661528c2b8939cda748673be80e6da
                         var introarray = [];
                         var interarray = [];
                         var advancedarray = [];
