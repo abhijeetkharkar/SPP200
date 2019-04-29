@@ -61,7 +61,7 @@ class CHDealsCard extends React.Component {
         <div className="card">
           <img style={imageStyle} className="card-img-top" src={this.state.imageLink} alt="Card image cap" width='276px' height='180px' />
           <div className="card-body">
-            <h5 className="card-title"><a href="javascript:void(0);" onClick={e => this.loadModal(this.state.id)}>{this.state.title}</a></h5>
+            <h5><a href="javascript:void(0);" onClick={e => this.loadModal(this.state.id)}>{this.state.title}</a></h5>
             <b> {this.state.provider} </b>
             <p className="card-text"> {this.state.description} </p>
           </div>
