@@ -22,13 +22,9 @@ class CHNavigator extends Component {
 
 					<p className="footer-links">
 						<a href="/">Home</a>
-							·
-						<a href="#">Blog</a>
-							·
+							&nbsp;·&nbsp;
 						<a href="#">About</a>
-							·
-						<a href="#">FAQ</a>
-							·
+							&nbsp;·&nbsp;
 						<a href="#">Contact</a>
 					</p>
 
