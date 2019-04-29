@@ -169,7 +169,7 @@ exports.microdegree = async (request, response) => {
                     var advanceindex = 0;
                     var totalnoofmicrodegree = 0;
                     var degreeadded=1;
-                    while (totalnoofmicrodegree <= 10 && microdegrees.Introcourses.courses.length>0 &&
+                    while (totalnoofmicrodegree < 3 && microdegrees.Introcourses.courses.length>0 &&
                         microdegrees.Intermediatecourses.courses.length>0 && microdegrees.Advancedcourses.courses.length>0&&degreeadded==1) {
                         console.log("No of Intro Courses: ", microdegrees.Introcourses.courses.length);
                         console.log("No of Intermediate Courses: ", microdegrees.Intermediatecourses.courses.length);
@@ -249,12 +249,21 @@ exports.microdegree = async (request, response) => {
                             }
                         }
                         microdegree_object['advanced'] = advancedarray;
-                        recommendanded_microdegree[totalnoofmicrodegree] = microdegree_object;
-                        totalnoofmicrodegree = totalnoofmicrodegree + 1;
+                        if(microdegree_object['introductory'].length>0 && microdegree_object['intermediate'].length>0 
+                                            && microdegree_object['advanced'].length>0){
+                            recommendanded_microdegree[totalnoofmicrodegree] = microdegree_object;
+                            totalnoofmicrodegree = totalnoofmicrodegree + 1;
+                        }
                         
                     }
-
-                    response.json(recommendanded_microdegree);
+                    if(totalnoofmicrodegree>0)
+                        response.json(recommendanded_microdegree);
+                    else{
+                        response.json({
+                            "status": 400,
+                            "message": "Could not find any microdegrees"
+                        })
+                    }
                 })
             })
         }).catch(error => {
