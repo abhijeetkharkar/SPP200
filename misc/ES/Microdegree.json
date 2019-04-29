@@ -1,0 +1,31 @@
+{
+    "settings": {
+      "number_of_shards": 3,
+      "number_of_replicas": 2
+    },
+    "mappings": {
+      "microdegree": {
+        "properties": {
+          "userID": {
+            "type": "text"
+          },
+          "dateAdded": {
+            "type": "date",
+            "format": "yyyy-MM-dd"
+          },
+          "microdegreeTags": {
+            "type": "text"
+          },
+          "introductory": {
+            "type": "text"
+          },
+          "intermediate": {
+            "type": "text"
+          },
+          "advanced": {
+            "type": "text"
+          }
+        }
+      }
+    }
+  }
