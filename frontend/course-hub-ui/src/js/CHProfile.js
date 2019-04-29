@@ -61,26 +61,33 @@ class CHProfile extends Component {
 
         return(
             <div className="profile">
-                {choice === "home" &&
-                    this.props.history.push('/')
+
+                {
+                    choice === "home" && this.props.history.push('/')
                 }
 
-                {choice === "deals" &&
-                    this.props.history.push('/deals')
+                {
+                    (choice === "profile" || choice === "homeSignedIn" ) &&
+                        [
+                            <CHNavigator updateContent={this.handleClick} signedIn={true} caller={"profile"} firstName={firstName} email={email} key="keyNavigatorLandingContent" />,
+                            <div className="profile-content" ke y="keyLandingContent">
+                                <ProfileContent updateContent={this.handleClick} email={email} />
+                            </div>,
+                            <CHFooter key="keyFooterLandingContent" />,
+                        ]
                 }
 
-                {(choice === "profile" || choice === "homeSignedIn" ) &&
-                    [
-                        <CHNavigator updateContent={this.handleClick} signedIn={true} caller={"app"} firstName={firstName} email={email} key="keyNavigatorLandingContent" />,
-                        <div className="profile-content" ke y="keyLandingContent">
-                            <ProfileContent updateContent={this.handleClick} email={email} />
-                        </div>,
-                        <CHFooter key="keyFooterLandingContent" />,
-                    ]
-                }
                 {
                     choice === "coursedetails" && this.props.history.push('/course?courseId=' + this.state.queryString )
-                }
+                }                				
+
+				{	
+					choice === "deals" && this.props.history.push('/deals')
+        		}
+
+				{	
+					choice === "microdegree" && this.props.history.push('/microdegree')
+				}
 
             </div>
         );
