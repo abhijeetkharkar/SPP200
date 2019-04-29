@@ -81,17 +81,22 @@ function addDifficulty(searchQuery, difficulties) {
     return searchQuery;
 }
 
-function addSortquery(searchQuery, sortparams) {
-    sortfilter={}
-    console.log(sortparams.length)
-    for(i=0;i<sortparams.length;i++){
-        sortparam=sortparams[i];
+function addSortquery(searchQuery, sortParam) {
+    sortfilter={};
+    // console.log("addSortquery called, sortParam=", sortParam);
+    /* for(i=0;i<sortParam.length;i++){
+        sortparam=sortParam[i];
         if(sortparam.field=="Price"){
             sortfilter["Price"]={"order": sortparam.order} 
         }
         else if(sortparam.field=="Rating"){
             sortfilter["Rating"]={"order": sortparam.order} 
         }
+    } */
+    if(sortParam=="price-asc"){
+        sortfilter["Price"]={"order": "asc"} 
+    } else if(sortParam=="rating-desc"){
+        sortfilter["Rating"]={"order": "desc"} 
     }
     searchQuery["sort"]=sortfilter;
     return searchQuery;
@@ -144,11 +149,11 @@ exports.searchquery = function(request, response){
     if (request.body.difficulty){
         searchQuery = addDifficulty(searchQuery, request.body.difficulty);
     }
-    if(request.body.sortparams){
-        searchQuery = addSortquery(searchQuery,request.body.sortparams)
+    if(request.body.sortParam){
+        searchQuery = addSortquery(searchQuery,request.body.sortParam)
     }
 
-    console.log("Search Query: ",JSON.stringify(searchQuery))
+    // console.log("Search Query: ",JSON.stringify(searchQuery))
 
     // Loading Data from Elastic Search
     fetch(url, {
@@ -159,8 +164,8 @@ exports.searchquery = function(request, response){
         if (res.status == 200) {
             return res.json();
         } else {
-            console.log('Error: ',res.status)
-            console.log('Error: ',res.statusText)
+            // console.log('Error: ',res.status)
+            // console.log('Error: ',res.statusText)
             error={
                 "status": res.status,
                 "message": res.statusText
