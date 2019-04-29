@@ -3,11 +3,13 @@
 .microDegreeForm{
     margin-top:8em;
     margin-left: 6%;
-    min-height: 1024px;
+    min-height: 600px;
+    margin-left: 22%;
 }
 
 .microDegreeFormInput{
-    width: 50%;
+    
+    width: 67%;
     float: left;
 }
 
@@ -15,18 +17,176 @@
     
 }
 
+.microDegreeSuggestionsLoading{
+    padding-top: 350px;
+}
+
+.collapsableIntroductory{
+    font-size: 20px;
+    font-weight: bold;
+    float: left;
+}
+
 .microDegreeSuggestionsCard{
-    width: 55%;
+    width: 68%;
 }
 
 .microDegreeRegister{
-    width: 30%;
+    width: 35%;
+    margin-left: 1em;
+    margin-bottom: 0.5em;
 }
 
 .microDegreeText{
     float: left;
 }
 
+.microDegreeProvider{
+    /* width: 33%; */
+}
+
 .microDegreeDifficulty{
-    margin-left: 20em;
+    /* width: 33%; */
+    margin-left: 7em;
+    /* display: inline-block; */
+}
+
+.microDegreeDuration{
+    /* width: 33%; */
+    margin-left: 7em;
+}
+
+.jumbo{
+    padding: 15px;
+}
+
+.jumboDifficulty{
+    padding: 5px;
+    background-color: #C1C836;
+    display: inline-block;
+}
+
+.jumboCourseDuration{
+    padding: 5px;
+    background-color: #46B3EA;
+    display: inline-block;
+}
+
+.jumboCourseProvider{
+    padding: 5px;
+    background-color: #3DBB8B;
+    display: inline-block;
+}
+
+.jumboCourse{
+    padding: 15px;
+    margin-bottom: 10px;
+    background-color: #BCC2C5;
+    display: inline-block;
+}
+
+.jumboIntroductory{
+    padding: 5px;
+    background-color: #9BABB6;
+    font-size: 20px;
+    font-weight: bold;
+    float: left;
+}
+
+.jumboIntermediate{
+    padding: 5px;
+    background-color: #9BABB6;
+    font-size: 20px;
+    font-weight: bold;
+    float: left;
+}
+
+.jumboAdvanced{
+    padding: 5px;
+    background-color: #9BABB6;
+    font-size: 20px;
+    font-weight: bold;
+    float: left;
+}
+
+.jumboMicroDegreeTitle{
+    padding: 10px;
+    background-color: #5B676D;
+    font-size: 25px;
+    font-weight: bold;
+    color: #ffffff;
+}
+
+.arrowImage{
+    margin-top: -30px;
+    width: 149px; 
+    height: 118px;
+}
+
+.degreeTitle{
+    font-size: 22px;
+}
+
+/* .titleBackground{
+    background-color: #78858E;
+} */
+
+.additionalClassForHead{
+    font-size: 18px;
+}
+
+.updateCollapseButton{
+    display: inline-block;
+    border: none;
+    width: 95%;
+    padding: 0rem 0rem;
+    margin: 0;
+    text-decoration: none;
+    background: #0069ed;
+    color: #ffffff;
+    font-family: sans-serif;
+    font-size: 1rem;
+    cursor: pointer;
+    text-align: center;
+    transition: background 250ms ease-in-out, 
+                transform 150ms ease;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.courseTitle{
+    font-size: 22px;
+    font-weight: bold;
+    float: left;
+}
+
+i {
+    border: solid black;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+  }
+  
+.right {
+    margin-left: 31em;
+    transform: rotate(-45deg);
+    -webkit-transform: rotate(-45deg);
+}
+
+.left {
+    margin-left: 30em;
+    transform: rotate(135deg);
+    -webkit-transform: rotate(135deg);
+  }
+  
+.up {
+    margin-left: 30em;
+    transform: rotate(-135deg);
+    -webkit-transform: rotate(-135deg);
+}
+
+.down {
+    margin-left: 31em;
+    transform: rotate(45deg);
+    -webkit-transform: rotate(45deg);
 }

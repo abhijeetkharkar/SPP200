@@ -44,7 +44,7 @@ class CHCompareModal extends Component {
                                                 <a href="" onClick={ () => this.props.updateContent('coursedetails',null,null,item.CourseId)}>{item.Title}</a>
                                             </Row>
                                             <Row>
-                                                {"Provider: " +  item.CourseProvider + " | Taught By: " + (item.Instructors? item.Instructors.map(item => item.InstructorName).toString(): "")}
+                                                <strong>Provider</strong>{": " +  item.CourseProvider}
                                                 <hr/>
                                             </Row>
 

@@ -1,4 +1,4 @@
-import {Button, Card, Col, Form, Image, Modal, Row} from "react-bootstrap";
+import {Button, Card, Col, Form} from "react-bootstrap";
 import React, {Component} from "react";
 import {
     doDeleteProfilePicture,

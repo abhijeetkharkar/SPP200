@@ -49,7 +49,6 @@ const searchUser = async payload => {
 }
 
 const getUserDetails = async payload => {
-    // console.log("in search user");
     const response = await fetch(process.env.REACT_APP_AWS_ELASTIC_SEARCH_URL + "users/_search",
         {
             method: 'POST',
@@ -75,8 +74,6 @@ const getUserDetails = async payload => {
 }
 
 const updateUser = async (_id, payload) => {
-    // console.log("in update user");
-    // console.log("payload is:", payload);
     return await fetch(process.env.REACT_APP_AWS_ELASTIC_SEARCH_URL + "users/user/" + _id + '/_update',
         {
             method: 'POST',
@@ -86,7 +83,6 @@ const updateUser = async (_id, payload) => {
             return response.json();
         }).then(elasticData => {
             // console.log("Update User JSON OBJECT IS ")
-            // console.log("log is ", elasticData)
             if (elasticData.result === "updated" || elasticData.result === "noop") {
                 return true;
             } else {
@@ -409,7 +405,18 @@ const addDealVoteinES = async (payload) => {
     });
 }
 
+const getMicroDegreeSuggestions = async (payload) => {
+    return await fetch(process.env.REACT_APP_GET_MICRODEGREE, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+        headers: { 'Content-Type': 'application/json' }
+    }).then(response => {
+        return response.json();
+    });
+}
+
 export {addUser, searchUser, getUserDetails, updateUser, elasticDeleteUser, addDeal, 
     addReview, getReviews, updateReview, getCourseDetails, updateCourseRating, 
     getDealsfromES, getSpecificDealFromES, getDealVotesFromES, updateDealVotesinES, 
-    updateDealsinES, addDealVoteinES, addUserReviewLike, getUserReviewLikes, updateUserReviewLike };
+    updateDealsinES, addDealVoteinES, addUserReviewLike, getUserReviewLikes, updateUserReviewLike,
+    getMicroDegreeSuggestions };
