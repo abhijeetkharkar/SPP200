@@ -50,14 +50,23 @@ class ProfileContent extends Component {
             elastic_message: '',
             serverErrorMsg: '',
             profile_picture: '',
-            microdegrees: [],
         };
+
+        this.setUserProfileDetails(this.props.email);
+    }
+
+    componentDidMount() {
+        console.log(this.props.email);
+    }
+
+    setUserProfileDetails = async (email) => {
         var payload = {
             query : {
-                term : { Email : this.props.email }
+                term : { Email : email }
             }
         };
-        getUserDetails(payload).then(elasticResponse => {
+
+        await getUserDetails(payload).then(elasticResponse => {
             var id = elasticResponse.id;
             var elasticData = elasticResponse.data;
             this.setState({id: id});
@@ -81,28 +90,8 @@ class ProfileContent extends Component {
             this.setState({ serverErrorMsg: error.message });
             document.getElementById("fetchError").style.display = 'block';
         });
+    };
 
-        payload = {
-            query: {
-                bool: {
-                    must : {
-                        term : { "userID" : "nabeelahmadkhan@gmail.com" }
-                    }
-                }
-            }
-        };
-
-        getUserMicroDegree(payload).then(elasticResponse => {
-            console.log(payload);
-            console.log("MicroDegree fetch response");
-            console.log(elasticResponse);
-            this.setState({microdegrees: elasticResponse});
-        })
-    }
-
-    componentDidMount() {
-        console.log(this.props.email);
-    }
 
     handleClick = (choice, firstName, email, queryString) => {
         this.props.updateContent(choice, firstName, email, queryString);
@@ -420,7 +409,7 @@ class ProfileContent extends Component {
                                     </Row>
                                 </div>
                                 <CHCourseListsCard updateContent={this.handleClick} user_id={this.state.id} email={this.state.email} favoriteList={this.state.favoriteList} inProgressList={this.state.inProgressList} completedList={this.state.completedList}/>
-                                <CHProfileMicroDegreeCard email={this.state.email} microDegreeSuggestions={this.state.microdegrees}/>
+                                <CHProfileMicroDegreeCard email={this.state.email}/>
                                 <CHDeactivateCard email={this.state.email}/>
                             </Col>
                         </Row>

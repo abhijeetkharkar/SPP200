@@ -431,8 +431,6 @@ const getUserMicroDegree = async (payload) => {
         body: JSON.stringify(payload),
         headers: { 'Content-Type': 'application/json' }
     }).then(response => {
-        console.log("Fetching microdegree", JSON.stringify(payload));
-        console.log(response);
         return response.json();
     });
 
