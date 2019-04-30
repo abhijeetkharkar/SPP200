@@ -349,7 +349,7 @@ class CHMicroDegreeForm extends Component {
                                         
                                                             <br />
                                                             <div id="registerButton">
-                                                                <Button variant="primary" className="microDegreeRegister" onClick={this.saveMicroDegree(index)}>Register For This MicroDegree</Button>
+                                                                <Button variant="primary" className="microDegreeRegister" id={'registerMicroDegree' + index} onClick={this.saveMicroDegree(index)}>Register For This MicroDegree</Button>
                                                                 {this.state.coursesDisplay[index].saving == true &&
                                                                     <div className="savedIcon">
                                                                         <Button variant="warning">Saving...</Button>
@@ -357,7 +357,7 @@ class CHMicroDegreeForm extends Component {
                                                                 }
                                                                 {this.state.coursesDisplay[index].saved == true &&
                                                                     <div className="savedIcon">
-                                                                        <Button variant="success">Saved</Button>
+                                                                        <Button variant="success" id={'degreeSaved' + index}>Saved</Button>
                                                                     </div>
                                                                 }
                                                             </div>

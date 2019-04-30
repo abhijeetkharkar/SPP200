@@ -346,6 +346,43 @@ class Authentication(unittest.TestCase):
         
         self.assertIn(microdegree, "Microdegree Suggestion 1")
 
+    def test_microdegree_recommendation_saving_happy_path(self):
+        driver = self.driver
+        driver.get("http://localhost:8080/microdegree")
+
+        driver.find_element_by_id("loginButtonNavigator").click()
+        time.sleep(1)
+
+        username = driver.find_element_by_id("formGridEmail")        
+        username.send_keys("test1@test.com"+Keys.TAB+"test1234"+Keys.TAB+Keys.ENTER)
+        time.sleep(2)
+
+        tags = driver.find_element_by_id("degreeTags")
+        self.assertIn("Degree Tags", tags.text)
+
+        chips = driver.find_element_by_id("chipsTags")
+        chips.send_keys("python"+Keys.ENTER)
+
+        time_interval = driver.find_element_by_id("timeInterval")
+        time_interval.send_keys("20"+Keys.TAB+Keys.ENTER)
+        time.sleep(5)
+
+        microdegree = driver.find_element_by_class_name('jumboMicroDegreeTitle').text
+        
+        self.assertIn(microdegree, "Microdegree Suggestion 1")
+
+        button = driver.find_element_by_id("registerMicroDegree0").click()
+        time.sleep(1)
+
+        saved_button = driver.find_element_by_id('degreeSaved0').text
+
+        self.assertIn(saved_button, "Saved")
+
+        driver.find_element_by_id("signedInOptions").click()
+        time.sleep(1)
+
+        driver.find_element_by_id("logout-button").click()
+
 
     def tearDown(self):
         self.driver.close()
