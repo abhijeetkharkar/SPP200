@@ -21,6 +21,7 @@ class CHDeals extends Component {
 		super(props, context);
 		const values = queryString.parse(this.props.location.search);
 		this.state = {
+			dealAdded : null,
 			choice: 'deals',
 			firstName: false,
 			email: null,
@@ -93,9 +94,10 @@ class CHDeals extends Component {
 	}
 
 	handleAddDeal = (response) => {
-		if (response === true){
+		if (response){
 			this.setState({
-				choice: 'adddealsuccessfull'
+				choice: 'adddealsuccessfull',
+				dealAdded: response
 			});
 		}else{
 			this.setState({
@@ -129,7 +131,7 @@ class CHDeals extends Component {
 			<div className="App container-fluid">
 				{choice === "deals" &&
 					[<CHNavigator updateContent={this.handleClick} signedIn={firstName} caller={"deals"} firstName={firstName} email={email} key="keyNavigatorSearch" />,
-					<CHDealsContent updatePage={this.handlePagination} firstName={firstName} email={email} pageNumber={pageNumber} handlePageUpdate={this.handlePageUpdate} pageType='deals' courseID={this.state.courseID} key='keyDealsContent' updateDealCategory={this.updateDealCategory} dealCategory={this.state.dealCategory}/>,
+					<CHDealsContent updatePage={this.handlePagination} firstName={firstName} email={email} pageNumber={pageNumber} handlePageUpdate={this.handlePageUpdate} pageType='deals' courseID={this.state.courseID} key='keyDealsContent' updateDealCategory={this.updateDealCategory} dealCategory={this.state.dealCategory} dealAdded={this.state.dealAdded}/>,
 					
 					<CHFooter key="keyFooterSearch" />]
 				}
@@ -137,7 +139,7 @@ class CHDeals extends Component {
 				{choice === "addnewdeal" &&
 					[<CHNavigator updateContent={this.handleClick} signedIn={firstName} caller={"deals"} firstName={firstName} email={email} key="keyNavigatorSearch" />,
 					// <CHDealsContent updatePage={this.handlePagination} firstName={firstName} email={email} pageNumber={pageNumber} handlePageUpdate={this.handlePageUpdate} pageType='addnewdeal' handleAddDeal={this.handleAddDeal} key='keyDealsContent' updateDealCategory={this.updateDealCategory} dealCategory={this.state.dealCategory} />,
-					<CHDealsContent updatePage={this.handlePagination} firstName={firstName} email={email} pageNumber={pageNumber} handlePageUpdate={this.handlePageUpdate} pageType='addnewdeal' handleAddDeal={this.handleAddDeal} courseID={this.state.courseID} key='keyDealsContent' updateDealCategory={this.updateDealCategory} dealCategory={this.state.dealCategory} />,
+					<CHDealsContent updatePage={this.handlePagination} firstName={firstName} email={email} pageNumber={pageNumber} handlePageUpdate={this.handlePageUpdate} pageType='addnewdeal' handleAddDeal={this.handleAddDeal} courseID={this.state.courseID} key='keyDealsContent' updateDealCategory={this.updateDealCategory} dealCategory={this.state.dealCategory} dealAdded={this.state.dealAdded}/>,
 					
 					<CHFooter key="keyFooterSearch" />]
 				}
@@ -145,7 +147,7 @@ class CHDeals extends Component {
 				{choice === "adddealsuccessfull" &&
 					[<CHNavigator updateContent={this.handleClick} signedIn={firstName} caller={"deals"} firstName={firstName} email={email} key="keyNavigatorSearch" />,
 					// <CHDealsContent firstName={firstName} email={email} pageNumber={pageNumber} handlePageUpdate={this.handlePageUpdate} handleSignUp={this.handleSignUp} pageType='adddealsuccessfull' handleAddDeal={this.handleAddDeal} key='keyDealsContent' updateDealCategory={this.updateDealCategory} dealCategory={this.state.dealCategory}  updateDealCategory={this.updateDealCategory} dealCategory={this.state.dealCategory} />,
-					<CHDealsContent firstName={firstName} email={email} pageNumber={pageNumber} handlePageUpdate={this.handlePageUpdate} handleSignUp={this.handleSignUp} pageType='adddealsuccessfull' handleAddDeal={this.handleAddDeal} key='keyDealsContent' updateDealCategory={this.updateDealCategory} dealCategory={this.state.dealCategory} updateDealCategory={this.updateDealCategory} dealCategory={this.state.dealCategory} />,
+					<CHDealsContent firstName={firstName} email={email} pageNumber={pageNumber} handlePageUpdate={this.handlePageUpdate} handleSignUp={this.handleSignUp} pageType='adddealsuccessfull' handleAddDeal={this.handleAddDeal} key='keyDealsContent' updateDealCategory={this.updateDealCategory} dealCategory={this.state.dealCategory} updateDealCategory={this.updateDealCategory} dealCategory={this.state.dealCategory} dealAdded={this.state.dealAdded}/>,
 					
 					<CHFooter key="keyFooterSearch" />]
 				}
@@ -153,7 +155,7 @@ class CHDeals extends Component {
 				{choice === "adddealunsuccessfull" &&
 					[<CHNavigator updateContent={this.handleClick} signedIn={firstName} caller={"deals"} firstName={firstName} email={email} key="keyNavigatorSearch" />,
 					// <CHDealsContent updatePage={this.handlePagination} firstName={firstName} email={email} pageNumber={pageNumber} handlePageUpdate={this.handlePageUpdate} handleSignUp={this.handleSignUp} pageType='adddealunsuccessfull' handleAddDeal={this.handleAddDeal} key='keyDealsContent' updateDealCategory={this.updateDealCategory} dealCategory={this.state.dealCategory} />,
-					<CHDealsContent firstName={firstName} email={email} pageNumber={pageNumber} handlePageUpdate={this.handlePageUpdate} handleSignUp={this.handleSignUp} pageType='adddealunsuccessfull' handleAddDeal={this.handleAddDeal} key='keyDealsContent' updateDealCategory={this.updateDealCategory} dealCategory={this.state.dealCategory} updateDealCategory={this.updateDealCategory} dealCategory={this.state.dealCategory} />,
+					<CHDealsContent firstName={firstName} email={email} pageNumber={pageNumber} handlePageUpdate={this.handlePageUpdate} handleSignUp={this.handleSignUp} pageType='adddealunsuccessfull' handleAddDeal={this.handleAddDeal} key='keyDealsContent' updateDealCategory={this.updateDealCategory} dealCategory={this.state.dealCategory} updateDealCategory={this.updateDealCategory} dealCategory={this.state.dealCategory} dealAdded={this.state.dealAdded}/>,
 
 					<CHFooter key="keyFooterSearch" />]
 				}
@@ -161,21 +163,21 @@ class CHDeals extends Component {
 				{choice === "loginScreen" &&
 					[<LoginPage updateContent={this.handleClick} key="keyLoginOverlayOnSearch" searchString=""/>,
 					<CHNavigator updateContent={this.handleClick} signedIn={false} caller={"deals"} key="keyNavigatorLoginOverlayOnSearch" />,
-					<CHDealsContent updatePage={this.handlePagination} firstName={firstName} email={email} pageNumber={pageNumber} handlePageUpdate={this.handlePageUpdate} pageType='deals' courseID={this.state.courseID} key='keyDealsContent' updateDealCategory={this.updateDealCategory} dealCategory={this.state.dealCategory} />,
+					<CHDealsContent updatePage={this.handlePagination} firstName={firstName} email={email} pageNumber={pageNumber} handlePageUpdate={this.handlePageUpdate} pageType='deals' courseID={this.state.courseID} key='keyDealsContent' updateDealCategory={this.updateDealCategory} dealCategory={this.state.dealCategory} dealAdded={this.state.dealAdded}/>,
 					<CHFooter key="keyFooterLoginOverlayOnSearch" />]
 				}
 
 				{choice === "signupScreen" &&
 					[<SignupPage updateContent={this.handleClick} key="keySignUpOverlayOnSearch" searchString="" />,
 					<CHNavigator updateContent={this.handleClick} signedIn={false} caller={"deals"} key="keyNavigatorSignUpOverlayOnSearch" />,
-					<CHDealsContent updatePage={this.handlePagination} firstName={firstName} email={email} pageNumber={pageNumber} handlePageUpdate={this.handlePageUpdate} pageType='deals' courseID={this.state.courseID} key='keyDealsContent' updateDealCategory={this.updateDealCategory} dealCategory={this.state.dealCategory} />,
+					<CHDealsContent updatePage={this.handlePagination} firstName={firstName} email={email} pageNumber={pageNumber} handlePageUpdate={this.handlePageUpdate} pageType='deals' courseID={this.state.courseID} key='keyDealsContent' updateDealCategory={this.updateDealCategory} dealCategory={this.state.dealCategory} dealAdded={this.state.dealAdded}/>,
 					<CHFooter key="keyFooterSignUpOverlayOnSearch" />]
 				}
 
 				{choice === "forgotPasswordScreen" &&
 					[<ForgotPasswordPage updateContent={this.handleClick} key="keyForgotPasswordOverlayOnSearch" searchString="" />,
 					<CHNavigator updateContent={this.handleClick} signedIn={false} caller={"deals"} key="keyNavigatorForgotPasswordOverlayOnSearch" />,
-					<CHDealsContent updatePage={this.handlePagination} firstName={firstName} email={email} pageNumber={pageNumber} handlePageUpdate={this.handlePageUpdate} pageType='deals' courseID={this.state.courseID} key='keyDealsContent' updateDealCategory={this.updateDealCategory} dealCategory={this.state.dealCategory} />,
+					<CHDealsContent updatePage={this.handlePagination} firstName={firstName} email={email} pageNumber={pageNumber} handlePageUpdate={this.handlePageUpdate} pageType='deals' courseID={this.state.courseID} key='keyDealsContent' updateDealCategory={this.updateDealCategory} dealCategory={this.state.dealCategory} dealAdded={this.state.dealAdded}/>,
 					<CHFooter key="keyFooterForgotPasswordOverlayOnSearch" />]
 				}
 
