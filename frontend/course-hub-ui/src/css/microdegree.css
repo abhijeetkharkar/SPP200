@@ -35,6 +35,8 @@
     width: 35%;
     margin-left: 1em;
     margin-bottom: 0.5em;
+    display: inline-block;
+    float: left;
 }
 
 .microDegreeText{
@@ -148,7 +150,7 @@
     font-size: 1rem;
     cursor: pointer;
     text-align: center;
-    transition: background 250ms ease-in-out, 
+    transition: background 250ms ease-in-out,
                 transform 150ms ease;
     -webkit-appearance: none;
     -moz-appearance: none;
@@ -197,4 +199,22 @@
     margin-left: 31em;
     transform: rotate(45deg);
     -webkit-transform: rotate(45deg);
+}
+
+.floatLeft {
+    float: left;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.savedIcon {
+    display: inline-block;
+    font-size: 18px;
+    font-weight: bold;
+    width: 15%;
+    float: right;
+}
+
+.registerButton{
+    display: flex;
 }

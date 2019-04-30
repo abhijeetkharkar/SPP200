@@ -17,13 +17,271 @@
             "type": "text"
           },
           "introductory": {
-            "type": "text"
+            "properties" : {
+              "Category": {
+                "type": "text",
+                    "analyzer": "ngram_tokenizer_analyzer"
+              },
+              "CourseDuration": {
+                "properties": {
+                  "Value": {
+                    "type": "integer"
+                  },
+                  "Unit": {
+                    "type": "keyword"
+                  }
+                }
+              },
+              "CourseId": {
+                "type": "keyword"
+              },
+              "CourseImage": {
+                "type": "text"
+              },
+              "CourseProvider": {
+                "type": "text"
+              },
+              "Description": {
+                "type": "text",
+                    "term_vector": "yes",
+                    "analyzer": "ngram_tokenizer_analyzer"
+              },
+              "Difficulty": {
+                "type": "text"
+              },
+              "EndDate": {
+                "type": "date",
+                    "format": "yyyy-MM-dd"
+              },
+              "last_updated": {
+                "type": "date",
+                    "format": "yyyy-MM-dd"
+              },
+              "Instructors": {
+                "properties": {
+                  "InstructorId": {
+                    "type": "keyword"
+                  },
+                  "InstructorName": {
+                    "type": "text"
+                  },
+                  "ProfilePic": {
+                    "type": "text"
+                  }
+                }
+              },
+              "Paid": {
+                "type": "boolean"
+              },
+              "Price": {
+                "type": "double"
+              },
+              "PriceCurrency": {
+                "type": "text"
+              },
+              "Rating": {
+                "type": "float"
+              },
+              "hits":{
+                "type":"integer"
+              },
+              "NoofRatings":{
+                "type":"integer"
+              },
+              "SelfPaced": {
+                "type": "boolean"
+              },
+              "StartDate": {
+                "type": "date",
+                    "format": "yyyy-MM-dd"
+              },
+              "Title": {
+                "type": "text",
+                    "term_vector": "yes",
+                    "analyzer": "ngram_tokenizer_analyzer"
+              },
+              "URL": {
+                "type": "keyword"
+              }
+            }
           },
           "intermediate": {
-            "type": "text"
+            "properties" : {
+              "Category": {
+                "type": "text",
+                    "analyzer": "ngram_tokenizer_analyzer"
+              },
+              "CourseDuration": {
+                "properties": {
+                  "Value": {
+                    "type": "integer"
+                  },
+                  "Unit": {
+                    "type": "keyword"
+                  }
+                }
+              },
+              "CourseId": {
+                "type": "keyword"
+              },
+              "CourseImage": {
+                "type": "text"
+              },
+              "CourseProvider": {
+                "type": "text"
+              },
+              "Description": {
+                "type": "text",
+                    "term_vector": "yes",
+                    "analyzer": "ngram_tokenizer_analyzer"
+              },
+              "Difficulty": {
+                "type": "text"
+              },
+              "EndDate": {
+                "type": "date",
+                    "format": "yyyy-MM-dd"
+              },
+              "last_updated": {
+                "type": "date",
+                    "format": "yyyy-MM-dd"
+              },
+              "Instructors": {
+                "properties": {
+                  "InstructorId": {
+                    "type": "keyword"
+                  },
+                  "InstructorName": {
+                    "type": "text"
+                  },
+                  "ProfilePic": {
+                    "type": "text"
+                  }
+                }
+              },
+              "Paid": {
+                "type": "boolean"
+              },
+              "Price": {
+                "type": "double"
+              },
+              "PriceCurrency": {
+                "type": "text"
+              },
+              "Rating": {
+                "type": "float"
+              },
+              "hits":{
+                "type":"integer"
+              },
+              "NoofRatings":{
+                "type":"integer"
+              },
+              "SelfPaced": {
+                "type": "boolean"
+              },
+              "StartDate": {
+                "type": "date",
+                    "format": "yyyy-MM-dd"
+              },
+              "Title": {
+                "type": "text",
+                    "term_vector": "yes",
+                    "analyzer": "ngram_tokenizer_analyzer"
+              },
+              "URL": {
+                "type": "keyword"
+              }
+            }
           },
           "advanced": {
-            "type": "text"
+            "properties" : {
+              "Category": {
+                "type": "text",
+                    "analyzer": "ngram_tokenizer_analyzer"
+              },
+              "CourseDuration": {
+                "properties": {
+                  "Value": {
+                    "type": "integer"
+                  },
+                  "Unit": {
+                    "type": "keyword"
+                  }
+                }
+              },
+              "CourseId": {
+                "type": "keyword"
+              },
+              "CourseImage": {
+                "type": "text"
+              },
+              "CourseProvider": {
+                "type": "text"
+              },
+              "Description": {
+                "type": "text",
+                    "term_vector": "yes",
+                    "analyzer": "ngram_tokenizer_analyzer"
+              },
+              "Difficulty": {
+                "type": "text"
+              },
+              "EndDate": {
+                "type": "date",
+                    "format": "yyyy-MM-dd"
+              },
+              "last_updated": {
+                "type": "date",
+                    "format": "yyyy-MM-dd"
+              },
+              "Instructors": {
+                "properties": {
+                  "InstructorId": {
+                    "type": "keyword"
+                  },
+                  "InstructorName": {
+                    "type": "text"
+                  },
+                  "ProfilePic": {
+                    "type": "text"
+                  }
+                }
+              },
+              "Paid": {
+                "type": "boolean"
+              },
+              "Price": {
+                "type": "double"
+              },
+              "PriceCurrency": {
+                "type": "text"
+              },
+              "Rating": {
+                "type": "float"
+              },
+              "hits":{
+                "type":"integer"
+              },
+              "NoofRatings":{
+                "type":"integer"
+              },
+              "SelfPaced": {
+                "type": "boolean"
+              },
+              "StartDate": {
+                "type": "date",
+                    "format": "yyyy-MM-dd"
+              },
+              "Title": {
+                "type": "text",
+                    "term_vector": "yes",
+                    "analyzer": "ngram_tokenizer_analyzer"
+              },
+              "URL": {
+                "type": "keyword"
+              }
+            }
           }
         }
       }
