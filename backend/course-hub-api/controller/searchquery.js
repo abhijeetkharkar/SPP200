@@ -83,16 +83,6 @@ function addDifficulty(searchQuery, difficulties) {
 
 function addSortquery(searchQuery, sortParam) {
     sortfilter={};
-    // console.log("addSortquery called, sortParam=", sortParam);
-    /* for(i=0;i<sortParam.length;i++){
-        sortparam=sortParam[i];
-        if(sortparam.field=="Price"){
-            sortfilter["Price"]={"order": sortparam.order} 
-        }
-        else if(sortparam.field=="Rating"){
-            sortfilter["Rating"]={"order": sortparam.order} 
-        }
-    } */
     if(sortParam=="price-asc"){
         sortfilter["Price"]={"order": "asc"} 
     } else if(sortParam=="rating-desc"){
@@ -110,6 +100,7 @@ exports.searchquery = function(request, response){
     search_query = request.body.term;
 
     var searchQuery = {
+        min_score: 50,
         query: {
             bool : {
                 must : [
