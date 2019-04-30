@@ -8,7 +8,7 @@ import {
     Form,
     Button, Modal,
 } from "react-bootstrap";
-import {updateUser, getUserDetails} from "../elasticSearch";
+import {updateUser, getUserDetails, getUserMicroDegree} from "../elasticSearch";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser  } from '@fortawesome/free-solid-svg-icons'
 import {
@@ -19,6 +19,7 @@ import {
 import ProfileNavigator from "./CHProfileNavigator";
 import CHDeactivateCard from "./CHDeactivateCard";
 import CHCourseListsCard from "./CHCourseListsCard";
+import CHProfileMicroDegreeCard from "./CHProfileMicroDegreeCard";
 
 var dateFormat = require('dateformat');
 class ProfileContent extends Component {
@@ -49,6 +50,7 @@ class ProfileContent extends Component {
             elastic_message: '',
             serverErrorMsg: '',
             profile_picture: '',
+            microdegrees: [],
         };
         var payload = {
             query : {
@@ -76,6 +78,31 @@ class ProfileContent extends Component {
 
         }).catch(error => {
             console.log("Fetch Details ERROR:", error.message);
+            this.setState({ serverErrorMsg: error.message });
+            document.getElementById("fetchError").style.display = 'block';
+        });
+
+        payload = {
+            query: {
+                bool: {
+                    must : [
+                        {
+                            match : {
+                                userID : "nabeelahmadkhan@gmail.com"
+                            }
+                        }
+                    ]
+                }
+            }
+        };
+
+        getUserMicroDegree(payload).then(elasticResponse => {
+            console.log(payload);
+            console.log("MicroDegree fetch response");
+            console.log(elasticResponse);
+            this.setState({microdegrees: elasticResponse});
+        }).catch(error => {
+            console.log("MicroDegree Fetch Details ERROR:", error.message);
             this.setState({ serverErrorMsg: error.message });
             document.getElementById("fetchError").style.display = 'block';
         });
@@ -401,6 +428,7 @@ class ProfileContent extends Component {
                                     </Row>
                                 </div>
                                 <CHCourseListsCard updateContent={this.handleClick} user_id={this.state.id} email={this.state.email} favoriteList={this.state.favoriteList} inProgressList={this.state.inProgressList} completedList={this.state.completedList}/>
+                                <CHProfileMicroDegreeCard email={this.state.email}/>
                                 <CHDeactivateCard email={this.state.email}/>
                             </Col>
                         </Row>
