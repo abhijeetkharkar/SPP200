@@ -12,7 +12,6 @@ import time
 import platform
 import requests
 
-
 class Authentication(unittest.TestCase):
 
     def setUp(self):
