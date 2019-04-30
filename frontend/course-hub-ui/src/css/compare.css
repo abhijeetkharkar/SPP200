@@ -103,7 +103,7 @@
         border-radius: 10px;
         width: 100%;
         text-align: center;
-        margin-right: 10%;
+        margin-right: 8%;
         color: white;
     }
 
@@ -114,21 +114,21 @@
         margin-top: 10px;
         color: black;
         width: 80%;
-        background-color: white;
+        background-color: #d2d2d2;
     }
 
     .compare-table-row-heading{
         float: right;
-        background-color: white;
+        background-color: #d2d2d2;
         color: #005cbf;
     }
 
     .compare-table-col{
         text-align: center;
-        background-color: white;
+        background-color: #d2d2d2;
         border-radius: 5px;
         margin-left: 1px;
-        border: 1px solid #ededed;
+        border: 1px solid #ffffff;
     }
 
     .compare-table-course-image{

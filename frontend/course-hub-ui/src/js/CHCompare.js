@@ -78,6 +78,13 @@ class CHCompare extends Component {
             {
                 choice === "coursedetails" && this.props.history.push('/course?courseId=' + this.state.queryString )
             }
+            {
+                choice === "deals" && this.props.history.push('/deals')
+            }
+
+            {
+                choice === "microdegree" && this.props.history.push('/microdegree')
+            }
 
         </div>
         );

@@ -63,7 +63,7 @@ class CHCompareContent extends Component {
                                     <Col md={Math.floor(9 / this.state.compareList.length)} className="compare-table-col">
                                         <div className="compare-table-course-summary">
                                             <p className="compare-table-course-text">
-                                                <FontAwesomeIcon icon={['fa', 'clock']} color='rgb(207, 204, 19)' />{item.CourseDuration? " " + item.CourseDuration.Value + " " + item.CourseDuration.Unit: " 1 hr"}
+                                                <FontAwesomeIcon icon={['fa', 'clock']} color='rgb(0, 92, 192)' />{item.CourseDuration? " " + item.CourseDuration.Value + " " + item.CourseDuration.Unit: " 1 hr"}
                                             </p>
                                         </div>
                                     </Col>
