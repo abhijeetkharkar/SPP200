@@ -185,7 +185,6 @@ class Authentication(unittest.TestCase):
     
 
     def test_failed_signup_already_existing_id(self):
-        #invalidUsernamePwdFeedback
         driver = self.driver
 
         driver.get("http://localhost:8080/")
