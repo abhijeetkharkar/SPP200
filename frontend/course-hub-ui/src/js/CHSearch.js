@@ -233,14 +233,6 @@ class CHSearch extends Component {
 	};
 
 	clearCourseFromLists= async (item) => {
-        let lists = document.getElementsByClassName("course-radio");
-        for(var i = 0; i < lists.length; i++){
-            if(lists[i].checked){
-                lists[i].checked = false;
-                break;
-            }
-        }
-
 		let favoriteListMap = this.state.favoriteList.map(function(obj){ return obj.CourseId });
 		let inProgressListMap = this.state.inProgressList.map(function(obj){ return obj.CourseId });
 		let CompletedListMap = this.state.completedList.map(function(obj){ return obj.CourseId });
@@ -272,7 +264,6 @@ class CHSearch extends Component {
             }
         } catch (error) {
             alert("Error in updating lists in database... Try again");
-            console.log("error is", error);
         }
 	};
 

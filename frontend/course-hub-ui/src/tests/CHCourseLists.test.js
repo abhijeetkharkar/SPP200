@@ -99,6 +99,58 @@ describe('Testing Course Lists', () => {
         expect(instance.state.completedList.includes(item)).toBe(true);
     });
 
+    test('Testing clearCourseFromLists function of search component - Favourite List', async () => {
+        window.alert = () => {};
+        elastic.updateUser.mockImplementationOnce(() => {
+            {
+                return Promise.resolve(false)
+            }
+        });
+
+        const location = { search: { searchString: "testString", firstName: "Test1", email: "test1@test.com" } };
+        const wrapper = shallow(<CHSearch location={location} />);
+        const instance = wrapper.instance();
+
+        var item = {"CourseId": "xyz"};
+        instance.addCourseToList("1", item);
+        instance.clearCourseFromLists(item);
+        expect(instance.state.favoriteList.includes(item)).toBe(false);
+    });
+
+    test('Testing clearCourseFromLists function of search component - InProgress List', async () => {
+        window.alert = () => {};
+        elastic.updateUser.mockImplementationOnce(() => {
+            {
+                return Promise.resolve(false)
+            }
+        });
+
+        const location = { search: { searchString: "testString", firstName: "Test1", email: "test1@test.com" } };
+        const wrapper = shallow(<CHSearch location={location} />);
+        const instance = wrapper.instance();
+
+        var item = {"CourseId": "xyz"};
+        instance.addCourseToList("2", item);
+        instance.clearCourseFromLists(item);
+        expect(instance.state.inProgressList.includes(item)).toBe(false);
+    });
+
+    test('Testing clearCourseFromLists function of search component - Completed List', async () => {
+        jest.spyOn(window, 'alert').mockImplementation(() => {});
+        elastic.updateUser.mockImplementationOnce(() => {
+            {throw new Error('Exception encountered')}
+        });
+
+        const location = { search: { searchString: "testString", firstName: "Test1", email: "test1@test.com" } };
+        const wrapper = shallow(<CHSearch location={location} />);
+        const instance = wrapper.instance();
+
+        var item = {"CourseId": "xyz"};
+        instance.addCourseToList("3", item);
+        instance.clearCourseFromLists(item);
+        expect(instance.state.completedList.includes(item)).toBe(false);
+    });
+
     test('Testing updateUser function of lists - Sad Path', async () => {
         window.alert = () => {};
         elastic.updateUser.mockImplementationOnce(() => {throw new Error('Exception encountered')});
