@@ -107,7 +107,7 @@ class CHNavigator extends Component {
                 {   (this.props.caller === "search" || this.props.caller === "coursedesc") &&
                     <div style={{width: "100%"}}>
                         <Form className="search-results-search-form" onSubmit={e => this.handleSearch(e)}>
-                            <input className="search-results-search-box" placeholder="Search courses" value={this.state.searchString} onChange={this.handleSearchStringChange} type="text" />
+                            <input id="search-results-search-box-id" className="search-results-search-box" placeholder="Search courses" value={this.state.searchString} onChange={this.handleSearchStringChange} type="text" />
                             <Button className="search-results-search-button" type="submit"><FontAwesomeIcon className="search-results-search-button-font" icon={['fa', 'search']} size='sm' /></Button>
                             <table className="search-results-suggestions-table" style={resultTableStyle}>
                                 <tbody>
@@ -121,17 +121,6 @@ class CHNavigator extends Component {
                                 </tbody>
                             </table>
                         </Form>
-                        {(sessionStorage.getItem("compareList") && (this.props.navCallBack) && (JSON.parse(sessionStorage.getItem("compareList")).length !== 0)) ? (
-                            <div className="btn-group" role="group" aria-label="Basic example" style={{marginRight: "10%"}}>
-                                <Button className="compare-button" variant="primary" onClick={this.props.navCallBack}>
-                                    Compare
-                                </Button>
-                                <Button className="compare-number" variant="info" onClick={this.props.navCallBack}>
-                                    {JSON.parse(sessionStorage.getItem("compareList")).length}
-                                </Button>
-                            </div>
-                        ) : ([])}
-
                     </div>
                 }
 
@@ -157,6 +146,20 @@ class CHNavigator extends Component {
                     }
                     <Button className="my-nav-tabs" onClick={this.handleDealsOnclick}>Deals</Button>
                     <Button className="my-nav-tabs" onClick={this.handleMicrodegreeOnClick}>Microdegree</Button>
+                    
+                    {  
+                        sessionStorage.getItem("compareList") && (this.props.navCallBack) 
+                            && (JSON.parse(sessionStorage.getItem("compareList")).length !== 0) ?
+                                <div className="btn-group" role="group" aria-label="Basic example">
+                                    <Button id="compare-button-id" className="compare-button" variant="primary" onClick={this.props.navCallBack}>
+                                        Compare
+                                    </Button>
+                                    <Button id="compare-number-id" className="compare-number" variant="info" onClick={this.props.navCallBack}>
+                                        {JSON.parse(sessionStorage.getItem("compareList")).length}
+                                    </Button>
+                                </div>
+                            : []
+                    }
                 </div>
             </div>
         );
