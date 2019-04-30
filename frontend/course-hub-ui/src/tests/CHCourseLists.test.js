@@ -3,6 +3,7 @@ import Adapter from "enzyme-adapter-react-16/build";
 import React from "react";
 import CHSearch from '../js/CHSearch';
 import firebaseInitialization from "../FirebaseUtils";
+import CHCourseListsCard from "../js/CHCourseListsCard";
 
 configure({ adapter: new Adapter() });
 
@@ -124,6 +125,50 @@ describe('Testing Course Lists', () => {
         var email = "test@example.com";
         await instance.getUserCoursesLists(email);
         expect(instance.state.favoriteList.includes("1")).toBe(true);
+    });
+
+    test('Testing switchList function - InProgressList', async () => {
+        elastic.updateUser.mockImplementationOnce(() => {return Promise.resolve(true)});
+
+        const wrapper = shallow(<CHCourseListsCard favoriteList={[]} inProgressList={[]} completedList={[]}/>);
+        const instance = wrapper.instance();
+
+        var item = {"title": "test@title"};
+        await instance.switchList("1", "2", item);
+        expect(instance.props.inProgressList.includes(item)).toBe(true);
+    });
+
+    test('Testing switchList function - FavouritesList', async () => {
+        elastic.updateUser.mockImplementationOnce(() => {return Promise.resolve(true)});
+
+        const wrapper = shallow(<CHCourseListsCard favoriteList={[]} inProgressList={[]} completedList={[]}/>);
+        const instance = wrapper.instance();
+
+        var item = {"title": "test@title"};
+        await instance.switchList("2", "1", item);
+        expect(instance.props.favoriteList.includes(item)).toBe(true);
+    });
+
+    test('Testing switchList function - CompletedList', async () => {
+        elastic.updateUser.mockImplementationOnce(() => {return Promise.resolve(false)});
+
+        const wrapper = shallow(<CHCourseListsCard favoriteList={[]} inProgressList={[]} completedList={[]}/>);
+        const instance = wrapper.instance();
+
+        var item = {"title": "test@title"};
+        await instance.switchList("2", "3", item);
+        expect(instance.props.completedList.includes(item)).toBe(true);
+    });
+
+    test('Testing switchList updateUser function - Sad path', async () => {
+        elastic.updateUser.mockImplementationOnce(() => {throw new Error('Exception encountered')});
+
+        const wrapper = shallow(<CHCourseListsCard favoriteList={[]} inProgressList={[]} completedList={[]}/>);
+        const instance = wrapper.instance();
+
+        var item = {"title": "test@title"};
+        await instance.switchList("3", "1", item);
+        expect(instance.props.favoriteList.includes(item)).toBe(true);
     });
 
 });
