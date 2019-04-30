@@ -150,8 +150,8 @@ class CHNavigator extends Component {
                             </Dropdown.Toggle>
 
                             <Dropdown.Menu>
-                                <Dropdown.Item onClick={this.handleViewProfile}>View Profile</Dropdown.Item>
-                                <Dropdown.Item onClick={this.handleSignOut}>Logout</Dropdown.Item>
+                                <Dropdown.Item id="view-profile-button" onClick={this.handleViewProfile}>View Profile</Dropdown.Item>
+                                <Dropdown.Item id="logout-button" onClick={this.handleSignOut}>Logout</Dropdown.Item>
                             </Dropdown.Menu>
                         </Dropdown>
                     }

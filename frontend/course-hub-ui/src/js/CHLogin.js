@@ -191,7 +191,7 @@ class LoginPage extends Component {
                 <Button size="sm" variant="success" type="submit">Login</Button>
               </Form.Group>
               <Form.Group className="float-right text-right" as={Col} controlId="formGridForgot">
-                <Button variant="link" onClick={this.handleForgotPassword}>Forgot Password?</Button>
+                <Button variant="link" id="forgot-password-button" onClick={this.handleForgotPassword}>Forgot Password?</Button>
               </Form.Group>
             </Form.Row>
             <Form.Row className="text-center">
