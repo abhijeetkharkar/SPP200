@@ -152,7 +152,7 @@ class CHAddDeal extends Component {
     };
     return (
         <div className="add-deals">
-            <h4 style={deals_heading}> ADD NEW COURSE DEALS </h4>
+            <h4 style={deals_heading} id="newCourseDeal"> ADD NEW COURSE DEALS </h4>
             <br /><br />
             <Form id="adddealform" onSubmit={e => this.handleSubmit(e)}>
                 <Form.Row>
