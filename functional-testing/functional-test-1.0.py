@@ -30,23 +30,23 @@ class Election(unittest.TestCase):
 
         assert "Hello," in driver.page_source
 
-    def test_Failed_Login(self):
-        driver = self.driver
-        driver.get("http://localhost:8080/")
+    # def test_Failed_Login(self):
+    #     driver = self.driver
+    #     driver.get("http://localhost:8080/")
 
-        # Assertion to confirm that title has Voting in it
-        self.assertIn("Course-Hub", driver.title)
+    #     # Assertion to confirm that title has Voting in it
+    #     self.assertIn("Course-Hub", driver.title)
 
-        login_button = driver.find_element_by_id("loginButtonNavigator")
+    #     login_button = driver.find_element_by_id("loginButtonNavigator")
 
-        login_button.click()
+    #     login_button.click()
 
-        username = driver.find_element_by_id("formGridEmail")
+    #     username = driver.find_element_by_id("formGridEmail")
         
-        username.send_keys("nabeelahmadkhan@gmail.com"+Keys.TAB+"123456"+Keys.TAB+Keys.ENTER)
-        time.sleep(2)
-        error_msg = driver.find_element_by_id("invalidUsernamePwdFeedback").text
-        self.assertEqual(error_msg, "The password is invalid or the user does not have a password.")
+    #     username.send_keys("nabeelahmadkhan@gmail.com"+Keys.TAB+"123456"+Keys.TAB+Keys.ENTER)
+    #     time.sleep(2)
+    #     error_msg = driver.find_element_by_id("invalidUsernamePwdFeedback").text
+    #     self.assertEqual(error_msg, "The password is invalid or the user does not have a password.")
 
     def tearDown(self):
         self.driver.close()

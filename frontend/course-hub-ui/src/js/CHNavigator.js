@@ -101,7 +101,7 @@ class CHNavigator extends Component {
             <div id="homeHeader" style={headerHeightStyle}>
                 <a href='/'>
                     {/* <h1 className="website-name">Course-Hub</h1> */}
-                    <Image style={logoStyle} className="website-logo" src="https://firebasestorage.googleapis.com/v0/b/course-hub-73ea7.appspot.com/o/Course_Hub_Transparent_Background.png?alt=media&token=7932c4fe-54d6-4802-9ab6-8e12fc359cb9"/>
+                    <Image style={logoStyle} className="website-logo" src="https://firebasestorage.googleapis.com/v0/b/course-hub-73ea7.appspot.com/o/CourseHub_Logo.png?alt=media&token=d990d19b-7068-403e-b460-60ba5977e320"/>
                 </a>
                 
                 {   (this.props.caller === "search" || this.props.caller === "coursedesc") &&

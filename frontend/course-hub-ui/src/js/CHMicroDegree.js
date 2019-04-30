@@ -18,6 +18,7 @@ import CHAdvertisements from './CHAdvertisements';
 import CHFooter from './CHFooter';
 import firebaseInitialization from '../FirebaseUtils';
 import { searchUser, getMicroDegreeSuggestions } from '../elasticSearch';
+import { format } from 'path';
 
 class CHMicroDegree extends Component {
 
@@ -27,6 +28,7 @@ class CHMicroDegree extends Component {
 			choice: '',
 			microDegreeChoice: 'form',
 			microDegreeSuggestions: [],
+			errorResponse : null,
 			firstName: false,
 			email: null,
 			pageType: "microDegreeHome",
@@ -73,10 +75,12 @@ class CHMicroDegree extends Component {
 		if (choice != 'loginScreen' && choice != 'profile' && choice != 'signupScreen'){
 			firebaseInitialization.auth().onAuthStateChanged(user => this.handleAuthStateChange(user));
 		}
+		if (choice == 'loginScreen'){
+			this.setState({microDegreeChoice : 'form'})
+		}
 		this.setState({ pageType: choice, firstName: firstName, email: email}, () => {
 			console.log("CURRENT STATE IS ", this.state);
 		});
-
     }
     
     handleCloseHere = (param) => (e) => {
@@ -89,18 +93,31 @@ class CHMicroDegree extends Component {
 			duration: params.durations,
 			tags : params.chips.join(' ')
 		}
+		console.log("PAYLOAD IS ", payload);
 		getMicroDegreeSuggestions(payload)
 		.then(responseData => {
 			console.log("Payload IS ", payload)
 			console.log("RESPONSE DATA IS ", responseData)
-			var microDegreeSuggestions = []
-			for (var key in responseData) {
-				microDegreeSuggestions.push(responseData[key])
+			console.log("RESPONSE STATUS IS ", responseData['status']);
+			if (responseData['status'] == 400){
+				console.log("INSIDE IF  ");
+				this.setState({
+					errorResponse : responseData['message']
+				});
+			}else{
+				console.log("INSIDE ELSE  ");
+				var microDegreeSuggestions = []
+				for (var key in responseData) {
+					if (key != 'status'){
+						microDegreeSuggestions.push(responseData[key])
+					}
+				}
+				this.setState({
+					errorResponse : null,
+					microDegreeChoice: "degreeSuggestions",
+					microDegreeSuggestions : microDegreeSuggestions
+				})
 			}
-			this.setState({
-				microDegreeChoice: "degreeSuggestions",
-				microDegreeSuggestions : microDegreeSuggestions
-			})
 		});
 	}
 
@@ -114,33 +131,33 @@ class CHMicroDegree extends Component {
 			<div className="App container-fluid">
 				{choice === "microDegreeHome" &&
 					[<CHNavigator updateContent={this.handleClick} signedIn={firstName} caller={"microdegree"} firstName={firstName} email={email} key="microdegreehome" />,
-                    <CHMicroDegreeForm onFormSubmit={this.updatePage} choice={this.state.microDegreeChoice} microDegreeSuggestions={this.state.microDegreeSuggestions}/>,
+                    <CHMicroDegreeForm onFormSubmit={this.updatePage} choice={this.state.microDegreeChoice} microDegreeSuggestions={this.state.microDegreeSuggestions} errorResponse={this.state.errorResponse} email={this.state.email}/>,
 					<CHFooter key="keyFooterSearch" />]
 				}
 
 				{choice === "loginScreen" &&
 					[<LoginPage updateContent={this.handleClick} key="keyLoginOverlayOnSearch" searchString=""/>,
-                    <CHNavigator updateContent={this.handleClick} signedIn={false} caller={"deals"} key="keyNavigatorLoginOverlayOnSearch" />,
-                    <CHMicroDegreeForm onFormSubmit={this.updatePage} choice={this.state.microDegreeChoice} microDegreeSuggestions={this.state.microDegreeSuggestions}/>,
+                    <CHNavigator updateContent={this.handleClick} signedIn={false} caller={"microdegree"} key="keyNavigatorLoginOverlayOnSearch" />,
+                    <CHMicroDegreeForm onFormSubmit={this.updatePage} choice={this.state.microDegreeChoice} microDegreeSuggestions={this.state.microDegreeSuggestions} errorResponse={this.state.errorResponse} email={this.state.email}/>,
 					<CHFooter key="keyFooterLoginOverlayOnSearch" />]
 				}
 
 				{choice === "signupScreen" &&
 					[<SignupPage updateContent={this.handleClick} key="keySignUpOverlayOnSearch" searchString="" />,
-                    <CHNavigator updateContent={this.handleClick} signedIn={false} caller={"deals"} key="keyNavigatorSignUpOverlayOnSearch" />,
-                    <CHMicroDegreeForm onFormSubmit={this.updatePage} choice={this.state.microDegreeChoice} microDegreeSuggestions={this.state.microDegreeSuggestions}/>,
+                    <CHNavigator updateContent={this.handleClick} signedIn={false} caller={"microdegree"} key="keyNavigatorSignUpOverlayOnSearch" />,
+                    <CHMicroDegreeForm onFormSubmit={this.updatePage} choice={this.state.microDegreeChoice} microDegreeSuggestions={this.state.microDegreeSuggestions} errorResponse={this.state.errorResponse} email={this.state.email}/>,
 					<CHFooter key="keyFooterSignUpOverlayOnSearch" />]
 				}
 
 				{choice === "forgotPasswordScreen" &&
 					[<ForgotPasswordPage updateContent={this.handleClick} key="keyForgotPasswordOverlayOnSearch" searchString="" />,
-                    <CHNavigator updateContent={this.handleClick} signedIn={false} caller={"deals"} key="keyNavigatorForgotPasswordOverlayOnSearch" />,
-                    <CHMicroDegreeForm onFormSubmit={this.updatePage} choice={this.state.microDegreeChoice} microDegreeSuggestions={this.state.microDegreeSuggestions}/>,
+                    <CHNavigator updateContent={this.handleClick} signedIn={false} caller={"microdegree"} key="keyNavigatorForgotPasswordOverlayOnSearch" />,
+                    <CHMicroDegreeForm onFormSubmit={this.updatePage} choice={this.state.microDegreeChoice} microDegreeSuggestions={this.state.microDegreeSuggestions} errorResponse={this.state.errorResponse} email={this.state.email}/>,
 					<CHFooter key="keyFooterForgotPasswordOverlayOnSearch" />]
 				}
 
 				{choice === "profile" &&
-					[<CHNavigator updateContent={this.handleClick} signedIn={true} caller={"deals"} firstName={firstName} email={email} key="keyNavigatorSearch" />,
+					[<CHNavigator updateContent={this.handleClick} signedIn={true} caller={"microdegree"} firstName={firstName} email={email} key="keyNavigatorSearch" />,
 					<div className="profile-content" key="keySearch">
 						<ProfilePage updateContent={this.handleClick} updatePage={this.handlePagination} firstName={firstName} email={email} searchString="" pageNumber={pageNumber}/>
 					</div>,

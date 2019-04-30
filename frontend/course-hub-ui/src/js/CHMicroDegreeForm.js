@@ -12,6 +12,7 @@ import Spinner from 'react-spinner-material';
 // import Collapsible from 'react-collapsible';
 import {CollapsibleComponent, CollapsibleHead, CollapsibleContent} from 'react-collapsible-component'
 import CHFooter from './CHFooter';
+import {saveMicroDegree, updateCourseRating} from '../elasticSearch';
 
 class CHMicroDegreeForm extends Component {
 
@@ -22,6 +23,8 @@ class CHMicroDegreeForm extends Component {
             currentTimeInterval: 0,
             choice : this.props.choice,
             chips : [],
+            email : this.props.email,
+            errorResponse : null,
             degree : this.props.microDegreeSuggestions,
             coursesDisplay : []
         };
@@ -35,30 +38,43 @@ class CHMicroDegreeForm extends Component {
     }
 
     componentWillReceiveProps(nextProps){
-        console.log("Next props Recieved are : ", nextProps);
-        console.log("LENGTH OF NEXT PROPS IS ", nextProps.microDegreeSuggestions.length);
         var courseDisplay = []
-        
-        for (let i = 0; i < nextProps.microDegreeSuggestions.length; i++) {
-            courseDisplay.push({
-                introductory : false,
-                intermediate : false,
-                advanced : false,
-                arrow: {
-                    introductory : 'rightarrow',
-                    intermediate : 'rightarrow',
-                    advanced : 'rightarrow'
-                }
-            })
+        if (nextProps.errorResponse){
+            this.setState({
+                errorResponse: nextProps.errorResponse,
+                choice: nextProps.choice
+            }, () => {
+                console.log("This state is ", this.state);
+            });
+        }else{
+            console.log("Next props Recieved are : ", nextProps);
+            console.log("LENGTH OF NEXT PROPS IS ", nextProps.microDegreeSuggestions.length);
+            for (let i = 0; i < nextProps.microDegreeSuggestions.length; i++) {
+                courseDisplay.push({
+                    introductory : false,
+                    intermediate : false,
+                    advanced : false,
+                    arrow: {
+                        introductory : 'rightarrow',
+                        intermediate : 'rightarrow',
+                        advanced : 'rightarrow'
+                    },
+                    saved: false,
+                    saving : false,
+                })
+            }
+    
+            this.setState({
+                choice : nextProps.choice,
+                errorResponse: null,
+                choice: nextProps.choice,
+                degree : nextProps.microDegreeSuggestions,
+                coursesDisplay :  courseDisplay,
+                email: nextProps.email
+            }, () => {
+                console.log("THIS IS STATE : ", this.state);
+            });
         }
-
-        this.setState({
-            choice: nextProps.choice,
-            degree : nextProps.microDegreeSuggestions,
-            coursesDisplay :  courseDisplay
-        }, () => {
-            console.log("THIS IS STATE : ", this.state);
-        })
     }
 
     updateTag = (e) => {
@@ -99,7 +115,8 @@ class CHMicroDegreeForm extends Component {
         e.preventDefault();
         // Updating to Waiting State
         this.setState({
-            choice: 'waitingForSuggestions'
+            choice: 'waitingForSuggestions',
+            errorResponse: null
         });
         var params = {
             chips : this.state.chips,
@@ -138,6 +155,62 @@ class CHMicroDegreeForm extends Component {
         });
     }
 
+    saveMicroDegree = (index) => (e) => {
+        e.preventDefault();
+        if (this.state.coursesDisplay[index].saved == true){
+            alert("Microdegree Suggestions already saved!!!")
+        }else{
+            if (this.state.email == null) {
+                alert("LogIn to save Microdegree");
+            }else{
+                var updatedCourseDisplay = this.state.coursesDisplay;
+                updatedCourseDisplay[index].saving = true;
+                this.setState({
+                    coursesDisplay: updatedCourseDisplay
+                }, () => {
+                    console.log("Microdegree UPdate State : ", this.state);
+                    var date = new Date().getDate(); //Current Date
+                    var month = new Date().getMonth() + 1; //Current Month
+                    var year = new Date().getFullYear(); //Current Year
+                    var currentDate = year + "-" + month + "-" + date
+                    
+                    console.log("Save MicroDegree called index : ", index)
+                    var introductoryCourses = this.state.degree[index].introductory
+                    var intermediateCourses = this.state.degree[index].intermediate
+                    var advancedCourses = this.state.degree[index].advanced
+                    
+                    var payload = {
+                        introductory : introductoryCourses,
+                        intermediate : intermediateCourses,
+                        advanced : advancedCourses,
+                        dateAdded : currentDate,
+                        microdegreeTags : this.state.chips,
+                        userID: this.state.email
+                    }
+                    
+                    console.log("PAYLOAD IS ", payload)
+                    saveMicroDegree(payload)
+                    .then(response => {
+                        console.log("RESPONSE IS ", response)
+                        if (response._shards.successful == 1){
+                            console.log("Successfully saved microdegree");
+                        }else{
+                            console.log("Cannot save Microdegree");
+                        }
+                        var updatedCourseDisplay2 = this.state.coursesDisplay;
+                        updatedCourseDisplay2[index].saving = false;
+                        updatedCourseDisplay2[index].saved = true;
+                        this.setState({
+                            coursesDisplay: updatedCourseDisplay2
+                        }, () => {
+                            console.log("Uodated state after saving is ", this.state);
+                        });
+                    })
+                });
+            }      
+        }  
+    }
+
 	render() {
         var choice = this.state.choice;
         var floatLeft = {
@@ -164,7 +237,7 @@ class CHMicroDegreeForm extends Component {
                         <br />
                         <br />
                         <Form.Label style={floatLeft}><h4>Degree Time Interval</h4></Form.Label>
-                        <Form.Control type="number" value={this.state.currentTimeInterval} placeholder="Enter Degree Time Interval in Hours" onChange={this.updateTimeInterval} />
+                        <Form.Control type="number" value={this.state.currentTimeInterval} placeholder="Enter Degree Time Interval in Hours" onChange={this.updateTimeInterval} minlength='5' maxlength='50'/>
                         <br />
                         <Button variant="primary" type="button" onClick={this.loadSuggestions} style={floatLeft}>
                             Get MicroDegree Suggestions
@@ -175,6 +248,14 @@ class CHMicroDegreeForm extends Component {
                     {choice === 'waitingForSuggestions' &&
                         <div className="microDegreeSuggestionsLoading">
                             <Spinner size={40} spinnerColor="#333333" spinnerWidth={5} visible={true} />
+                        </div>
+                    }
+
+                    { this.state.errorResponse != null &&
+                        <div className="microDegreeSuggestionsLoading">
+                            <div className="floatLeft">
+                                {this.state.errorResponse}
+                            </div>
                         </div>
                     }
 
@@ -267,7 +348,19 @@ class CHMicroDegreeForm extends Component {
                                                             </CollapsibleComponent>
                                         
                                                             <br />
-                                                            <Button variant="primary" className="microDegreeRegister">Register For This MicroDegree</Button> 
+                                                            <div id="registerButton">
+                                                                <Button variant="primary" className="microDegreeRegister" onClick={this.saveMicroDegree(index)}>Register For This MicroDegree</Button>
+                                                                {this.state.coursesDisplay[index].saving == true &&
+                                                                    <div className="savedIcon">
+                                                                        <Button variant="warning">Saving...</Button>
+                                                                    </div>
+                                                                }
+                                                                {this.state.coursesDisplay[index].saved == true &&
+                                                                    <div className="savedIcon">
+                                                                        <Button variant="success">Saved</Button>
+                                                                    </div>
+                                                                }
+                                                            </div>
                                                         </Card>
                                                         <br />
                                                         <br />

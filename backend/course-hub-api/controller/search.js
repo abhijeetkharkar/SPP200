@@ -190,12 +190,14 @@ exports.microdegree = async (request, response) => {
                         }
                         
                     }
-                    if(totalnoofmicrodegree>0)
+                    if(totalnoofmicrodegree>0){
+                        recommendanded_microdegree['status'] = 200;
                         response.json(recommendanded_microdegree);
+                    }
                     else{
                         response.json({
                             "status": 400,
-                            "message": "Could not find any microdegrees"
+                            "message": "Could not find any microdegrees. Kindly search for relevant keywords."
                         })
                     }
                 })
