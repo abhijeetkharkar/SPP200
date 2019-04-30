@@ -10,11 +10,13 @@ from selenium.webdriver.support import expected_conditions as EC
 
 import time
 import platform
+import requests
 
 
 class Authentication(unittest.TestCase):
 
     def setUp(self):
+        # self.driver = webdriver.Chrome(executable_path="./chrome-driver/chromedriver")
         # Loading the Chrome Web Driver
         if platform.system() == "Darwin":
             self.driver = webdriver.Chrome(executable_path="./chrome-driver/chromedriver_mac")

@@ -164,7 +164,7 @@ class SignupPage extends Component {
             </Form.Row>
             <Form.Row>
               <Form.Group as={Col} controlId="formGridPassword">
-                <Form.Control required value={this.state.password} onChange={this.handlePasswordChange} type="password" placeholder="Password" />
+                <Form.Control required value={this.state.password} onChange={this.handlePasswordChange} type="password" placeholder="Password" minlength='8' maxlength='20'/>
                 <Form.Control.Feedback>Looks Nice!</Form.Control.Feedback>
                 <Form.Text className="text-muted">
                   Minimum of 8 characters in length.
@@ -173,7 +173,7 @@ class SignupPage extends Component {
             </Form.Row>
             <Form.Row>
               <Form.Group as={Col} controlId="formGridConfirmPassword">
-                <Form.Control required value={this.state.confirmPassword} onChange={this.handleConfirmPasswordChange} type="password" placeholder="Confirm Password" />
+                <Form.Control required value={this.state.confirmPassword} onChange={this.handleConfirmPasswordChange} type="password" placeholder="Confirm Password" minlength='8' maxlength='20'/>
                 <Form.Control.Feedback type="invalid" id="invalidUsernamePwdFeedback">{this.state.serverErrorMsg}</Form.Control.Feedback>
                 <Form.Control.Feedback>Looks Nice!</Form.Control.Feedback>
               </Form.Group>
