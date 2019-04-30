@@ -102,8 +102,17 @@
     padding-top: 8%;
     width: 70%;
     margin-left: 18%;
+    min-height: 700px;
 }
 
 .card-title{
     font-size: 22px;
+}
+
+.left_lane_deals{
+    margin: 10px;
+}
+
+.hiddenID{
+    display: none;
 }

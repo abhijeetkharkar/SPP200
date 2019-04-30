@@ -125,7 +125,7 @@ const addDeal = async (payload) => {
             return response.json();
         }).then(elasticData => {
             if (elasticData['result'].trim() === 'created') {
-                return true;
+                return elasticData["_id"];
             } else {
                 return false;
             }

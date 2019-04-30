@@ -29,7 +29,7 @@ class CHAddDeal extends Component {
         thumbsDown: 0,
         datePosted: (new Date().getFullYear() + '-' + ('0' + (new Date().getMonth() + 1)).slice(-2) + '-' + ('0' + new Date().getDate()).slice(-2)),
         dealExpiry: ((new Date().getFullYear() + 1) + '-' + ('0' + (new Date().getMonth() + 1)).slice(-2) + '-' + ('0' + new Date().getDate()).slice(-2)),
-        user: "",
+        user: this.props.email,
         category: "General",
         provider: "Udemy",
         serverErrorMsg: ''
@@ -121,14 +121,14 @@ class CHAddDeal extends Component {
             "thumbsDown" : 0,
             "datePosted" : this.state.datePosted,
             "dealExpiry" : this.state.dealExpiry,
-            "user" : "dummyUser",
+            "user" : this.state.user,
             "category" : this.state.category,
             "provider" : this.state.provider
         };
         console.log("DEAL IS ", deal);
         addDeal(deal)
         .then(response => {
-            if (response == true){
+            if (response){
                 console.log("Deal Successfully added");
                 this.props.updatePage(response);
             }else{
@@ -163,7 +163,7 @@ class CHAddDeal extends Component {
                 </Form.Row>
                 <Form.Row>
                 <Form.Group as={Col} controlId="formGridDescription">
-                    <Form.Control required value={this.state.description} onChange={this.handleDescriptionChange} as="textarea" rows="4" minlength='50' maxlength='1000' placeholder="Description" />                
+                    <Form.Control required value={this.state.description} onChange={this.handleDescriptionChange} as="textarea" rows="4" minlength='80' maxlength='1000' placeholder="Description" />                
                     <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
                 </Form.Group>
                 </Form.Row>
@@ -233,7 +233,7 @@ class CHAddDeal extends Component {
                 </Form.Row>
                 <Form.Row>
                 <Form.Group className="float-left" as={Col} controlId="formGridAddNewDeal">
-                    <Button variant="success" type="submit" style={add_deals}>Add New Deal</Button>
+                    <Button variant="success" id="addNewDealButton" type="submit" style={add_deals}>Add New Deal</Button>
                 </Form.Group>
                 </Form.Row>
             </Form>

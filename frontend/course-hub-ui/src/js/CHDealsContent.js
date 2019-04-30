@@ -24,11 +24,13 @@ class CHDealsContent extends Component{
     constructor (props, context){
         super(props, context);
         this.state = {
+            dealAdded : this.props.dealAdded,
             currentLayout: this.props.pageType,
             totalPages: 1,
             currentPage: this.props.pageNumber,
             deals: [],
             pageList: [],
+            email: this.props.email,
             category: this.props.dealCategory,
             showCompleteDealID : "",
             completeDealData : {},
@@ -42,15 +44,21 @@ class CHDealsContent extends Component{
     }
 
     componentWillReceiveProps(nextProps){
+        console.log("IN COMPONENT WILL RECEIVE PROPS 1")
         if (nextProps.pageType == 'addnewdeal'){
+            console.log("IN COMPONENT WILL RECEIVE PROPS 2")
             this.setState({currentLayout: nextProps.pageType, currentPage: nextProps.pageNumber});
+        }else if (nextProps.pageType == 'adddealsuccessfull'){
+            console.log("IN COMPONENT WILL RECEIVE PROPS 3")
+            this.setState({currentLayout: nextProps.pageType, currentPage: nextProps.pageNumber, dealAdded : nextProps.dealAdded});
         }else{
+            console.log("IN COMPONENT WILL RECEIVE PROPS 4")
             this.setState({category: nextProps.dealCategory, currentPage: nextProps.pageNumber});
             const payload = {
                 "category": nextProps.dealCategory,
                 "page_number": nextProps.pageNumber || 0
             }
-    
+            
             try{
                 getDealsfromES(payload)
                 .then(dealsData => {
@@ -68,7 +76,7 @@ class CHDealsContent extends Component{
     }
 
     componentDidMount() {
-        if (this.state.currentLayout != 'addnewdeal'){
+        if (this.state.currentLayout != 'addnewdeal' && this.state.currentLayout != 'adddealsuccessfull'){
             const payload = {
                 "category": this.state.category,
                 "page_number": this.props.pageNumber || 0
@@ -481,22 +489,22 @@ class CHDealsContent extends Component{
                     [
                         <CHDealsFilter updatePage={this.props.handlePageUpdate} key='keyDealsFilter' updateDeals={this.props.updateDealCategory}/>,
                             <div className="deal_success_alert">
-                            <Alert variant="danger">
-                                <Alert.Heading style={floatLeft}>Oh snap! No new Deals!!!</Alert.Heading>
-                                <br /><br />
-                                <p style={floatLeft}>
-                                    All the Deals are expired!!!
-                                </p>
-                                <br />
-                                <hr />
-                            </Alert>
-                        </div>]
+                                <Alert variant="danger">
+                                    <Alert.Heading style={floatLeft}>Oh snap! No new Deals!!!</Alert.Heading>
+                                    <br /><br />
+                                    <p style={floatLeft}>
+                                        All the Deals are expired!!!
+                                    </p>
+                                    <br />
+                                    <hr />
+                                </Alert>
+                            </div>]
                 }
 
                 {   choice === "addnewdeal" && 
                     [<div className="dealsPage">
                         <CHDealsFilter updatePage={this.props.handlePageUpdate} key='keyDealsFilter' updateDeals={this.props.updateDealCategory}/>
-                        <CHAddDeal updatePage={this.props.handleAddDeal}  key='keyAddDeals' />
+                        <CHAddDeal updatePage={this.props.handleAddDeal}  key='keyAddDeals' email={this.state.email}/>
                     </div>]
                 }
 
@@ -505,15 +513,19 @@ class CHDealsContent extends Component{
                         <CHDealsFilter updatePage={this.props.handlePageUpdate} key='keyDealsFilter' updateDeals={this.props.updateDealCategory}/>
                         <div className="deal_success_alert">
                             <Alert variant="success">
-                                <Alert.Heading style={floatLeft}>SUCCESS!!!</Alert.Heading>
+                                <Alert.Heading style={floatLeft} id="adddealsuccess">SUCCESS!!!</Alert.Heading>
                                 <br /><br />
                                 <p style={floatLeft}>
-                                    Deal Added Successfully in the Database.
+                                    Deal Added Successfully in the Database
                                 </p>
                                 <br />
                                 <hr />
                             </Alert>
                         </div>
+                        <div id="dealIDValue" className="hiddenID">
+                            {this.state.dealAdded}
+                        </div>
+                        {/* <input id="dealIDValueInput" name="dealValue" type="hidden" value={this.state.dealAdded} /> */}
                     </div>]
                 }
 
@@ -536,6 +548,7 @@ class CHDealsContent extends Component{
 
                 { choice === "deals" && 
                     <div id="deals-pagination">
+                        <br />
                         <tfoot>
                             <tr>
                                 <td colSpan="2" >

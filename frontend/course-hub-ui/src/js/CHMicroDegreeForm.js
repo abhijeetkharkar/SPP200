@@ -224,8 +224,8 @@ class CHMicroDegreeForm extends Component {
                 <div className="microDegreeForm">
                     <Form className="microDegreeFormInput" onSubmit={this.formSubmitted}>
                         <br />
-                        <Form.Label style={floatLeft}><h4>Degree Tags</h4></Form.Label>
-                        <Form.Control type="text" value={this.state.currentWord} placeholder="Press Enter after typing tags!!!" onChange={this.updateTag} onKeyDown={this.tagChanged}/>
+                        <Form.Label style={floatLeft}><h4 id="degreeTags">Degree Tags</h4></Form.Label>
+                        <Form.Control type="text" value={this.state.currentWord} placeholder="Press Enter after typing tags!!!" id="chipsTags" onChange={this.updateTag} onKeyDown={this.tagChanged}/>
                         {   this.state.chips.length > 0 ?
                                 this.state.chips.map((item, index) => {
                                     return (
@@ -237,7 +237,7 @@ class CHMicroDegreeForm extends Component {
                         <br />
                         <br />
                         <Form.Label style={floatLeft}><h4>Degree Time Interval</h4></Form.Label>
-                        <Form.Control type="number" value={this.state.currentTimeInterval} placeholder="Enter Degree Time Interval in Hours" onChange={this.updateTimeInterval} minlength='5' maxlength='50'/>
+                        <Form.Control type="number" value={this.state.currentTimeInterval} id="timeInterval" placeholder="Enter Degree Time Interval in Hours" onChange={this.updateTimeInterval} minlength='5' maxlength='50'/>
                         <br />
                         <Button variant="primary" type="button" onClick={this.loadSuggestions} style={floatLeft}>
                             Get MicroDegree Suggestions
