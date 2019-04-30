@@ -101,11 +101,7 @@ class ProfileContent extends Component {
             console.log("MicroDegree fetch response");
             console.log(elasticResponse);
             this.setState({microdegrees: elasticResponse});
-        }).catch(error => {
-            console.log("MicroDegree Fetch Details ERROR:", error.message);
-            this.setState({ serverErrorMsg: error.message });
-            document.getElementById("fetchError").style.display = 'block';
-        });
+        })
     }
 
     componentDidMount() {
@@ -428,7 +424,7 @@ class ProfileContent extends Component {
                                     </Row>
                                 </div>
                                 <CHCourseListsCard updateContent={this.handleClick} user_id={this.state.id} email={this.state.email} favoriteList={this.state.favoriteList} inProgressList={this.state.inProgressList} completedList={this.state.completedList}/>
-                                <CHProfileMicroDegreeCard email={this.state.email}/>
+                                <CHProfileMicroDegreeCard email={this.state.email} microDegreeSuggestions={this.state.microdegrees}/>
                                 <CHDeactivateCard email={this.state.email}/>
                             </Col>
                         </Row>
