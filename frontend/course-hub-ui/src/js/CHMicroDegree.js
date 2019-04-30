@@ -157,11 +157,7 @@ class CHMicroDegree extends Component {
 				}
 
 				{choice === "profile" &&
-					[<CHNavigator updateContent={this.handleClick} signedIn={true} caller={"microdegree"} firstName={firstName} email={email} key="keyNavigatorSearch" />,
-					<div className="profile-content" key="keySearch">
-						<ProfilePage updateContent={this.handleClick} updatePage={this.handlePagination} firstName={firstName} email={email} searchString="" pageNumber={pageNumber}/>
-					</div>,
-					<CHFooter key="keyFooterSearch" />]
+					this.props.history.push('/profile')
 				}
 			</div>
 		);
