@@ -8,7 +8,7 @@ import {
     Form,
     Button, Modal,
 } from "react-bootstrap";
-import {updateUser, getUserDetails} from "../elasticSearch";
+import {updateUser, getUserDetails, getUserMicroDegree} from "../elasticSearch";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faUser  } from '@fortawesome/free-solid-svg-icons'
 import {
@@ -19,6 +19,7 @@ import {
 import ProfileNavigator from "./CHProfileNavigator";
 import CHDeactivateCard from "./CHDeactivateCard";
 import CHCourseListsCard from "./CHCourseListsCard";
+import CHProfileMicroDegreeCard from "./CHProfileMicroDegreeCard";
 
 var dateFormat = require('dateformat');
 class ProfileContent extends Component {
@@ -50,12 +51,22 @@ class ProfileContent extends Component {
             serverErrorMsg: '',
             profile_picture: '',
         };
+
+        this.setUserProfileDetails(this.props.email);
+    }
+
+    componentDidMount() {
+        console.log(this.props.email);
+    }
+
+    setUserProfileDetails = async (email) => {
         var payload = {
             query : {
-                term : { Email : this.props.email }
+                term : { Email : email }
             }
         };
-        getUserDetails(payload).then(elasticResponse => {
+
+        await getUserDetails(payload).then(elasticResponse => {
             var id = elasticResponse.id;
             var elasticData = elasticResponse.data;
             this.setState({id: id});
@@ -79,11 +90,8 @@ class ProfileContent extends Component {
             this.setState({ serverErrorMsg: error.message });
             document.getElementById("fetchError").style.display = 'block';
         });
-    }
+    };
 
-    componentDidMount() {
-        console.log(this.props.email);
-    }
 
     handleClick = (choice, firstName, email, queryString) => {
         this.props.updateContent(choice, firstName, email, queryString);
@@ -323,12 +331,12 @@ class ProfileContent extends Component {
                                                     <Form.Row>
                                                         <Form.Group as={Col} controlId="formGridfname">
                                                             <Form.Label>First Name</Form.Label>
-                                                            <Form.Control className="profile-form-control" onChange={this.handleFirstNameChange} type="fname" value={this.state.firstName} placeholder="Enter first name" />
+                                                            <Form.Control className="profile-form-control" onChange={this.handleFirstNameChange} type="fname" value={this.state.firstName} minlength='1' maxlength='25' placeholder="Enter first name" />
                                                         </Form.Group>
 
                                                         <Form.Group as={Col} controlId="formGridlname">
                                                             <Form.Label>Last Name</Form.Label>
-                                                            <Form.Control className="profile-form-control" onChange={this.handleLastNameChange} type="lname" value={this.state.lastName} placeholder="Enter last name" />
+                                                            <Form.Control className="profile-form-control" onChange={this.handleLastNameChange} type="lname" value={this.state.lastName} minlength='1' maxlength='25' placeholder="Enter last name" />
                                                         </Form.Group>
                                                     </Form.Row>
 
@@ -340,12 +348,12 @@ class ProfileContent extends Component {
 
                                                         <Form.Group as={Col} controlId="formGriddob">
                                                             <Form.Label>Date of Birth</Form.Label>
-                                                            <Form.Control className="profile-form-control" onChange={this.handleDobChange} type="dob" value={this.state.dob} placeholder="MM/DD/YYYY" />
+                                                            <Form.Control className="profile-form-control" onChange={this.handleDobChange} type="date"  value={this.state.dob} placeholder="MM/DD/YYYY" />
                                                         </Form.Group>
 
                                                         <Form.Group as={Col} controlId="formGridphone">
                                                             <Form.Label>Phone No.</Form.Label>
-                                                            <Form.Control className="profile-form-control" onChange={this.handlePhoneChange} type="phone" value={this.state.phone} placeholder="123-456-7890" />
+                                                            <Form.Control className="profile-form-control" onChange={this.handlePhoneChange} value={this.state.phone} type="number" min='1000000000' max='9999999999'  placeholder="1234567890" />
                                                         </Form.Group>
                                                     </Form.Row>
 
@@ -357,17 +365,17 @@ class ProfileContent extends Component {
                                                     <Form.Row>
                                                         <Form.Group as={Col} controlId="formGridCity">
                                                             <Form.Label>City</Form.Label>
-                                                            <Form.Control className="profile-form-control" onChange={this.handleCityChange} value={this.state.city}/>
+                                                            <Form.Control className="profile-form-control" onChange={this.handleCityChange} value={this.state.city} maxlength='50'/>
                                                         </Form.Group>
 
                                                         <Form.Group as={Col} controlId="formGridState">
                                                             <Form.Label>State</Form.Label>
-                                                            <Form.Control className="profile-form-control" onChange={this.handleStateChange} value={this.state.state} />
+                                                            <Form.Control className="profile-form-control" onChange={this.handleStateChange} value={this.state.state} maxlength='25'/>
                                                         </Form.Group>
 
                                                         <Form.Group as={Col} controlId="formGridZip">
                                                             <Form.Label>Zip</Form.Label>
-                                                            <Form.Control className="profile-form-control" onChange={this.handleZipChange} value={this.state.zip_code} />
+                                                            <Form.Control className="profile-form-control" onChange={this.handleZipChange} value={this.state.zip_code} type="number" min='10000' max='99999' placeholder="12345"/>
                                                         </Form.Group>
                                                     </Form.Row>
 
@@ -401,6 +409,7 @@ class ProfileContent extends Component {
                                     </Row>
                                 </div>
                                 <CHCourseListsCard updateContent={this.handleClick} user_id={this.state.id} email={this.state.email} favoriteList={this.state.favoriteList} inProgressList={this.state.inProgressList} completedList={this.state.completedList}/>
+                                <CHProfileMicroDegreeCard email={this.state.email}/>
                                 <CHDeactivateCard email={this.state.email}/>
                             </Col>
                         </Row>

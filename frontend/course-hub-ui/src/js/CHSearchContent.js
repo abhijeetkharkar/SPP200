@@ -23,6 +23,7 @@ class CHSearchContent extends Component {
             pageList: [],
         };
         this.createPageList = this.createPageList.bind(this);
+        this.clearCourse = this.clearCourse.bind(this);
         //this.handleCourseClick=this.handleCourseClick.bind(this);
     }
 
@@ -132,6 +133,17 @@ class CHSearchContent extends Component {
         return pageList;
     };
 
+    clearCourse(item){
+        let lists = document.getElementsByClassName("course-radio");
+        for(var i = 0; i < lists.length; i++){
+            if(lists[i].checked){
+                lists[i].checked = false;
+                break;
+            }
+        }
+        this.props.clearCourseFromLists(item);
+    }
+
     render() {
         // console.log("In CHSearchContent, inside render, pageNumber props:", this.props.pageNumber);
         var customStyle = {
@@ -206,7 +218,7 @@ class CHSearchContent extends Component {
                                                                             </li>
                                                                         </ul>
                                                                         <DropdownItem divider />
-                                                                        <Button variant="link" className="course-list-clear-button" onClick={() => {this.props.clearCourseFromLists(item)}}>Clear</Button>
+                                                                        <Button variant="link" className="course-list-clear-button" onClick={() => {this.clearCourse(item)}}>Clear</Button>
                                                                     </DropdownMenu>
                                                                 </UncontrolledDropdown>
                                                             ) : ([]) }
@@ -227,9 +239,9 @@ class CHSearchContent extends Component {
                                                             <Col md={9}>
                                                                 <Row style={{marginLeft: "0"}}>
                                                                     <FontAwesomeIcon icon={faClock} style={{color: "grey", height: "18px", width: "18px"}}/> &nbsp; {item.CourseDuration? " " + item.CourseDuration.Value + " " + item.CourseDuration.Unit: " 1 hr"}
-                                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                                                                    
+                                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                                     <FontAwesomeIcon icon={faMoneyCheckAlt} style={{color: "grey", height: "20px", width: "20px", fontWeight: "bold"}}/> &nbsp; {item.Price ? item.Price: "Free"}                                                                    
-                                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                                     <FontAwesomeIcon icon={faWater} style={{color: "grey", height: "20px", width: "20px", fontWeight: "bold"}}/> &nbsp; {item.Difficulty ? item.Difficulty.toUpperCase(): ""}&nbsp;
                                                                     <span className="search-results-course-data-rating">
                                                                         <StarRatingComponent

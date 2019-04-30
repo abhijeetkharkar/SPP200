@@ -49,4 +49,17 @@ describe('Testing Profile Navigator', () => {
         expect(instance.state.courses_tag.style.display).toBe("Block");
 
     });
+
+    test('Testing microdegree nav item', async () => {
+        const handleClick = jest.fn();
+
+        // const profile_wrapper = shallow(<ProfilePage updateContent={handleClick}/>);
+        const wrapper = shallow(<CHProfileNavigator />, {disableLifecycleMethods: true});
+
+        const instance = wrapper.instance();
+        instance.handleNavItemChange(4);
+
+        expect(instance.state.microdegree_tag.style.display).toBe("Block");
+
+    });
 });

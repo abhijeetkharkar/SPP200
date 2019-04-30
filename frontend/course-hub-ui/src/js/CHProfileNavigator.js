@@ -12,55 +12,77 @@ class ProfileNavigator extends Component {
         var e1 = document.createElement("DIV");
         var e2 = document.createElement("DIV");
         var e3 = document.createElement("DIV");
+        var e4 = document.createElement("DIV");
 
         this.state = {
             edit_profile_tag: e1,
             courses_tag: e2,
             deactivate_tag: e3,
+            microdegree_tag: e4,
             profile_nav_item: e1,
             courses_nav_item: e2,
             deactivate_nav_item: e3,
+            microdegree_nav_item: e4,
         }
     }
 
     componentDidMount() {
         var parent_node = ReactDOM.findDOMNode(this).parentNode.parentNode;
-        this.setState({edit_profile_tag : parent_node.getElementsByClassName("edit-profile-content")[0]})
-        this.setState({courses_tag : parent_node.getElementsByClassName("courses-content")[0]})
-        this.setState({deactivate_tag : parent_node.getElementsByClassName("deactivate-content")[0]})
+        this.setState({edit_profile_tag : parent_node.getElementsByClassName("edit-profile-content")[0]});
+        this.setState({courses_tag : parent_node.getElementsByClassName("courses-content")[0]});
+        this.setState({deactivate_tag : parent_node.getElementsByClassName("deactivate-content")[0]});
+        this.setState({microdegree_tag : parent_node.getElementsByClassName("microdegree-content")[0]});
 
-        this.setState({profile_nav_item: document.getElementById("profile_nav_item")})
-        this.setState({courses_nav_item: document.getElementById("courses_nav_item")})
-        this.setState({deactivate_nav_item: document.getElementById("deactivate_nav_item")})
+        this.setState({profile_nav_item: document.getElementById("profile_nav_item")});
+        this.setState({courses_nav_item: document.getElementById("courses_nav_item")});
+        this.setState({deactivate_nav_item: document.getElementById("deactivate_nav_item")});
+        this.setState({microdegree_nav_item: document.getElementById("microdegree_nav_item")});
     }
 
     handleNavItemChange = (id) => {
-        if(id == 1){
+        if(id === 1){
             this.state.edit_profile_tag.style.display = "Block";
             this.state.courses_tag.style.display = "None";
             this.state.deactivate_tag.style.display = "None";
+            this.state.microdegree_tag.style.display = "None";
 
             this.state.profile_nav_item.classList.add("active");
             this.state.courses_nav_item.classList.remove("active");
             this.state.deactivate_nav_item.classList.remove("active");
+            this.state.microdegree_nav_item.classList.remove("active");
         }
-        else if(id == 2){
+        else if(id === 2){
             this.state.edit_profile_tag.style.display = "None";
             this.state.courses_tag.style.display = "None";
             this.state.deactivate_tag.style.display = "Block";
+            this.state.microdegree_tag.style.display = "None";
 
             this.state.profile_nav_item.classList.remove("active");
             this.state.courses_nav_item.classList.remove("active");
             this.state.deactivate_nav_item.classList.add("active");
+            this.state.microdegree_nav_item.classList.remove("active");
         }
-        else{
+        else if(id === 3){
             this.state.edit_profile_tag.style.display = "None";
             this.state.courses_tag.style.display = "Block";
             this.state.deactivate_tag.style.display = "None";
+            this.state.microdegree_tag.style.display = "None";
 
             this.state.profile_nav_item.classList.remove("active");
             this.state.courses_nav_item.classList.add("active");
             this.state.deactivate_nav_item.classList.remove("active");
+            this.state.microdegree_nav_item.classList.remove("active");
+        }
+        else{
+            this.state.edit_profile_tag.style.display = "None";
+            this.state.courses_tag.style.display = "None";
+            this.state.deactivate_tag.style.display = "None";
+            this.state.microdegree_tag.style.display = "Block";
+
+            this.state.profile_nav_item.classList.remove("active");
+            this.state.courses_nav_item.classList.remove("active");
+            this.state.deactivate_nav_item.classList.remove("active");
+            this.state.microdegree_nav_item.classList.add("active");
         }
     };
 
@@ -68,9 +90,10 @@ class ProfileNavigator extends Component {
         return (
             <div className="sidenav">
                 <ul>
-                    <li className="nav-item active" id="profile_nav_item"><a href="#" id="profile_nav_item-button" onClick={()=>{this.handleNavItemChange(1)}}>Profile</a></li>
-                    <li className="nav-item" id="courses_nav_item"><a href="#" id="courses_nav_item-button" onClick={()=>{this.handleNavItemChange(3)}}>Courses</a></li>
-                    <li className="nav-item" id="deactivate_nav_item"><a id="deactivate_nav_item-button" href="#" onClick={()=>{this.handleNavItemChange(2)}}>Settings</a></li>
+                    <li className="nav-item active" id="profile_nav_item"><a href="#" onClick={()=>{this.handleNavItemChange(1)}}>Profile</a></li>
+                    <li className="nav-item" id="courses_nav_item"><a href="#" onClick={()=>{this.handleNavItemChange(3)}}>Courses</a></li>
+                    <li className="nav-item" id="microdegree_nav_item"><a href="#" onClick={()=>{this.handleNavItemChange(4)}}>Microdegree</a></li>
+                    <li className="nav-item" id="deactivate_nav_item"><a href="#" onClick={()=>{this.handleNavItemChange(2)}}>Settings</a></li>
                 </ul>
             </div>
         );

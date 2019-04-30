@@ -425,8 +425,19 @@ const saveMicroDegree = async (payload) => {
     });
 }
 
+const getUserMicroDegree = async (payload) => {
+    return await fetch(process.env.REACT_APP_GET_USER_MICRODEGREE, {
+        method: 'POST',
+        body: JSON.stringify(payload),
+        headers: { 'Content-Type': 'application/json' }
+    }).then(response => {
+        return response.json();
+    });
+
+}
+
 export {addUser, searchUser, getUserDetails, updateUser, elasticDeleteUser, addDeal, 
     addReview, getReviews, updateReview, getCourseDetails, updateCourseRating, 
     getDealsfromES, getSpecificDealFromES, getDealVotesFromES, updateDealVotesinES, 
     updateDealsinES, addDealVoteinES, addUserReviewLike, getUserReviewLikes, updateUserReviewLike,
-    getMicroDegreeSuggestions, saveMicroDegree };
+    getMicroDegreeSuggestions, saveMicroDegree, getUserMicroDegree };

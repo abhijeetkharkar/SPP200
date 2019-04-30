@@ -63,20 +63,29 @@ class CHCompare extends Component {
         return(
         <div className="course_compare">
             {choice === "home" &&
-                [<CHNavigator updateContent={this.handleClick} signedIn={false} caller={"search"} firstName={firstName} email={email} key="keyNavigatorSearch" />,
+                [
+                    <CHNavigator updateContent={this.handleClick} signedIn={true} caller={"profile"} firstName={firstName} email={email} key="keyNavigatorLandingContent" />,
                     <CHCompareContent updateContent={this.handleClick}/>,
-                <CHFooter key="keyFooterSearch" />]
+                    <CHFooter key="keyFooterSearch" />]
             }
             {choice === "homeSignedIn" &&
-                [<CHNavigator updateContent={this.handleClick} signedIn={firstName != null} caller={"search"} firstName={firstName} email={email} key="keyNavigatorSearch" />,
+                [
+                    <CHNavigator updateContent={this.handleClick} signedIn={true} caller={"profile"} firstName={firstName} email={email} key="keyNavigatorLandingContent" />,
                     <CHCompareContent updateContent={this.handleClick}/>,
-                <CHFooter key="keyFooterSearch" />]
+                    <CHFooter key="keyFooterSearch" />]
             }
             {choice === "profile" &&
                 this.props.history.push('/profile')
             }
             {
                 choice === "coursedetails" && this.props.history.push('/course?courseId=' + this.state.queryString )
+            }
+            {
+                choice === "deals" && this.props.history.push('/deals')
+            }
+
+            {
+                choice === "microdegree" && this.props.history.push('/microdegree')
             }
 
         </div>

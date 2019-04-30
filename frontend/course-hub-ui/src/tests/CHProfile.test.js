@@ -6,6 +6,7 @@ import CHDeactivateCard from "../js/CHDeactivateCard";
 import ProfileContent from "../js/CHProfileContent";
 import CHProfile from "../js/CHProfile";
 import firebaseInitialization from "../FirebaseUtils";
+import {getUserMicroDegree} from "../elasticSearch";
 
 
 const firebase = require('../FirebaseUtils');
@@ -42,6 +43,10 @@ describe('Testing Profile', () => {
             elastic.getUserDetails.mockImplementationOnce(() => {
                 return Promise.resolve({"id": 1, "data": {"UserName": {"First": "John", "Last": "Smith"}, "email": "john-smith@edu",
                         "dob": "01/01/1990", "phone": "1234567890", "address": "111-A JK Street"}})
+            });
+
+            elastic.getUserMicroDegree.mockImplementationOnce(() => {
+                return Promise.resolve([{"_source": {"introductory": [], "intermediate": [], "advanced": [], }}])
             });
         });
 
@@ -82,6 +87,10 @@ describe('Testing Profile', () => {
         beforeEach(() => {
             elastic.getUserDetails.mockImplementationOnce(() => {
                 return Promise.resolve({})
+            });
+
+            elastic.getUserMicroDegree.mockImplementationOnce(() => {
+                return Promise.resolve([{"_source": {"introductory": [], "intermediate": [], "advanced": [], }}])
             });
         });
 
