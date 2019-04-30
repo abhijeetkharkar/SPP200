@@ -1,3 +1,7 @@
+.course_compare{
+    background-image: -webkit-linear-gradient(top,#f7f7f7 0,#e5e5e5 100%);
+}
+
 .add-to-compare-button{
     float: right;
     border-radius: 8px;
@@ -93,34 +97,38 @@
 }
 
 .compare-main-table{
-    background-color: #1d2124;
-    color: white;
     padding-top: 6%;
 }
     .compare-table-heading{
         border-radius: 10px;
         width: 100%;
         text-align: center;
-        margin-top: 10px;
         margin-right: 10%;
-        background-color: #16181b;
+        color: white;
     }
 
     .compare-table-row{
-        margin-left: 10px;
+        margin-left: 10%;
+        border-radius: 5px;
         margin-right: 10px;
         margin-top: 10px;
+        color: black;
+        width: 80%;
+        background-color: white;
     }
 
     .compare-table-row-heading{
         float: right;
+        background-color: white;
+        color: #005cbf;
     }
 
     .compare-table-col{
         text-align: center;
-        background-color: #16181b;
-        border: 3px solid #5c666c;
-        border-radius: 10px;
+        background-color: white;
+        border-radius: 5px;
+        margin-left: 1px;
+        border: 1px solid #ededed;
     }
 
     .compare-table-course-image{
@@ -132,6 +140,7 @@
 
     .compare-table-course-summary{
         display: inline-block;
+        color: black;
     }
 
     .compare-table-course-title{
@@ -143,6 +152,6 @@
     }
 
     .compare-table-course-text{
-        color: white;
+        color: black;
         font-weight: bold;
     }

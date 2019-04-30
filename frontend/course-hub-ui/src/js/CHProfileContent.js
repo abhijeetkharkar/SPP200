@@ -85,13 +85,9 @@ class ProfileContent extends Component {
         payload = {
             query: {
                 bool: {
-                    must : [
-                        {
-                            match : {
-                                userID : "nabeelahmadkhan@gmail.com"
-                            }
-                        }
-                    ]
+                    must : {
+                        term : { "userID" : "nabeelahmadkhan@gmail.com" }
+                    }
                 }
             }
         };
