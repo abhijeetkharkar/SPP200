@@ -105,7 +105,7 @@ class CHNavigator extends Component {
                 </a>
                 
                 {   (this.props.caller === "search" || this.props.caller === "coursedesc") &&
-                    <div>
+                    <div style={{width: "100%"}}>
                         <Form className="search-results-search-form" onSubmit={e => this.handleSearch(e)}>
                             <input className="search-results-search-box" placeholder="Search courses" value={this.state.searchString} onChange={this.handleSearchStringChange} type="text" />
                             <Button className="search-results-search-button" type="submit"><FontAwesomeIcon className="search-results-search-button-font" icon={['fa', 'search']} size='sm' /></Button>
@@ -122,7 +122,7 @@ class CHNavigator extends Component {
                             </table>
                         </Form>
                         {(sessionStorage.getItem("compareList") && (this.props.navCallBack) && (JSON.parse(sessionStorage.getItem("compareList")).length !== 0)) ? (
-                            <div className="btn-group" role="group" aria-label="Basic example">
+                            <div className="btn-group" role="group" aria-label="Basic example" style={{marginRight: "10%"}}>
                                 <Button className="compare-button" variant="primary" onClick={this.props.navCallBack}>
                                     Compare
                                 </Button>
