@@ -383,7 +383,15 @@ class CHSearch extends Component {
 
                 {
                     choice === "compareCourses" && this.props.history.push('/compare')
-                }
+				}				
+
+				{	
+					choice === "deals" && this.props.history.push('/deals')
+        		}
+
+				{	
+					choice === "microdegree" && this.props.history.push('/microdegree')
+				}
 			</div>
 		);
 	}

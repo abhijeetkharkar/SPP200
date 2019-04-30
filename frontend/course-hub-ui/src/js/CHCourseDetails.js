@@ -149,15 +149,20 @@ class CHCourseDetails extends Component {
                     <CHFooter key="course-details-footer" />]
                 }
 
-                {choice === "profile" &&
-                    this.props.history.push('/profile')
+                {
+                    choice === "profile" && this.props.history.push('/profile')
                 }
         
-                {choice === "searchResults" &&
-                  this.props.history.push('/search?searchString=' + searchString + "&pageNumber=0")}
+                {
+                    choice === "searchResults" && this.props.history.push('/search?searchString=' + searchString + "&pageNumber=0")}
         
-                {choice === "deals" &&
-                  this.props.history.push('/deals')}
+                {	
+					choice === "deals" && this.props.history.push('/deals')
+        		}
+
+				{	
+					choice === "microdegree" && this.props.history.push('/microdegree')
+				}
                 
             </div>
         );
