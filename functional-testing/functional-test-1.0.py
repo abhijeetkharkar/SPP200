@@ -24,7 +24,7 @@ class Authentication(unittest.TestCase):
             self.driver = webdriver.Chrome(executable_path="./chrome-driver/chromedriver_linux")
 
 
-    """ def test_successful_login(self):
+    def test_successful_login(self):
         driver = self.driver
 
         driver.get("http://localhost:8080/")
@@ -66,10 +66,10 @@ class Authentication(unittest.TestCase):
 
         self.assertEqual(error_msg, "The password is invalid or the user does not have a password.")
 
-        driver.find_element_by_id("loginCloseButton").click() """
+        driver.find_element_by_id("loginCloseButton").click()
     
 
-    """ def test_successful_signup(self):
+    def test_successful_signup(self):
         driver = self.driver
 
         driver.get("http://localhost:8080/")
@@ -130,10 +130,10 @@ class Authentication(unittest.TestCase):
         driver.find_element_by_id("formGridFirstName").send_keys(Keys.ENTER)
         time.sleep(1)
 
-        self.assertNotIn("Hello, ", driver.page_source) """
+        self.assertNotIn("Hello, ", driver.page_source)
 
 
-    """ def test_failed_signup_invalid_email(self):
+    def test_failed_signup_invalid_email(self):
         driver = self.driver
 
         driver.get("http://localhost:8080/")
@@ -207,7 +207,7 @@ class Authentication(unittest.TestCase):
                                                                 + Keys.ENTER)
         time.sleep(3)
 
-        self.assertEqual("User Account already present.", driver.find_element_by_id("invalidUsernamePwdFeedback").text) """
+        self.assertEqual("User Account already present.", driver.find_element_by_id("invalidUsernamePwdFeedback").text)
     
 
     def test_forgot_password(self):
