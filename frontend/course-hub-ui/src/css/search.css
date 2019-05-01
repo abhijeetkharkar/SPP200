@@ -85,10 +85,6 @@
 
 	}
 
-		.search-content-course-item tr:hover{
-			background-color: #e4e4e4;
-		}
-
 		#search-results-table thead th {
 			padding: 0;
 			border-bottom: 1px solid #007BF9;
@@ -245,7 +241,7 @@
 /*ADVERTISEMENTS*/
 .search-results-advertisements-div {
     float: right;
-    text-align: left !important;
+    text-align: center !important;
     padding: 1%;
     border: 1px solid transparent;
 	border-bottom: 1px solid #cbcbcb;
@@ -256,3 +252,9 @@
 	margin-right: 1%;
     width: 15%;
 }
+
+	.notice {
+		font-size: 32pt;
+		color: #005fc4;
+		margin-top: 100%;
+	}

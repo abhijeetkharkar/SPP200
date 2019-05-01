@@ -36,7 +36,7 @@ exports.autosuggest = function (request, response) {
             if (res.status == 200) {
                 return res.json();
             } else {
-                console.log('Error: ', res.statusText)
+                // console.log('Error: ', res.statusText)
                 error = {
                     "status": res.status,
                     "message": res.statusText
@@ -105,7 +105,7 @@ exports.microdegree = async (request, response) => {
                     var degreeadded=1;
                     while (totalnoofmicrodegree < 3 && microdegrees.Introcourses.courses.length>0 &&
                         microdegrees.Intermediatecourses.courses.length>0 && microdegrees.Advancedcourses.courses.length>0&&degreeadded==1) {
-                        console.log("No of Intro Courses: ", microdegrees.Introcourses.courses.length);
+                        console.log("No of Intro Courses: ", microdegrees.Introcourses.courses);
                         console.log("No of Intermediate Courses: ", microdegrees.Intermediatecourses.courses.length);
                         console.log("No of Advanced Courses: ", microdegrees.Advancedcourses.courses.length);
                         degreeadded=0;

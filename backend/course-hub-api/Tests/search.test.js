@@ -14,7 +14,7 @@ const mockRequestnew = httpMocks.createRequest({
 });
 
 const mockRequestMicrodegreeSuccess = httpMocks.createRequest({
-    body: { tags: 'deep learning', duration: 100}
+    body: { tags: 'deep learning', duration: 10000}
 });
 
 const mockRequestMicrodegreeFailed = httpMocks.createRequest({
@@ -26,7 +26,7 @@ const mockResponse = httpMocks.createResponse({ eventEmitter: require('events').
 const mockres = {
     hits:
     {
-        total: 2,
+        total: 6,
         hits:
             [
                 {
@@ -39,6 +39,30 @@ const mockres = {
                     _source:
                     {
                         Title: 'def'
+                    }
+                },
+                {
+                    _source:
+                    {
+                        Title: 'lmn'
+                    }
+                },
+                {
+                    _source:
+                    {
+                        Title: 'pqr'
+                    }
+                },
+                {
+                    _source:
+                    {
+                        Title: 'ijk'
+                    }
+                },
+                {
+                    _source:
+                    {
+                        Title: 'xyz'
                     }
                 }
             ]

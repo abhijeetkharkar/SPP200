@@ -147,7 +147,7 @@ class CHCourseTile extends Component {
                     <br></br>
                     <OverlayTrigger placement="left" overlay={<Tooltip id="tooltip" className="course-tooltip" style={{opacity:"0.6"}}><strong>Visit Course</strong></Tooltip>}>
                         <span className="course-title">
-                            <a style={{float:"left",fontSize:"20pt",color:"blue"}} href={this.state.URL} target="_blank">{this.state.Title}&nbsp;<FontAwesomeIcon icon={['fa', 'external-link-alt']} size='sm' color='blue' /></a>
+                            <a id="course-title-link" style={{float:"left",fontSize:"20pt",color:"blue"}} href={this.state.URL} target="_blank">{this.state.Title}&nbsp;<FontAwesomeIcon icon={['fa', 'external-link-alt']} size='sm' color='blue' /></a>
                         </span>
                     </OverlayTrigger>
                     <span className="course-desc-span">

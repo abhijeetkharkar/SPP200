@@ -8,17 +8,17 @@ class CHFilters extends Component {
 
     constructor(props) {
         super(props);
-        this.componentWillMount=()=>{
-            this.selectedproviders=new Set();
+        this.componentWillMount = () => {
+            this.selectedproviders = new Set();
         }
         this.state = {
             courseproviders: new Set([]),
             minprice: 0,
-            maxprice: 0,
+            maxprice: 1,
             startdate: '',
             enddate: ''
         };
-        
+
         this.handleproviderchange = this.handleproviderchange.bind(this);
         this.handleminpricechange = this.handleminpricechange.bind(this);
         this.handleminpricechange = this.handleminpricechange.bind(this);
@@ -28,44 +28,48 @@ class CHFilters extends Component {
     }
 
     handleproviderchange = e => {
-        if(this.selectedproviders.has(e.currentTarget.id)){
+        if (this.selectedproviders.has(e.currentTarget.id)) {
             this.selectedproviders.delete(e.currentTarget.id)
         }
-        else{
+        else {
             this.selectedproviders.add(e.currentTarget.id)
         }
-        this.setState({courseproviders : this.selectedproviders});
+        this.setState({ courseproviders: this.selectedproviders });
         console.log(this.state.courseproviders)
     }
 
-    handleminpricechange = e =>{
-        console.log('Min Price: ',e.target.value)
-        this.setState({minprice:e.target.value})
+    handleminpricechange = e => {
+        const minPrice = parseInt(e.target.value)
+        const maxPrice = this.state.maxprice > minPrice ? this.state.maxprice : minPrice + 1;
+        console.log('Min Price: ', minPrice, ' :: Max Price: ', maxPrice);
+        this.setState({ minprice: minPrice, maxprice: maxPrice });
     }
 
-    handlemaxpricechange = e =>{
-        console.log('Max Price: ',e.target.value)
-        this.setState({maxprice:e.target.value})
+    handlemaxpricechange = e => {
+        const maxPrice = parseInt(e.target.value)
+        const minPrice = this.state.minprice < maxPrice ? this.state.minprice : maxPrice - 1;
+        console.log('Min Price: ', minPrice, ' :: Max Price: ', maxPrice);
+        this.setState({ minprice: minPrice, maxprice: maxPrice });
     }
 
-    handlestartdatechange = e =>{
-        console.log('Start Date: ',e.target.value)
-        this.setState({startdate:e.target.value})
+    handlestartdatechange = e => {
+        console.log('Start Date: ', e.target.value)
+        this.setState({ startdate: e.target.value })
     }
 
-    handleenddatechange = e =>{
-        console.log('Start Date: ',e.target.value)
-        this.setState({enddate:e.target.value})
+    handleenddatechange = e => {
+        console.log('Start Date: ', e.target.value)
+        this.setState({ enddate: e.target.value })
     }
-    
+
     applyfilter = e => {
-		e.preventDefault();
+        e.preventDefault();
         e.stopPropagation();
         //this.setState({pageNumber: pageNumber});
         //this.props.history.push('/search?searchString=' + searchString + "&pageNumber=" + pageNumber);
-        this.props.updateFilter(this.props.searchString, 0, this.state )
-	}
- 
+        this.props.updateFilter(this.props.searchString, 0, this.state)
+    }
+
     render() {
         // console.log("Height",window.innerHeight)
         var customStyle = {
@@ -97,16 +101,16 @@ class CHFilters extends Component {
                     <br />
                     <Form.Row>
                         <label className="pricerange"><strong>Price</strong></label>
-                        <input className="pricebox" placeholder="Min" onChange={this.handleminpricechange} value={this.state.minprice} type="number" />
+                        <input id="price-range-min" className="pricebox" placeholder="Min" onChange={this.handleminpricechange} value={this.state.minprice} type="number" />
                         &nbsp;-&nbsp;
-                        <input className="pricebox" placeholder="Max" onChange={this.handlemaxpricechange} value={this.state.maxprice} type="number" />
+                        <input id="price-range-max" className="pricebox" placeholder="Max" onChange={this.handlemaxpricechange} value={this.state.maxprice} type="number" />
                     </Form.Row>
                     <br />
                     <Form.Row>
                         <label className="daterange"><strong>Start Date</strong></label>
                     </Form.Row>
                     <Form.Row>
-                         <input className="date" placeholder="Start Date" onChange={this.handlestartdatechange} value={this.state.startdate} type="date" />
+                        <input className="date" placeholder="Start Date" onChange={this.handlestartdatechange} value={this.state.startdate} type="date" />
                     </Form.Row>
                     <br />
                     <Form.Row>
@@ -116,7 +120,7 @@ class CHFilters extends Component {
                         <input className="date" placeholder="End Date" onChange={this.handleenddatechange} value={this.state.enddate} type="date" />
                     </Form.Row>
                     <br />
-                    <Form.Row><Button className="filter-button" size="md"  type="submit">Filter</Button></Form.Row>
+                    <Form.Row><Button id="filter-courses" className="filter-button" size="md" type="submit">Filter</Button></Form.Row>
 
                 </Form>
             </div>

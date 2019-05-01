@@ -291,7 +291,7 @@ class CHSearch extends Component {
 			<div className="App container-fluid">
 				{choice === "home" &&
 					[<CHNavigator updateContent={this.handleClick} navCallBack={this.toggleModal} updatePage={this.handlePagination} signedIn={false} caller={"search"} firstName={firstName} email={email} key="keyNavigatorSearch" />,
-                    <CHCompareModal updateContent={this.handleClick} isModalOpen={this.state.isOpen} closeModal={this.toggleModal} modalCompareList={this.state.compareList} removeFromModal={this.removeCourseFromModal} />,
+                    <CHCompareModal updateContent={this.handleClick} isModalOpen={this.state.isOpen} closeModal={this.toggleModal} modalCompareList={this.state.compareList} removeFromModal={this.removeCourseFromModal} key="keyCompareSearch" />,
 					<div className="search-content-landing" key="keySearchContent">
 						<CHFilters updateContent={this.handleClick} updateFilter={this.handleFilter} searchString={searchString}/>
 						<CHSearchContent  updateContent={this.handleClick} searchCompareList={this.state.compareList}
@@ -348,7 +348,7 @@ class CHSearch extends Component {
 
 				{choice === "homeSignedIn" &&
 					[<CHNavigator updateContent={this.handleClick} navCallBack={this.toggleModal} updatePage={this.handlePagination} signedIn={firstName != null} caller={"search"} firstName={firstName} email={email} key="keyNavigatorSearch" />,
-                     <CHCompareModal updateContent={this.handleClick} isModalOpen={this.state.isOpen} closeModal={this.toggleModal} modalCompareList={this.state.compareList} removeFromModal={this.removeCourseFromModal} />, ,
+                     <CHCompareModal updateContent={this.handleClick} isModalOpen={this.state.isOpen} closeModal={this.toggleModal} modalCompareList={this.state.compareList} removeFromModal={this.removeCourseFromModal} key="keyCompareSearch" />,
 					<div className="search-content-landing" key="keySearchContent">
 						<CHFilters updateContent={this.handleClick} updateFilter={this.handleFilter} searchString={searchString} />
 						<CHSearchContent updateContent={this.handleClick} searchCompareList={this.state.compareList}
