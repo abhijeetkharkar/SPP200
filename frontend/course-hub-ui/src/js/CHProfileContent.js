@@ -50,6 +50,9 @@ class ProfileContent extends Component {
             elastic_message: '',
             serverErrorMsg: '',
             profile_picture: '',
+            errorFeedback1: 'none',
+            errorFeedback2: 'none',
+            errorFeedback3: 'none',
         };
 
         this.setUserProfileDetails(this.props.email);
@@ -137,31 +140,27 @@ class ProfileContent extends Component {
     }
 
     handlePasswordSubmit = async event => {
-        document.getElementById("invalidUsernamePwdFeedback").style.display = "None";
-        document.getElementById("invalidNewPassword").style.display = "None";
-        document.getElementById("invalidCurrentPassword").style.display = "None";
+        this.setState({errorFeedback1: 'none',})
+        this.setState({errorFeedback2: 'none',})
+        this.setState({errorFeedback3: 'none',})
         event.preventDefault();
-        try {
-            if (this.state.new_password !== this.state.confirm_password) {
-                this.setState({ serverErrorMsg: "Didn't match with new password" });
-                document.getElementById("invalidUsernamePwdFeedback").style.display = "block";
-            } else {
-                doPasswordUpdate(this.state.old_password, this.state.new_password).then(res => {
-                    if(res === "SUCCESS"){
-                        this.toggleModal();
-                    }
-                    else if(res === "REJECTED"){
-                        this.setState({ serverErrorMsg: "Password didn't meet required specifications" });
-                        document.getElementById("invalidNewPassword").style.display = "block";
-                    }
-                    else{
-                        this.setState({ serverErrorMsg: "Invalid current password" });
-                        document.getElementById("invalidCurrentPassword").style.display = "block";
-                    }
-                })
-            }
-        } catch (error) {
-            this.setState({ serverErrorMsg: error.message });
+        if (this.state.new_password !== this.state.confirm_password) {
+            this.setState({ serverErrorMsg: "Didn't match with new password" });
+            this.setState({errorFeedback3: 'block'});
+        } else {
+            doPasswordUpdate(this.state.old_password, this.state.new_password).then(res => {
+                if(res === "SUCCESS"){
+                    this.toggleModal();
+                }
+                else if(res === "REJECTED"){
+                    this.setState({ serverErrorMsg: "Password didn't meet required specifications" });
+                    this.setState({errorFeedback2: 'block',})
+                }
+                else{
+                    this.setState({ serverErrorMsg: "Invalid current password" });
+                    this.setState({errorFeedback1: 'block',})
+                }
+            })
         }
     }
 
@@ -290,7 +289,7 @@ class ProfileContent extends Component {
                                     <Form.Group as={Col} controlId="formGridOldPassword">
                                         <Form.Label>Current Password</Form.Label>
                                         <Form.Control className="password-form-control" required onChange={this.handleOldPasswordChange} type="password" placeholder="Enter Current Password" />
-                                        <Form.Control.Feedback type="invalid" id="invalidCurrentPassword">{this.state.serverErrorMsg}</Form.Control.Feedback>
+                                        <Form.Control.Feedback type="invalid" id="invalidCurrentPassword" style={{display: this.state.errorFeedback1}}>{this.state.serverErrorMsg}</Form.Control.Feedback>
                                     </Form.Group>
                                 </Form.Row>
                                 <Form.Row>
@@ -300,14 +299,14 @@ class ProfileContent extends Component {
                                         <Form.Text className="text-muted">
                                             Minimum of 8 characters in length.
                                         </Form.Text>
-                                        <Form.Control.Feedback type="invalid" id="invalidNewPassword">{this.state.serverErrorMsg}</Form.Control.Feedback>
+                                        <Form.Control.Feedback type="invalid" id="invalidNewPassword" style={{display: this.state.errorFeedback2}}>{this.state.serverErrorMsg}</Form.Control.Feedback>
                                     </Form.Group>
                                 </Form.Row>
                                 <Form.Row>
                                     <Form.Group as={Col} controlId="formGridConfirmPassword">
                                         <Form.Label>Confirm New Password</Form.Label>
                                         <Form.Control className="password-form-control" required onChange={this.handleConfirmPasswordChange} type="password" placeholder="Confirm New Password" />
-                                        <Form.Control.Feedback type="invalid" id="invalidUsernamePwdFeedback">{this.state.serverErrorMsg}</Form.Control.Feedback>
+                                        <Form.Control.Feedback type="invalid" id="invalidUsernamePwdFeedback" style={{display: this.state.errorFeedback3}}>{this.state.serverErrorMsg}</Form.Control.Feedback>
                                     </Form.Group>
                                 </Form.Row>
                                 <Button variant="primary" type="submit">
