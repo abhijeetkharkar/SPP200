@@ -11,9 +11,7 @@ class CHNavigator extends Component {
 
 				<div className="footer-right">
 
-					<a href="#"><FontAwesomeIcon icon={['fab', 'facebook-f']} color='#4494ff' /></a>
-					<a href="#"><FontAwesomeIcon icon={['fab', 'twitter']} color='#4494ff' /></a>
-					<a href="#"><FontAwesomeIcon icon={['fab', 'linkedin']} color='#4494ff' /></a>
+					<a href="https://www.facebook.com/coursehubuiowa/" target="_blank"><FontAwesomeIcon icon={['fab', 'facebook-f']} color='#4494ff' /></a>
 					<a href="https://github.com/UIOWA5830SP19/SPP200" target="_blank"><FontAwesomeIcon icon={['fab', 'github']} color='#4494ff' /></a>
 
 				</div>
@@ -23,9 +21,9 @@ class CHNavigator extends Component {
 					<p className="footer-links">
 						<a href="/">Home</a>
 							&nbsp;·&nbsp;
-						<a href="#">About</a>
+						<a href="/about">About</a>
 							&nbsp;·&nbsp;
-						<a href="#">Contact</a>
+						<a href="/about">Contact</a>
 					</p>
 
 					<p>Course-Hub &copy; 2019</p>

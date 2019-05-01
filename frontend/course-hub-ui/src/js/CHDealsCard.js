@@ -28,7 +28,7 @@ class CHDealsCard extends React.Component {
     this.setState({
       id: nextProps.id,
       title: (nextProps.title.substring(0, 15) + '...') || "Title",
-      description: (nextProps.description.substring(0, 50) + '...') || "Description",
+      description: (nextProps.description.substring(0, 20) + '...') || "Description",
       imageLink: nextProps.imageLink || "https://firebasestorage.googleapis.com/v0/b/course-hub-73ea7.appspot.com/o/images%2Fpluralsight.png?alt=media&token=08635c9a-5b85-4bfb-8334-0fe6fc9dfd97",
       originalPrice: nextProps.originalPrice || 0,
       discountedPrice: nextProps.discountedPrice || 0,

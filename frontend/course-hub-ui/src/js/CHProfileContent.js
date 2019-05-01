@@ -268,6 +268,7 @@ class ProfileContent extends Component {
 
     render() {
         var customStyle = {
+            height: "75vh",
             marginTop: window.outerHeight * 0.11
         };
         return (
@@ -408,7 +409,7 @@ class ProfileContent extends Component {
                                     </Row>
                                 </div>
                                 <CHCourseListsCard updateContent={this.handleClick} user_id={this.state.id} email={this.state.email} favoriteList={this.state.favoriteList} inProgressList={this.state.inProgressList} completedList={this.state.completedList}/>
-                                <CHProfileMicroDegreeCard email={this.state.email}/>
+                                <CHProfileMicroDegreeCard email={this.props.email}/>
                                 <CHDeactivateCard email={this.state.email}/>
                             </Col>
                         </Row>

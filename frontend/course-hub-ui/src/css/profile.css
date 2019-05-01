@@ -163,6 +163,16 @@
     padding-bottom: 9%;
 }
 
+.microdegree-content{
+    display: none;
+    width: 66%;
+    padding-bottom: 9%;
+}
+
+.microDegreeSuggestionsCard{
+    padding-bottom: 20px;
+}
+
     .favorites-courses-card{
         box-shadow: 7px 7px 7px 0 rgba(240, 238, 0, 0.8);
     }

@@ -7,11 +7,6 @@ class CHAdvertisements extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {
-            teamList: [],
-            playerList: [],
-            topTenPlayers: []
-        }
     }
     
     componentDidMount () {
