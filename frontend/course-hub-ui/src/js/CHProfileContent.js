@@ -268,6 +268,7 @@ class ProfileContent extends Component {
 
     render() {
         var customStyle = {
+            height: "75vh",
             marginTop: window.outerHeight * 0.11
         };
         return (

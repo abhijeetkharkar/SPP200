@@ -6,6 +6,7 @@ import CHSearch from './js/CHSearch';
 import CHCourseDetails from './js/CHCourseDetails';
 import CHDeals from './js/CHDeals';
 import CHMicroDegree from './js/CHMicroDegree';
+import CHAboutContact from './js/CHAboutContact';
 import * as serviceWorker from './serviceWorker';
 import 'babel-polyfill';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
@@ -22,6 +23,7 @@ ReactDOM.render(
 			<Route path="/compare" component={CHCompare}/>
 			<Route path="/profile" component={CHProfile}/>
 			<Route path="/microdegree" component={CHMicroDegree}/>
+			<Route path="/about" component={CHAboutContact}/>
 		</Switch>
     </BrowserRouter>, 
 	document.getElementById('root'));

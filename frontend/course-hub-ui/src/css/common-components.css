@@ -86,8 +86,13 @@
 					background-color: #4494ff;
 				}
 
-
-
+.profile-content {
+	float: left;
+	text-align: center;
+	width: 100% !important;
+	height: 80% !important;
+	background-image: -webkit-linear-gradient(top, #e7e7e7 0, #d6d6d6 100%);
+}
 
 @media (min-width: 1200px) {
 	.container {
