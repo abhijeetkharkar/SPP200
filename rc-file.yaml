@@ -8,12 +8,12 @@
  spec:
    containers:
      - name: frontend-app
-       image: gcr.io/course-hub-234807/spp200_frontend:04e1bf0f9caa5f69b6a66f0af1c5af32f0ccc181
+       image: gcr.io/course-hub-234807/spp200_frontend:e859fa80219f65bd37971e3420fdcc71e1e834ae
        ports:
          - containerPort: 80
            protocol: 'TCP'
      - name: backend-app
-       image: gcr.io/course-hub-234807/spp200_backend:04e1bf0f9caa5f69b6a66f0af1c5af32f0ccc181
+       image: gcr.io/course-hub-234807/spp200_backend:e859fa80219f65bd37971e3420fdcc71e1e834ae
        ports:
          - containerPort: 4000
            protocol: 'TCP'
