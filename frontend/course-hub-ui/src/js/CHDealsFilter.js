@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import '../css/bootstrap.min.css';
 import '../css/search.css';
+import '../css/card.css';
 import { Modal, Button, Form, Col, Badge, ButtonToolbar } from 'react-bootstrap';
 
 
@@ -21,7 +22,7 @@ class CHDealsFilters extends Component {
             // height: "75vh",
             marginTop: window.outerHeight * 0.11,
             'backgroundColor': '#6b6d70',
-            'borderColor': '#5f6163'
+            'borderColor': '#5f6163',
         }
         var headingstyle = {
             'fontSize': '20px',

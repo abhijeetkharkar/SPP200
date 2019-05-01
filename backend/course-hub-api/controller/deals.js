@@ -75,8 +75,8 @@ exports.courseDeals = function(request, response){
             if (res.status == 200) {
                 return res.json();
             } else {
-                console.log('Error: ',res.status)
-                console.log('Error: ',res.statusText)
+                // console.log('Error: ',res.status)
+                // console.log('Error: ',res.statusText)
                 error={
                     "status": res.status,
                     "message": res.statusText

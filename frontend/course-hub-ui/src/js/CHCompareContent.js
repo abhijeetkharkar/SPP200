@@ -21,7 +21,7 @@ class CHCompareContent extends Component {
             <div className="compare-main-table">
                 <Card style={{backgroundImage: "-webkit-linear-gradient(top,#f7f7f7 0,#e5e5e5 100%)", border: "transparent"}}>
                     <Card.Title style={{width: "80%", marginLeft: "10%", backgroundColor: "#007BF9", borderRadius: "5px"}}>
-                        <h1 className="compare-table-heading">Compare Courses</h1>
+                        <h1 id="compare-table-heading-id" className="compare-table-heading">Compare Courses</h1>
                     </Card.Title>
                     <Card.Body style={{height: "80%", backgroundImage: "-webkit-linear-gradient(top,#f7f7f7 0,#e5e5e5 100%)"}}>
                         <Row className="compare-table-row">

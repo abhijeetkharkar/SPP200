@@ -28,6 +28,7 @@ class CHAdvertisements extends Component {
         }
         return (
             <div className="search-results-advertisements-div" style={customStyle}>
+                <p className="notice">Ads coming soon!</p>
                 <AdSense.Google
                     client={process.env.REACT_APP_SEARCH_EP}
                     slot='7806394673'

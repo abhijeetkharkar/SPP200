@@ -80,7 +80,7 @@ class CHCourseListsCard extends Component {
                     <Card.Title className="card-title">Favorites</Card.Title>
                     <Card.Body>
                         {
-                            this.props.favoriteList.map(item => {
+                            this.props.favoriteList.map((item, index) => {
                                 return (
                                     <div className="profile-course-list-item">
                                         <Row id={item.CourseId} className="modal-body-row">
@@ -93,7 +93,7 @@ class CHCourseListsCard extends Component {
                                                     <Col md={1}></Col>
                                                     <Col md={10}>
                                                         <UncontrolledDropdown >
-                                                            <DropdownToggle className="course-list-button" style={{float: "right"}}>
+                                                            <DropdownToggle id={"course-list-button-id-" + index} className="course-list-button" style={{float: "right"}}>
                                                                     <span style={{fontSize: "27px", padding: "0"}}>
                                                                         <FontAwesomeIcon icon={faExchangeAlt} style={{color: "grey", height: "20px"}} className="exchange-sign"/>
                                                                     </span>
@@ -104,7 +104,7 @@ class CHCourseListsCard extends Component {
                                                                 <DropdownItem onClick={() => {this.switchList("1", "3", item)}}>Move to Completed List</DropdownItem>
                                                                 <DropdownItem divider />
                                                                 <div className="course-list-remove-button">
-                                                                    <Button variant="danger" onClick={() => {this.switchList("1", null, item)}}>Remove</Button>
+                                                                    <Button id={"course-list-remove-button-id-" + index} variant="danger" onClick={() => {this.switchList("1", null, item)}}>Remove</Button>
                                                                 </div>
 
                                                             </DropdownMenu>
@@ -112,7 +112,7 @@ class CHCourseListsCard extends Component {
                                                     </Col>
                                                 </Row>
                                                 <Row className="profile-list-course-title">
-                                                    <a href="" onClick={ () => this.props.updateContent('coursedetails',null,null,item.CourseId)}>{item.Title}</a>
+                                                    <a id={"profile-list-course-title-"+index} href="" onClick={ () => this.props.updateContent('coursedetails',null,null,item.CourseId)}>{item.Title}</a>
                                                 </Row>
                                                 <Row>
                                                     <strong>Provider</strong>: {item.CourseProvider}&nbsp;&nbsp;|&nbsp;&nbsp;

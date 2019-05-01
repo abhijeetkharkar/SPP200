@@ -69,10 +69,10 @@ class CHLandingContent extends Component {
         return (
             <Form className="landing-search-form" style={formMarginStyle} onSubmit={e => this.handleSearch(e)}>
                 <div className="landing-search-form-div">
-                    <input className="landing-search-box" placeholder=" Search courses" value={this.state.searchquery} onChange={this.handlesearchqueryChange} type="text" />
+                    <input id="landing-search-box-id" className="landing-search-box" placeholder=" Search courses" value={this.state.searchquery} onChange={this.handlesearchqueryChange} type="text" />
                     <Button className="landing-search-button" type="submit"><FontAwesomeIcon className="landing-search-button-font" icon={['fa', 'search']} size='2x' /></Button>
                 </div>
-                <table className="landing-suggestions-table" style={resultTableStyle}>
+                <table id="landing-suggestions-table-id" className="landing-suggestions-table" style={resultTableStyle}>
                     <tbody>
                         {
                             this.state.suggestions.length > 0 ? 

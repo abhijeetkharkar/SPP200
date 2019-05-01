@@ -14,24 +14,30 @@
 .compare-button{
     border-radius: 12px;
     border: transparent;
-    height: 28px;
-    font-size: 12px;
+    /* height: 28px;
+    font-size: 12px; */
     font-weight: bold;
-    margin-top: 28px;
+    /* margin-top: 28px;
     position: relative;
-    z-index: 1;
+    z-index: 1; */
+    font-size: 15px !important;
 }
 
 .compare-number{
     margin-right: 30%;
     border-radius: 12px;
     border: transparent;
-    height: 28px;
-    font-size: 12px;
+    /* height: 28px;
+    font-size: 12px; */
     font-weight: bold;
-    margin-top: 28px;
+    /* margin-top: 28px;
     position: relative;
-    z-index: 1;
+    z-index: 1; */
+    margin-top: auto !important;
+    margin-bottom: auto !important;
+    margin-right: 1% !important;
+    font-size: 15px !important;
+    float: right !important;
 }
 
 .compare-button:active, .compare-button:focus, .compare-button:hover {
