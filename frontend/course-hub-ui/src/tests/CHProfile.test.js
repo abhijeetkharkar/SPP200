@@ -5,7 +5,7 @@ import Adapter from 'enzyme-adapter-react-16';
 import CHDeactivateCard from "../js/CHDeactivateCard";
 import ProfileContent from "../js/CHProfileContent";
 import CHProfile from "../js/CHProfile";
-import firebaseInitialization from "../FirebaseUtils";
+import firebaseInitialization, {doPasswordUpdate} from "../FirebaseUtils";
 import {getUserMicroDegree} from "../elasticSearch";
 
 
@@ -423,6 +423,97 @@ describe('Testing Profile', () => {
             };
             instance.handlePasswordChange(event);
             expect(instance.state.password).toBe('test_new_password');
+        });
+
+        test('Testing User password update onSubmit - Happy path', async () => {
+            const handleClick = jest.fn();
+            firebase.doPasswordUpdate.mockImplementationOnce(() => {return Promise.resolve("SUCCESS")});
+
+            const wrapper = shallow(<ProfileContent updateContent={handleClick} email={"john-smith@edu"}/>);
+            const instance = wrapper.instance();
+
+            const event = {
+                preventDefault() {},
+            };
+
+            await instance.handlePasswordSubmit(event);
+            expect(instance.state.isOpen).toBe(true);
+        });
+
+        test('Testing User password update onSubmit - Unmatched passwords', async () => {
+            const handleClick = jest.fn();
+
+            const wrapper = shallow(<ProfileContent updateContent={handleClick} email={"john-smith@edu"}/>);
+            const instance = wrapper.instance();
+
+            const event = {
+                preventDefault() {},
+            };
+
+            const event1 = {
+                target: { value: 'new_password' },
+            };
+            const event2 = {
+                target: { value: 'new_confirm_password' },
+            };
+
+            instance.handlePasswordChange(event1);
+            instance.handleConfirmPasswordChange(event2);
+
+            await instance.handlePasswordSubmit(event);
+            expect(instance.state.serverErrorMsg).toBe('Didn\'t match with new password');
+        });
+
+        test('Testing User password update onSubmit - feedbackset', async () => {
+            const handleClick = jest.fn();
+            firebase.doPasswordUpdate.mockImplementationOnce(() => {return Promise.resolve("REJECTED")});
+
+            const wrapper = shallow(<ProfileContent updateContent={handleClick} email={"john-smith@edu"}/>);
+            const instance = wrapper.instance();
+
+            const event = {
+                preventDefault() {},
+            };
+
+            const event1 = {
+                target: { value: 'new_password' },
+            };
+
+            instance.handlePasswordChange(event1);
+            instance.handleConfirmPasswordChange(event1);
+
+            await instance.handlePasswordSubmit(event);
+            expect(instance.state.errorFeedback1).toBe('none');
+        });
+
+        test('Testing User password update onSubmit - Invalid new password', async () => {
+            const handleClick = jest.fn();
+            firebase.doPasswordUpdate.mockImplementationOnce(() => {return Promise.resolve("Invalid")});
+
+            const wrapper = shallow(<ProfileContent updateContent={handleClick} email={"john-smith@edu"}/>);
+            const instance = wrapper.instance();
+
+            const event = {
+                preventDefault() {},
+            };
+
+            await instance.handlePasswordSubmit(event);
+            expect(instance.state.serverErrorMsg).toBe('Password didn\'t meet required specifications');
+        });
+
+        test('Testing User password update onSubmit - Invalid current password', async () => {
+            const handleClick = jest.fn();
+            firebase.doPasswordUpdate.mockImplementationOnce(() => {throw new Error('Update password exception encountered')});
+
+            const wrapper = shallow(<ProfileContent updateContent={handleClick} email={"john-smith@edu"}/>);
+            const instance = wrapper.instance();
+
+            const event = {
+                preventDefault() {},
+            };
+
+            await instance.handlePasswordSubmit(event);
+            expect(instance.state.serverErrorMsg).toBe('Invalid current password');
         });
     });
 });
