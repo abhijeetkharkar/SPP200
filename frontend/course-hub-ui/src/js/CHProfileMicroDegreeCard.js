@@ -23,11 +23,12 @@ class CHProfileMicroDegreeCard extends Component {
             query: {
                 bool: {
                     must : {
-                        term : { "userID" : "nabeelahmadkhan@gmail.com" }
+                        term : { "userID" : this.state.email }
                     }
                 }
             }
         };
+        console.log("EMAIL IS ", this.state.email)
         var courseDisplay = []
         var degree = []
         await getUserMicroDegree(payload).then(elasticResponse => {
