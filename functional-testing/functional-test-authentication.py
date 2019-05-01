@@ -114,6 +114,11 @@ class Authentication(unittest.TestCase):
         
         alert.accept()
 
+        driver.find_element_by_id("signedInOptions").click()
+        time.sleep(1)
+
+        driver.find_element_by_id("logout-button").click()
+
 
     def test_failed_signup_blank_form(self):
         driver = self.driver
@@ -161,7 +166,6 @@ class Authentication(unittest.TestCase):
     
 
     def test_failed_signup_non_matching_password(self):
-        #invalidUsernamePwdFeedback
         driver = self.driver
 
         driver.get("http://localhost:8080/")
