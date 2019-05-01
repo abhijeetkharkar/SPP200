@@ -165,7 +165,11 @@ class CHSearch extends Component {
     }
 
     removeCourseFromModal(item){
-        var idx = this.state.compareList.indexOf(item);
+		document.getElementById("modal" + item.CourseId).style.display = "none";
+		if (document.getElementById("modalline" + item.CourseId)) {
+			document.getElementById("modalline" + item.CourseId).style.display = "none";
+		}
+		var idx = this.state.compareList.indexOf(item);
         this.state.compareList.splice(idx, 1);
         sessionStorage.setItem("compareList", JSON.stringify(this.state.compareList));
     }
