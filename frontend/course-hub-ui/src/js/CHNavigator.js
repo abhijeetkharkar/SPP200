@@ -121,7 +121,21 @@ class CHNavigator extends Component {
                                 </tbody>
                             </table>
                         </Form>
+
                     </div>
+                }
+                {
+                    sessionStorage.getItem("compareList") && (this.props.navCallBack)
+                    && (JSON.parse(sessionStorage.getItem("compareList")).length !== 0) ?
+                        <div className="btn-group" role="group" aria-label="Basic example" style={{marginRight: "10%", marginTop: "2%"}}>
+                            <Button id="compare-button-id" className="compare-button" variant="primary" onClick={this.props.navCallBack}>
+                                Compare
+                            </Button>
+                            <Button id="compare-number-id" className="compare-number" variant="info" onClick={this.props.navCallBack}>
+                                {JSON.parse(sessionStorage.getItem("compareList")).length}
+                            </Button>
+                        </div>
+                        : []
                 }
 
                 <div id="website-navigators-container">
@@ -146,20 +160,7 @@ class CHNavigator extends Component {
                     }
                     <Button className="my-nav-tabs" onClick={this.handleDealsOnclick}>Deals</Button>
                     <Button className="my-nav-tabs" onClick={this.handleMicrodegreeOnClick}>Microdegree</Button>
-                    
-                    {  
-                        sessionStorage.getItem("compareList") && (this.props.navCallBack) 
-                            && (JSON.parse(sessionStorage.getItem("compareList")).length !== 0) ?
-                                <div className="btn-group" role="group" aria-label="Basic example">
-                                    <Button id="compare-button-id" className="compare-button" variant="primary" onClick={this.props.navCallBack}>
-                                        Compare
-                                    </Button>
-                                    <Button id="compare-number-id" className="compare-number" variant="info" onClick={this.props.navCallBack}>
-                                        {JSON.parse(sessionStorage.getItem("compareList")).length}
-                                    </Button>
-                                </div>
-                            : []
-                    }
+
                 </div>
             </div>
         );

@@ -238,9 +238,9 @@ class CHSearchContent extends Component {
                                                         <Col md={9}>
                                                             <Row style={{marginLeft: "0"}}>
                                                                 <FontAwesomeIcon icon={faClock} style={{color: "grey", height: "18px", width: "18px"}}/> &nbsp; {item.CourseDuration? " " + item.CourseDuration.Value + " " + item.CourseDuration.Unit: " 1 hr"}
-                                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;                                                                    
+                                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                                 <FontAwesomeIcon icon={faMoneyCheckAlt} style={{color: "grey", height: "20px", width: "20px", fontWeight: "bold"}}/> &nbsp; {item.Price ? item.Price: "Free"}                                                                    
-                                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                                                                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
                                                                 <FontAwesomeIcon icon={faWater} style={{color: "grey", height: "20px", width: "20px", fontWeight: "bold"}}/> &nbsp; {item.Difficulty ? item.Difficulty.toUpperCase(): ""}&nbsp;
                                                                 <span className="search-results-course-data-rating">
                                                                     <StarRatingComponent

@@ -9,15 +9,10 @@ class CHCompareModal extends Component {
     }
 
     removeItemFromModal(item){
-        var parent_div = document.getElementById(item.CourseId).parentElement;
-        if (parent_div && parent_div.parentElement.contains(parent_div)) {
-            parent_div.parentElement.removeChild(parent_div);
-        }
         this.props.removeFromModal(item);
         if (this.props.modalCompareList.length <= 1){
             document.getElementById("compare-button").disabled = true;
         }
-
     }
 
     render() {
@@ -34,7 +29,7 @@ class CHCompareModal extends Component {
                         this.props.modalCompareList.map(item => {
                             return (
                                 <div >
-                                    <Row id={item.CourseId} className="modal-body-row">
+                                    <Row id={"modal" + item.CourseId} className="modal-body-row">
 
                                         <Col md={3} >
                                             <Image className="modal-course-image" src={item.CourseImage || 'https://increasify.com.au/wp-content/uploads/2016/08/default-image.png'} />
@@ -54,7 +49,7 @@ class CHCompareModal extends Component {
                                         </Col>
                                     </Row>
                                     {(this.props.modalCompareList.indexOf(item) !== (this.props.modalCompareList.length - 1)) ? (
-                                        <hr style={{background: "rgb(207, 204, 19)"}}/>
+                                        <hr id={"modalline" + item.CourseId} style={{background: "rgb(207, 204, 19)"}}/>
                                     ) : ([])}
 
                                 </div>

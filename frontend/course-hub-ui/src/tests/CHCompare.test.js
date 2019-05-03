@@ -113,16 +113,5 @@ describe('Testing Compare', () => {
         expect(instance.state.compareList.includes(item)).toBe(false);
     });
 
-    test('Testing removeCourseFromModal function of search component', async () => {
-        const location = { search: { searchString: "testString", firstName: "Test1", email: "test1@test.com" } };
-        const wrapper = shallow(<CHSearch location={location} />);
-        const instance = wrapper.instance();
-
-        var item = {"CourseId": "xyz"};
-        instance.addCourseToCompare(item);
-        instance.removeCourseFromModal(item);
-        expect(instance.state.compareList.includes(item)).toBe(false);
-    });
-
 
 });
