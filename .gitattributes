@@ -1,0 +1,2 @@
+Doc/course_hub_poster_1.0.pptx filter=lfs diff=lfs merge=lfs -text
+Doc/course_hub_poster_2.0.pptx filter=lfs diff=lfs merge=lfs -text
