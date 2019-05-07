@@ -36,9 +36,6 @@ blocks:
           - ./cc-test-reporter before-build
           - npm --prefix ./awslambda/edx/ install
           - npm --prefix ./awslambda/edx/ test
-          # - ./cc-test-reporter format-coverage ./awslambda/edx/coverage/lcov.info -t lcov
-          # - ./cc-test-reporter upload-coverage -r 3b8cc7752799b01b3f2f42a4237543e0e781e7ac99e5b44fc0767c9bea8f697a
-
       - name: NodeTestBackend
         commands: 
           - checkout
@@ -47,9 +44,6 @@ blocks:
           - ./cc-test-reporter before-build
           - npm --prefix ./backend/course-hub-api/ install
           - npm --prefix ./backend/course-hub-api/ test
-          # - ./cc-test-reporter format-coverage ./backend/course-hub-api/coverage/lcov.info -t lcov
-          # - ./cc-test-reporter upload-coverage -r 3b8cc7752799b01b3f2f42a4237543e0e781e7ac99e5b44fc0767c9bea8f697a
-
   - name: "Integration tests"
     task:
       jobs:
@@ -64,11 +58,8 @@ blocks:
           value: prod
         - name: CC_TEST_REPORTER_ID
           value: 3b8cc7752799b01b3f2f42a4237543e0e781e7ac99e5b44fc0767c9bea8f697a
-
       jobs:
       - name: Docker build
         commands:
           - checkout
-          - ls -1
-          - echo $APP_ENV
-          - echo "docker-compose build"
+          - docker-compose build
