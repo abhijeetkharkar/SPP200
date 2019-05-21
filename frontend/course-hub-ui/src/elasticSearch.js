@@ -438,6 +438,5 @@ const getUserMicroDegree = async (payload) => {
 
 export {addUser, searchUser, getUserDetails, updateUser, elasticDeleteUser, addDeal, 
     addReview, getReviews, updateReview, getCourseDetails, updateCourseRating, 
-    getDealsfromES, getSpecificDealFromES, getDealVotesFromES, updateDealVotesinES, 
-    updateDealsinES, addDealVoteinES, addUserReviewLike, getUserReviewLikes, updateUserReviewLike,
-    getMicroDegreeSuggestions, saveMicroDegree, getUserMicroDegree };
+    getDealsfromES, getSpecificDealFromES, getDealVotesFromES,
+    updateDealsinES, addDealVoteinES, addUserReviewLike };
