@@ -73,7 +73,6 @@ class CHProfile extends Component {
                             <div className="profile-content" key="keyLandingContent">
                                 <ProfileContent updateContent={this.handleClick} email={email} />
                             </div>,
-                            <CHFooter key="keyFooterLandingContent" />,
                         ]
                 }
 
