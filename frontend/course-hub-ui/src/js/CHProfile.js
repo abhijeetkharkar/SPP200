@@ -72,8 +72,7 @@ class CHProfile extends Component {
                             <CHNavigator updateContent={this.handleClick} signedIn={true} caller={"profile"} firstName={firstName} email={email} key="keyNavigatorLandingContent" />,
                             <div className="profile-content" key="keyLandingContent">
                                 <ProfileContent updateContent={this.handleClick} email={email} />
-                            </div>,
-                            <CHFooter key="keyFooterLandingContent" />,
+                            </div>
                         ]
                 }
 
